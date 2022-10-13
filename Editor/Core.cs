@@ -9,7 +9,6 @@ namespace ReadyPlayerMe
             {
                 { "me.readyplayer.unityavatarloader", "https://github.com/readyplayerme/Unity-Avatar-Loader.git#feature/add-avatar-loader" },
                 { "com.readyplayerme.webview", "https://github.com/readyplayerme/Unity-WebView.git#feature/sdk-web-view" },
-                { "com.unity.nuget.newtonsoft-json", "2.0.2" },
                 { "com.atteneder.gltfast", "https://github.com/atteneder/glTFast.git" }
             };
 

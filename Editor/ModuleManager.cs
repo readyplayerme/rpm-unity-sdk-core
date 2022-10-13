@@ -57,7 +57,7 @@ namespace ReadyPlayerMe
 
         public static void AddRequestProgress()
         {
-            if (listRequest.IsCompleted)
+            if (addRequest.IsCompleted)
             {
                 if (addRequest.Status == StatusCode.Success)
                     Debug.Log("Added Package: " + addRequest.Result.packageId);
