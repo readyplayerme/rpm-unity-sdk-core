@@ -9,8 +9,9 @@ namespace ReadyPlayerMe
     public static class ModuleManager
     {
         private static ListRequest listRequest;
-        private static AddRequest addRequest;
+        public static AddRequest addRequest;
         public static Action OnPackageListUpdate;
+        public static Action OnAddComplete;
 
         public static void List()
         {
@@ -47,14 +48,13 @@ namespace ReadyPlayerMe
                 }
             return false;
         }
-
-        [MenuItem("Window/Add Package Example")]
+        
         public static void Add(string identifier)
         {
             addRequest = Client.Add(identifier);
             EditorApplication.update += AddRequestProgress;
         }
-
+        
         public static void AddRequestProgress()
         {
             if (addRequest.IsCompleted)
@@ -63,7 +63,7 @@ namespace ReadyPlayerMe
                     Debug.Log("Added Package: " + addRequest.Result.packageId);
                 else if (addRequest.Status >= StatusCode.Failure)
                     Debug.Log(addRequest.Error.message);
-
+                OnAddComplete?.Invoke();
                 EditorApplication.update -= AddRequestProgress;
             }
         }

@@ -2,7 +2,7 @@
 
 namespace ReadyPlayerMe
 {
-    public static class Core
+    public static class ModuleInfo
     {
         public static readonly Dictionary<string, string> PackageMap =
             new Dictionary<string, string>
