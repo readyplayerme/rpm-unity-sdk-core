@@ -8,16 +8,9 @@ namespace ReadyPlayerMe
         {
             new ModuleInfo 
             {
-                name = "com.unity.nuget.newtonsoft-json",
-                gitUrl = "",
-                branch = ""
-            },
-            new ModuleInfo 
-            {
             name = "com.readyplayer.avatarloader",
             gitUrl = "https://github.com/readyplayerme/Unity-Avatar-Loader.git",
             branch = "feature/add-avatar-loader"
-                
             },
             new ModuleInfo 
             {
