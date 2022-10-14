@@ -66,7 +66,6 @@ namespace ReadyPlayerMe
                     Debug.Log(addRequest.Error.message);
                 EditorApplication.update -= AddRequestProgress;
                 OnAddComplete?.Invoke();
-
             }
         }
     }
