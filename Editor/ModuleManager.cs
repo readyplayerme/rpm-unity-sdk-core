@@ -1,8 +1,8 @@
 ﻿using System;
 using UnityEditor;
+using UnityEngine;
 using UnityEditor.PackageManager;
 using UnityEditor.PackageManager.Requests;
-using UnityEngine;
 
 namespace ReadyPlayerMe
 {
@@ -57,14 +57,16 @@ namespace ReadyPlayerMe
         
         public static void AddRequestProgress()
         {
+            
             if (addRequest.IsCompleted)
             {
                 if (addRequest.Status == StatusCode.Success)
                     Debug.Log("Added Package: " + addRequest.Result.packageId);
                 else if (addRequest.Status >= StatusCode.Failure)
                     Debug.Log(addRequest.Error.message);
-                OnAddComplete?.Invoke();
                 EditorApplication.update -= AddRequestProgress;
+                OnAddComplete?.Invoke();
+
             }
         }
     }

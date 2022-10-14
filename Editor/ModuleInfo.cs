@@ -1,20 +1,10 @@
-﻿using System.Collections.Generic;
-
-namespace ReadyPlayerMe
+﻿namespace ReadyPlayerMe
 {
-    public static class ModuleInfo
+    [System.Serializable]
+    public struct ModuleInfo
     {
-        public static readonly Dictionary<string, string> PackageMap =
-            new Dictionary<string, string>
-            {
-                { "me.readyplayer.unityavatarloader", "https://github.com/readyplayerme/Unity-Avatar-Loader.git#feature/add-avatar-loader" },
-                { "com.readyplayerme.webview", "https://github.com/readyplayerme/Unity-WebView.git#feature/sdk-web-view" },
-                { "com.atteneder.gltfast", "https://github.com/atteneder/glTFast.git" }
-            };
-
-        public const string AVATAR_LOADER_PACKAGE = "me.readyplayer.unityavatarloader";
-        public const string WEB_VIEW_PACKAGE = "com.readyplayerme.webview";
-        public const string NEWTONSOFT_PACKAGE = "com.unity.nuget.newtonsoft-json";
-        public const string GLTFAST_PACKAGE = "com.atteneder.gltfast";
+        public string name;
+        public string gitUrl;
+        public string branch;
     }
 }
