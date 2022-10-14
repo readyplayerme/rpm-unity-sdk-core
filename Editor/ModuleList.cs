@@ -1,5 +1,4 @@
-﻿using UnityEngine;
-
+﻿
 namespace ReadyPlayerMe
 {
     public static class ModuleList
@@ -8,9 +7,9 @@ namespace ReadyPlayerMe
         {
             new ModuleInfo 
             {
-            name = "com.readyplayer.avatarloader",
-            gitUrl = "https://github.com/readyplayerme/Unity-Avatar-Loader.git",
-            branch = "feature/add-avatar-loader"
+                name = "com.readyplayer.avatarloader",
+                gitUrl = "https://github.com/readyplayerme/Unity-Avatar-Loader.git",
+                branch = "feature/add-avatar-loader"
             },
             new ModuleInfo 
             {
