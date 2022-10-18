@@ -9,62 +9,60 @@ namespace ReadyPlayerMe
     [InitializeOnLoad]
     public class ModuleInstaller : AssetPostprocessor
     {
-        private static string INSTALL_COMPLETED_KEY = "RPM_ModuleInstallCompleted";
-        private static string PROGRESS_BAR_TITLE = "Ready Player Me";
+        public const string MODULE_INSTALL_ENABLED = "RPM_ModuleInstallEnabled";
+        private const string PROGRESS_BAR_TITLE = "Ready Player Me";
         
         static ModuleInstaller()
         {
-            EditorApplication.update += InstallModules;
-        }
-
-        [MenuItem("RPM/Install Modules")]
-        private static void ForceInstallModules()
-        {
-            SessionState.SetBool(INSTALL_COMPLETED_KEY, false);
-            InstallModules();
+            if (SessionState.GetBool(MODULE_INSTALL_ENABLED, true) && HasAnyMissingModule())
+            {
+                EditorApplication.update += InstallModules;
+            }
         }
 
         private static void InstallModules()
         {
-            if (!SessionState.GetBool(INSTALL_COMPLETED_KEY, false))
+            EditorUtility.DisplayProgressBar(PROGRESS_BAR_TITLE, "Installing modules...", 0);
+
+            var count = ModuleList.Modules.Length;
+            for(var i = 0; i < count; i++)
             {
-                EditorUtility.DisplayProgressBar(PROGRESS_BAR_TITLE, "Installing modules...", 0);
-
-                int count = ModuleList.Modules.Length;
-                for(var i = 0; i < count; i++)
+                var packages = GetPackageList();
+                
+                var module = ModuleList.Modules[i];
+                
+                if (packages.All(info => info.name != module.name))
                 {
-                    var packages = GetPackageList();
-                    
-                    var module = ModuleList.Modules[i];
-                    
-                    if (packages.All(info => info.name != module.name))
-                    {
-                        EditorUtility.DisplayProgressBar(PROGRESS_BAR_TITLE, $"Installing module {module.name}", i * count * 0.1f + 0.1f);
-                        AddModule(module.Identifier);
-                    }
-                    else
-                    {
-                        EditorUtility.DisplayProgressBar(PROGRESS_BAR_TITLE, $"All modules are loaded.", 1);
-                        SessionState.SetBool(INSTALL_COMPLETED_KEY, true);
-                    }
+                    EditorUtility.DisplayProgressBar(PROGRESS_BAR_TITLE, $"Installing module {module.name}", i * count * 0.1f + 0.1f);
+                    AddModule(module.Identifier);
                 }
-
-                Thread.Sleep(200);
-                EditorUtility.ClearProgressBar();
-                EditorApplication.update -= InstallModules;
+                else
+                {
+                    EditorUtility.DisplayProgressBar(PROGRESS_BAR_TITLE, $"All modules are loaded.", 1);
+                }
             }
+
+            Thread.Sleep(200);
+            EditorUtility.ClearProgressBar();
+            EditorApplication.update -= InstallModules;
         }
 
         private static void OnPostprocessAllAssets(string[] importedAssets, string[] deletedAssets, string[] movedAssets, string[] movedFromAssetPaths)
         {
             if (importedAssets.Any(path => path.StartsWith("Packages")))
             {
-                if(importedAssets.Any(path => path.StartsWith("Packages/com.readyplayerme")))
+                if (SessionState.GetBool(MODULE_INSTALL_ENABLED, true) && HasAnyMissingModule())
                 {
-                    SessionState.SetBool(INSTALL_COMPLETED_KEY, true);
+                    InstallModules();
                 }
-                InstallModules();
             }
+        }
+
+        private static bool HasAnyMissingModule()
+        {
+            var packages = GetPackageList();
+            var modules = ModuleList.Modules;
+            return modules.Select(module => packages.All(info => info.name != module.name)).FirstOrDefault();
         }
 
         private static PackageCollection GetPackageList()
