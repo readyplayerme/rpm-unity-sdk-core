@@ -10,7 +10,6 @@ namespace ReadyPlayerMe
     public class ModuleInstaller : AssetPostprocessor
     {
         private static string INSTALL_COMPLETED_KEY = "RPM_ModuleInstallCompleted";
-        private static string MODULE_LIST_PATH = "Assets/Ready Player Me/Core/Editor/ModuleList.asset";
         private static string PROGRESS_BAR_TITLE = "Ready Player Me";
         
         static ModuleInstaller()
