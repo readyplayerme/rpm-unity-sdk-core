@@ -9,7 +9,7 @@ namespace ReadyPlayerMe
             {
                 name = "com.readyplayer.avatarloader",
                 gitUrl = "https://github.com/readyplayerme/Unity-Avatar-Loader.git",
-                branch = "feature/add-avatar-loader"
+                branch = ""
             },
             new ModuleInfo 
             {
