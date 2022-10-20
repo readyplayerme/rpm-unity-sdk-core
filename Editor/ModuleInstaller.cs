@@ -4,6 +4,8 @@ using UnityEngine;
 using System.Threading;
 using UnityEditor.PackageManager;
 
+#if !DISABLE_AUTO_INSTALLER
+
 namespace ReadyPlayerMe
 {
     [InitializeOnLoad]
@@ -93,3 +95,4 @@ namespace ReadyPlayerMe
         }
     }
 }
+#endif
