@@ -11,12 +11,11 @@ namespace ReadyPlayerMe
     [InitializeOnLoad]
     public class ModuleInstaller : AssetPostprocessor
     {
-        public const string MODULE_INSTALL_ENABLED = "RPM_ModuleInstallEnabled";
         private const string PROGRESS_BAR_TITLE = "Ready Player Me";
         
         static ModuleInstaller()
         {
-            if (SessionState.GetBool(MODULE_INSTALL_ENABLED, true) && HasAnyMissingModule())
+            if (HasAnyMissingModule())
             {
                 EditorApplication.update += InstallModules;
             }
@@ -53,7 +52,7 @@ namespace ReadyPlayerMe
         {
             if (importedAssets.Any(path => path.StartsWith("Packages")))
             {
-                if (SessionState.GetBool(MODULE_INSTALL_ENABLED, true) && HasAnyMissingModule())
+                if (HasAnyMissingModule())
                 {
                     InstallModules();
                 }
