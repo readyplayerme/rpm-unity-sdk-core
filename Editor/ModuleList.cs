@@ -15,7 +15,7 @@ namespace ReadyPlayerMe
             {
                 name = "com.readyplayerme.webview",
                 gitUrl = "https://github.com/readyplayerme/Unity-WebView.git",
-                branch = "feature/sdk-web-view"
+                branch = ""
             },
             new ModuleInfo 
             {
