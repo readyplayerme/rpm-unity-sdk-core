@@ -99,6 +99,7 @@ namespace ReadyPlayerMe.Core.Analytics
                 SDKLogger.Log(nameof(AmplitudeEventLogger), exception);
             }
         }
+        
         private async Task Dispatch(string url, byte[] bytes)
         {
             if (HasInternetConnection)
@@ -118,6 +119,7 @@ namespace ReadyPlayerMe.Core.Analytics
                     {
                         throw new CustomException(FailureType.DownloadError, request.error);
                     }
+                    return;
                 }
             }
 
