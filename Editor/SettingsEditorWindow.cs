@@ -72,7 +72,7 @@ namespace ReadyPlayerMe.Core.Editor
         {
             SetEditorWindowName(EDITOR_WINDOW_NAME);
 
-            partnerSubdomain = SubdomainHelper.PartnerDomain;
+            partnerSubdomain = SubdomainHelper.PartnerDomain ?? "demo";
             SaveSubdomain();
 
             analyticsEnabled = AnalyticsEditorLogger.IsEnabled;
