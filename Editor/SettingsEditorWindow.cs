@@ -72,7 +72,7 @@ namespace ReadyPlayerMe.Core.Editor
         {
             SetEditorWindowName(EDITOR_WINDOW_NAME);
 
-            partnerSubdomain = SubdomainHelper.PartnerDomain;
+            partnerSubdomain = SubdomainHelper.PartnerDomain ?? "demo";
             SaveSubdomain();
 
             analyticsEnabled = AnalyticsEditorLogger.IsEnabled;
@@ -334,6 +334,10 @@ namespace ReadyPlayerMe.Core.Editor
         
         private bool ValidateSubdomain()
         {
+            if (partnerSubdomain == null)
+            {
+                partnerSubdomain = "demo";
+            }
             return !partnerSubdomain.All(char.IsWhiteSpace) && !partnerSubdomain.Contains('/') && !EditorUtilities.IsUrlShortcodeValid(partnerSubdomain);
         }
 
