@@ -2,10 +2,12 @@
 using System.Collections.Generic;
 using System.Text;
 using System.Threading;
+using System.Threading.Tasks;
 using Newtonsoft.Json;
 using ReadyPlayerMe.AvatarLoader;
 using UnityEditor;
 using UnityEngine;
+using UnityEngine.Networking;
 
 namespace ReadyPlayerMe.Core.Analytics
 {
@@ -14,7 +16,9 @@ namespace ReadyPlayerMe.Core.Analytics
         private const string ENDPOINT = "https://analytics-sdk.readyplayer.me/";
 
         private readonly AppData appData;
-        private readonly WebRequestDispatcher dispatcher;
+        private const string NO_INTERNET_CONNECTION = "No internet connection.";
+        private bool HasInternetConnection => Application.internetReachability != NetworkReachability.NotReachable;
+
         private readonly AnalyticsTarget target;
 
         private long sessionId;
@@ -22,7 +26,6 @@ namespace ReadyPlayerMe.Core.Analytics
         public AmplitudeEventLogger()
         {
             appData = ApplicationData.GetData();
-            dispatcher = new WebRequestDispatcher();
             target = Resources.Load<AnalyticsTarget>(RESOURCE_PATH);
         }
 
@@ -89,12 +92,36 @@ namespace ReadyPlayerMe.Core.Analytics
 
             try
             {
-                await dispatcher.Dispatch(ENDPOINT, bytes, new CancellationToken());
+                await Dispatch(ENDPOINT, bytes);
             }
             catch (Exception exception)
             {
                 SDKLogger.Log(nameof(AmplitudeEventLogger), exception);
             }
+        }
+        private async Task Dispatch(string url, byte[] bytes)
+        {
+            if (HasInternetConnection)
+            {
+                using (var request = UnityWebRequest.Put(url, bytes))
+                {
+                    request.method = "POST";
+                    request.SetRequestHeader("Content-Type", "application/json");
+
+                    var asyncOperation = request.SendWebRequest();
+                    while (!asyncOperation.isDone)
+                    {
+                        await Task.Yield();
+                    }
+
+                    if (request.isHttpError || request.isNetworkError)
+                    {
+                        throw new CustomException(FailureType.DownloadError, request.error);
+                    }
+                }
+            }
+
+            throw new CustomException(FailureType.NoInternetConnection, NO_INTERNET_CONNECTION);
         }
 
         #region Analytics Target
