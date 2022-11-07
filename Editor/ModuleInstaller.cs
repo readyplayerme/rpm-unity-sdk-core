@@ -1,7 +1,9 @@
-﻿using System.Linq;
+﻿using System.IO;
+using System.Linq;
 using UnityEditor;
 using UnityEngine;
 using System.Threading;
+using ReadyPlayerMe.Core;
 using UnityEditor.PackageManager;
 
 #if !DISABLE_AUTO_INSTALLER
@@ -15,6 +17,7 @@ namespace ReadyPlayerMe
         
         static ModuleInstaller()
         {
+            ReadyPlayerMeSettings.CreateSettingsObject();
             if (HasAnyMissingModule())
             {
                 EditorApplication.update += InstallModules;
