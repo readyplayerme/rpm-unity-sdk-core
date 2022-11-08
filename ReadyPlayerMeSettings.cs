@@ -17,6 +17,4 @@ namespace ReadyPlayerMe.Core
             AssetDatabase.Refresh();
         }
     }
-    
-
 }

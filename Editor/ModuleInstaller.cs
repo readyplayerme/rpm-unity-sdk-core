@@ -88,7 +88,7 @@ namespace ReadyPlayerMe
             var addRequest = Client.Add(name);
             while (!addRequest.IsCompleted)
                 Thread.Sleep(20);
-            ReadyPlayerMeSettings.GetCreateSettingsAsset();
+            EditorAssetLoader.LoadReadyPlayerMeSettings();
             if (addRequest.Error != null)
             {
                 Debug.Log("Error: " + addRequest.Error.message);

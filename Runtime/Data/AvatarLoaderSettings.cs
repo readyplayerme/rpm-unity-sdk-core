@@ -9,7 +9,6 @@ namespace ReadyPlayerMe.Core
         public AvatarConfig AvatarConfig;
         public static readonly string LocalAssetPath = "Settings/AvatarLoaderSettings";
 
-
         public static AvatarLoaderSettings GetAsset()
         {
             return Resources.Load<AvatarLoaderSettings>(LocalAssetPath);
