@@ -185,7 +185,7 @@ namespace ReadyPlayerMe.Core.Editor
                     partnerSubdomain = EditorGUILayout.TextField(oldValue, textFieldStyle, GUILayout.Width(128), GUILayout.Height(20));
                     
                     EditorGUILayout.LabelField(".readyplayer.me", textLabelStyle, GUILayout.Width(116), GUILayout.Height(20));
-                    GUIContent button = new GUIContent((Texture) AssetDatabase.LoadAssetAtPath("Assets/Plugins/Ready Player Me/Editor/error.png", typeof(Texture)), DOMAIN_VALIDATION_ERROR);
+                    GUIContent button = new GUIContent((Texture) AssetDatabase.LoadAssetAtPath("Packages/com.readyplayerme.core/Editor/error.png", typeof(Texture)), DOMAIN_VALIDATION_ERROR);
 
                     var isSubdomainValid = ValidateSubdomain();
 
