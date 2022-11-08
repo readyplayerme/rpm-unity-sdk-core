@@ -3,11 +3,11 @@
 namespace ReadyPlayerMe.Core
 {
     /// <summary>
-    /// Used for logging in SDK. Currently logs to unity's debugger.
-    /// <remarks>
-    /// Logging is enabled by default, if required can be disabled.
-    /// <code> SDKLogging.logEnabled = false; </code>
-    /// </remarks>
+    ///     Used for logging in SDK. Currently logs to unity's debugger.
+    ///     <remarks>
+    ///         Logging is enabled by default, if required can be disabled.
+    ///         <code> SDKLogging.logEnabled = false; </code>
+    ///     </remarks>
     /// </summary>
     public static class SDKLogger
     {

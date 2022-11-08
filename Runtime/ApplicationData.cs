@@ -1,4 +1,5 @@
 using System;
+using System.Reflection;
 using UnityEditor;
 using UnityEngine;
 using UnityEngine.Rendering;
@@ -28,14 +29,14 @@ namespace ReadyPlayerMe.Core
         {
             var partner = Resources.Load<ScriptableObject>("Partner");
             Type type = partner != null ? partner.GetType() : null;
-            var method = type?.GetMethod("GetSubdomain");
+            MethodInfo method = type?.GetMethod("GetSubdomain");
             var partnerSubdomain = method?.Invoke(partner, null) as string;
             return partnerSubdomain;
         }
 
         private static string GetRenderPipeline()
         {
-            string renderPipeline = GraphicsSettings.currentRenderPipeline == null
+            var renderPipeline = GraphicsSettings.currentRenderPipeline == null
                 ? DEFAULT_RENDER_PIPELINE
                 : GraphicsSettings.currentRenderPipeline.name;
             return renderPipeline;

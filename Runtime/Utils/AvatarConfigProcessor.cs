@@ -21,7 +21,7 @@ namespace ReadyPlayerMe.AvatarLoader
 
         private static int ProcessTextureSizeLimit(int textureSize)
         {
-            return (textureSize % 2 == 0) ? textureSize : textureSize + 1;
+            return textureSize % 2 == 0 ? textureSize : textureSize + 1;
         }
 
         private static string ProcessMorphTargets(List<string> targets)

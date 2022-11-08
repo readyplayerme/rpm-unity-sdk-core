@@ -2,7 +2,6 @@
 using UnityEditor;
 using UnityEngine;
 
-
 namespace ReadyPlayerMe.Core
 {
     [CreateAssetMenu(fileName = "Avatar Loader Settings", menuName = "Scriptable Objects/Ready Player Me/Avatar Loader Settings", order = 1)]
@@ -14,12 +13,13 @@ namespace ReadyPlayerMe.Core
 
         private static readonly string LOCAL_SAVE_FOLDER = "Ready Player Me/Settings";
         private static readonly string DEFAULT_ASSET_NAME = "AvatarLoaderSettings.asset";
+
 #if !DISABLE_AUTO_INSTALLER
-        private static readonly string DEFAULT_ASSET_PATH = "Packages/com.unity.images-library/AvatarLoaderSettings.asset";
+        private static readonly string DEFAULT_ASSET_PATH = "Packages/com.readyplayerme.core/Settings/AvatarLoaderSettings.asset";
 #else
-        private static readonly string DEFAULT_ASSET_PATH = "Assets/TEMP/AvatarLoaderSettings.asset";
+        private static readonly string DEFAULT_ASSET_PATH = "Assets/Ready Player Me/Core/Settings/AvatarLoaderSettings.asset";
 #endif
-        
+
         public static AvatarLoaderSettings GetCreateSettingsAsset()
         {
             var localPath = $"Assets/{LOCAL_SAVE_FOLDER}/{DEFAULT_ASSET_NAME}";
@@ -28,12 +28,12 @@ namespace ReadyPlayerMe.Core
             {
                 return AssetDatabase.LoadAssetAtPath<AvatarLoaderSettings>($"{localPath}");
             }
-            if(!Directory.Exists( $"{Application.dataPath}/{LOCAL_SAVE_FOLDER}"))
+            if (!Directory.Exists($"{Application.dataPath}/{LOCAL_SAVE_FOLDER}"))
             {
                 Directory.CreateDirectory($"{Application.dataPath}/{LOCAL_SAVE_FOLDER}");
             }
             var defaultSettings = AssetDatabase.LoadAssetAtPath<AvatarLoaderSettings>(DEFAULT_ASSET_PATH);
-            var newSettings = Instantiate(defaultSettings);
+            AvatarLoaderSettings newSettings = Instantiate(defaultSettings);
             AssetDatabase.CreateAsset(newSettings, $"{localPath}");
             AssetDatabase.SaveAssets();
             AssetDatabase.Refresh();

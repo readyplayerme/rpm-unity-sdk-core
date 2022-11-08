@@ -6,17 +6,15 @@ namespace ReadyPlayerMe.Core
 {
     public class OperationExecutor<T> where T : Context
     {
-        public event Action<float, string> ProgressChanged;
-        public bool IsCancelled => ctxSource.IsCancellationRequested;
-        public int Timeout;
-
-        private CancellationTokenSource ctxSource;
 
         private readonly IOperation<T>[] operations;
         private readonly int operationsCount;
 
-        private float currentProgress;
+        private CancellationTokenSource ctxSource;
         private int currentIndex;
+
+        private float currentProgress;
+        public int Timeout;
 
         public OperationExecutor(IOperation<T>[] operations)
         {
@@ -24,10 +22,13 @@ namespace ReadyPlayerMe.Core
             operationsCount = operations.Length;
         }
 
+        public bool IsCancelled => ctxSource.IsCancellationRequested;
+        public event Action<float, string> ProgressChanged;
+
         public async Task<T> Execute(T context)
         {
             ctxSource = new CancellationTokenSource();
-            foreach (var operation in operations)
+            foreach (IOperation<T> operation in operations)
             {
                 operation.ProgressChanged += OnProgressChanged;
                 operation.Timeout = Timeout;

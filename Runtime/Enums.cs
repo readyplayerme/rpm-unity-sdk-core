@@ -3,7 +3,7 @@ using UnityEngine;
 
 namespace ReadyPlayerMe.Core
 {
-    
+
     public enum BodyType
     {
         None,
@@ -63,7 +63,7 @@ namespace ReadyPlayerMe.Core
     }
 
 #endregion
-    
+
     public enum FailureType
     {
         None,

@@ -20,6 +20,7 @@ namespace ReadyPlayerMe.Core
     public class CompletionEventArgs : EventArgs
     {
         public string Url { get; set; }
+
         public GameObject Avatar { get; set; }
         //TODO make CompletionEventArgs virtual so we can override in Avatar Loader
         //public AvatarMetadata Metadata { get; set; }

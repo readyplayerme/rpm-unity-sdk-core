@@ -25,7 +25,7 @@ namespace ReadyPlayerMe.Core
             {
                 source += RUNTIME;
             }
-            return new Dictionary<string, string>()
+            return new Dictionary<string, string>
             {
                 { RPM_SOURCE, source },
                 { RPM_SDK_VERSION, ApplicationData.GetData().SDKVersion }
