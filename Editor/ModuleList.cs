@@ -9,13 +9,13 @@ namespace ReadyPlayerMe
             {
                 name = "com.readyplayer.avatarloader",
                 gitUrl = "https://github.com/readyplayerme/Unity-Avatar-Loader.git",
-                branch = ""
+                branch = "feature/editor-window-merge"
             },
             new ModuleInfo 
             {
                 name = "com.readyplayerme.webview",
                 gitUrl = "https://github.com/readyplayerme/Unity-WebView.git",
-                branch = ""
+                branch = "feature/editor-window-merge"
             },
             new ModuleInfo 
             {
