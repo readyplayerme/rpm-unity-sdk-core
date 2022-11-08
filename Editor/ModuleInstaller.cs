@@ -1,4 +1,4 @@
-﻿using System.IO;
+using System.IO;
 using System.Linq;
 using UnityEditor;
 using UnityEngine;
@@ -17,7 +17,7 @@ namespace ReadyPlayerMe
         
         static ModuleInstaller()
         {
-            ReadyPlayerMeSettings.CreateSettingsObject();
+            ReadyPlayerMeSettings.GetCreateSettingsAsset();
             if (HasAnyMissingModule())
             {
                 EditorApplication.update += InstallModules;
