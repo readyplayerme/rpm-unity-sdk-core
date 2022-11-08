@@ -21,6 +21,7 @@ namespace ReadyPlayerMe
             {
                 EditorApplication.update += InstallModules;
             }
+            ReadyPlayerMeSettings.GetCreateSettingsAsset();
         }
 
         private static void InstallModules()
@@ -88,7 +89,6 @@ namespace ReadyPlayerMe
             var addRequest = Client.Add(name);
             while (!addRequest.IsCompleted)
                 Thread.Sleep(20);
-            ReadyPlayerMeSettings.GetCreateSettingsAsset();
             if (addRequest.Error != null)
             {
                 Debug.Log("Error: " + addRequest.Error.message);

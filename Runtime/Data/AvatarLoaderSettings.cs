@@ -7,11 +7,9 @@ namespace ReadyPlayerMe.Core
     [CreateAssetMenu(fileName = "Avatar Loader Settings", menuName = "Scriptable Objects/Ready Player Me/Avatar Loader Settings", order = 1)]
     public class AvatarLoaderSettings : ScriptableObject
     {
-        public const string RESOURCE_PATH = "Data/Avatar Loader Settings";
+        public const string RESOURCE_PATH = "Ready Player Me/Settings";
         public bool AvatarCachingEnabled;
         public AvatarConfig AvatarConfig;
-
-        private static readonly string LOCAL_SAVE_FOLDER = "Ready Player Me/Settings";
         private static readonly string DEFAULT_ASSET_NAME = "AvatarLoaderSettings.asset";
 
 #if !DISABLE_AUTO_INSTALLER
@@ -22,15 +20,15 @@ namespace ReadyPlayerMe.Core
 
         public static AvatarLoaderSettings GetCreateSettingsAsset()
         {
-            var localPath = $"Assets/{LOCAL_SAVE_FOLDER}/{DEFAULT_ASSET_NAME}";
-            var absolutePath = $"{Application.dataPath}/{LOCAL_SAVE_FOLDER}/{DEFAULT_ASSET_NAME}";
+            var localPath = $"Assets/{RESOURCE_PATH}/{DEFAULT_ASSET_NAME}";
+            var absolutePath = $"{Application.dataPath}/{RESOURCE_PATH}/{DEFAULT_ASSET_NAME}";
             if (File.Exists(absolutePath))
             {
                 return AssetDatabase.LoadAssetAtPath<AvatarLoaderSettings>($"{localPath}");
             }
-            if (!Directory.Exists($"{Application.dataPath}/{LOCAL_SAVE_FOLDER}"))
+            if (!Directory.Exists($"{Application.dataPath}/{RESOURCE_PATH}"))
             {
-                Directory.CreateDirectory($"{Application.dataPath}/{LOCAL_SAVE_FOLDER}");
+                Directory.CreateDirectory($"{Application.dataPath}/{RESOURCE_PATH}");
             }
             var defaultSettings = AssetDatabase.LoadAssetAtPath<AvatarLoaderSettings>(DEFAULT_ASSET_PATH);
             AvatarLoaderSettings newSettings = Instantiate(defaultSettings);
