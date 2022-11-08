@@ -1,6 +1,5 @@
 ﻿using System.IO;
 using System.Linq;
-using ReadyPlayerMe.AvatarLoader;
 using UnityEditor;
 using UnityEngine;
 using ReadyPlayerMe.Core.Analytics;
@@ -185,7 +184,7 @@ namespace ReadyPlayerMe.Core.Editor
                     partnerSubdomain = EditorGUILayout.TextField(oldValue, textFieldStyle, GUILayout.Width(128), GUILayout.Height(20));
                     
                     EditorGUILayout.LabelField(".readyplayer.me", textLabelStyle, GUILayout.Width(116), GUILayout.Height(20));
-                    GUIContent button = new GUIContent((Texture) AssetDatabase.LoadAssetAtPath("Packages/com.readyplayerme.core/Editor/error.png", typeof(Texture)), DOMAIN_VALIDATION_ERROR);
+                    GUIContent button = new GUIContent((Texture) AssetDatabase.LoadAssetAtPath(ERROR_IMAGE_PATH, typeof(Texture)), DOMAIN_VALIDATION_ERROR);
 
                     var isSubdomainValid = ValidateSubdomain();
 
@@ -305,8 +304,11 @@ namespace ReadyPlayerMe.Core.Editor
         private void SaveSubdomain()
         {
             EditorPrefs.SetString(WEB_VIEW_PARTNER_SAVE_KEY, partnerSubdomain);
-
-            var subDomain = SubdomainHelper.PartnerDomain;
+            if (readyPlayerMeSettings == null)
+            {
+                readyPlayerMeSettings = ReadyPlayerMeSettings.GetCreateSettingsAsset();
+            }
+            var subDomain = readyPlayerMeSettings.partnerSubdomain ;
             if (subDomain != partnerSubdomain)
             {
                 AnalyticsEditorLogger.EventLogger.LogUpdatePartnerURL(subDomain, partnerSubdomain);
