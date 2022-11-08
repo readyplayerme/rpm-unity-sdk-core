@@ -9,7 +9,8 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: b550d55edc18d8d40b5f5cf0e9c20e88, type: 3}
-  m_Name: Partner
+  m_Script: {fileID: 11500000, guid: 3b50d26d65b1fce41a02e310760cd025, type: 3}
+  m_Name: AvatarLoaderSettings
   m_EditorClassIdentifier: 
-  Subdomain: demo
+  AvatarCachingEnabled: 1
+  AvatarConfig: {fileID: 11400000, guid: 015ead9d637b6402e835a9b576196eea, type: 2}

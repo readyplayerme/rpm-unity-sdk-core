@@ -11,23 +11,24 @@ namespace ReadyPlayerMe.Core
 
         private static readonly string LOCAL_SAVE_FOLDER = "Ready Player Me/Settings";
         private static readonly string DEFAULT_ASSET_NAME = "ReadyPlayerMeSettings.asset";
+
 #if !DISABLE_AUTO_INSTALLER
-        private static readonly string DEFAULT_ASSET_PATH = "Packages/com.unity.images-library/Resources/ReadyPlayerMeSettings.asset";
+        private static readonly string DEFAULT_ASSET_PATH = "Packages/Packages/com.readyplayerme.core/Settings/ReadyPlayerMeSettings.asset";
 #else
-        private static readonly string DEFAULT_ASSET_PATH = "Assets/TEMP/ReadyPlayerMeSettings.asset";
+        private static readonly string DEFAULT_ASSET_PATH = "Assets/Ready Player Me/Core/Settings/ReadyPlayerMeSettings.asset";
 #endif
-        
+
         public static void GetCreateSettingsAsset()
         {
             var localPath = $"Assets/{LOCAL_SAVE_FOLDER}/{DEFAULT_ASSET_NAME}";
             var absolutePath = $"{Application.dataPath}/{LOCAL_SAVE_FOLDER}/{DEFAULT_ASSET_NAME}";
-            if(File.Exists(absolutePath))return;
-            if(!Directory.Exists( $"{Application.dataPath}/{LOCAL_SAVE_FOLDER}"))
+            if (File.Exists(absolutePath)) return;
+            if (!Directory.Exists($"{Application.dataPath}/{LOCAL_SAVE_FOLDER}"))
             {
                 Directory.CreateDirectory($"{Application.dataPath}/{LOCAL_SAVE_FOLDER}");
             }
             var defaultSettings = AssetDatabase.LoadAssetAtPath<ReadyPlayerMeSettings>(DEFAULT_ASSET_PATH);
-            var newSettings = Instantiate(defaultSettings);
+            ReadyPlayerMeSettings newSettings = Instantiate(defaultSettings);
             var loaderSettings = AvatarLoaderSettings.GetCreateSettingsAsset();
             newSettings.AvatarLoaderSettings = loaderSettings;
             AssetDatabase.CreateAsset(newSettings, $"{localPath}");
