@@ -5,7 +5,7 @@ using UnityEngine;
 namespace ReadyPlayerMe.AvatarLoader.Core
 {
     [CustomEditor(typeof(AvatarConfig))]
-    public class AvatarConfigEditor : UnityEditor.Editor
+    public class AvatarConfigEditor : Editor
     {
         private AvatarConfig avatarConfigTarget;
 

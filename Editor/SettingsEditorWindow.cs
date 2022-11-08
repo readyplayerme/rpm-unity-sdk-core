@@ -71,14 +71,14 @@ namespace ReadyPlayerMe.Core.Editor
 
         private void Initialize()
         {
-            readyPlayerMeSettings = ReadyPlayerMeSettings.GetCreateSettingsAsset();
+            readyPlayerMeSettings = EditorAssetLoader.LoadReadyPlayerMeSettings();
             SetEditorWindowName(EDITOR_WINDOW_NAME);
 
             partnerSubdomain = readyPlayerMeSettings.partnerSubdomain ?? "demo";
             SaveSubdomain();
 
             analyticsEnabled = AnalyticsEditorLogger.IsEnabled;
-            avatarLoaderSettings = AssetDatabase.LoadAssetAtPath<AvatarLoaderSettings>(AvatarLoaderSettings.RESOURCE_PATH);
+            avatarLoaderSettings = EditorAssetLoader.LoadAvatarLoaderSettings();
             avatarCachingEnabled = avatarLoaderSettings != null && avatarLoaderSettings.AvatarCachingEnabled;
             isCacheEmpty = AvatarCache.IsCacheEmpty();
             avatarConfig = avatarLoaderSettings != null ? avatarLoaderSettings.AvatarConfig : null;
@@ -306,7 +306,7 @@ namespace ReadyPlayerMe.Core.Editor
             EditorPrefs.SetString(WEB_VIEW_PARTNER_SAVE_KEY, partnerSubdomain);
             if (readyPlayerMeSettings == null)
             {
-                readyPlayerMeSettings = ReadyPlayerMeSettings.GetCreateSettingsAsset();
+                readyPlayerMeSettings = EditorAssetLoader.LoadReadyPlayerMeSettings();
             }
             var subDomain = readyPlayerMeSettings.partnerSubdomain ;
             if (subDomain != partnerSubdomain)

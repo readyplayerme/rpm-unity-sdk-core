@@ -7,11 +7,15 @@ namespace ReadyPlayerMe.Core
     public static class DirectoryUtility
     {
         /// The directory where avatar files will be downloaded.
-        public static string DefaultAvatarFolder { get; set; } = "Avatars";
+        public static string DefaultAvatarFolder { get; set; } = "Ready Player Me/Avatars";
 
         public static void ValidateAvatarSaveDirectory(string guid, bool saveInProjectFolder = false)
         {
-            var path = GetAvatarSaveDirectory(guid, saveInProjectFolder);
+            ValidateDirectory(GetAvatarSaveDirectory(guid, saveInProjectFolder));
+        }
+
+        public static void ValidateDirectory(string path)
+        {
             if (!Directory.Exists(path))
             {
                 Directory.CreateDirectory(path);
