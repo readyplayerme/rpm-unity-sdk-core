@@ -59,6 +59,8 @@ namespace ReadyPlayerMe.Core.Editor
         private string subdomainAfterFocus = string.Empty;
         private const string SUBDOMAIN_FIELD_CONTROL_NAME = "subdomain";
 
+        private ReadyPlayerMeSettings readyPlayerMeSettings;
+
         public static void ShowWindowMenu()
         {
             var window = (SettingsEditorWindow) GetWindow(typeof(SettingsEditorWindow));
@@ -70,9 +72,10 @@ namespace ReadyPlayerMe.Core.Editor
 
         private void Initialize()
         {
+            readyPlayerMeSettings = ReadyPlayerMeSettings.GetCreateSettingsAsset();
             SetEditorWindowName(EDITOR_WINDOW_NAME);
 
-            partnerSubdomain = SubdomainHelper.PartnerDomain ?? "demo";
+            partnerSubdomain = readyPlayerMeSettings.partnerSubdomain ?? "demo";
             SaveSubdomain();
 
             analyticsEnabled = AnalyticsEditorLogger.IsEnabled;
@@ -308,7 +311,8 @@ namespace ReadyPlayerMe.Core.Editor
             {
                 AnalyticsEditorLogger.EventLogger.LogUpdatePartnerURL(subDomain, partnerSubdomain);
             }
-            SubdomainHelper.SaveToScriptableObject(partnerSubdomain);
+            
+            readyPlayerMeSettings.SaveSubdomain(partnerSubdomain);
         }
 
         private bool IsSubdomainFocusLost()

@@ -18,11 +18,14 @@ namespace ReadyPlayerMe.Core
         private static readonly string DEFAULT_ASSET_PATH = "Assets/Ready Player Me/Core/Settings/ReadyPlayerMeSettings.asset";
 #endif
 
-        public static void GetCreateSettingsAsset()
+        public static ReadyPlayerMeSettings GetCreateSettingsAsset()
         {
             var localPath = $"Assets/{LOCAL_SAVE_FOLDER}/{DEFAULT_ASSET_NAME}";
             var absolutePath = $"{Application.dataPath}/{LOCAL_SAVE_FOLDER}/{DEFAULT_ASSET_NAME}";
-            if (File.Exists(absolutePath)) return;
+            if (File.Exists(absolutePath))
+            {
+                return AssetDatabase.LoadAssetAtPath<ReadyPlayerMeSettings>($"{localPath}");
+            }
             if (!Directory.Exists($"{Application.dataPath}/{LOCAL_SAVE_FOLDER}"))
             {
                 Directory.CreateDirectory($"{Application.dataPath}/{LOCAL_SAVE_FOLDER}");
@@ -34,6 +37,16 @@ namespace ReadyPlayerMe.Core
             AssetDatabase.CreateAsset(newSettings, $"{localPath}");
             AssetDatabase.SaveAssets();
             AssetDatabase.Refresh();
+            return newSettings;
+        }
+        
+        public void SaveSubdomain(string newSubdomain)
+        {
+            partnerSubdomain = newSubdomain;
+            EditorUtility.SetDirty(this);
+            AssetDatabase.SaveAssets();
         }
     }
+    
+
 }
