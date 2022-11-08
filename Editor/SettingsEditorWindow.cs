@@ -70,7 +70,6 @@ namespace ReadyPlayerMe.Core.Editor
 
         private void Initialize()
         {
-            ReadyPlayerMeSettings.GetCreateSettingsAsset();
             SetEditorWindowName(EDITOR_WINDOW_NAME);
 
             partnerSubdomain = SubdomainHelper.PartnerDomain ?? "demo";
