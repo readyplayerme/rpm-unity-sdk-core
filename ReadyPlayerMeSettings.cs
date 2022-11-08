@@ -13,7 +13,7 @@ namespace ReadyPlayerMe.Core
         private static readonly string DEFAULT_ASSET_NAME = "ReadyPlayerMeSettings.asset";
 
 #if !DISABLE_AUTO_INSTALLER
-        private static readonly string DEFAULT_ASSET_PATH = "Packages/Packages/com.readyplayerme.core/Settings/ReadyPlayerMeSettings.asset";
+        private static readonly string DEFAULT_ASSET_PATH = "Packages/com.readyplayerme.core/Settings/ReadyPlayerMeSettings.asset";
 #else
         private static readonly string DEFAULT_ASSET_PATH = "Assets/Ready Player Me/Core/Settings/ReadyPlayerMeSettings.asset";
 #endif
