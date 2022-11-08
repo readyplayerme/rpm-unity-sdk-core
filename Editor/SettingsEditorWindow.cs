@@ -76,7 +76,7 @@ namespace ReadyPlayerMe.Core.Editor
             SaveSubdomain();
 
             analyticsEnabled = AnalyticsEditorLogger.IsEnabled;
-            avatarLoaderSettings = Resources.Load<AvatarLoaderSettings>(AvatarLoaderSettings.RESOURCE_PATH);
+            avatarLoaderSettings = AssetDatabase.LoadAssetAtPath<AvatarLoaderSettings>(AvatarLoaderSettings.RESOURCE_PATH);
             avatarCachingEnabled = avatarLoaderSettings != null && avatarLoaderSettings.AvatarCachingEnabled;
             isCacheEmpty = AvatarCache.IsCacheEmpty();
             avatarConfig = avatarLoaderSettings != null ? avatarLoaderSettings.AvatarConfig : null;

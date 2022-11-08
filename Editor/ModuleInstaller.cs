@@ -17,11 +17,11 @@ namespace ReadyPlayerMe
         
         static ModuleInstaller()
         {
+            ReadyPlayerMeSettings.GetCreateSettingsAsset();
             if (HasAnyMissingModule())
             {
                 EditorApplication.update += InstallModules;
             }
-            ReadyPlayerMeSettings.GetCreateSettingsAsset();
         }
 
         private static void InstallModules()
