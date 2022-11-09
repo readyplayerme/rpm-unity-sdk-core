@@ -1,6 +1,5 @@
 ﻿using System;
 using UnityEditor;
-using UnityEngine;
 
 namespace ReadyPlayerMe.Core.Editor
 {
@@ -24,8 +23,7 @@ namespace ReadyPlayerMe.Core.Editor
             if (SessionState.GetBool(SESSION_STARTED_KEY, false)) return;
             SessionState.SetBool(SESSION_STARTED_KEY, true);
             Startup?.Invoke();
-            //PackageUpdater.GetCurrentRelease();
-            //Debug.Log("INVOKE STARTUP");
+            PackageUpdater.GetCurrentRelease();
         }
     }
 }

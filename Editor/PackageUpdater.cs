@@ -2,7 +2,6 @@
 using System.Linq;
 using System.Threading.Tasks;
 using Newtonsoft.Json;
-using ReadyPlayerMe.Core.Editor;
 using UnityEditor;
 using UnityEditor.PackageManager;
 using UnityEngine;
@@ -18,21 +17,11 @@ public static class PackageUpdater
         public string Tag;
     }
 
-    //private const string SESSION_STARTED_KEY = "SessionStarted";
     private const string GITHUB_WEBSITE = "https://github.com";
     private const string GITHUB_API_URL = "https://api.github.com/repos";
 
-    static PackageUpdater()
-    {
-        EntryPoint.Startup += GetCurrentRelease;
-        // EditorApplication.update += Update;
-    }
-
-
     public static void GetCurrentRelease()
     {
-        //Debug.Log("GET CURRENT RELEASE");
-        //return;
         var packages = AssetDatabase.FindAssets("package") // Get all packages files
             .Select(AssetDatabase.GUIDToAssetPath) // Get path
             .Where(x => x.Contains("package.json") && x.Contains(PACKAGE_DOMAIN)) // Get package.json and com.ryuuk packages
