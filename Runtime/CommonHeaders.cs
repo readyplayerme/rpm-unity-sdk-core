@@ -5,7 +5,7 @@ namespace ReadyPlayerMe.Core
 {
     public static class CommonHeaders
     {
-        private const string RPM_SOURCE = "RPM_Source";
+        private const string RPM_SOURCE = "RPM-Source";
         private const string RPM_SDK_VERSION = "RPM-SDK-Version";
         private const string UNITY_PREFIX = "unity";
         private const string EDITOR = "editor";
