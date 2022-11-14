@@ -1,6 +1,5 @@
 ﻿using System.IO;
 using System.Linq;
-using ReadyPlayerMe.AvatarLoader;
 using UnityEditor;
 using UnityEngine;
 using ReadyPlayerMe.Core.Analytics;
@@ -59,6 +58,8 @@ namespace ReadyPlayerMe.Core.Editor
         private string subdomainAfterFocus = string.Empty;
         private const string SUBDOMAIN_FIELD_CONTROL_NAME = "subdomain";
 
+        private ReadyPlayerMeSettings readyPlayerMeSettings;
+
         public static void ShowWindowMenu()
         {
             var window = (SettingsEditorWindow) GetWindow(typeof(SettingsEditorWindow));
@@ -70,13 +71,14 @@ namespace ReadyPlayerMe.Core.Editor
 
         private void Initialize()
         {
+            readyPlayerMeSettings = EditorAssetLoader.LoadReadyPlayerMeSettings();
             SetEditorWindowName(EDITOR_WINDOW_NAME);
 
-            partnerSubdomain = SubdomainHelper.PartnerDomain ?? "demo";
+            partnerSubdomain = readyPlayerMeSettings.partnerSubdomain ?? "demo";
             SaveSubdomain();
 
             analyticsEnabled = AnalyticsEditorLogger.IsEnabled;
-            avatarLoaderSettings = Resources.Load<AvatarLoaderSettings>(AvatarLoaderSettings.RESOURCE_PATH);
+            avatarLoaderSettings = EditorAssetLoader.LoadAvatarLoaderSettings();
             avatarCachingEnabled = avatarLoaderSettings != null && avatarLoaderSettings.AvatarCachingEnabled;
             isCacheEmpty = AvatarCache.IsCacheEmpty();
             avatarConfig = avatarLoaderSettings != null ? avatarLoaderSettings.AvatarConfig : null;
@@ -182,7 +184,7 @@ namespace ReadyPlayerMe.Core.Editor
                     partnerSubdomain = EditorGUILayout.TextField(oldValue, textFieldStyle, GUILayout.Width(128), GUILayout.Height(20));
                     
                     EditorGUILayout.LabelField(".readyplayer.me", textLabelStyle, GUILayout.Width(116), GUILayout.Height(20));
-                    GUIContent button = new GUIContent((Texture) AssetDatabase.LoadAssetAtPath("Assets/Plugins/Ready Player Me/Editor/error.png", typeof(Texture)), DOMAIN_VALIDATION_ERROR);
+                    GUIContent button = new GUIContent((Texture) AssetDatabase.LoadAssetAtPath(ERROR_IMAGE_PATH, typeof(Texture)), DOMAIN_VALIDATION_ERROR);
 
                     var isSubdomainValid = ValidateSubdomain();
 
@@ -302,13 +304,17 @@ namespace ReadyPlayerMe.Core.Editor
         private void SaveSubdomain()
         {
             EditorPrefs.SetString(WEB_VIEW_PARTNER_SAVE_KEY, partnerSubdomain);
-
-            var subDomain = SubdomainHelper.PartnerDomain;
+            if (readyPlayerMeSettings == null)
+            {
+                readyPlayerMeSettings = EditorAssetLoader.LoadReadyPlayerMeSettings();
+            }
+            var subDomain = readyPlayerMeSettings.partnerSubdomain ;
             if (subDomain != partnerSubdomain)
             {
                 AnalyticsEditorLogger.EventLogger.LogUpdatePartnerURL(subDomain, partnerSubdomain);
             }
-            SubdomainHelper.SaveToScriptableObject(partnerSubdomain);
+            
+            readyPlayerMeSettings.SaveSubdomain(partnerSubdomain);
         }
 
         private bool IsSubdomainFocusLost()
@@ -334,6 +340,10 @@ namespace ReadyPlayerMe.Core.Editor
         
         private bool ValidateSubdomain()
         {
+            if (partnerSubdomain == null)
+            {
+                partnerSubdomain = "demo";
+            }
             return !partnerSubdomain.All(char.IsWhiteSpace) && !partnerSubdomain.Contains('/') && !EditorUtilities.IsUrlShortcodeValid(partnerSubdomain);
         }
 

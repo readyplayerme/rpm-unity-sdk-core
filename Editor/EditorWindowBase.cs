@@ -24,6 +24,12 @@ namespace ReadyPlayerMe.Core.Editor
 
         private string editorWindowName;
         private bool windowResized;
+        
+#if !DISABLE_AUTO_INSTALLER
+        public static readonly string ERROR_IMAGE_PATH = "Packages/com.readyplayerme.core/Editor/error.png";
+#else
+        public static readonly string ERROR_IMAGE_PATH = "Assets/Ready Player Me/Core/Editor/error.png";
+#endif
 
         private void LoadAssets()
         {
