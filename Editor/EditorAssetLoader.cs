@@ -5,11 +5,11 @@ using UnityEngine;
 
 public static class EditorAssetLoader 
 {
-    private const string SETTINGS_SAVE_FOLDER = "Ready Player Me/Resources/Settings";
+    private const string SETTINGS_SAVE_FOLDER = "Resources/Ready Player Me/Settings";
     private const string SETTINGS_ASSET_NAME = "ReadyPlayerMeSettings.asset";
     private const string AVATAR_LOADER_ASSET_NAME = "AvatarLoaderSettings.asset";
 
-    private const string CONFIG_SAVE_FOLDER = "Ready Player Me/Resources/Avatar Configurations";
+    private const string CONFIG_SAVE_FOLDER = "Resources/Ready Player Me/Configurations";
     
 #if !DISABLE_AUTO_INSTALLER
 
