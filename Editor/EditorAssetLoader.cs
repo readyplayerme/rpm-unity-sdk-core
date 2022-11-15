@@ -17,6 +17,7 @@ public static class EditorAssetLoader
 
     public static void CreateSettingsAssets()
     {
+        DirectoryUtility.ValidateDirectory($"{Application.dataPath}/{SETTINGS_SAVE_FOLDER}");
         CreateAvatarConfigAssets();
         CreateAvatarLoaderSettings();
         CreateReadyPlayerMeSettings();
@@ -29,9 +30,7 @@ public static class EditorAssetLoader
         newSettings.partnerSubdomain = defaultSettings.partnerSubdomain;
         var loaderSettings = AvatarLoaderSettings.LoadSettings();
         newSettings.AvatarLoaderSettings = loaderSettings;
-        
-        DirectoryUtility.ValidateDirectory($"{Application.dataPath}/{SETTINGS_SAVE_FOLDER}");
-        
+
         AssetDatabase.CreateAsset(newSettings, $"Assets/{SETTINGS_SAVE_FOLDER}/{SETTINGS_ASSET_NAME}");
         AssetDatabase.SaveAssets();
         AssetDatabase.Refresh();
