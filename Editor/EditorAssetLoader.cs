@@ -13,17 +13,17 @@ public static class EditorAssetLoader
     
 #if !DISABLE_AUTO_INSTALLER
 
-    public static readonly string ReadyPlayerMeAssetPath = $"Packages/com.readyplayerme.core/Settings/{SETTINGS_ASSET_NAME}";
-    public static readonly string AvatarLoaderAssetPath = $"Packages/com.readyplayerme.core/Settings/{AVATAR_LOADER_ASSET_NAME}";
-    public const string CONFIG_ASSET_FOLDER = "Packages/com.readyplayerme.core/Avatar Configurations";
+    public static readonly string DefaultReadyPlayerMeSettingsPath = $"Packages/com.readyplayerme.core/Settings/{SETTINGS_ASSET_NAME}";
+    public static readonly string DefaultAvatarLoaderSettingsPath = $"Packages/com.readyplayerme.core/Settings/{AVATAR_LOADER_ASSET_NAME}";
+    public const string DEFAULT_CONFIG_FOLDER = "Packages/com.readyplayerme.core/Configurations";
 
 #else
-    private static readonly string ReadyPlayerMeAssetPath = $"Assets/Ready Player Me/Core/Settings/{SETTINGS_ASSET_NAME}";
-    private static readonly string AvatarLoaderAssetPath = $"Assets/Ready Player Me/Core/Settings/{AVATAR_LOADER_ASSET_NAME}";
-    private const string CONFIG_ASSET_FOLDER = "Assets/Ready Player Me/Core/Avatar Configurations";
+    private static readonly string DefaultReadyPlayerMeSettingsPath = $"Assets/Ready Player Me/Core/Settings/{SETTINGS_ASSET_NAME}";
+    private static readonly string DefaultAvatarLoaderSettingsPath = $"Assets/Ready Player Me/Core/Settings/{AVATAR_LOADER_ASSET_NAME}";
+    private const string DEFAULT_CONFIG_FOLDER = "Assets/Ready Player Me/Core/Configurations";
 #endif
 
-    private static readonly string[] ConfigNames = {  "Avatar Config Medium", "Avatar Config Low", "Avatar Config High" };
+    private static readonly string[] DefaultConfigNames = {  "Avatar Config Medium", "Avatar Config Low", "Avatar Config High" };
 
     public static void CreateSettingsAssets()
     {
@@ -38,14 +38,14 @@ public static class EditorAssetLoader
         var absolutePath = $"{Application.dataPath}/{SETTINGS_SAVE_FOLDER}/{SETTINGS_ASSET_NAME}";
         if (File.Exists(absolutePath))
         {
-            return AssetDatabase.LoadAssetAtPath<ReadyPlayerMeSettings>(ReadyPlayerMeAssetPath);
+            return AssetDatabase.LoadAssetAtPath<ReadyPlayerMeSettings>(DefaultReadyPlayerMeSettingsPath);
         }
         return CreateReadyPlayerMeSettings();
     }
     
     private static ReadyPlayerMeSettings CreateReadyPlayerMeSettings()
     {
-        var defaultSettings = AssetDatabase.LoadAssetAtPath<ReadyPlayerMeSettings>(ReadyPlayerMeAssetPath);
+        var defaultSettings = AssetDatabase.LoadAssetAtPath<ReadyPlayerMeSettings>(DefaultReadyPlayerMeSettingsPath);
         ReadyPlayerMeSettings newSettings = ScriptableObject.CreateInstance<ReadyPlayerMeSettings>();
         newSettings.partnerSubdomain = defaultSettings.partnerSubdomain;
         var loaderSettings = LoadAvatarLoaderSettings();
@@ -65,14 +65,14 @@ public static class EditorAssetLoader
         var absolutePath = $"{Application.dataPath}/{SETTINGS_SAVE_FOLDER}/{SETTINGS_ASSET_NAME}";
         if (File.Exists(absolutePath))
         {
-            return AssetDatabase.LoadAssetAtPath<AvatarLoaderSettings>(AvatarLoaderAssetPath);
+            return AssetDatabase.LoadAssetAtPath<AvatarLoaderSettings>(DefaultAvatarLoaderSettingsPath);
         }
         return CreateAvatarLoaderSettings();
     }
     
     private static AvatarLoaderSettings CreateAvatarLoaderSettings()
     {
-        var defaultSettings = AssetDatabase.LoadAssetAtPath<AvatarLoaderSettings>(AvatarLoaderAssetPath);
+        var defaultSettings = AssetDatabase.LoadAssetAtPath<AvatarLoaderSettings>(DefaultAvatarLoaderSettingsPath);
         var newSettings = ScriptableObject.CreateInstance<AvatarLoaderSettings>();
         var config = Resources.Load<AvatarConfig>($"Avatar Configurations/Avatar Config Medium");
         newSettings.AvatarConfig = config;
@@ -93,11 +93,11 @@ public static class EditorAssetLoader
         {
             return;
         }
-        foreach (var configName in ConfigNames)
+        foreach (var configName in DefaultConfigNames)
         {
             DirectoryUtility.ValidateDirectory($"{Application.dataPath}/{CONFIG_SAVE_FOLDER}");
             
-            var defaultSettings = AssetDatabase.LoadAssetAtPath<AvatarConfig>($"{CONFIG_ASSET_FOLDER}/{configName}.asset");
+            var defaultSettings = AssetDatabase.LoadAssetAtPath<AvatarConfig>($"{DEFAULT_CONFIG_FOLDER}/{configName}.asset");
             var newSettings = CopyAvatarConfig(defaultSettings);
             
             AssetDatabase.CreateAsset(newSettings, $"Assets/{CONFIG_SAVE_FOLDER}/{configName}.asset");
