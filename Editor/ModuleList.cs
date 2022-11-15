@@ -15,7 +15,7 @@ namespace ReadyPlayerMe
             {
                 name = "com.readyplayer.avatarloader",
                 gitUrl = "https://github.com/readyplayerme/Unity-Avatar-Loader.git",
-                branch = "feature/editor-window-merge"
+                branch = ""
             },
             new ModuleInfo 
             {
