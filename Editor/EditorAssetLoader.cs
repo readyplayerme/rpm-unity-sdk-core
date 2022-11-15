@@ -12,7 +12,6 @@ public static class EditorAssetLoader
     private const string CONFIG_SAVE_FOLDER = "Resources/Ready Player Me/Configurations";
     
 #if !DISABLE_AUTO_INSTALLER
-
     public static readonly string ReadyPlayerMeAssetPath = $"Packages/com.readyplayerme.core/Settings/{SETTINGS_ASSET_NAME}";
     public static readonly string AvatarLoaderAssetPath = $"Packages/com.readyplayerme.core/Settings/{AVATAR_LOADER_ASSET_NAME}";
     public const string CONFIG_ASSET_FOLDER = "Packages/com.readyplayerme.core/Avatar Configurations";
