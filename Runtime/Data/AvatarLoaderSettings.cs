@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using UnityEditor;
+using UnityEngine;
 
 namespace ReadyPlayerMe.Core
 {
@@ -7,11 +8,15 @@ namespace ReadyPlayerMe.Core
     {
         public bool AvatarCachingEnabled;
         public AvatarConfig AvatarConfig;
-        public static readonly string LocalAssetPath = "Settings/AvatarLoaderSettings";
+        public const string SETTINGS_PATH = "Settings/AvatarLoaderSettings";
 
-        public static AvatarLoaderSettings GetAsset()
+        public static AvatarLoaderSettings LoadSettings()
         {
-            return Resources.Load<AvatarLoaderSettings>(LocalAssetPath);
+#if DISABLE_AUTO_INSTALLER
+            return AssetDatabase.LoadAssetAtPath<AvatarLoaderSettings>($"Assets/Ready Player Me/Core/Settings/AvatarLoaderSettings.asset");
+#else
+            return Resources.Load<AvatarLoaderSettings>(SETTINGS_PATH);
+#endif
         }
     }
 }

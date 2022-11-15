@@ -1,54 +1,33 @@
-﻿using System.IO;
-using ReadyPlayerMe.Core;
+﻿using ReadyPlayerMe.Core;
 using UnityEditor;
 using UnityEngine;
 
 public static class EditorAssetLoader 
 {
-    private const string SETTINGS_SAVE_FOLDER = "Resources/Ready Player Me/Settings";
+    private const string SETTINGS_SAVE_FOLDER = "Ready Player Me/Resources/Settings";
     private const string SETTINGS_ASSET_NAME = "ReadyPlayerMeSettings.asset";
     private const string AVATAR_LOADER_ASSET_NAME = "AvatarLoaderSettings.asset";
 
-    private const string CONFIG_SAVE_FOLDER = "Resources/Ready Player Me/Configurations";
-    
-#if !DISABLE_AUTO_INSTALLER
+    private const string CONFIG_SAVE_FOLDER = "Ready Player Me/Resources/Configurations";
 
     public static readonly string DefaultReadyPlayerMeSettingsPath = $"Packages/com.readyplayerme.core/Settings/{SETTINGS_ASSET_NAME}";
     public static readonly string DefaultAvatarLoaderSettingsPath = $"Packages/com.readyplayerme.core/Settings/{AVATAR_LOADER_ASSET_NAME}";
-    public const string DEFAULT_CONFIG_FOLDER = "Packages/com.readyplayerme.core/Configurations";
-
-#else
-    private static readonly string DefaultReadyPlayerMeSettingsPath = $"Assets/Ready Player Me/Core/Settings/{SETTINGS_ASSET_NAME}";
-    private static readonly string DefaultAvatarLoaderSettingsPath = $"Assets/Ready Player Me/Core/Settings/{AVATAR_LOADER_ASSET_NAME}";
-    private const string DEFAULT_CONFIG_FOLDER = "Assets/Ready Player Me/Core/Configurations";
-#endif
-
+    
     private static readonly string[] DefaultConfigNames = {  "Avatar Config Medium", "Avatar Config Low", "Avatar Config High" };
 
     public static void CreateSettingsAssets()
     {
         CreateAvatarConfigAssets();
-        LoadReadyPlayerMeSettings();
+        CreateAvatarLoaderSettings();
+        CreateReadyPlayerMeSettings();
     }
 
-    
-    public static ReadyPlayerMeSettings LoadReadyPlayerMeSettings()
-    {
-        
-        var absolutePath = $"{Application.dataPath}/{SETTINGS_SAVE_FOLDER}/{SETTINGS_ASSET_NAME}";
-        if (File.Exists(absolutePath))
-        {
-            return AssetDatabase.LoadAssetAtPath<ReadyPlayerMeSettings>(DefaultReadyPlayerMeSettingsPath);
-        }
-        return CreateReadyPlayerMeSettings();
-    }
-    
-    private static ReadyPlayerMeSettings CreateReadyPlayerMeSettings()
+    private static void CreateReadyPlayerMeSettings()
     {
         var defaultSettings = AssetDatabase.LoadAssetAtPath<ReadyPlayerMeSettings>(DefaultReadyPlayerMeSettingsPath);
         ReadyPlayerMeSettings newSettings = ScriptableObject.CreateInstance<ReadyPlayerMeSettings>();
         newSettings.partnerSubdomain = defaultSettings.partnerSubdomain;
-        var loaderSettings = LoadAvatarLoaderSettings();
+        var loaderSettings = AvatarLoaderSettings.LoadSettings();
         newSettings.AvatarLoaderSettings = loaderSettings;
         
         DirectoryUtility.ValidateDirectory($"{Application.dataPath}/{SETTINGS_SAVE_FOLDER}");
@@ -56,65 +35,26 @@ public static class EditorAssetLoader
         AssetDatabase.CreateAsset(newSettings, $"Assets/{SETTINGS_SAVE_FOLDER}/{SETTINGS_ASSET_NAME}");
         AssetDatabase.SaveAssets();
         AssetDatabase.Refresh();
+    }
 
-        return newSettings;
-    }
-    
-    public static AvatarLoaderSettings LoadAvatarLoaderSettings()
-    {
-        var absolutePath = $"{Application.dataPath}/{SETTINGS_SAVE_FOLDER}/{SETTINGS_ASSET_NAME}";
-        if (File.Exists(absolutePath))
-        {
-            return AssetDatabase.LoadAssetAtPath<AvatarLoaderSettings>(DefaultAvatarLoaderSettingsPath);
-        }
-        return CreateAvatarLoaderSettings();
-    }
-    
-    private static AvatarLoaderSettings CreateAvatarLoaderSettings()
+    private static void CreateAvatarLoaderSettings()
     {
         var defaultSettings = AssetDatabase.LoadAssetAtPath<AvatarLoaderSettings>(DefaultAvatarLoaderSettingsPath);
         var newSettings = ScriptableObject.CreateInstance<AvatarLoaderSettings>();
-        var config = Resources.Load<AvatarConfig>($"Avatar Configurations/Avatar Config Medium");
-        newSettings.AvatarConfig = config;
+        newSettings.AvatarConfig = null;
         newSettings.AvatarCachingEnabled = defaultSettings.AvatarCachingEnabled;
-        
-        DirectoryUtility.ValidateDirectory($"{Application.dataPath}/{SETTINGS_SAVE_FOLDER}");
-        
+
         AssetDatabase.CreateAsset(newSettings, $"Assets/{SETTINGS_SAVE_FOLDER}/{AVATAR_LOADER_ASSET_NAME}");
-        AssetDatabase.SaveAssets();
-        AssetDatabase.Refresh();
-        return newSettings;
     }
     
     public static void CreateAvatarConfigAssets()
     {
-        var absolutePath = $"{Application.dataPath}/{CONFIG_SAVE_FOLDER}/Avatar Config Medium.asset";
-        if (File.Exists(absolutePath))
-        {
-            return;
-        }
+        DirectoryUtility.ValidateDirectory($"{Application.dataPath}/{CONFIG_SAVE_FOLDER}");
         foreach (var configName in DefaultConfigNames)
         {
-            DirectoryUtility.ValidateDirectory($"{Application.dataPath}/{CONFIG_SAVE_FOLDER}");
-            
-            var defaultSettings = AssetDatabase.LoadAssetAtPath<AvatarConfig>($"{DEFAULT_CONFIG_FOLDER}/{configName}.asset");
-            var newSettings = CopyAvatarConfig(defaultSettings);
-            
-            AssetDatabase.CreateAsset(newSettings, $"Assets/{CONFIG_SAVE_FOLDER}/{configName}.asset");
-            AssetDatabase.SaveAssets();
-            
+            AssetDatabase.CreateAsset(AvatarConfig.CreateFromDefault(configName), $"Assets/{CONFIG_SAVE_FOLDER}/{configName}.asset");
         }
+        AssetDatabase.SaveAssets();
         AssetDatabase.Refresh();
-    }
-
-    private static AvatarConfig CopyAvatarConfig(AvatarConfig sourceConfig)
-    {
-        var newSettings = ScriptableObject.CreateInstance<AvatarConfig>();
-        newSettings.Pose = sourceConfig.Pose;
-        newSettings.MeshLod = sourceConfig.MeshLod;
-        newSettings.MorphTargets = sourceConfig.MorphTargets;
-        newSettings.UseHands = sourceConfig.UseHands;
-        newSettings.TextureSizeLimit = sourceConfig.TextureSizeLimit;
-        return newSettings;
     }
 }
