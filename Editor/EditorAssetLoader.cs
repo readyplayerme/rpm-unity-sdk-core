@@ -44,6 +44,7 @@ public static class EditorAssetLoader
         newSettings.AvatarCachingEnabled = defaultSettings.AvatarCachingEnabled;
 
         AssetDatabase.CreateAsset(newSettings, $"Assets/{SETTINGS_SAVE_FOLDER}/{AVATAR_LOADER_ASSET_NAME}");
+        AssetDatabase.SaveAssets();
     }
     
     public static void CreateAvatarConfigAssets()
