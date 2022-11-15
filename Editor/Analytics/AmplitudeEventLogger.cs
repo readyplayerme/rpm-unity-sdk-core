@@ -1,10 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
-using System.Threading;
 using System.Threading.Tasks;
 using Newtonsoft.Json;
-using ReadyPlayerMe.AvatarLoader;
 using UnityEditor;
 using UnityEngine;
 using UnityEngine.Networking;
@@ -26,7 +24,7 @@ namespace ReadyPlayerMe.Core.Analytics
         public AmplitudeEventLogger()
         {
             appData = ApplicationData.GetData();
-            target = Resources.Load<AnalyticsTarget>(RESOURCE_PATH);
+            target = AnalyticsTarget.GetAsset();
         }
 
         public void SetSessionId(long id)
@@ -130,7 +128,6 @@ namespace ReadyPlayerMe.Core.Analytics
 
         private const string PRODUCTION = "unity";
         private const string DEVELOPMENT = "unity-dev";
-        private const string RESOURCE_PATH = "Data/Analytics Target";
 
         private string GetAnalyticsTarget()
         {
