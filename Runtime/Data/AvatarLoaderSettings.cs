@@ -12,7 +12,7 @@ namespace ReadyPlayerMe.Core
 
         public static AvatarLoaderSettings LoadSettings()
         {
-#if DISABLE_AUTO_INSTALLER
+#if DISABLE_AUTO_INSTALLER && UNITY_EDITOR
             return AssetDatabase.LoadAssetAtPath<AvatarLoaderSettings>($"Assets/Ready Player Me/Core/Settings/AvatarLoaderSettings.asset");
 #else
             return Resources.Load<AvatarLoaderSettings>(SETTINGS_PATH);

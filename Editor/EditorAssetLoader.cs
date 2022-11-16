@@ -49,10 +49,22 @@ public static class EditorAssetLoader
     
     public static void CreateAvatarConfigAssets()
     {
+
         DirectoryUtility.ValidateDirectory($"{Application.dataPath}/{CONFIG_SAVE_FOLDER}");
         foreach (var configName in DefaultConfigNames)
         {
-            AssetDatabase.CreateAsset(AvatarConfig.CreateFromDefault(configName), $"Assets/{CONFIG_SAVE_FOLDER}/{configName}.asset");
+#if UNITY_EDITOR
+            var defaultConfig = AssetDatabase.LoadAssetAtPath<AvatarConfig>($"Assets/Ready Player Me/Core/Configurations/{configName}.asset");
+#else
+            var defaultConfig = Resources.Load<AvatarConfig>($"Packages/com.readyplayerme.core/Configurations/{configName}.asset");
+#endif
+            var newSettings = ScriptableObject.CreateInstance<AvatarConfig>();
+            newSettings.Pose = defaultConfig.Pose;
+            newSettings.MeshLod = defaultConfig.MeshLod;
+            newSettings.MorphTargets = defaultConfig.MorphTargets;
+            newSettings.UseHands = defaultConfig.UseHands;
+            newSettings.TextureSizeLimit = defaultConfig.TextureSizeLimit;
+            AssetDatabase.CreateAsset(newSettings, $"Assets/{CONFIG_SAVE_FOLDER}/{configName}.asset");
         }
         AssetDatabase.SaveAssets();
         AssetDatabase.Refresh();
