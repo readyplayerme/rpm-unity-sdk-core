@@ -1,5 +1,4 @@
-﻿using System.IO;
-using UnityEditor;
+﻿using UnityEditor;
 using UnityEngine;
 
 namespace ReadyPlayerMe.Core
@@ -8,6 +7,7 @@ namespace ReadyPlayerMe.Core
     {
         public string partnerSubdomain = "demo";
         public AvatarLoaderSettings AvatarLoaderSettings;
+        private const string SETTINGS_PATH = "Settings/ReadyPlayerMeSettings";
 
         public void SaveSubdomain(string newSubdomain)
         {
@@ -15,6 +15,15 @@ namespace ReadyPlayerMe.Core
             EditorUtility.SetDirty(this);
             AssetDatabase.SaveAssets();
             AssetDatabase.Refresh();
+        }
+
+        public static ReadyPlayerMeSettings LoadSettings()
+        {
+#if DISABLE_AUTO_INSTALLER
+            return AssetDatabase.LoadAssetAtPath<ReadyPlayerMeSettings>($"Assets/Ready Player Me/Core/Settings/ReadyPlayerMeSettings.asset");
+#else
+            return Resources.Load<ReadyPlayerMeSettings>(SETTINGS_PATH);
+#endif
         }
     }
 }

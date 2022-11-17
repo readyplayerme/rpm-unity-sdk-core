@@ -15,13 +15,13 @@ namespace ReadyPlayerMe.Core
     [CreateAssetMenu(fileName = "Analytics Target", menuName = "Scriptable Objects/Ready Player Me/Analytics Target", order = 1)]
     public class AnalyticsTarget : ScriptableObject
     {
-        public static readonly string LocalAssetPath = "Assets/Ready Player Me/Core/Resources/Analytics Target.asset";
+        public static readonly string LocalAssetPath = "Analytics Target";
         
         public Target Target;
         
         public static AnalyticsTarget GetAsset()
         {
-            return AssetDatabase.LoadAssetAtPath<AnalyticsTarget>(LocalAssetPath);
+            return Resources.Load<AnalyticsTarget>(LocalAssetPath);
         }
     }
 }

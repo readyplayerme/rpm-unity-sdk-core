@@ -1,119 +1,72 @@
-﻿using System.IO;
-using ReadyPlayerMe.Core;
+﻿using ReadyPlayerMe.Core;
 using UnityEditor;
 using UnityEngine;
 
 public static class EditorAssetLoader 
 {
-    private const string SETTINGS_SAVE_FOLDER = "Resources/Ready Player Me/Settings";
+    private const string SETTINGS_SAVE_FOLDER = "Ready Player Me/Resources/Settings";
     private const string SETTINGS_ASSET_NAME = "ReadyPlayerMeSettings.asset";
     private const string AVATAR_LOADER_ASSET_NAME = "AvatarLoaderSettings.asset";
 
-    private const string CONFIG_SAVE_FOLDER = "Resources/Ready Player Me/Configurations";
+    private const string CONFIG_SAVE_FOLDER = "Ready Player Me/Resources/Configurations";
+
+    public static readonly string DefaultReadyPlayerMeSettingsPath = $"Packages/com.readyplayerme.core/Settings/{SETTINGS_ASSET_NAME}";
+    public static readonly string DefaultAvatarLoaderSettingsPath = $"Packages/com.readyplayerme.core/Settings/{AVATAR_LOADER_ASSET_NAME}";
     
-#if !DISABLE_AUTO_INSTALLER
-    public static readonly string ReadyPlayerMeAssetPath = $"Packages/com.readyplayerme.core/Settings/{SETTINGS_ASSET_NAME}";
-    public static readonly string AvatarLoaderAssetPath = $"Packages/com.readyplayerme.core/Settings/{AVATAR_LOADER_ASSET_NAME}";
-    public const string CONFIG_ASSET_FOLDER = "Packages/com.readyplayerme.core/Avatar Configurations";
-
-#else
-    private static readonly string ReadyPlayerMeAssetPath = $"Assets/Ready Player Me/Core/Settings/{SETTINGS_ASSET_NAME}";
-    private static readonly string AvatarLoaderAssetPath = $"Assets/Ready Player Me/Core/Settings/{AVATAR_LOADER_ASSET_NAME}";
-    private const string CONFIG_ASSET_FOLDER = "Assets/Ready Player Me/Core/Avatar Configurations";
-#endif
-
-    private static readonly string[] ConfigNames = {  "Avatar Config Medium", "Avatar Config Low", "Avatar Config High" };
+    private static readonly string[] DefaultConfigNames = {  "Avatar Config Medium", "Avatar Config Low", "Avatar Config High" };
 
     public static void CreateSettingsAssets()
     {
+        DirectoryUtility.ValidateDirectory($"{Application.dataPath}/{SETTINGS_SAVE_FOLDER}");
         CreateAvatarConfigAssets();
-        LoadReadyPlayerMeSettings();
+        CreateAvatarLoaderSettings();
+        CreateReadyPlayerMeSettings();
     }
 
-    
-    public static ReadyPlayerMeSettings LoadReadyPlayerMeSettings()
+    private static void CreateReadyPlayerMeSettings()
     {
-        
-        var absolutePath = $"{Application.dataPath}/{SETTINGS_SAVE_FOLDER}/{SETTINGS_ASSET_NAME}";
-        if (File.Exists(absolutePath))
-        {
-            return AssetDatabase.LoadAssetAtPath<ReadyPlayerMeSettings>(ReadyPlayerMeAssetPath);
-        }
-        return CreateReadyPlayerMeSettings();
-    }
-    
-    private static ReadyPlayerMeSettings CreateReadyPlayerMeSettings()
-    {
-        var defaultSettings = AssetDatabase.LoadAssetAtPath<ReadyPlayerMeSettings>(ReadyPlayerMeAssetPath);
+        var defaultSettings = AssetDatabase.LoadAssetAtPath<ReadyPlayerMeSettings>(DefaultReadyPlayerMeSettingsPath);
         ReadyPlayerMeSettings newSettings = ScriptableObject.CreateInstance<ReadyPlayerMeSettings>();
         newSettings.partnerSubdomain = defaultSettings.partnerSubdomain;
-        var loaderSettings = LoadAvatarLoaderSettings();
+        var loaderSettings = AvatarLoaderSettings.LoadSettings();
         newSettings.AvatarLoaderSettings = loaderSettings;
-        
-        DirectoryUtility.ValidateDirectory($"{Application.dataPath}/{SETTINGS_SAVE_FOLDER}");
-        
+
         AssetDatabase.CreateAsset(newSettings, $"Assets/{SETTINGS_SAVE_FOLDER}/{SETTINGS_ASSET_NAME}");
         AssetDatabase.SaveAssets();
         AssetDatabase.Refresh();
+    }
 
-        return newSettings;
-    }
-    
-    public static AvatarLoaderSettings LoadAvatarLoaderSettings()
+    private static void CreateAvatarLoaderSettings()
     {
-        var absolutePath = $"{Application.dataPath}/{SETTINGS_SAVE_FOLDER}/{SETTINGS_ASSET_NAME}";
-        if (File.Exists(absolutePath))
-        {
-            return AssetDatabase.LoadAssetAtPath<AvatarLoaderSettings>(AvatarLoaderAssetPath);
-        }
-        return CreateAvatarLoaderSettings();
-    }
-    
-    private static AvatarLoaderSettings CreateAvatarLoaderSettings()
-    {
-        var defaultSettings = AssetDatabase.LoadAssetAtPath<AvatarLoaderSettings>(AvatarLoaderAssetPath);
+        var defaultSettings = AssetDatabase.LoadAssetAtPath<AvatarLoaderSettings>(DefaultAvatarLoaderSettingsPath);
         var newSettings = ScriptableObject.CreateInstance<AvatarLoaderSettings>();
-        var config = Resources.Load<AvatarConfig>($"Avatar Configurations/Avatar Config Medium");
-        newSettings.AvatarConfig = config;
+        newSettings.AvatarConfig = null;
         newSettings.AvatarCachingEnabled = defaultSettings.AvatarCachingEnabled;
-        
-        DirectoryUtility.ValidateDirectory($"{Application.dataPath}/{SETTINGS_SAVE_FOLDER}");
-        
+
         AssetDatabase.CreateAsset(newSettings, $"Assets/{SETTINGS_SAVE_FOLDER}/{AVATAR_LOADER_ASSET_NAME}");
         AssetDatabase.SaveAssets();
-        AssetDatabase.Refresh();
-        return newSettings;
     }
     
     public static void CreateAvatarConfigAssets()
     {
-        var absolutePath = $"{Application.dataPath}/{CONFIG_SAVE_FOLDER}/Avatar Config Medium.asset";
-        if (File.Exists(absolutePath))
-        {
-            return;
-        }
-        foreach (var configName in ConfigNames)
-        {
-            DirectoryUtility.ValidateDirectory($"{Application.dataPath}/{CONFIG_SAVE_FOLDER}");
-            
-            var defaultSettings = AssetDatabase.LoadAssetAtPath<AvatarConfig>($"{CONFIG_ASSET_FOLDER}/{configName}.asset");
-            var newSettings = CopyAvatarConfig(defaultSettings);
-            
-            AssetDatabase.CreateAsset(newSettings, $"Assets/{CONFIG_SAVE_FOLDER}/{configName}.asset");
-            AssetDatabase.SaveAssets();
-            
-        }
-        AssetDatabase.Refresh();
-    }
 
-    private static AvatarConfig CopyAvatarConfig(AvatarConfig sourceConfig)
-    {
-        var newSettings = ScriptableObject.CreateInstance<AvatarConfig>();
-        newSettings.Pose = sourceConfig.Pose;
-        newSettings.MeshLod = sourceConfig.MeshLod;
-        newSettings.MorphTargets = sourceConfig.MorphTargets;
-        newSettings.UseHands = sourceConfig.UseHands;
-        newSettings.TextureSizeLimit = sourceConfig.TextureSizeLimit;
-        return newSettings;
+        DirectoryUtility.ValidateDirectory($"{Application.dataPath}/{CONFIG_SAVE_FOLDER}");
+        foreach (var configName in DefaultConfigNames)
+        {
+#if UNITY_EDITOR && DISABLE_AUTO_INSTALLER
+            var defaultConfig = AssetDatabase.LoadAssetAtPath<AvatarConfig>($"Assets/Ready Player Me/Core/Configurations/{configName}.asset");
+#else
+            var defaultConfig = Resources.Load<AvatarConfig>($"Packages/com.readyplayerme.core/Configurations/{configName}.asset");
+#endif
+            var newSettings = ScriptableObject.CreateInstance<AvatarConfig>();
+            newSettings.Pose = defaultConfig.Pose;
+            newSettings.MeshLod = defaultConfig.MeshLod;
+            newSettings.MorphTargets = defaultConfig.MorphTargets;
+            newSettings.UseHands = defaultConfig.UseHands;
+            newSettings.TextureSizeLimit = defaultConfig.TextureSizeLimit;
+            AssetDatabase.CreateAsset(newSettings, $"Assets/{CONFIG_SAVE_FOLDER}/{configName}.asset");
+        }
+        AssetDatabase.SaveAssets();
+        AssetDatabase.Refresh();
     }
 }
