@@ -1,4 +1,6 @@
-﻿using UnityEditor;
+﻿using System;
+using System.Reflection;
+using UnityEditor;
 using UnityEngine;
 
 namespace ReadyPlayerMe.Core.Editor
@@ -24,9 +26,9 @@ namespace ReadyPlayerMe.Core.Editor
             {
                 return;
             }
-            
-            var type = partner.GetType();
-            var field = type.GetField("Subdomain");
+
+            Type type = partner.GetType();
+            FieldInfo field = type.GetField("Subdomain");
             field.SetValue(partner, newSubdomain);
             PartnerDomain = newSubdomain;
             EditorUtility.SetDirty(partner);
@@ -36,8 +38,8 @@ namespace ReadyPlayerMe.Core.Editor
         private static void Load()
         {
             partner = Resources.Load<ScriptableObject>("Partner");
-            var type = partner != null ? partner.GetType() : null;
-            var method = type?.GetMethod("GetSubdomain");
+            Type type = partner != null ? partner.GetType() : null;
+            MethodInfo method = type?.GetMethod("GetSubdomain");
             PartnerDomain = method?.Invoke(partner, null) as string;
         }
     }

@@ -12,10 +12,9 @@ namespace ReadyPlayerMe.Core.Analytics
     public class AmplitudeEventLogger
     {
         private const string ENDPOINT = "https://analytics-sdk.readyplayer.me/";
+        private const string NO_INTERNET_CONNECTION = "No internet connection.";
 
         private readonly AppData appData;
-        private const string NO_INTERNET_CONNECTION = "No internet connection.";
-        private bool HasInternetConnection => Application.internetReachability != NetworkReachability.NotReachable;
 
         private readonly AnalyticsTarget target;
 
@@ -26,6 +25,8 @@ namespace ReadyPlayerMe.Core.Analytics
             appData = ApplicationData.GetData();
             target = AnalyticsTarget.GetAsset();
         }
+
+        private bool HasInternetConnection => Application.internetReachability != NetworkReachability.NotReachable;
 
         public void SetSessionId(long id)
         {
@@ -97,17 +98,17 @@ namespace ReadyPlayerMe.Core.Analytics
                 SDKLogger.Log(nameof(AmplitudeEventLogger), exception);
             }
         }
-        
+
         private async Task Dispatch(string url, byte[] bytes)
         {
             if (HasInternetConnection)
             {
-                using (var request = UnityWebRequest.Put(url, bytes))
+                using (UnityWebRequest request = UnityWebRequest.Put(url, bytes))
                 {
                     request.method = "POST";
                     request.SetRequestHeader("Content-Type", "application/json");
 
-                    var asyncOperation = request.SendWebRequest();
+                    UnityWebRequestAsyncOperation asyncOperation = request.SendWebRequest();
                     while (!asyncOperation.isDone)
                     {
                         await Task.Yield();

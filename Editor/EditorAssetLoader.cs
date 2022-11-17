@@ -2,7 +2,7 @@
 using UnityEditor;
 using UnityEngine;
 
-public static class EditorAssetLoader 
+public static class EditorAssetLoader
 {
     private const string SETTINGS_SAVE_FOLDER = "Ready Player Me/Resources/Settings";
     private const string SETTINGS_ASSET_NAME = "ReadyPlayerMeSettings.asset";
@@ -12,8 +12,8 @@ public static class EditorAssetLoader
 
     public static readonly string DefaultReadyPlayerMeSettingsPath = $"Packages/com.readyplayerme.core/Settings/{SETTINGS_ASSET_NAME}";
     public static readonly string DefaultAvatarLoaderSettingsPath = $"Packages/com.readyplayerme.core/Settings/{AVATAR_LOADER_ASSET_NAME}";
-    
-    private static readonly string[] DefaultConfigNames = {  "Avatar Config Medium", "Avatar Config Low", "Avatar Config High" };
+
+    private static readonly string[] DefaultConfigNames = { "Avatar Config Medium", "Avatar Config Low", "Avatar Config High" };
 
     public static void CreateSettingsAssets()
     {
@@ -26,9 +26,9 @@ public static class EditorAssetLoader
     private static void CreateReadyPlayerMeSettings()
     {
         var defaultSettings = AssetDatabase.LoadAssetAtPath<ReadyPlayerMeSettings>(DefaultReadyPlayerMeSettingsPath);
-        ReadyPlayerMeSettings newSettings = ScriptableObject.CreateInstance<ReadyPlayerMeSettings>();
+        var newSettings = ScriptableObject.CreateInstance<ReadyPlayerMeSettings>();
         newSettings.partnerSubdomain = defaultSettings.partnerSubdomain;
-        var loaderSettings = AvatarLoaderSettings.LoadSettings();
+        AvatarLoaderSettings loaderSettings = AvatarLoaderSettings.LoadSettings();
         newSettings.AvatarLoaderSettings = loaderSettings;
 
         AssetDatabase.CreateAsset(newSettings, $"Assets/{SETTINGS_SAVE_FOLDER}/{SETTINGS_ASSET_NAME}");
@@ -46,7 +46,7 @@ public static class EditorAssetLoader
         AssetDatabase.CreateAsset(newSettings, $"Assets/{SETTINGS_SAVE_FOLDER}/{AVATAR_LOADER_ASSET_NAME}");
         AssetDatabase.SaveAssets();
     }
-    
+
     public static void CreateAvatarConfigAssets()
     {
 

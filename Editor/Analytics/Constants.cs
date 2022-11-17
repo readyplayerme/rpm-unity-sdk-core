@@ -48,6 +48,5 @@
             public const string OPERATING_SYSTEM = "os_name";
             public const string SESSION_ID = "session_id";
         }
-
     }
 }

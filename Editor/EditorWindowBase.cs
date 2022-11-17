@@ -24,7 +24,7 @@ namespace ReadyPlayerMe.Core.Editor
 
         private string editorWindowName;
         private bool windowResized;
-        
+
 #if !DISABLE_AUTO_INSTALLER
         public static readonly string ERROR_IMAGE_PATH = "Packages/com.readyplayerme.core/Editor/error.png";
 #else
@@ -40,7 +40,7 @@ namespace ReadyPlayerMe.Core.Editor
 
             if (HeadingStyle == null)
             {
-                HeadingStyle = new GUIStyle()
+                HeadingStyle = new GUIStyle
                 {
                     fontSize = 14,
                     richText = true,
@@ -55,7 +55,7 @@ namespace ReadyPlayerMe.Core.Editor
 
             if (DescriptionStyle == null)
             {
-                DescriptionStyle = new GUIStyle()
+                DescriptionStyle = new GUIStyle
                 {
                     fontSize = 12,
                     richText = true,
@@ -131,7 +131,7 @@ namespace ReadyPlayerMe.Core.Editor
 
         private void SetWindowSize()
         {
-            float height = GUILayoutUtility.GetLastRect().height;
+            var height = GUILayoutUtility.GetLastRect().height;
             if (!windowResized && height > 1)
             {
                 minSize = maxSize = new Vector2(460, height);

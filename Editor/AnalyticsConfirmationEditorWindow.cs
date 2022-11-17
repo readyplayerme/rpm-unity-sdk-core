@@ -31,6 +31,21 @@ namespace ReadyPlayerMe.Core.Editor
             EntryPoint.Startup += OnStartup;
         }
 
+        private void OnDestroy()
+        {
+            EntryPoint.Startup -= OnStartup;
+            if (EditorPrefs.GetBool(NOT_A_FIRST_RUN)) return;
+            SettingsEditorWindow.ShowWindowMenu();
+            EditorPrefs.SetBool(NOT_A_FIRST_RUN, true);
+        }
+
+        private void OnGUI()
+        {
+            if (!variablesLoaded) LoadCachedVariables();
+            LoadStyles();
+            DrawContent(DrawContent, false);
+        }
+
         private static void OnStartup()
         {
             if (!EditorPrefs.GetBool(METRICS_NEVER_ASK_AGAIN) && !AnalyticsEditorLogger.IsEnabled)
@@ -58,21 +73,6 @@ namespace ReadyPlayerMe.Core.Editor
             window.ShowUtility();
 
             AnalyticsEditorLogger.EventLogger.LogOpenDialog(EDITOR_WINDOW_NAME);
-        }
-
-        private void OnDestroy()
-        {
-            EntryPoint.Startup -= OnStartup;
-            if (EditorPrefs.GetBool(NOT_A_FIRST_RUN)) return;
-            SettingsEditorWindow.ShowWindowMenu();
-            EditorPrefs.SetBool(NOT_A_FIRST_RUN, true);
-        }
-
-        private void OnGUI()
-        {
-            if (!variablesLoaded) LoadCachedVariables();
-            LoadStyles();
-            DrawContent(DrawContent, false);
         }
 
         private void LoadCachedVariables()

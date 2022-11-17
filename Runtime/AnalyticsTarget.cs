@@ -1,5 +1,4 @@
 ﻿using System;
-using UnityEditor;
 using UnityEngine;
 
 namespace ReadyPlayerMe.Core
@@ -16,9 +15,9 @@ namespace ReadyPlayerMe.Core
     public class AnalyticsTarget : ScriptableObject
     {
         public static readonly string LocalAssetPath = "Analytics Target";
-        
+
         public Target Target;
-        
+
         public static AnalyticsTarget GetAsset()
         {
             return Resources.Load<AnalyticsTarget>(LocalAssetPath);

@@ -1,12 +1,14 @@
-﻿namespace ReadyPlayerMe
+﻿using System;
+
+namespace ReadyPlayerMe
 {
-    [System.Serializable]
+    [Serializable]
     public struct ModuleInfo
     {
         public string name;
         public string gitUrl;
         public string branch;
-        
+
         public string Identifier
         {
             get
@@ -16,7 +18,7 @@
                     return name;
                 }
 
-                return gitUrl + (string.IsNullOrEmpty(branch) ? string.Empty : $"#{branch}" );
+                return gitUrl + (string.IsNullOrEmpty(branch) ? string.Empty : $"#{branch}");
             }
         }
     }

@@ -1,5 +1,4 @@
 ﻿using System.Text.RegularExpressions;
-using ReadyPlayerMe.AvatarLoader;
 using UnityEditor;
 using UnityEngine;
 
@@ -26,7 +25,7 @@ namespace ReadyPlayerMe.Core.Editor
             var newText = EditorGUILayout.TextField(text, layoutOptions);
             if (string.IsNullOrEmpty(text))
             {
-                var previousColor = GUI.color;
+                Color previousColor = GUI.color;
                 GUI.color = Color.grey;
                 EditorGUI.LabelField(GUILayoutUtility.GetLastRect(), placeholder);
                 GUI.color = previousColor;
@@ -41,8 +40,8 @@ namespace ReadyPlayerMe.Core.Editor
 
         public static class BackgroundStyle
         {
-            private static GUIStyle style = new GUIStyle();
-            private static Texture2D texture = new Texture2D(1, 1);
+            private static readonly GUIStyle style = new GUIStyle();
+            private static readonly Texture2D texture = new Texture2D(1, 1);
 
             public static GUIStyle Get(Color color)
             {
