@@ -54,7 +54,7 @@ namespace ReadyPlayerMe.Core.Editor
 
         private AvatarConfig avatarConfig;
 
-        private bool subdomainFocused = false;
+        private bool subdomainFocused;
         private string subdomainAfterFocus = string.Empty;
         private const string SUBDOMAIN_FIELD_CONTROL_NAME = "subdomain";
 
