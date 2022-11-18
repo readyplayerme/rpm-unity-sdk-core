@@ -9,7 +9,7 @@ namespace ReadyPlayerMe
             {
                 name = "com.atteneder.gltfast",
                 gitUrl = "https://github.com/atteneder/glTFast.git",
-                branch = ""
+                branch = "#fbb449b8f5e1c6b1626fc153505da89cca0ddb72"
             },
             new ModuleInfo 
             {
