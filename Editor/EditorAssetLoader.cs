@@ -53,10 +53,10 @@ public static class EditorAssetLoader
         DirectoryUtility.ValidateDirectory($"{Application.dataPath}/{CONFIG_SAVE_FOLDER}");
         foreach (var configName in DefaultConfigNames)
         {
-#if UNITY_EDITOR && DISABLE_AUTO_INSTALLER
+#if DISABLE_AUTO_INSTALLER
             var defaultConfig = AssetDatabase.LoadAssetAtPath<AvatarConfig>($"Assets/Ready Player Me/Core/Configurations/{configName}.asset");
 #else
-            var defaultConfig = Resources.Load<AvatarConfig>($"Packages/com.readyplayerme.core/Configurations/{configName}.asset");
+            var defaultConfig = AssetDatabase.LoadAssetAtPath<AvatarConfig>($"Packages/com.readyplayerme.core/Configurations/{configName}.asset");
 #endif
             var newSettings = ScriptableObject.CreateInstance<AvatarConfig>();
             newSettings.Pose = defaultConfig.Pose;
