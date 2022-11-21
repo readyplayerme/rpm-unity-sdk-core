@@ -1,5 +1,4 @@
 ﻿using System;
-using UnityEditor;
 using UnityEngine;
 
 namespace ReadyPlayerMe.Core
@@ -13,15 +12,22 @@ namespace ReadyPlayerMe.Core
     }
 
     [CreateAssetMenu(fileName = "Analytics Target", menuName = "Scriptable Objects/Ready Player Me/Analytics Target", order = 1)]
-    public class AnalyticsTarget : ScriptableObject
+    public static class AnalyticsTarget
     {
         public static readonly string LocalAssetPath = "Analytics Target";
-        
-        public Target Target;
-        
-        public static AnalyticsTarget GetAsset()
+
+        public static Target GetTarget()
         {
-            return Resources.Load<AnalyticsTarget>(LocalAssetPath);
+            string path = typeof(AnalyticsTarget).Assembly.Location;
+            Debug.Log(typeof(AnalyticsTarget).Assembly.Location);
+            if (path.Contains("com.readyplayerme.core"))
+            {
+                Debug.Log("Inside package");
+                return Target.Production;
+            }
+
+            Debug.Log("In project");
+            return Target.Development;
         }
     }
 }
