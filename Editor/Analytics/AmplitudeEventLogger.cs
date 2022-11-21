@@ -17,14 +17,11 @@ namespace ReadyPlayerMe.Core.Analytics
         private const string NO_INTERNET_CONNECTION = "No internet connection.";
         private bool HasInternetConnection => Application.internetReachability != NetworkReachability.NotReachable;
 
-        private readonly Target target;
-
         private long sessionId;
 
         public AmplitudeEventLogger()
         {
             appData = ApplicationData.GetData();
-            target = AnalyticsTarget.GetTarget();
         }
 
         public void SetSessionId(long id)
@@ -131,7 +128,7 @@ namespace ReadyPlayerMe.Core.Analytics
 
         private string GetAnalyticsTarget()
         {
-            switch (target)
+            switch (AnalyticsTarget.GetTarget())
             {
                 case Target.Development:
                     return DEVELOPMENT;
