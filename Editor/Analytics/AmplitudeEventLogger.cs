@@ -123,12 +123,18 @@ namespace ReadyPlayerMe.Core.Analytics
 
         #region Analytics Target
 
+        private enum Target
+        {
+            Production,
+            Development
+        }
+
         private const string PRODUCTION = "unity";
         private const string DEVELOPMENT = "unity-dev";
 
         private string GetAnalyticsTarget()
         {
-            switch (AnalyticsTarget.GetTarget())
+            switch (GetTarget())
             {
                 case Target.Development:
                     return DEVELOPMENT;
@@ -137,6 +143,13 @@ namespace ReadyPlayerMe.Core.Analytics
                 default:
                     return string.Empty;
             }
+        }
+
+        private Target GetTarget()
+        {
+            var path = AssetDatabase.FindAssets($"t:Script {nameof(AmplitudeEventLogger)}");
+            var directoryPath = AssetDatabase.GUIDToAssetPath(path[0]);
+            return directoryPath.Contains("com.readyplayerme.core") ? Target.Production : Target.Development;
         }
 
         #endregion
