@@ -55,7 +55,7 @@ public static class PackageUpdater
         {
             await Task.Yield();
         }
-        if (request.isHttpError || request.isNetworkError)
+        if (request.result == UnityWebRequest.Result.ProtocolError || request.result == UnityWebRequest.Result.ConnectionError)
         {
             Debug.Log($"Release Fetch Failed: Error {request.error} ");
             Debug.Log($"Release Fetch Failed: Response {request.downloadHandler.text} ");
@@ -68,11 +68,14 @@ public static class PackageUpdater
 
         var versions = new Version[releases?.Length ?? 0];
 
-        for (var i = 0; i < releases.Length; i++)
+        if (releases != null)
         {
-            versions[i] = new Version(releases[i].Tag);
+            for (var i = 0; i < releases.Length; i++)
+            {
+                versions[i] = new Version(releases[i].Tag);
+            }
         }
-
+        
         Version latestVersion = versions.Max();
 
         if (latestVersion > currentVersion)
