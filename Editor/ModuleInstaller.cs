@@ -25,6 +25,7 @@ namespace ReadyPlayerMe
 
         private static void InstallModules()
         {
+            EditorAssetLoader.CreateSettingsAssets();
             EditorUtility.DisplayProgressBar(PROGRESS_BAR_TITLE, "Installing modules...", 0);
 
             var count = ModuleList.Modules.Length;
@@ -88,7 +89,6 @@ namespace ReadyPlayerMe
             var addRequest = Client.Add(name);
             while (!addRequest.IsCompleted)
                 Thread.Sleep(20);
-            EditorAssetLoader.CreateSettingsAssets();
             if (addRequest.Error != null)
             {
                 Debug.Log("Error: " + addRequest.Error.message);

@@ -17,14 +17,11 @@ namespace ReadyPlayerMe.Core.Analytics
         private const string NO_INTERNET_CONNECTION = "No internet connection.";
         private bool HasInternetConnection => Application.internetReachability != NetworkReachability.NotReachable;
 
-        private readonly AnalyticsTarget target;
-
         private long sessionId;
 
         public AmplitudeEventLogger()
         {
             appData = ApplicationData.GetData();
-            target = AnalyticsTarget.GetAsset();
         }
 
         public void SetSessionId(long id)
@@ -126,17 +123,18 @@ namespace ReadyPlayerMe.Core.Analytics
 
         #region Analytics Target
 
+        private enum Target
+        {
+            Production,
+            Development
+        }
+
         private const string PRODUCTION = "unity";
         private const string DEVELOPMENT = "unity-dev";
 
         private string GetAnalyticsTarget()
         {
-            if (target == null)
-            {
-                return PRODUCTION;
-            }
-
-            switch (target.Target)
+            switch (GetTarget())
             {
                 case Target.Development:
                     return DEVELOPMENT;
@@ -145,6 +143,13 @@ namespace ReadyPlayerMe.Core.Analytics
                 default:
                     return string.Empty;
             }
+        }
+
+        private Target GetTarget()
+        {
+            var path = AssetDatabase.FindAssets($"t:Script {nameof(AmplitudeEventLogger)}");
+            var directoryPath = AssetDatabase.GUIDToAssetPath(path[0]);
+            return directoryPath.Contains("com.readyplayerme.core") ? Target.Production : Target.Development;
         }
 
         #endregion

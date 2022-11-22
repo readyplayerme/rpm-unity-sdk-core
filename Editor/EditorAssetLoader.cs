@@ -61,6 +61,7 @@ public static class EditorAssetLoader
             var newSettings = ScriptableObject.CreateInstance<AvatarConfig>();
             newSettings.Pose = defaultConfig.Pose;
             newSettings.MeshLod = defaultConfig.MeshLod;
+            newSettings.TextureAtlas = defaultConfig.TextureAtlas;
             newSettings.MorphTargets = defaultConfig.MorphTargets;
             newSettings.UseHands = defaultConfig.UseHands;
             newSettings.TextureSizeLimit = defaultConfig.TextureSizeLimit;
