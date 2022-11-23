@@ -110,7 +110,7 @@ namespace ReadyPlayerMe.Core.Analytics
                         await Task.Yield();
                     }
 
-                    if (request.isHttpError || request.isNetworkError)
+                    if (request.result == UnityWebRequest.Result.ProtocolError || request.result == UnityWebRequest.Result.ConnectionError)
                     {
                         throw new CustomException(FailureType.DownloadError, request.error);
                     }
