@@ -71,7 +71,7 @@ namespace ReadyPlayerMe.Core.Editor
 
         private void Initialize()
         {
-            readyPlayerMeSettings = ReadyPlayerMeSettings.LoadSettings();
+            readyPlayerMeSettings = ReadyPlayerMeSettings.Instance;
             SetEditorWindowName(EDITOR_WINDOW_NAME);
 
             partnerSubdomain = readyPlayerMeSettings.partnerSubdomain ?? "demo";
@@ -307,15 +307,19 @@ namespace ReadyPlayerMe.Core.Editor
             EditorPrefs.SetString(WEB_VIEW_PARTNER_SAVE_KEY, partnerSubdomain);
             if (readyPlayerMeSettings == null)
             {
-                readyPlayerMeSettings = ReadyPlayerMeSettings.LoadSettings();
+                readyPlayerMeSettings = ReadyPlayerMeSettings.Instance;
             }
             var subDomain = readyPlayerMeSettings.partnerSubdomain ;
             if (subDomain != partnerSubdomain)
             {
                 AnalyticsEditorLogger.EventLogger.LogUpdatePartnerURL(subDomain, partnerSubdomain);
             }
+
+            ReadyPlayerMeSettings.Instance.partnerSubdomain = partnerSubdomain;
             
-            readyPlayerMeSettings.SaveSubdomain(partnerSubdomain);
+            EditorUtility.SetDirty(ReadyPlayerMeSettings.Instance);
+            AssetDatabase.SaveAssets();
+            AssetDatabase.Refresh();
         }
 
         private bool IsSubdomainFocusLost()
