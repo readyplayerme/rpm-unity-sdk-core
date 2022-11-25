@@ -49,7 +49,6 @@ public static class EditorAssetLoader
     
     public static void CreateAvatarConfigAssets()
     {
-
         DirectoryUtility.ValidateDirectory($"{Application.dataPath}/{CONFIG_SAVE_FOLDER}");
         foreach (var configName in DefaultConfigNames)
         {
