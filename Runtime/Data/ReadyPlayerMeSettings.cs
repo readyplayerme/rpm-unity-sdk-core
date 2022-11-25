@@ -1,14 +1,10 @@
 ﻿using UnityEngine;
 
-#if UNITY_EDITOR
-using UnityEditor;
-#endif
-
 namespace ReadyPlayerMe.Core
 {
     public class ReadyPlayerMeSettings : ScriptableObject
     {
-        private const string SETTINGS_PATH = "Settings/ReadyPlayerMeSettings";
+        private const string SETTINGS_RESOURCE_PATH = "Settings/ReadyPlayerMeSettings";
         
         public string partnerSubdomain = "demo";
         public AvatarLoaderSettings avatarLoaderSettings;
@@ -20,7 +16,7 @@ namespace ReadyPlayerMe.Core
             {
                 if (instance == null)
                 {
-                    instance = Resources.Load<ReadyPlayerMeSettings>(SETTINGS_PATH);
+                    instance = Resources.Load<ReadyPlayerMeSettings>(SETTINGS_RESOURCE_PATH);
                 }
 
                 return instance;
