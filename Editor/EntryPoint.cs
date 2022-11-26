@@ -25,5 +25,11 @@ namespace ReadyPlayerMe.Core.Editor
             Startup?.Invoke();
             PackageUpdater.GetCurrentRelease();
         }
+
+        [MenuItem("Ready Player Me/Check For Updates")]
+        private static void Test()
+        {
+            Update();
+        }
     }
 }
