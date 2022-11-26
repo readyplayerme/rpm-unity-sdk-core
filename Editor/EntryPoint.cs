@@ -23,13 +23,13 @@ namespace ReadyPlayerMe.Core.Editor
             if (SessionState.GetBool(SESSION_STARTED_KEY, false)) return;
             SessionState.SetBool(SESSION_STARTED_KEY, true);
             Startup?.Invoke();
-            PackageUpdater.GetCurrentRelease();
+            ModuleUpdater.GetCurrentRelease();
         }
 
         [MenuItem("Ready Player Me/Check For Updates")]
         private static void Test()
         {
-            PackageUpdater.GetCurrentRelease();
+            ModuleUpdater.GetCurrentRelease();
         }
     }
 }
