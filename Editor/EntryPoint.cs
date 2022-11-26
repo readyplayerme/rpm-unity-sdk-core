@@ -29,7 +29,7 @@ namespace ReadyPlayerMe.Core.Editor
         [MenuItem("Ready Player Me/Check For Updates")]
         private static void Test()
         {
-            Update();
+            PackageUpdater.GetCurrentRelease();
         }
     }
 }

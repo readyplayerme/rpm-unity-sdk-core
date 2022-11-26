@@ -13,37 +13,30 @@ using PackageInfo = UnityEditor.PackageManager.PackageInfo;
 public static class PackageUpdater
 {
     private const string PACKAGE_DOMAIN = "com.readyplayerme";
+    private const string PACKAGE_JSON = "package.json";
 
     private const string GITHUB_WEBSITE = "https://github.com";
     private const string GITHUB_API_URL = "https://api.github.com/repos";
 
     public static void GetCurrentRelease()
     {
-        List<PackageInfo> packages = AssetDatabase.FindAssets("package") // Get all packages files
-            .Select(AssetDatabase.GUIDToAssetPath) // Get path
-            .Where(x => x.Contains("package.json") && x.Contains(PACKAGE_DOMAIN)) // Get package.json and com.ryuuk packages
-            .Select(PackageInfo.FindForAssetPath).ToList();
+        List<PackageInfo> packages = AssetDatabase.FindAssets("package")
+                                                  .Select(AssetDatabase.GUIDToAssetPath)
+                                                  .Where(x => x.Contains(PACKAGE_JSON) && x.Contains(PACKAGE_DOMAIN))
+                                                  .Select(PackageInfo.FindForAssetPath)
+                                                  .ToList();
 
         if (packages.Count == 0)
         {
-            Debug.Log($"No {PACKAGE_DOMAIN} packages found.");
-            return;
+            Debug.LogWarning($"No {PACKAGE_DOMAIN} packages found.");
+            // return;
         }
 
         PackageInfo package = packages[0];
 
-        // Get url of repository
-        var repoUrl = package.packageId.Substring(package.name.Length + 1);
-        // Remove .git from the url and /releases
-        var pFrom = repoUrl.IndexOf(GITHUB_WEBSITE, StringComparison.Ordinal) + GITHUB_WEBSITE.Length;
-        var pTo = repoUrl.LastIndexOf(".git", StringComparison.Ordinal);
-        var repoName = repoUrl.Substring(pFrom, pTo - pFrom);
-
-        // Create releases url by adding repoName to api.github url
-        var releasesUrl = GITHUB_API_URL + repoName + "/releases";
-
-        // remove #version from url
-        var packageUrl = repoUrl.Substring(0, repoUrl.Length - 7);
+        var repoUrl = package.packageId.Split('@')[1];
+        var releasesUrl = repoUrl.Replace(GITHUB_WEBSITE, GITHUB_API_URL).Split(new []{ ".git#" }, StringSplitOptions.None)[0]+ "/releases";
+        var packageUrl = repoUrl.Split('#')[0];
         FetchReleases(package.name, packageUrl, releasesUrl, new Version(package.version));
     }
 

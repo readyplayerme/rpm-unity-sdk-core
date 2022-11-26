@@ -64,9 +64,11 @@ namespace ReadyPlayerMe
 
         private static bool HasAnyMissingModule()
         {
-            var packages = GetPackageList();
-            var modules = ModuleList.Modules;
-            return modules.Select(module => packages.All(info => info.name != module.name)).FirstOrDefault();
+            var packageNames = GetPackageList().Select(p => p.name);
+            var moduleNames = ModuleList.Modules.Select(m => m.name);
+            
+            // retusns true if any package name is missing in packages list
+            return moduleNames.Except(packageNames).Count() > 0;
         }
 
         private static PackageCollection GetPackageList()
