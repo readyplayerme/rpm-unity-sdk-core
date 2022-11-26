@@ -28,16 +28,16 @@ public static class PackageUpdater
 
         if (packages.Count == 0)
         {
-            Debug.LogWarning($"No {PACKAGE_DOMAIN} packages found.");
-            // return;
+            Debug.LogWarning($"No Ready Player Me packages found.");
         }
 
-        PackageInfo package = packages[0];
-
-        var repoUrl = package.packageId.Split('@')[1];
-        var releasesUrl = repoUrl.Replace(GITHUB_WEBSITE, GITHUB_API_URL).Split(new []{ ".git#" }, StringSplitOptions.None)[0]+ "/releases";
-        var packageUrl = repoUrl.Split('#')[0];
-        FetchReleases(package.name, packageUrl, releasesUrl, new Version(package.version));
+        foreach (var package in packages)
+        {
+            var repoUrl = package.packageId.Split('@')[1];
+            var releasesUrl = repoUrl.Replace(GITHUB_WEBSITE, GITHUB_API_URL).Split(new []{ ".git#" }, StringSplitOptions.None)[0]+ "/releases";
+            var packageUrl = repoUrl.Split('#')[0];
+            FetchReleases(package.name, packageUrl, releasesUrl, new Version(package.version));
+        }
     }
 
     private static async void FetchReleases(string packageName, string packageUrl, string releasesUrl, Version currentVersion)
