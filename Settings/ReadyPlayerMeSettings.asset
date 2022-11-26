@@ -12,6 +12,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 15d14b7ac4eee8c4492f5f0a34572c9f, type: 3}
   m_Name: ReadyPlayerMeSettings
   m_EditorClassIdentifier: 
-  partnerSubdomain: dev-sdk
+  partnerSubdomain: demo
   avatarLoaderSettings: {fileID: 11400000, guid: de84cec7367dec641a6ce55341b6ccbd,
     type: 2}
