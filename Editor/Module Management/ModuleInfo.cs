@@ -1,6 +1,8 @@
-﻿namespace ReadyPlayerMe
+﻿using System;
+
+namespace ReadyPlayerMe.Core.Editor
 {
-    [System.Serializable]
+    [Serializable]
     public struct ModuleInfo
     {
         public string name;

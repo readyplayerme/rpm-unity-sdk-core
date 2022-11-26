@@ -8,7 +8,7 @@ using UnityEditor.PackageManager;
 
 #if !DISABLE_AUTO_INSTALLER
 
-namespace ReadyPlayerMe
+namespace ReadyPlayerMe.Core.Editor
 {
     [InitializeOnLoad]
     public class ModuleInstaller : AssetPostprocessor

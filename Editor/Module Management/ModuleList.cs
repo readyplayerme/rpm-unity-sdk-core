@@ -1,4 +1,4 @@
-﻿namespace ReadyPlayerMe.Core
+﻿namespace ReadyPlayerMe.Core.Editor
 {
     public static class ModuleList
     {
