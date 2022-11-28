@@ -7,7 +7,7 @@ using System.Threading;
 using ReadyPlayerMe.Core;
 using UnityEditor.PackageManager;
 
-#if DISABLE_AUTO_INSTALLER
+#if !DISABLE_AUTO_INSTALLER
 
 namespace ReadyPlayerMe
 {
