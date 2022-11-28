@@ -28,7 +28,6 @@ namespace ReadyPlayerMe
 
         private static void InstallModules()
         {
-            EditorAssetLoader.CreateSettingsAssets();
             EditorUtility.DisplayProgressBar(PROGRESS_BAR_TITLE, "Installing modules...", 0);
 
             var count = ModuleList.Modules.Length;
@@ -48,7 +47,7 @@ namespace ReadyPlayerMe
                     EditorUtility.DisplayProgressBar(PROGRESS_BAR_TITLE, $"All modules are loaded.", 1);
                 }
             }
-
+            EditorAssetLoader.CreateSettingsAssets();
             Thread.Sleep(200);
             EditorUtility.ClearProgressBar();
             EditorApplication.update -= InstallModules;
