@@ -1,3 +1,4 @@
+using System;
 using System.IO;
 using System.Linq;
 using UnityEditor;
@@ -6,7 +7,7 @@ using System.Threading;
 using ReadyPlayerMe.Core;
 using UnityEditor.PackageManager;
 
-#if !DISABLE_AUTO_INSTALLER
+#if DISABLE_AUTO_INSTALLER
 
 namespace ReadyPlayerMe
 {
@@ -14,7 +15,9 @@ namespace ReadyPlayerMe
     public class ModuleInstaller : AssetPostprocessor
     {
         private const string PROGRESS_BAR_TITLE = "Ready Player Me";
-        
+
+        public static Action ModuleInstallComplete;
+
         static ModuleInstaller()
         {
             if (HasAnyMissingModule())
@@ -49,6 +52,7 @@ namespace ReadyPlayerMe
             Thread.Sleep(200);
             EditorUtility.ClearProgressBar();
             EditorApplication.update -= InstallModules;
+            ModuleInstallComplete?.Invoke();
         }
 
         private static void OnPostprocessAllAssets(string[] importedAssets, string[] deletedAssets, string[] movedAssets, string[] movedFromAssetPaths)
