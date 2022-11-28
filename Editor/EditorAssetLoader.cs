@@ -19,6 +19,7 @@ namespace ReadyPlayerMe.Core.Editor
         public static void CreateSettingsAssets()
         {
             DirectoryUtility.ValidateDirectory($"{Application.dataPath}/{SETTINGS_SAVE_FOLDER}");
+            AssetDatabase.Refresh();
             CreateAvatarConfigAssets();
             CreateAvatarLoaderSettings();
             CreateReadyPlayerMeSettings();
