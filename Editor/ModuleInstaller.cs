@@ -6,7 +6,7 @@ using UnityEngine;
 using System.Threading;
 using UnityEditor.PackageManager;
 
-#if !DISABLE_AUTO_INSTALLER
+#if DISABLE_AUTO_INSTALLER
 
 namespace ReadyPlayerMe.Core.Editor
 {
@@ -27,6 +27,7 @@ namespace ReadyPlayerMe.Core.Editor
 
         private static void InstallModules()
         {
+            EditorApplication.update -= InstallModules; //ensure it only runs once
             Debug.Log("ModuleInstaller INIT");
             EditorUtility.DisplayProgressBar(PROGRESS_BAR_TITLE, "Installing modules...", 0);
 
@@ -50,7 +51,6 @@ namespace ReadyPlayerMe.Core.Editor
             EditorAssetLoader.CreateSettingsAssets();
             Thread.Sleep(200);
             EditorUtility.ClearProgressBar();
-            EditorApplication.update -= InstallModules;
             ModuleInstallComplete?.Invoke();
             Debug.Log("ModuleInstaller END");
         }
