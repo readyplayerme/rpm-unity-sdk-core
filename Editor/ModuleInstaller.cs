@@ -28,6 +28,7 @@ namespace ReadyPlayerMe
 
         private static void InstallModules()
         {
+            Debug.Log("ModuleInstaller INIT");
             EditorUtility.DisplayProgressBar(PROGRESS_BAR_TITLE, "Installing modules...", 0);
 
             var count = ModuleList.Modules.Length;
@@ -52,6 +53,7 @@ namespace ReadyPlayerMe
             EditorUtility.ClearProgressBar();
             EditorApplication.update -= InstallModules;
             ModuleInstallComplete?.Invoke();
+            Debug.Log("ModuleInstaller END");
         }
 
         private static void OnPostprocessAllAssets(string[] importedAssets, string[] deletedAssets, string[] movedAssets, string[] movedFromAssetPaths)
