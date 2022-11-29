@@ -60,17 +60,6 @@ namespace ReadyPlayerMe.Core.Editor
             Debug.Log("ModuleInstaller END");
         }
 
-        private static void OnPostprocessAllAssets(string[] importedAssets, string[] deletedAssets, string[] movedAssets, string[] movedFromAssetPaths)
-        {
-            if (importedAssets.Any(path => path.StartsWith("Packages")))
-            {
-                if (HasAnyMissingModule())
-                {
-                    InstallModules();
-                }
-            }
-        }
-
         private static bool HasAnyMissingModule()
         {
             var packages = GetPackageList();
