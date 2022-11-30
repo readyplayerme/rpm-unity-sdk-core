@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using UnityEngine;
 
 namespace ReadyPlayerMe.Core
@@ -13,6 +14,7 @@ namespace ReadyPlayerMe.Core
         [Range(256, 1024)]
         public int TextureSizeLimit = 1024;
         public bool UseHands;
+        public bool UseDracoCompression;
         [HideInInspector]
         public List<string> MorphTargets = new List<string>();
     }

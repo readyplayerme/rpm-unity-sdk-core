@@ -6,7 +6,6 @@ using UnityEngine;
 using System.Threading;
 using UnityEditor.PackageManager;
 
-#if !DISABLE_AUTO_INSTALLER
 
 namespace ReadyPlayerMe.Core.Editor
 {
@@ -17,6 +16,7 @@ namespace ReadyPlayerMe.Core.Editor
 
         public static Action ModuleInstallComplete;
 
+#if !DISABLE_AUTO_INSTALLER
         static ModuleInstaller()
         {
             var listRequest = Client.List(true);
@@ -27,6 +27,25 @@ namespace ReadyPlayerMe.Core.Editor
                 EditorApplication.update += InstallModules;
             }
         }
+#endif
+        public static bool IsModuleInstalled(ModuleInfo module)
+        {
+            return GetPackageList().All(x => x.name == module.name);
+        }
+
+        public static void AddModule(ModuleInfo module)
+        {
+            var packages = GetPackageList();
+
+            if (packages.All(info => info.name != module.name))
+            {
+                AddPackage(module.Identifier);
+            }
+            else
+            {
+                EditorUtility.DisplayProgressBar(PROGRESS_BAR_TITLE, $"Module {module.name} installed.", 1);
+            }
+        }
 
         private static void InstallModules()
         {
@@ -34,21 +53,11 @@ namespace ReadyPlayerMe.Core.Editor
             EditorUtility.DisplayProgressBar(PROGRESS_BAR_TITLE, "Installing modules...", 0);
 
             var count = ModuleList.Modules.Length;
-            for(var i = 0; i < count; i++)
+            for (var i = 0; i < count; i++)
             {
-                var packages = GetPackageList();
-                
                 var module = ModuleList.Modules[i];
-                
-                if (packages.All(info => info.name != module.name))
-                {
-                    EditorUtility.DisplayProgressBar(PROGRESS_BAR_TITLE, $"Installing module {module.name}", i * count * 0.1f + 0.1f);
-                    AddModule(module.Identifier);
-                }
-                else
-                {
-                    EditorUtility.DisplayProgressBar(PROGRESS_BAR_TITLE, $"All modules are loaded.", 1);
-                }
+                EditorUtility.DisplayProgressBar(PROGRESS_BAR_TITLE, $"Installing module {module.name}", i * count * 0.1f + 0.1f);
+                AddModule(module);
             }
             EditorAssetLoader.CreateSettingsAssets();
             var listRequest = Client.List(true);
@@ -70,17 +79,17 @@ namespace ReadyPlayerMe.Core.Editor
             var listRequest = Client.List(true);
             while (!listRequest.IsCompleted)
                 Thread.Sleep(20);
- 
+
             if (listRequest.Error != null)
             {
                 Debug.Log("Error: " + listRequest.Error.message);
                 return null;
             }
-            
+
             return listRequest.Result;
         }
 
-        private static void AddModule(string name)
+        private static void AddPackage(string name)
         {
             var addRequest = Client.Add(name);
             while (!addRequest.IsCompleted)
@@ -92,4 +101,3 @@ namespace ReadyPlayerMe.Core.Editor
         }
     }
 }
-#endif
