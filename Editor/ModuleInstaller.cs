@@ -1,14 +1,12 @@
-using System.IO;
 using System.Linq;
 using UnityEditor;
 using UnityEngine;
 using System.Threading;
-using ReadyPlayerMe.Core;
 using UnityEditor.PackageManager;
 
-#if !DISABLE_AUTO_INSTALLER
+#if DISABLE_AUTO_INSTALLER
 
-namespace ReadyPlayerMe
+namespace ReadyPlayerMe.Core
 {
     [InitializeOnLoad]
     public class ModuleInstaller : AssetPostprocessor
@@ -50,6 +48,7 @@ namespace ReadyPlayerMe
             EditorUtility.ClearProgressBar();
             EditorApplication.update -= InstallModules;
         }
+
 
         private static void OnPostprocessAllAssets(string[] importedAssets, string[] deletedAssets, string[] movedAssets, string[] movedFromAssetPaths)
         {

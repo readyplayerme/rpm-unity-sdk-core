@@ -1,4 +1,4 @@
-﻿namespace ReadyPlayerMe
+﻿namespace ReadyPlayerMe.Core
 {
     [System.Serializable]
     public struct ModuleInfo
