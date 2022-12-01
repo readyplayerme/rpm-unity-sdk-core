@@ -35,7 +35,6 @@ namespace ReadyPlayerMe.Core.Editor
 
         private static void AddRpmDefineSymbol()
         {
-            Debug.Log("Add debug symbol");
             BuildTargetGroup target = EditorUserBuildSettings.selectedBuildTargetGroup;
             var defineString = PlayerSettings.GetScriptingDefineSymbolsForGroup(target);
             var symbols = new HashSet<string>(defineString.Split(';')) { RPM_SYMBOL };
