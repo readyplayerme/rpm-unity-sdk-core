@@ -31,7 +31,6 @@ namespace ReadyPlayerMe.Core.Editor
         private static void InstallModules()
         {
             EditorApplication.update -= InstallModules; //ensure it only runs once
-            Debug.Log("ModuleInstaller INIT");
             EditorUtility.DisplayProgressBar(PROGRESS_BAR_TITLE, "Installing modules...", 0);
 
             var count = ModuleList.Modules.Length;
@@ -57,7 +56,6 @@ namespace ReadyPlayerMe.Core.Editor
                 Thread.Sleep(100);
             EditorUtility.ClearProgressBar();
             ModuleInstallComplete?.Invoke();
-            Debug.Log("ModuleInstaller END");
         }
 
         private static bool HasAnyMissingModule()
