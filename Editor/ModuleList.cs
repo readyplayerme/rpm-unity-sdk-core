@@ -1,5 +1,5 @@
 ﻿
-namespace ReadyPlayerMe
+namespace ReadyPlayerMe.Core
 {
     public static class ModuleList
     {
