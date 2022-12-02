@@ -48,8 +48,7 @@ namespace ReadyPlayerMe.Core.Editor
             var packageUrl = repoUrl.Substring(0, repoUrl.Length - 7);
             FetchReleases(package.name, packageUrl, releasesUrl, new Version(package.version));
         }
-
-        private static async void FetchReleases(string packageName, string packageUrl, string releasesUrl, Version currentVersion)
+        if (request.result == UnityWebRequest.Result.ProtocolError || request.result == UnityWebRequest.Result.ConnectionError)
         {
             UnityWebRequest request = UnityWebRequest.Get(releasesUrl);
             UnityWebRequestAsyncOperation async = request.SendWebRequest();
@@ -70,12 +69,15 @@ namespace ReadyPlayerMe.Core.Editor
 
             var versions = new Version[releases?.Length ?? 0];
 
+        if (releases != null)
+        {
             for (var i = 0; i < releases.Length; i++)
             {
                 versions[i] = new Version(releases[i].Tag);
             }
-
-            Version latestVersion = versions.Max();
+        }
+        
+        Version latestVersion = versions.Max();
 
             if (latestVersion > currentVersion)
             {
