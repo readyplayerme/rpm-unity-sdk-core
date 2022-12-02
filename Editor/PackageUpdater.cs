@@ -10,64 +10,63 @@ using UnityEngine;
 using UnityEngine.Networking;
 using PackageInfo = UnityEditor.PackageManager.PackageInfo;
 
-namespace ReadyPlayerMe.Core.Editor
+public static class PackageUpdater
 {
-    public static class PackageUpdater
+    private const string PACKAGE_DOMAIN = "com.readyplayerme";
+
+    private const string GITHUB_WEBSITE = "https://github.com";
+    private const string GITHUB_API_URL = "https://api.github.com/repos";
+
+    public static void GetCurrentRelease()
     {
-        private const string PACKAGE_DOMAIN = "com.readyplayerme";
+        List<PackageInfo> packages = AssetDatabase.FindAssets("package") // Get all packages files
+            .Select(AssetDatabase.GUIDToAssetPath) // Get path
+            .Where(x => x.Contains("package.json") && x.Contains(PACKAGE_DOMAIN)) // Get package.json and com.ryuuk packages
+            .Select(PackageInfo.FindForAssetPath).ToList();
 
-        private const string GITHUB_WEBSITE = "https://github.com";
-        private const string GITHUB_API_URL = "https://api.github.com/repos";
-
-        public static void GetCurrentRelease()
+        if (packages.Count == 0)
         {
-            List<PackageInfo> packages = AssetDatabase.FindAssets("package") // Get all packages files
-                .Select(AssetDatabase.GUIDToAssetPath) // Get path
-                .Where(x => x.Contains("package.json") && x.Contains(PACKAGE_DOMAIN)) // Get package.json and com.ryuuk packages
-                .Select(PackageInfo.FindForAssetPath).ToList();
+            Debug.Log($"No {PACKAGE_DOMAIN} packages found.");
+            return;
+        }
 
-            if (packages.Count == 0)
-            {
-                Debug.Log($"No {PACKAGE_DOMAIN} packages found.");
-                return;
-            }
+        PackageInfo package = packages[0];
 
-            PackageInfo package = packages[0];
+        // Get url of repository
+        var repoUrl = package.packageId.Substring(package.name.Length + 1);
+        // Remove .git from the url and /releases
+        var pFrom = repoUrl.IndexOf(GITHUB_WEBSITE, StringComparison.Ordinal) + GITHUB_WEBSITE.Length;
+        var pTo = repoUrl.LastIndexOf(".git", StringComparison.Ordinal);
+        var repoName = repoUrl.Substring(pFrom, pTo - pFrom);
 
-            // Get url of repository
-            var repoUrl = package.packageId.Substring(package.name.Length + 1);
-            // Remove .git from the url and /releases
-            var pFrom = repoUrl.IndexOf(GITHUB_WEBSITE, StringComparison.Ordinal) + GITHUB_WEBSITE.Length;
-            var pTo = repoUrl.LastIndexOf(".git", StringComparison.Ordinal);
-            var repoName = repoUrl.Substring(pFrom, pTo - pFrom);
+        // Create releases url by adding repoName to api.github url
+        var releasesUrl = GITHUB_API_URL + repoName + "/releases";
 
-            // Create releases url by adding repoName to api.github url
-            var releasesUrl = GITHUB_API_URL + repoName + "/releases";
+        // remove #version from url
+        var packageUrl = repoUrl.Substring(0, repoUrl.Length - 7);
+        FetchReleases(package.name, packageUrl, releasesUrl, new Version(package.version));
+    }
 
-            // remove #version from url
-            var packageUrl = repoUrl.Substring(0, repoUrl.Length - 7);
-            FetchReleases(package.name, packageUrl, releasesUrl, new Version(package.version));
+    private static async void FetchReleases(string packageName, string packageUrl, string releasesUrl, Version currentVersion)
+    {
+        UnityWebRequest request = UnityWebRequest.Get(releasesUrl);
+        UnityWebRequestAsyncOperation async = request.SendWebRequest();
+        while (!async.isDone)
+        {
+            await Task.Yield();
         }
         if (request.result == UnityWebRequest.Result.ProtocolError || request.result == UnityWebRequest.Result.ConnectionError)
         {
-            UnityWebRequest request = UnityWebRequest.Get(releasesUrl);
-            UnityWebRequestAsyncOperation async = request.SendWebRequest();
-            while (!async.isDone)
-            {
-                await Task.Yield();
-            }
-            if (request.isHttpError || request.isNetworkError)
-            {
-                Debug.Log($"Release Fetch Failed: Error {request.error} ");
-                Debug.Log($"Release Fetch Failed: Response {request.downloadHandler.text} ");
-                return;
-            }
+            Debug.Log($"Release Fetch Failed: Error {request.error} ");
+            Debug.Log($"Release Fetch Failed: Response {request.downloadHandler.text} ");
+            return;
+        }
 
-            var response = request.downloadHandler.text;
+        var response = request.downloadHandler.text;
 
-            Release[] releases = JsonConvert.DeserializeObject<Release[]>(response);
+        Release[] releases = JsonConvert.DeserializeObject<Release[]>(response);
 
-            var versions = new Version[releases?.Length ?? 0];
+        var versions = new Version[releases?.Length ?? 0];
 
         if (releases != null)
         {
@@ -79,64 +78,63 @@ namespace ReadyPlayerMe.Core.Editor
         
         Version latestVersion = versions.Max();
 
-            if (latestVersion > currentVersion)
-            {
-                PromptForUpdate(packageName, currentVersion, latestVersion, packageUrl);
-            }
-        }
-
-        private static void PromptForUpdate(string packageName, Version currentVersion, Version latestVersion, string packageUrl)
+        if (latestVersion > currentVersion)
         {
-            packageUrl += "#v" + latestVersion;
-            var option = EditorUtility.DisplayDialogComplex("Update Packages",
-                $"New update available for {packageName}\nCurrent version: {currentVersion}\nLatest version: {latestVersion}",
-                "Update",
-                "Cancel",
-                "Don't update");
-
-            switch (option)
-            {
-                // Update.
-                case 0:
-                    Update(packageName, packageUrl, currentVersion, latestVersion);
-                    break;
-                // Cancel.
-                case 1:
-                // Don't Update
-                case 2:
-                    break;
-                default:
-                    Debug.LogError("Unrecognized option.");
-                    break;
-            }
+            PromptForUpdate(packageName, currentVersion, latestVersion, packageUrl);
         }
+    }
 
-        private static async void Update(string packageName, string packageUrl, Version currentVersion, Version latestVersion)
+    private static void PromptForUpdate(string packageName, Version currentVersion, Version latestVersion, string packageUrl)
+    {
+        packageUrl += "#v" + latestVersion;
+        var option = EditorUtility.DisplayDialogComplex("Update Packages",
+            $"New update available for {packageName}\nCurrent version: {currentVersion}\nLatest version: {latestVersion}",
+            "Update",
+            "Cancel",
+            "Don't update");
+
+        switch (option)
         {
-            RemoveRequest removeRequest = Client.Remove(packageName);
-            while (!removeRequest.IsCompleted)
-            {
-                await Task.Yield();
-            }
+            // Update.
+            case 0:
+                Update(packageName, packageUrl, currentVersion, latestVersion);
+                break;
+            // Cancel.
+            case 1:
+            // Don't Update
+            case 2:
+                break;
+            default:
+                Debug.LogError("Unrecognized option.");
+                break;
+        }
+    }
 
+    private static async void Update(string packageName, string packageUrl, Version currentVersion, Version latestVersion)
+    {
+        RemoveRequest removeRequest = Client.Remove(packageName);
+        while (!removeRequest.IsCompleted)
+        {
             await Task.Yield();
-
-            Debug.Log("[Updater] " + packageUrl);
-
-            AddRequest addRequest = Client.Add(packageUrl);
-            while (!addRequest.IsCompleted)
-            {
-                await Task.Yield();
-            }
-
-            Debug.Log($"Updated {packageName} from {currentVersion} to {latestVersion}");
-            EditorPrefs.SetBool("inProgress", false);
         }
 
-        public class Release
+        await Task.Yield();
+
+        Debug.Log("[Updater] " + packageUrl);
+
+        AddRequest addRequest = Client.Add(packageUrl);
+        while (!addRequest.IsCompleted)
         {
-            [JsonProperty("tag_name")]
-            public string Tag;
+            await Task.Yield();
         }
+
+        Debug.Log($"Updated {packageName} from {currentVersion} to {latestVersion}");
+        EditorPrefs.SetBool("inProgress", false);
+    }
+
+    public class Release
+    {
+        [JsonProperty("tag_name")]
+        public string Tag;
     }
 }
