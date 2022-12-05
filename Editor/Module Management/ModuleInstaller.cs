@@ -1,32 +1,30 @@
 using System;
-using System.IO;
 using System.Linq;
 using UnityEditor;
 using UnityEngine;
 using System.Threading;
 using UnityEditor.PackageManager;
 
-#if !DISABLE_AUTO_INSTALLER
-
 namespace ReadyPlayerMe.Core.Editor
 {
-    [InitializeOnLoad]
     public class ModuleInstaller 
     {
         private const string PROGRESS_BAR_TITLE = "Ready Player Me";
 
         public static Action ModuleInstallComplete;
 
+#if !DISABLE_AUTO_INSTALLER
         static ModuleInstaller()
         {
             var listRequest = Client.List(true);
             while (!listRequest.IsCompleted)
-                Thread.Sleep(100);
+                Thread.Sleep(20);
             if (HasAnyMissingModule())
             {
                 EditorApplication.update += InstallModules;
             }
         }
+#endif
 
         private static void InstallModules()
         {
@@ -63,8 +61,8 @@ namespace ReadyPlayerMe.Core.Editor
             var packageNames = GetPackageList().Select(p => p.name);
             var moduleNames = ModuleList.Modules.Select(m => m.name);
             
-            // retusns true if any package name is missing in packages list
-            return moduleNames.Except(packageNames).Count() > 0;
+            // returns true if any package name is missing in packages list
+            return moduleNames.Except(packageNames).Any();
         }
 
         private static PackageCollection GetPackageList()
@@ -94,4 +92,3 @@ namespace ReadyPlayerMe.Core.Editor
         }
     }
 }
-#endif

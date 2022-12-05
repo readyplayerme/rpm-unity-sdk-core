@@ -23,5 +23,12 @@
                 branch = "feature/webview-updates"
             }
         };
+        
+        public static readonly ModuleInfo DracoCompressionModule = new ModuleInfo
+        {
+            name = "com.atteneder.draco",
+            gitUrl = "https://github.com/atteneder/DracoUnity.git",
+            branch = ""
+        };
     }
 }
