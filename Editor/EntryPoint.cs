@@ -1,8 +1,9 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
 using UnityEditor;
 using UnityEngine;
+using UnityEditor.PackageManager;
+using System.Collections.Generic;
 
 namespace ReadyPlayerMe.Core.Editor
 {
@@ -19,12 +20,17 @@ namespace ReadyPlayerMe.Core.Editor
         static EntryPoint()
         {
             EditorApplication.update += Update;
+            Events.registeredPackages += args =>
+            {
+                Debug.Log(args.removed.First().name);
+            };
         }
 
         private static void Update()
         {
             if (SessionState.GetBool(SESSION_STARTED_KEY, false)) return;
             SessionState.SetBool(SESSION_STARTED_KEY, true);
+            
             AddRpmDefineSymbol();
             Startup?.Invoke();
             ModuleUpdater.GetCurrentRelease();
@@ -39,8 +45,7 @@ namespace ReadyPlayerMe.Core.Editor
         {
             ModuleUpdater.GetCurrentRelease();
         }
-        
-                
+
         private const string RPM_SYMBOL = "READY_PLAYER_ME";
 
         private static void AddRpmDefineSymbol()
@@ -51,6 +56,5 @@ namespace ReadyPlayerMe.Core.Editor
             var newDefineString = string.Join(";", symbols.ToArray());
             PlayerSettings.SetScriptingDefineSymbolsForGroup(target, newDefineString);
         }
-
     }
 }
