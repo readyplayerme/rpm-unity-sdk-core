@@ -92,7 +92,7 @@ namespace ReadyPlayerMe.Core.Editor
             }
         }
 
-        private static async void Update(string name, string url, Version current, Version latest)
+        private static void Update(string name, string url, Version current, Version latest)
         {
             RemoveRequest removeRequest = Client.Remove(name);
             while (!removeRequest.IsCompleted) Thread.Sleep(20);
