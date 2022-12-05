@@ -1,5 +1,5 @@
-﻿using System;
-using ReadyPlayerMe.Core;
+﻿using ReadyPlayerMe.Core;
+using ReadyPlayerMe.Core.Editor;
 using UnityEditor;
 using UnityEngine;
 
