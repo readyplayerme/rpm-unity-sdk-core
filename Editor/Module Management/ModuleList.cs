@@ -20,7 +20,7 @@
             {
                 name = "com.readyplayerme.webview",
                 gitUrl = "https://github.com/readyplayerme/Unity-WebView.git",
-                branch = "feature/webview-updates"
+                branch = "develop"
             }
         };
         
