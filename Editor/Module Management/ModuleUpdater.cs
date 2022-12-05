@@ -20,7 +20,8 @@ namespace ReadyPlayerMe.Core.Editor
 
         private const string GITHUB_WEBSITE = "https://github.com";
         private const string GITHUB_API_URL = "https://api.github.com/repos";
-
+        
+        [MenuItem("Ready Player Me/Check For Updates")]
         public static void GetCurrentRelease()
         {
             List<PackageInfo> packages = AssetDatabase.FindAssets("package")

@@ -24,7 +24,7 @@
             }
         };
 
-        public static readonly ModuleInfo DracoCompressionModule = new ModuleInfo
+        public static readonly ModuleInfo DracoCompression = new ModuleInfo
         {
             name = "com.atteneder.draco",
             gitUrl = "https://github.com/atteneder/DracoUnity.git",
