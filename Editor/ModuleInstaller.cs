@@ -39,7 +39,7 @@ namespace ReadyPlayerMe.Core.Editor
 
             if (packages.All(info => info.name != module.name))
             {
-                AddPackage(module.Identifier);
+                AddRequestPackage(module.Identifier);
             }
             else
             {
@@ -89,7 +89,7 @@ namespace ReadyPlayerMe.Core.Editor
             return listRequest.Result;
         }
 
-        private static void AddPackage(string name)
+        private static void AddRequestPackage(string name)
         {
             var addRequest = Client.Add(name);
             while (!addRequest.IsCompleted)
