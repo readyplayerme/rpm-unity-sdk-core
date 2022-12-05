@@ -1,10 +1,6 @@
-<<<<<<< HEAD:Editor/Module Management/ModuleInfo.cs
-﻿using System;
+using System;
 
 namespace ReadyPlayerMe.Core.Editor
-=======
-﻿namespace ReadyPlayerMe.Core.Editor
->>>>>>> develop:Editor/ModuleInfo.cs
 {
     [Serializable]
     public struct ModuleInfo
