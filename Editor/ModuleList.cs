@@ -1,5 +1,5 @@
 ﻿
-namespace ReadyPlayerMe.Core
+namespace ReadyPlayerMe.Core.Editor
 {
     public static class ModuleList
     {
@@ -15,7 +15,7 @@ namespace ReadyPlayerMe.Core
             {
                 name = "com.readyplayer.avatarloader",
                 gitUrl = "https://github.com/readyplayerme/Unity-Avatar-Loader.git",
-                branch = ""
+                branch = "feature/shader-variants"
             },
             new ModuleInfo 
             {
