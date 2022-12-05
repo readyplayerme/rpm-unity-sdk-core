@@ -22,7 +22,10 @@ namespace ReadyPlayerMe.Core.Editor
             EditorApplication.update += Update;
             Events.registeredPackages += args =>
             {
-                Debug.Log(args.removed.First().name);
+                foreach (var p in args.added)
+                {
+                    Debug.Log(p.name);
+                }
             };
         }
 
