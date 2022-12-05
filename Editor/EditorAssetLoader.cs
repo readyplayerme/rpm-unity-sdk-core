@@ -31,7 +31,7 @@ namespace ReadyPlayerMe.Core.Editor
             ReadyPlayerMeSettings newSettings = ScriptableObject.CreateInstance<ReadyPlayerMeSettings>();
             newSettings.partnerSubdomain = defaultSettings.partnerSubdomain;
             var loaderSettings = AvatarLoaderSettings.LoadSettings();
-            newSettings.AvatarLoaderSettings = loaderSettings;
+            newSettings.avatarLoaderSettings = loaderSettings;
 
             AssetDatabase.CreateAsset(newSettings, $"Assets/{SETTINGS_SAVE_FOLDER}/{SETTINGS_ASSET_NAME}");
             AssetDatabase.SaveAssets();
