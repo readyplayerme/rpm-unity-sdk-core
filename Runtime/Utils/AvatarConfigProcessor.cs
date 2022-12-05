@@ -15,7 +15,8 @@ namespace ReadyPlayerMe.Core
                    $"&textureAtlas={AvatarConfigMap.TextureAtlas[avatarConfig.TextureAtlas]}" +
                    $"&textureSizeLimit={ProcessTextureSizeLimit(avatarConfig.TextureSizeLimit)}" +
                    $"{ProcessMorphTargets(avatarConfig.MorphTargets)}" +
-                   $"&useHands={(avatarConfig.UseHands ? "true" : "false")}";
+                   $"&useHands={(avatarConfig.UseHands ? "true" : "false")}" +
+                   $"&useDracoMeshCompression={(avatarConfig.UseDracoCompression ? "true" : "false")}";
         }
 
         private static int ProcessTextureSizeLimit(int textureSize)

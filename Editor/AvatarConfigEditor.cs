@@ -1,4 +1,5 @@
 ﻿using ReadyPlayerMe.Core;
+using ReadyPlayerMe.Core.Editor;
 using UnityEditor;
 using UnityEngine;
 
@@ -7,13 +8,33 @@ namespace ReadyPlayerMe.AvatarLoader.Core
     [CustomEditor(typeof(AvatarConfig))]
     public class AvatarConfigEditor : Editor
     {
+        private const string USE_DRACO_COMPRESSION = "UseDracoCompression";
+
         private AvatarConfig avatarConfigTarget;
+        private SerializedProperty userDracoCompressionField;
 
         public override void OnInspectorGUI()
         {
             avatarConfigTarget = (AvatarConfig) target;
+            var previousValue = userDracoCompressionField.boolValue;
+
             DrawDefaultInspector();
             DrawMorphTargets();
+
+            if (previousValue != userDracoCompressionField.boolValue && userDracoCompressionField.boolValue)
+            {
+                if (ModuleInstaller.IsModuleInstalled(ModuleList.DracoCompressionModule)) return;
+                if (EditorUtility.DisplayDialog("Read Player Me", "Do you want to install Draco Compression Unity Package: com.atteneder.draco ?",
+                        "Ok", "Cancel"))
+                {
+                    ModuleInstaller.AddModule(ModuleList.DracoCompressionModule);
+                }
+            }
+        }
+
+        private void OnEnable()
+        {
+            userDracoCompressionField = serializedObject.FindProperty(USE_DRACO_COMPRESSION);
         }
 
         private void DrawMorphTargets()
