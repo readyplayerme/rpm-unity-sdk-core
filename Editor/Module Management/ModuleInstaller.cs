@@ -79,12 +79,13 @@ namespace ReadyPlayerMe.Core.Editor
             }
         }
         
+        [MenuItem("Test/Load")]
         private static ModuleInfo[] GetMissingModuleNames()
         {
             var installed = GetPackageList();
-            var missing = ModuleList.Modules.Except(installed).ToArray();
+            var missing = ModuleList.Modules.Where(m => installed.All(i => m.name != i.name));
             
-            return missing;
+            return missing.ToArray();
         }
         
         public static bool IsModuleInstalled(ModuleInfo module)
@@ -92,7 +93,7 @@ namespace ReadyPlayerMe.Core.Editor
             return GetPackageList().Any(info => info.name == module.name);
         }
         
-        private static ModuleInfo[] GetPackageList()
+        private static PackageCollection GetPackageList()
         {
             var listRequest = Client.List(true);
             while (!listRequest.IsCompleted)
@@ -104,9 +105,7 @@ namespace ReadyPlayerMe.Core.Editor
                 return null;
             }
 
-            var packageCollection = listRequest.Result;
-            
-            return packageCollection.Select(p => (ModuleInfo)p).ToArray();
+            return listRequest.Result;
         }
     }
 }
