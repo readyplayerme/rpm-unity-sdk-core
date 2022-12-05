@@ -24,6 +24,11 @@ namespace ReadyPlayerMe.Core.Editor
             SessionState.SetBool(SESSION_STARTED_KEY, true);
             Startup?.Invoke();
             PackageUpdater.GetCurrentRelease();
+#if !DISABLE_AUTO_INSTALLER
+            ModuleInstaller.Init();
+#endif
+            
+            EditorApplication.update -= Update;
         }
     }
 }
