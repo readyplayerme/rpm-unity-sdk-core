@@ -1,5 +1,8 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Linq;
 using UnityEditor;
+using UnityEngine;
 
 namespace ReadyPlayerMe.Core.Editor
 {
@@ -22,8 +25,22 @@ namespace ReadyPlayerMe.Core.Editor
         {
             if (SessionState.GetBool(SESSION_STARTED_KEY, false)) return;
             SessionState.SetBool(SESSION_STARTED_KEY, true);
+            AddRpmDefineSymbol();
             Startup?.Invoke();
             PackageUpdater.GetCurrentRelease();
         }
+        
+                
+        private const string RPM_SYMBOL = "READY_PLAYER_ME";
+
+        private static void AddRpmDefineSymbol()
+        {
+            BuildTargetGroup target = EditorUserBuildSettings.selectedBuildTargetGroup;
+            var defineString = PlayerSettings.GetScriptingDefineSymbolsForGroup(target);
+            var symbols = new HashSet<string>(defineString.Split(';')) { RPM_SYMBOL };
+            var newDefineString = string.Join(";", symbols.ToArray());
+            PlayerSettings.SetScriptingDefineSymbolsForGroup(target, newDefineString);
+        }
+
     }
 }
