@@ -7,21 +7,21 @@ using UnityEditor.PackageManager;
 
 namespace ReadyPlayerMe.Core.Editor
 {
-    public class ModuleInstaller 
+    public static class ModuleInstaller 
     {
         private const string PROGRESS_BAR_TITLE = "Ready Player Me";
 
         public static Action ModuleInstallComplete;
 
 #if !DISABLE_AUTO_INSTALLER
-        static ModuleInstaller()
+        public static void Init()
         {
             var listRequest = Client.List(true);
             while (!listRequest.IsCompleted)
                 Thread.Sleep(20);
             if (HasAnyMissingModule())
             {
-                EditorApplication.update += InstallModules;
+                InstallModules();
             }
         }
 #endif
