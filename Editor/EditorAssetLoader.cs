@@ -67,6 +67,7 @@ namespace ReadyPlayerMe.Core.Editor
                 newSettings.MorphTargets = defaultConfig.MorphTargets;
                 newSettings.UseHands = defaultConfig.UseHands;
                 newSettings.TextureSizeLimit = defaultConfig.TextureSizeLimit;
+                newSettings.UseDracoCompression = defaultConfig.UseDracoCompression;
                 AssetDatabase.CreateAsset(newSettings, $"Assets/{CONFIG_SAVE_FOLDER}/{configName}.asset");
             }
             AssetDatabase.SaveAssets();
