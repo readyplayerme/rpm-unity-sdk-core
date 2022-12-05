@@ -15,7 +15,7 @@ namespace ReadyPlayerMe.Core.Editor
             {
                 name = "com.readyplayer.avatarloader",
                 gitUrl = "https://github.com/readyplayerme/Unity-Avatar-Loader.git",
-                branch = "feature/shader-variants"
+                branch = ""
             },
             new ModuleInfo 
             {
