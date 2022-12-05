@@ -94,9 +94,14 @@ namespace ReadyPlayerMe.Core.Editor
         {
             var packageNames = GetPackageList().Select(p => p.name);
             var moduleNames = ModuleList.Modules.Select(m => m.name);
+            var hasMissingModule = moduleNames.Except(packageNames).Any();
+            
+            Debug.Log($"Package Names: {packageNames}");
+            Debug.Log($"Package Names: {moduleNames}");
+            Debug.Log($"Any missing?: {hasMissingModule}");
             
             // returns true if any package name is missing in packages list
-            return moduleNames.Except(packageNames).Count() > 0;
+            return hasMissingModule;
         }
         
         public static bool IsModuleInstalled(ModuleInfo module)
