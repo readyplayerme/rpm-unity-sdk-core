@@ -20,13 +20,6 @@ namespace ReadyPlayerMe.Core.Editor
         static EntryPoint()
         {
             EditorApplication.update += Update;
-            Events.registeredPackages += args =>
-            {
-                foreach (var p in args.added)
-                {
-                    Debug.Log(p.name);
-                }
-            };
         }
 
         private static void Update()
@@ -37,9 +30,6 @@ namespace ReadyPlayerMe.Core.Editor
             AddRpmDefineSymbol();
             Startup?.Invoke();
             ModuleUpdater.GetCurrentRelease();
-#if !DISABLE_AUTO_INSTALLER
-            ModuleInstaller.Init();
-#endif
             EditorApplication.update -= Update;
         }
 

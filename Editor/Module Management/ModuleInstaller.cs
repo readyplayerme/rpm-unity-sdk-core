@@ -13,6 +13,26 @@ namespace ReadyPlayerMe.Core.Editor
 
         public static Action ModuleInstallComplete;
 
+        static ModuleInstaller()
+        {
+            Events.registeredPackages += OnPackagesRegistered;
+        }
+
+        private static void OnPackagesRegistered(PackageRegistrationEventArgs args)
+        {
+            // Core Module installed
+            if (args.added != null && args.added.Any(p => p.name == "com.readyplayerme.core"))
+            {
+                Debug.Log("Core installed");
+            }
+            
+            // Core module uninstalled
+            if (args.removed != null && args.removed.Any(p => p.name == "com.readyplayerme.core"))
+            {
+                Debug.Log("Core installed");
+            }
+        }
+
 #if !DISABLE_AUTO_INSTALLER
         public static void Init()
         {
