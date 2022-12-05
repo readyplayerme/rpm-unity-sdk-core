@@ -13,5 +13,5 @@ MonoBehaviour:
   m_Name: ReadyPlayerMeSettings
   m_EditorClassIdentifier: 
   partnerSubdomain: demo
-  AvatarLoaderSettings: {fileID: 11400000, guid: de84cec7367dec641a6ce55341b6ccbd,
+  avatarLoaderSettings: {fileID: 11400000, guid: de84cec7367dec641a6ce55341b6ccbd,
     type: 2}

@@ -5,8 +5,6 @@ using UnityEngine;
 using System.Threading;
 using UnityEditor.PackageManager;
 
-
-
 namespace ReadyPlayerMe.Core.Editor
 {
     public static class ModuleInstaller 
@@ -14,20 +12,23 @@ namespace ReadyPlayerMe.Core.Editor
         private const string PROGRESS_BAR_TITLE = "Ready Player Me";
 
         public static Action ModuleInstallComplete;
-        
+
+#if !DISABLE_AUTO_INSTALLER
         public static void Init()
         {
             var listRequest = Client.List(true);
             while (!listRequest.IsCompleted)
-                Thread.Sleep(100);
+                Thread.Sleep(20);
             if (HasAnyMissingModule())
             {
                 InstallModules();
             }
         }
+#endif
 
         private static void InstallModules()
         {
+            EditorApplication.update -= InstallModules; //ensure it only runs once
             EditorUtility.DisplayProgressBar(PROGRESS_BAR_TITLE, "Installing modules...", 0);
 
             var count = ModuleList.Modules.Length;
@@ -37,16 +38,10 @@ namespace ReadyPlayerMe.Core.Editor
                 
                 var module = ModuleList.Modules[i];
                 
-                if (packages.All(info => info.name != module.name))
-                {
-                    EditorUtility.DisplayProgressBar(PROGRESS_BAR_TITLE, $"Installing module {module.name}", i * count * 0.1f + 0.1f);
-                    AddModule(module.Identifier);
-                }
-                else
-                {
-                    EditorUtility.DisplayProgressBar(PROGRESS_BAR_TITLE, $"All modules are loaded.", 1);
-                }
+                EditorUtility.DisplayProgressBar(PROGRESS_BAR_TITLE, $"Installing module {module.name}", i * count * 0.1f + 0.1f);
+                AddModule(module.Identifier);
             }
+            
             EditorAssetLoader.CreateSettingsAssets();
             var listRequest = Client.List(true);
             while (!listRequest.IsCompleted)
@@ -57,9 +52,16 @@ namespace ReadyPlayerMe.Core.Editor
 
         private static bool HasAnyMissingModule()
         {
-            var packages = GetPackageList();
-            var modules = ModuleList.Modules;
-            return modules.Select(module => packages.All(info => info.name != module.name)).FirstOrDefault();
+            var packageNames = GetPackageList().Select(p => p.name);
+            var moduleNames = ModuleList.Modules.Select(m => m.name);
+            
+            // returns true if any package name is missing in packages list
+            return moduleNames.Except(packageNames).Any();
+        }
+        
+        public static bool IsModuleInstalled(ModuleInfo module)
+        {
+            return GetPackageList().Any(info => info.name == module.name);
         }
 
         private static PackageCollection GetPackageList()
@@ -77,14 +79,24 @@ namespace ReadyPlayerMe.Core.Editor
             return listRequest.Result;
         }
 
-        private static void AddModule(string name)
+        public static void AddModule(string name)
         {
-            var addRequest = Client.Add(name);
-            while (!addRequest.IsCompleted)
-                Thread.Sleep(20);
-            if (addRequest.Error != null)
+            var packages = GetPackageList();
+
+            if (packages.All(info => info.name != name))
             {
-                Debug.Log("Error: " + addRequest.Error.message);
+                var addRequest = Client.Add(name);
+                while (!addRequest.IsCompleted)
+                    Thread.Sleep(20);
+                
+                if (addRequest.Error != null)
+                {
+                    Debug.Log("Error: " + addRequest.Error.message);
+                }
+            }
+            else
+            {
+                EditorUtility.DisplayProgressBar(PROGRESS_BAR_TITLE, $"Module {name} installed.", 1);
             }
         }
     }

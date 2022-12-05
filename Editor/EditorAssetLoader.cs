@@ -31,7 +31,7 @@ namespace ReadyPlayerMe.Core.Editor
             ReadyPlayerMeSettings newSettings = ScriptableObject.CreateInstance<ReadyPlayerMeSettings>();
             newSettings.partnerSubdomain = defaultSettings.partnerSubdomain;
             var loaderSettings = AvatarLoaderSettings.LoadSettings();
-            newSettings.AvatarLoaderSettings = loaderSettings;
+            newSettings.avatarLoaderSettings = loaderSettings;
 
             AssetDatabase.CreateAsset(newSettings, $"Assets/{SETTINGS_SAVE_FOLDER}/{SETTINGS_ASSET_NAME}");
             AssetDatabase.SaveAssets();
@@ -67,6 +67,7 @@ namespace ReadyPlayerMe.Core.Editor
                 newSettings.MorphTargets = defaultConfig.MorphTargets;
                 newSettings.UseHands = defaultConfig.UseHands;
                 newSettings.TextureSizeLimit = defaultConfig.TextureSizeLimit;
+                newSettings.UseDracoCompression = defaultConfig.UseDracoCompression;
                 AssetDatabase.CreateAsset(newSettings, $"Assets/{CONFIG_SAVE_FOLDER}/{configName}.asset");
             }
             AssetDatabase.SaveAssets();

@@ -1,5 +1,4 @@
-﻿
-namespace ReadyPlayerMe.Core.Editor
+﻿namespace ReadyPlayerMe.Core.Editor
 {
     public static class ModuleList
     {
@@ -15,15 +14,21 @@ namespace ReadyPlayerMe.Core.Editor
             {
                 name = "com.readyplayer.avatarloader",
                 gitUrl = "https://github.com/readyplayerme/Unity-Avatar-Loader.git",
-                branch = ""
+                branch = "develop"
             },
             new ModuleInfo 
             {
                 name = "com.readyplayerme.webview",
                 gitUrl = "https://github.com/readyplayerme/Unity-WebView.git",
-                branch = ""
+                branch = "feature/webview-updates"
             }
-
+        };
+        
+        public static readonly ModuleInfo DracoCompressionModule = new ModuleInfo
+        {
+            name = "com.atteneder.draco",
+            gitUrl = "https://github.com/atteneder/DracoUnity.git",
+            branch = ""
         };
     }
 }
