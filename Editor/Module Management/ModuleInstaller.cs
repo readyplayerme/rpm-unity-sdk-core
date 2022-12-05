@@ -7,6 +7,7 @@ using UnityEditor.PackageManager;
 
 namespace ReadyPlayerMe.Core.Editor
 {
+    [InitializeOnLoad]
     public static class ModuleInstaller 
     {
         private const string PROGRESS_BAR_TITLE = "Ready Player Me";
@@ -15,21 +16,25 @@ namespace ReadyPlayerMe.Core.Editor
 
         static ModuleInstaller()
         {
-            Events.registeredPackages += OnPackagesRegistered;
+            Events.registeredPackages += OnRegisteredPackages;
+            Events.registeringPackages += OnRegisteringPackages;
         }
 
-        private static void OnPackagesRegistered(PackageRegistrationEventArgs args)
+        private static void OnRegisteredPackages(PackageRegistrationEventArgs args)
         {
             // Core Module installed
             if (args.added != null && args.added.Any(p => p.name == "com.readyplayerme.core"))
             {
                 Debug.Log("Core installed");
             }
-            
+        }
+        
+        private static void OnRegisteringPackages(PackageRegistrationEventArgs args)
+        {
             // Core module uninstalled
             if (args.removed != null && args.removed.Any(p => p.name == "com.readyplayerme.core"))
             {
-                Debug.Log("Core installed");
+                Debug.Log("Core uninstalled");
             }
         }
 
