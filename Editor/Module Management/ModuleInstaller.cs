@@ -26,10 +26,7 @@ namespace ReadyPlayerMe.Core.Editor
             if (args.added != null && args.added.Any(p => p.name == CORE_MODULE_NAME))
             {
                 Debug.Log("Core installed");
-                if (HasAnyMissingModule())
-                {
-                    InstallModules();
-                }
+                InstallModules();
             }
             
             Events.registeredPackages -= OnRegisteredPackages;
@@ -50,58 +47,44 @@ namespace ReadyPlayerMe.Core.Editor
         
         private static void InstallModules()
         {
-            EditorUtility.DisplayProgressBar(PROGRESS_BAR_TITLE, "Installing modules...", 0);
+            ModuleInfo[] missingModules = GetMissingModuleNames();
 
-            var count = ModuleList.Modules.Length;
-            for(var i = 0; i < count; i++)
+            if (missingModules.Length > 0)
             {
-                var packages = GetPackageList();
+                EditorUtility.DisplayProgressBar(PROGRESS_BAR_TITLE, "Installing modules...", 0);
+                var installedModuleCount = 0;
                 
-                var module = ModuleList.Modules[i];
+                foreach (var module in missingModules)
+                {
+                    var progress = installedModuleCount / missingModules.Length;
+                    EditorUtility.DisplayProgressBar(PROGRESS_BAR_TITLE, $"Installing module {module.name}", progress);
+                    AddModuleRequest(module.Identifier);
+                }
                 
-                EditorUtility.DisplayProgressBar(PROGRESS_BAR_TITLE, $"Installing module {module.name}", i * count * 0.1f + 0.1f);
-                AddModuleRequest(module.Identifier);
+                EditorUtility.ClearProgressBar();
+
+                EditorAssetLoader.CreateSettingsAssets();
             }
-            
-            EditorAssetLoader.CreateSettingsAssets();
-            var listRequest = Client.List(true);
-            while (!listRequest.IsCompleted) Thread.Sleep(THREAD_SLEEP_TIME);
-            EditorUtility.ClearProgressBar();
         }
 
         public static void AddModuleRequest(string name)
         {
-            var packages = GetPackageList();
-
-            if (packages.All(info => info.name != name))
+            var addRequest = Client.Add(name);
+            while (!addRequest.IsCompleted)
+                Thread.Sleep(THREAD_SLEEP_TIME);
+            
+            if (addRequest.Error != null)
             {
-                var addRequest = Client.Add(name);
-                while (!addRequest.IsCompleted)
-                    Thread.Sleep(20);
-                
-                if (addRequest.Error != null)
-                {
-                    Debug.Log("Error: " + addRequest.Error.message);
-                }
-            }
-            else
-            {
-                EditorUtility.DisplayProgressBar(PROGRESS_BAR_TITLE, $"Module {name} installed.", 1);
+                Debug.Log("Error: " + addRequest.Error.message);
             }
         }
         
-        private static bool HasAnyMissingModule()
+        private static ModuleInfo[] GetMissingModuleNames()
         {
-            var packageNames = GetPackageList().Select(p => p.name);
-            var moduleNames = ModuleList.Modules.Select(m => m.name);
-            var hasMissingModule = moduleNames.Except(packageNames).Any();
+            var installed = GetPackageList();
+            var missing = ModuleList.Modules.Except(installed).ToArray();
             
-            Debug.Log($"Package Names: {packageNames}");
-            Debug.Log($"Package Names: {moduleNames}");
-            Debug.Log($"Any missing?: {hasMissingModule}");
-            
-            // returns true if any package name is missing in packages list
-            return hasMissingModule;
+            return missing;
         }
         
         public static bool IsModuleInstalled(ModuleInfo module)
@@ -109,19 +92,21 @@ namespace ReadyPlayerMe.Core.Editor
             return GetPackageList().Any(info => info.name == module.name);
         }
         
-        private static PackageCollection GetPackageList()
+        private static ModuleInfo[] GetPackageList()
         {
             var listRequest = Client.List(true);
             while (!listRequest.IsCompleted)
-                Thread.Sleep(20);
+                Thread.Sleep(THREAD_SLEEP_TIME);
  
             if (listRequest.Error != null)
             {
                 Debug.Log("Error: " + listRequest.Error.message);
                 return null;
             }
+
+            var packageCollection = listRequest.Result;
             
-            return listRequest.Result;
+            return packageCollection.Select(p => (ModuleInfo)p).ToArray();
         }
     }
 }

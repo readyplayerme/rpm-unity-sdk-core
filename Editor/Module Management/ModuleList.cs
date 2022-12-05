@@ -23,7 +23,7 @@
                 branch = "develop"
             }
         };
-        
+
         public static readonly ModuleInfo DracoCompressionModule = new ModuleInfo
         {
             name = "com.atteneder.draco",
