@@ -9,7 +9,7 @@ namespace ReadyPlayerMe.Core.Editor
     [InitializeOnLoad]
     public static class ModuleInstaller
     {
-        private const int THREAD_SLEEP_TIME = 20;
+        private const int THREAD_SLEEP_TIME = 100;
         private const string PROGRESS_BAR_TITLE = "Ready Player Me";
         private const string CORE_MODULE_NAME = "com.readyplayerme.core";
 
@@ -47,24 +47,29 @@ namespace ReadyPlayerMe.Core.Editor
         
         private static void InstallModules()
         {
+            EditorUtility.DisplayProgressBar(PROGRESS_BAR_TITLE, "Installing modules...", 0);
+            Thread.Sleep(THREAD_SLEEP_TIME);
+            
             ModuleInfo[] missingModules = GetMissingModuleNames();
 
             if (missingModules.Length > 0)
             {
-                EditorUtility.DisplayProgressBar(PROGRESS_BAR_TITLE, "Installing modules...", 0);
-                var installedModuleCount = 0;
+                var installedModuleCount = 0f;
                 
                 foreach (var module in missingModules)
                 {
-                    var progress = installedModuleCount / missingModules.Length;
+                    var progress = installedModuleCount++ / missingModules.Length;
                     EditorUtility.DisplayProgressBar(PROGRESS_BAR_TITLE, $"Installing module {module.name}", progress);
                     AddModuleRequest(module.Identifier);
                 }
-                
-                EditorUtility.ClearProgressBar();
 
+                EditorUtility.DisplayProgressBar(PROGRESS_BAR_TITLE, "All modules are installed.", 1);
+                Thread.Sleep(THREAD_SLEEP_TIME);
+                
                 EditorAssetLoader.CreateSettingsAssets();
             }
+            
+            EditorUtility.ClearProgressBar();
         }
 
         public static void AddModuleRequest(string name)
@@ -79,7 +84,6 @@ namespace ReadyPlayerMe.Core.Editor
             }
         }
         
-        [MenuItem("Test/Load")]
         private static ModuleInfo[] GetMissingModuleNames()
         {
             var installed = GetPackageList();
