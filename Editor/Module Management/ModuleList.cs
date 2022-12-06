@@ -12,7 +12,7 @@
             },
             new ModuleInfo 
             {
-                name = "com.readyplayer.avatarloader",
+                name = "com.readyplayerme.avatarloader",
                 gitUrl = "https://github.com/readyplayerme/Unity-Avatar-Loader.git",
                 branch = "develop"
             },
@@ -23,8 +23,8 @@
                 branch = "develop"
             }
         };
-        
-        public static readonly ModuleInfo DracoCompressionModule = new ModuleInfo
+
+        public static readonly ModuleInfo DracoCompression = new ModuleInfo
         {
             name = "com.atteneder.draco",
             gitUrl = "https://github.com/atteneder/DracoUnity.git",

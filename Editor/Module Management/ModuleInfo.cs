@@ -1,4 +1,5 @@
 using System;
+using UnityEditor.PackageManager;
 
 namespace ReadyPlayerMe.Core.Editor
 {

@@ -23,11 +23,11 @@ namespace ReadyPlayerMe.AvatarLoader.Core
 
             if (previousValue != userDracoCompressionField.boolValue && userDracoCompressionField.boolValue)
             {
-                if (ModuleInstaller.IsModuleInstalled(ModuleList.DracoCompressionModule)) return;
+                if (ModuleInstaller.IsModuleInstalled(ModuleList.DracoCompression.name)) return;
                 if (EditorUtility.DisplayDialog("Read Player Me", "Do you want to install Draco Compression Unity Package: com.atteneder.draco ?",
                         "Ok", "Cancel"))
                 {
-                    ModuleInstaller.AddModule(ModuleList.DracoCompressionModule.Identifier);
+                    ModuleInstaller.AddModuleRequest(ModuleList.DracoCompression.Identifier);
                 }
             }
         }

@@ -17,5 +17,5 @@ MonoBehaviour:
   TextureAtlas: 2
   TextureSizeLimit: 512
   UseHands: 0
-  MorphTargets:
-  - Oculus Visemes
+  UseDracoCompression: 0
+  MorphTargets: []
