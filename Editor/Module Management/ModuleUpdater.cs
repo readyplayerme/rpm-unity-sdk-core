@@ -20,6 +20,7 @@ namespace ReadyPlayerMe.Core.Editor
         private const string GITHUB_WEBSITE = "https://github.com";
         private const string GITHUB_API_URL = "https://api.github.com/repos";
 
+        // Check if any update exists every time Unity initializes
         static ModuleUpdater()
         {
             CheckForNewReleases();
@@ -34,57 +35,57 @@ namespace ReadyPlayerMe.Core.Editor
                 .Where(path => path.Contains(PACKAGE_JSON) && path.Contains(PACKAGE_DOMAIN))
                 .Select(PackageInfo.FindForAssetPath)
                 .ToArray();
-
+            
+            // Turn package_name@repo_url#branch_name into https://api.github.com/repos/readyplayerme/repo_name/releases 
             foreach (var package in packages)
             {
                 var repoUrl = package.packageId.Split('@')[1];
-                var releasesUrl = repoUrl.Replace(GITHUB_WEBSITE, GITHUB_API_URL)
-                                              .Split(new[] { ".git#" }, StringSplitOptions.None)[0] + "/releases";
+                var apiUrl = repoUrl.Replace(GITHUB_WEBSITE, GITHUB_API_URL);
+                var releasesUrl = apiUrl.Split(new[] { ".git#" }, StringSplitOptions.None)[0] + "/releases";
                 var packageUrl = repoUrl.Split('#')[0];
+                
+                // experimental or prerelease packages might look like 0.1.0-exp.1, remove after dash to parse with Version
                 var version = package.version.Split('-')[0];
                 FetchReleases(package.name, packageUrl, releasesUrl, new Version(version));
             }
         }
 
-        private static async void FetchReleases(string packageName, string packageUrl, string releasesUrl,
-            Version currentVersion)
+        // Fetch release details from github and extract version to compare with local module version
+        private static async void FetchReleases(string name, string packageUrl, string releasesUrl, Version current)
         {
-            UnityWebRequest request = UnityWebRequest.Get(releasesUrl);
-            UnityWebRequestAsyncOperation op = request.SendWebRequest();
-            while (!op.isDone) await Task.Yield();
+            var request = UnityWebRequest.Get(releasesUrl);
+            var asyncOperation = request.SendWebRequest();
+            
+            while (!asyncOperation.isDone) await Task.Yield();
 
             if (request.result == UnityWebRequest.Result.Success)
             {
                 var response = request.downloadHandler.text;
-                Release[] releases = JsonConvert.DeserializeObject<Release[]>(response);
+                var releases = JsonConvert.DeserializeObject<Release[]>(response);
+                var versions = releases?.Select(r => new Version(r.Tag.Substring(1).Split('-')[0])).ToArray();
+                var latest = versions?.Max();
 
-                Version[] versions = releases.Select(r => new Version(r.Tag.Substring(1).Split('-')[0])).ToArray();
-
-                Version latestVersion = versions.Max();
-
-                if (latestVersion > currentVersion)
+                if (latest > current)
                 {
-                    PromptForUpdate(packageName, currentVersion, latestVersion, packageUrl);
+                    DisplayUpdateDialog(name, current, latest, packageUrl);
                 }
             }
             else
             {
-                Debug.Log($"Failed to fetch { packageName } releases. Error: {request.error} ");
+                Debug.Log($"Failed to fetch { name } releases. Error: {request.error} ");
             }
         }
 
-        private static void PromptForUpdate(string packageName, Version currentVersion, Version latestVersion,
-            string packageUrl)
+        // Display a dialog for notifying developer about new module version.
+        private static void DisplayUpdateDialog(string name, Version current, Version latest, string url)
         {
-            bool shouldUpdate = EditorUtility.DisplayDialog("Update Packages",
-                $"New update available for {packageName}\nCurrent version: {currentVersion}\nLatest version: {latestVersion}",
-                "Update",
-                "Skip");
+            var message = $"New update available for {name}\nCurrent version: {current}\nLatest version: {latest}";
+            var shouldUpdate = EditorUtility.DisplayDialog("Update Packages", message, "Update", "Skip");
 
             if (shouldUpdate)
             {
-                packageUrl += "#v" + latestVersion;
-                UpdateModule(packageName, packageUrl, currentVersion, latestVersion);
+                url += "#v" + latest;
+                UpdateModule(name, url, current, latest);
             }
             else
             {
@@ -93,6 +94,7 @@ namespace ReadyPlayerMe.Core.Editor
             }
         }
 
+        // Remove old module and add the new version.
         private static void UpdateModule(string name, string url, Version current, Version latest)
         {
             RemoveRequest removeRequest = Client.Remove(name);
