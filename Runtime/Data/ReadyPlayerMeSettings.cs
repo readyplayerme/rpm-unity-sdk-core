@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using UnityEditor;
+using UnityEngine;
 
 namespace ReadyPlayerMe.Core
 {
@@ -16,7 +17,12 @@ namespace ReadyPlayerMe.Core
             {
                 if (instance == null)
                 {
+#if DISABLE_AUTO_INSTALLER && UNITY_EDITOR
+                    instance = AssetDatabase.LoadAssetAtPath<ReadyPlayerMeSettings>(
+                        $"Assets/Ready Player Me/Core/{SETTINGS_RESOURCE_PATH}.asset");
+#else
                     instance = Resources.Load<ReadyPlayerMeSettings>(SETTINGS_RESOURCE_PATH);
+#endif
                 }
 
                 return instance;
