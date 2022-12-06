@@ -1,10 +1,9 @@
-using ReadyPlayerMe.Core.Analytics;
 using UnityEditor;
 using UnityEngine;
+using ReadyPlayerMe.Core.Analytics;
 
 namespace ReadyPlayerMe.Core.Editor
 {
-    [InitializeOnLoad]
     public class AnalyticsConfirmationEditorWindow : EditorWindowBase
     {
         private const string HEADING = "Help us improve Ready Player Me SDK";
@@ -13,6 +12,7 @@ namespace ReadyPlayerMe.Core.Editor
         private const string ANALYTICS_PRIVACY_TEXT = "Read our Privacy Policy and learn how we use the data <b>here</b>.";
         private const string ANALYTICS_PRIVACY_URL =
             "https://docs.readyplayer.me/ready-player-me/integration-guides/unity/help-us-improve-the-unity-sdk";
+        
         private const string NOT_A_FIRST_RUN = "FirstRun";
         private const string METRICS_NEVER_ASK_AGAIN = "NeverAskAgain";
 
@@ -21,17 +21,11 @@ namespace ReadyPlayerMe.Core.Editor
         private static bool neverAskAgain;
 
         private readonly GUILayoutOption toggleWidth = GUILayout.Width(20);
-        private GUIStyle descriptionStyle;
         private GUIStyle buttonStyle;
 
         private bool variablesLoaded;
 
         static AnalyticsConfirmationEditorWindow()
-        {
-            EntryPoint.Startup += OnStartup;
-        }
-
-        private static void OnStartup()
         {
             if (!EditorPrefs.GetBool(METRICS_NEVER_ASK_AGAIN) && !AnalyticsEditorLogger.IsEnabled)
             {
@@ -51,7 +45,9 @@ namespace ReadyPlayerMe.Core.Editor
             AnalyticsEditorLogger.EventLogger.LogCloseProject();
         }
 
-        private static void ShowWindowMenu()
+        // TODO: Remove this
+        [MenuItem("Ready Player Me/Analytics", priority = 1)]
+        public static void ShowWindowMenu()
         {
             var window = (AnalyticsConfirmationEditorWindow) GetWindow(typeof(AnalyticsConfirmationEditorWindow));
             window.titleContent = new GUIContent("Analytics Confirmation");
@@ -62,7 +58,6 @@ namespace ReadyPlayerMe.Core.Editor
 
         private void OnDestroy()
         {
-            EntryPoint.Startup -= OnStartup;
             if (EditorPrefs.GetBool(NOT_A_FIRST_RUN)) return;
             SettingsEditorWindow.ShowWindowMenu();
             EditorPrefs.SetBool(NOT_A_FIRST_RUN, true);

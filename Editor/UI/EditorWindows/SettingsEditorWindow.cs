@@ -47,10 +47,10 @@ namespace ReadyPlayerMe.Core.Editor
         private GUIStyle textFieldStyle;
         private GUIStyle textLabelStyle;
         private GUIStyle saveButtonStyle;
-        private GUIStyle partnerButtonStyle;
-        private GUIStyle avatarCachingButtonStyle;
-        private GUIStyle privacyPolicyStyle;
         private GUIStyle errorButtonStyle;
+        private GUIStyle partnerButtonStyle;
+        private GUIStyle privacyPolicyStyle;
+        private GUIStyle avatarCachingButtonStyle;
 
         private AvatarConfig avatarConfig;
 
@@ -60,6 +60,7 @@ namespace ReadyPlayerMe.Core.Editor
 
         private ReadyPlayerMeSettings readyPlayerMeSettings;
 
+        [MenuItem("Ready Player Me/Settings", priority = 1)]
         public static void ShowWindowMenu()
         {
             var window = (SettingsEditorWindow) GetWindow(typeof(SettingsEditorWindow));
@@ -69,6 +70,21 @@ namespace ReadyPlayerMe.Core.Editor
             AnalyticsEditorLogger.EventLogger.LogOpenDialog(EDITOR_WINDOW_NAME);
         }
 
+        private void OnFocus()
+        {
+            isCacheEmpty = AvatarCache.IsCacheEmpty();
+        }
+        
+        private void OnGUI()
+        {
+            if (!initialized)
+            {
+                LoadStyles();
+                Initialize();
+            }
+            DrawContent(DrawContent);
+        }
+        
         private void Initialize()
         {
             readyPlayerMeSettings = ReadyPlayerMeSettings.Instance;
@@ -86,29 +102,19 @@ namespace ReadyPlayerMe.Core.Editor
 
             initialized = true;
         }
-
-        private void OnFocus()
-        {
-            isCacheEmpty = AvatarCache.IsCacheEmpty();
-        }
         
-        private void OnGUI()
-        {
-            if (!initialized) Initialize();
-            LoadStyles();
-            DrawContent(DrawContent);
-        }
-
         private void LoadStyles()
         {
             if (saveButtonStyle == null)
             {
-                saveButtonStyle = new GUIStyle(GUI.skin.button);
-                saveButtonStyle.fontSize = 14;
-                saveButtonStyle.fontStyle = FontStyle.Bold;
-                saveButtonStyle.fixedWidth = 449;
-                saveButtonStyle.fixedHeight = ButtonHeight;
-                saveButtonStyle.padding = new RectOffset(5, 5, 5, 5);
+                saveButtonStyle = new GUIStyle(GUI.skin.button)
+                {
+                    fontSize = 14,
+                    fontStyle = FontStyle.Bold,
+                    fixedWidth = 449,
+                    fixedHeight = ButtonHeight,
+                    padding = new RectOffset(5, 5, 5, 5)
+                };
             }
 
             if (textFieldStyle == null)

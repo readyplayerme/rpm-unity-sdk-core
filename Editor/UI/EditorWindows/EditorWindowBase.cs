@@ -10,21 +10,20 @@ namespace ReadyPlayerMe.Core.Editor
         private const string SUPPORT_HEADING = "Support";
         private const string ERROR_ICON_SEARCH_FILTER = "t:Texture rpm_error_icon";
 
-        protected GUIStyle HeadingStyle;
-        protected GUIStyle DescriptionStyle;
-
         protected Texture errorIcon;
-        
-        private GUIStyle webButtonStyle;
+        protected GUIStyle HeadingStyle;
+        protected GUIStyle descriptionStyle;
 
         private readonly GUILayoutOption windowWidth = GUILayout.Width(460);
-        protected readonly float ButtonHeight = 30f;
         private Banner banner;
         private Footer footer;
         
-
-        private string editorWindowName;
+        protected readonly float ButtonHeight = 30f;
+        
         private bool windowResized;
+        private string editorWindowName;
+        
+        private GUIStyle webButtonStyle;
         
         private void LoadAssets()
         {
@@ -64,16 +63,16 @@ namespace ReadyPlayerMe.Core.Editor
                 };
             }
 
-            if (DescriptionStyle == null)
+            if (descriptionStyle == null)
             {
-                DescriptionStyle = new GUIStyle()
+                descriptionStyle = new GUIStyle()
                 {
                     fontSize = 12,
                     richText = true,
                     wordWrap = true,
                     margin = new RectOffset(5, 0, 0, 0)
                 };
-                DescriptionStyle.normal.textColor = new Color(0.7f, 0.7f, 0.7f, 1.0f);
+                descriptionStyle.normal.textColor = new Color(0.7f, 0.7f, 0.7f, 1.0f);
             }
 
             if (webButtonStyle == null)
@@ -91,7 +90,7 @@ namespace ReadyPlayerMe.Core.Editor
             editorWindowName = editorName;
         }
 
-        protected void DrawContent(Action content, bool useFooter = true)
+        protected void DrawContent(Action getContent, bool useFooter = true)
         {
             LoadAssets();
 
@@ -102,7 +101,7 @@ namespace ReadyPlayerMe.Core.Editor
                 {
                     banner.Draw(position);
                     
-                    content?.Invoke();
+                    getContent?.Invoke();
 
                     if (useFooter)
                     {
