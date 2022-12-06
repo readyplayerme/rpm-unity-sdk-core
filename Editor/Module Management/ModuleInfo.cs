@@ -22,13 +22,5 @@ namespace ReadyPlayerMe.Core.Editor
                 return gitUrl + (string.IsNullOrEmpty(branch) ? string.Empty : $"#{branch}" );
             }
         }
-
-        public static explicit operator ModuleInfo(PackageInfo info)
-        {
-            return new ModuleInfo() 
-            {
-                name = info.name
-            };
-        }
     }
 }
