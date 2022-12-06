@@ -7,7 +7,6 @@ using System.Threading;
 using UnityEngine.Networking;
 using System.Threading.Tasks;
 using UnityEditor.PackageManager;
-using System.Collections.Generic;
 using UnityEditor.PackageManager.Requests;
 using PackageInfo = UnityEditor.PackageManager.PackageInfo;
 
@@ -15,25 +14,26 @@ namespace ReadyPlayerMe.Core.Editor
 {
     public static class ModuleUpdater
     {
-        private const string PACKAGE_DOMAIN = "com.readyplayerme";
         private const string PACKAGE_JSON = "package.json";
+        private const string PACKAGE_DOMAIN = "com.readyplayerme";
 
         private const string GITHUB_WEBSITE = "https://github.com";
         private const string GITHUB_API_URL = "https://api.github.com/repos";
+
+        static ModuleUpdater()
+        {
+            CheckForNewReleases();
+        }
         
         [MenuItem("Ready Player Me/Check For Updates")]
-        public static void GetCurrentRelease()
+        public static void CheckForNewReleases()
         {
-            List<PackageInfo> packages = AssetDatabase.FindAssets("package")
+            // Get PackageInfo array from RPM Module package.json files
+            var packages = AssetDatabase.FindAssets("package")
                 .Select(AssetDatabase.GUIDToAssetPath)
-                .Where(x => x.Contains(PACKAGE_JSON) && x.Contains(PACKAGE_DOMAIN))
+                .Where(path => path.Contains(PACKAGE_JSON) && path.Contains(PACKAGE_DOMAIN))
                 .Select(PackageInfo.FindForAssetPath)
-                .ToList();
-
-            if (packages.Count == 0)
-            {
-                Debug.LogWarning($"No Ready Player Me packages found.");
-            }
+                .ToArray();
 
             foreach (var package in packages)
             {
@@ -84,7 +84,7 @@ namespace ReadyPlayerMe.Core.Editor
             if (shouldUpdate)
             {
                 packageUrl += "#v" + latestVersion;
-                Update(packageName, packageUrl, currentVersion, latestVersion);
+                UpdateModule(packageName, packageUrl, currentVersion, latestVersion);
             }
             else
             {
@@ -93,7 +93,7 @@ namespace ReadyPlayerMe.Core.Editor
             }
         }
 
-        private static void Update(string name, string url, Version current, Version latest)
+        private static void UpdateModule(string name, string url, Version current, Version latest)
         {
             RemoveRequest removeRequest = Client.Remove(name);
             while (!removeRequest.IsCompleted) Thread.Sleep(20);
