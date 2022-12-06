@@ -63,7 +63,7 @@ namespace ReadyPlayerMe.Core.Editor
         public static void ShowWindowMenu()
         {
             var window = (SettingsEditorWindow) GetWindow(typeof(SettingsEditorWindow));
-            window.titleContent = new GUIContent("Ready Player Me Settings");
+            window.titleContent = new GUIContent("Settings");
             window.ShowUtility();
 
             AnalyticsEditorLogger.EventLogger.LogOpenDialog(EDITOR_WINDOW_NAME);
@@ -185,7 +185,7 @@ namespace ReadyPlayerMe.Core.Editor
                     partnerSubdomain = EditorGUILayout.TextField(oldValue, textFieldStyle, GUILayout.Width(128), GUILayout.Height(20));
                     
                     EditorGUILayout.LabelField(".readyplayer.me", textLabelStyle, GUILayout.Width(116), GUILayout.Height(20));
-                    GUIContent button = new GUIContent((Texture) AssetDatabase.LoadAssetAtPath(ERROR_IMAGE_PATH, typeof(Texture)), DOMAIN_VALIDATION_ERROR);
+                    GUIContent button = new GUIContent(errorIcon, DOMAIN_VALIDATION_ERROR);
 
                     var isSubdomainValid = ValidateSubdomain();
 

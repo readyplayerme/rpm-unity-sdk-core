@@ -1,5 +1,5 @@
 using System;
-using ReadyPlayerMe.Core.Analytics;
+using System.Linq;
 using UnityEditor;
 using UnityEngine;
 
@@ -8,34 +8,45 @@ namespace ReadyPlayerMe.Core.Editor
     public class EditorWindowBase : EditorWindow
     {
         private const string SUPPORT_HEADING = "Support";
-        private const string DOCS_URL = "https://bit.ly/UnitySDKDocs";
-        private const string FAQ_URL =
-            "https://docs.readyplayer.me/overview/frequently-asked-questions/game-engine-faq";
-        private const string DISCORD_URL = "https://bit.ly/UnitySDKDiscord";
+        private const string ERROR_ICON_SEARCH_FILTER = "t:Texture rpm_error_icon";
 
         protected GUIStyle HeadingStyle;
         protected GUIStyle DescriptionStyle;
 
+        protected Texture errorIcon;
+        
         private GUIStyle webButtonStyle;
 
         private readonly GUILayoutOption windowWidth = GUILayout.Width(460);
         protected readonly float ButtonHeight = 30f;
         private Banner banner;
+        private Footer footer;
+        
 
         private string editorWindowName;
         private bool windowResized;
         
-#if !DISABLE_AUTO_INSTALLER
-        public static readonly string ERROR_IMAGE_PATH = "Packages/com.readyplayerme.core/Editor/error.png";
-#else
-        public static readonly string ERROR_IMAGE_PATH = "Assets/Ready Player Me/Core/Editor/error.png";
-#endif
-
         private void LoadAssets()
         {
             if (banner == null)
             {
-                banner = new Banner();
+                banner = new Banner(editorWindowName);
+            }
+            
+            if (footer == null)
+            {
+                footer = new Footer(editorWindowName);
+            }
+
+            if (errorIcon == null)
+            {
+                var assetGuid = AssetDatabase.FindAssets(ERROR_ICON_SEARCH_FILTER).FirstOrDefault();
+                var assetPath = AssetDatabase.GUIDToAssetPath(assetGuid);
+
+                if (assetPath != null)
+                {
+                    errorIcon = AssetDatabase.LoadAssetAtPath(assetPath, typeof(Texture)) as Texture;
+                }
             }
 
             if (HeadingStyle == null)
@@ -80,7 +91,7 @@ namespace ReadyPlayerMe.Core.Editor
             editorWindowName = editorName;
         }
 
-        protected void DrawContent(Action content, bool useBanner = true)
+        protected void DrawContent(Action content, bool useFooter = true)
         {
             LoadAssets();
 
@@ -89,44 +100,23 @@ namespace ReadyPlayerMe.Core.Editor
                 GUILayout.FlexibleSpace();
                 Vertical(() =>
                 {
-                    banner.DrawBanner(position);
+                    banner.Draw(position);
+                    
                     content?.Invoke();
-                    if (useBanner) DrawExternalLinks();
+
+                    if (useFooter)
+                    {
+                        Vertical(() =>
+                        {
+                            GUILayout.Label(SUPPORT_HEADING, HeadingStyle);
+                            footer.Draw(position);
+                        }, true);
+                    }
                 }, windowWidth);
                 GUILayout.FlexibleSpace();
             });
 
             SetWindowSize();
-        }
-
-        private void DrawExternalLinks()
-        {
-            Vertical(() =>
-            {
-                GUILayout.Label(SUPPORT_HEADING, HeadingStyle);
-
-                EditorGUILayout.BeginHorizontal();
-                GUI.color = Color.white;
-                if (GUILayout.Button("Documentation", webButtonStyle))
-                {
-                    AnalyticsEditorLogger.EventLogger.LogOpenDocumentation(editorWindowName);
-                    Application.OpenURL(DOCS_URL);
-                }
-
-                if (GUILayout.Button("FAQ", webButtonStyle))
-                {
-                    AnalyticsEditorLogger.EventLogger.LogOpenFaq(editorWindowName);
-                    Application.OpenURL(FAQ_URL);
-                }
-
-                if (GUILayout.Button("Discord", webButtonStyle))
-                {
-                    AnalyticsEditorLogger.EventLogger.LogOpenDiscord(editorWindowName);
-                    Application.OpenURL(DISCORD_URL);
-                }
-
-                EditorGUILayout.EndHorizontal();
-            }, true);
         }
 
         private void SetWindowSize()
@@ -140,7 +130,6 @@ namespace ReadyPlayerMe.Core.Editor
         }
 
         #region Horizontal and Vertical Layouts
-
         protected void Vertical(Action content, bool isBox = false)
         {
             EditorGUILayout.BeginVertical(isBox ? "Box" : GUIStyle.none);
@@ -168,7 +157,6 @@ namespace ReadyPlayerMe.Core.Editor
             content?.Invoke();
             EditorGUILayout.EndHorizontal();
         }
-
         #endregion
     }
 }
