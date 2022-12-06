@@ -4,14 +4,15 @@ using ReadyPlayerMe.Core.Analytics;
 
 namespace ReadyPlayerMe.Core.Editor
 {
+    /// <summary>
+    ///     Footer for RPM editor windows. Contains documentation, faq and discord buttons.
+    /// </summary>
     public class Footer: IEditorWindowComponent
     {
         private const string DOCS_URL = "https://bit.ly/UnitySDKDocs";
         private const string FAQ_URL = "https://docs.readyplayer.me/overview/frequently-asked-questions/game-engine-faq";
         private const string DISCORD_URL = "https://bit.ly/UnitySDKDiscord";
 
-        private readonly float ButtonHeight = 30f;
-        
         private readonly GUIStyle webButtonStyle;
         
         public string EditorWindowName { get; set; }
@@ -19,11 +20,13 @@ namespace ReadyPlayerMe.Core.Editor
         public Footer(string editorWindowName)
         {
             EditorWindowName = editorWindowName;
-            webButtonStyle = new GUIStyle(GUI.skin.button);
-            webButtonStyle.fontSize = 12;
-            webButtonStyle.fixedWidth = 149;
-            webButtonStyle.fixedHeight = ButtonHeight;
-            webButtonStyle.padding = new RectOffset(5, 5, 5, 5);
+            webButtonStyle = new GUIStyle(GUI.skin.button)
+            {
+                fontSize = 12,
+                fixedWidth = 149,
+                fixedHeight = 30f,
+                padding = new RectOffset(5, 5, 5, 5)
+            };
         }
 
         public void Draw(Rect position)
