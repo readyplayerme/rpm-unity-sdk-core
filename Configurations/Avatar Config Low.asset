@@ -18,4 +18,5 @@ MonoBehaviour:
   TextureSizeLimit: 256
   UseHands: 0
   UseDracoCompression: 0
-  MorphTargets: []
+  MorphTargets:
+  - none
