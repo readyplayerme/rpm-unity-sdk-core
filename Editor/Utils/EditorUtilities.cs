@@ -1,7 +1,7 @@
-﻿using System.Text.RegularExpressions;
-using ReadyPlayerMe.AvatarLoader;
+﻿using System;
 using UnityEditor;
 using UnityEngine;
+using System.Text.RegularExpressions;
 
 namespace ReadyPlayerMe.Core.Editor
 {
@@ -10,6 +10,7 @@ namespace ReadyPlayerMe.Core.Editor
         private const string TAG = nameof(EditorUtilities);
         private const string SHORT_CODE_REGEX = "^[A-Z0-9]{6}$";
 
+        // TODO: move into avatar loader
         public static void CreatePrefab(GameObject source, string path)
         {
             PrefabUtility.SaveAsPrefabAssetAndConnect(source, path, InteractionMode.AutomatedAction, out var success);
@@ -39,17 +40,19 @@ namespace ReadyPlayerMe.Core.Editor
             return string.IsNullOrEmpty(shortcodeUrl) || Regex.Match(shortcodeUrl, SHORT_CODE_REGEX).Length > 0 || shortcodeUrl.EndsWith(".glb");
         }
 
-        public static class BackgroundStyle
+        /// <summary>
+        ///     Invokes a method and makes sure it is called only once during Unity editor session.
+        ///     Called in static method that uses <see cref="InitializeOnLoadMethodAttribute"/>, session lock is
+        ///     used for making sure it runs only once and does not invoke on file reimport or editor mode switch.
+        /// </summary>
+        /// <param name="key">Unique key.</param>
+        /// <param name="action">Action to invoke.</param>
+        public static void InvokeOnLoad(string key, Action action)
         {
-            private static GUIStyle style = new GUIStyle();
-            private static Texture2D texture = new Texture2D(1, 1);
-
-            public static GUIStyle Get(Color color)
+            if (!SessionState.GetBool(key, false))
             {
-                texture.SetPixel(0, 0, color);
-                texture.Apply();
-                style.normal.background = texture;
-                return style;
+                SessionState.SetBool(key, true);
+                action?.Invoke();
             }
         }
     }

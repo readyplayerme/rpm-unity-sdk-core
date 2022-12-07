@@ -19,14 +19,13 @@ namespace ReadyPlayerMe.Core.Editor
 
         private const string GITHUB_WEBSITE = "https://github.com";
         private const string GITHUB_API_URL = "https://api.github.com/repos";
-
-        // Check if any update exists every time Unity initializes
-        static ModuleUpdater()
-        {
-            Debug.Log("Checking for RPM module updates...");
-            CheckForNewReleases();
-        }
         
+        [InitializeOnLoadMethod]
+        public static void Init()
+        {
+            EditorUtilities.InvokeOnLoad(nameof(ModuleUpdater), CheckForNewReleases);
+        }
+
         [MenuItem("Ready Player Me/Check For Updates")]
         public static void CheckForNewReleases()
         {
@@ -36,6 +35,11 @@ namespace ReadyPlayerMe.Core.Editor
                 .Where(path => path.Contains(PACKAGE_JSON) && path.Contains(PACKAGE_DOMAIN))
                 .Select(PackageInfo.FindForAssetPath)
                 .ToArray();
+
+            if (packages.Length == 0)
+            {
+                Debug.Log("No Ready Player Me modules found.");
+            }
             
             // Turn package_name@repo_url#branch_name into https://api.github.com/repos/readyplayerme/repo_name/releases 
             foreach (var package in packages)
