@@ -23,6 +23,7 @@ namespace ReadyPlayerMe.Core.Editor
         // Check if any update exists every time Unity initializes
         static ModuleUpdater()
         {
+            Debug.Log("Checking for RPM module updates...");
             CheckForNewReleases();
         }
         
@@ -44,7 +45,7 @@ namespace ReadyPlayerMe.Core.Editor
                 var releasesUrl = apiUrl.Split(new[] { ".git#" }, StringSplitOptions.None)[0] + "/releases";
                 var packageUrl = repoUrl.Split('#')[0];
                 
-                // experimental or prerelease packages might look like 0.1.0-exp.1, remove after dash to parse with Version
+                // Experimental or prerelease packages might look like 0.1.0-exp.1, remove after dash to parse with Version
                 var version = package.version.Split('-')[0];
                 FetchReleases(package.name, packageUrl, releasesUrl, new Version(version));
             }
@@ -107,8 +108,10 @@ namespace ReadyPlayerMe.Core.Editor
         }
     }
     
+    // Class used for casting release json data, only tag field is required.
     internal class Release
     {
-        [JsonProperty("tag_name")] public string Tag;
+        [JsonProperty("tag_name")]
+        public string Tag;
     }
 }
