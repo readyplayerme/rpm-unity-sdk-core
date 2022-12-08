@@ -13,7 +13,6 @@ namespace ReadyPlayerMe.Core.Editor
         private const string ANALYTICS_PRIVACY_TEXT = "Read our Privacy Policy and learn how we use the data <b>here</b>.";
         private const string ANALYTICS_PRIVACY_URL =
             "https://docs.readyplayer.me/ready-player-me/integration-guides/unity/help-us-improve-the-unity-sdk";
-        private const string NOT_A_FIRST_RUN = "FirstRun";
         private const string METRICS_NEVER_ASK_AGAIN = "NeverAskAgain";
 
         private const string EDITOR_WINDOW_NAME = "allow analytics popup";
@@ -63,9 +62,6 @@ namespace ReadyPlayerMe.Core.Editor
         private void OnDestroy()
         {
             EntryPoint.Startup -= OnStartup;
-            if (EditorPrefs.GetBool(NOT_A_FIRST_RUN)) return;
-            SettingsEditorWindow.ShowWindowMenu();
-            EditorPrefs.SetBool(NOT_A_FIRST_RUN, true);
         }
 
         private void OnGUI()
