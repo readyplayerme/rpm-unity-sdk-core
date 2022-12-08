@@ -37,15 +37,14 @@ namespace ReadyPlayerMe.Core
                     context = await operation.Execute(context, ctxSource.Token);
                     currentIndex++;
                 }
-                catch (CustomException exception)
+                catch
                 {
                     if (ctxSource.IsCancellationRequested)
                     {
                         ctxSource.Dispose();
-                        throw new CustomException(FailureType.OperationCancelled, exception.Message);
                     }
 
-                    throw new CustomException(exception.FailureType, exception.Message);
+                    throw;
                 }
                 operation.ProgressChanged -= OnProgressChanged;
             }
