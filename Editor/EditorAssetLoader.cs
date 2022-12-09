@@ -25,7 +25,6 @@ namespace ReadyPlayerMe.Core.Editor
             CreatePartnerSubDomainSetting();
         }
 
-        [MenuItem("RPM/Create some")]
         private static void CreatePartnerSubDomainSetting()
         {
             var partnerSubDomainSettings = ScriptableObject.CreateInstance<PartnerSubDomainSettings>();
