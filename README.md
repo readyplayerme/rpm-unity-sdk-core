@@ -1,6 +1,6 @@
-# Unity-Core
+# Ready Player Me Unity SDK Core
 
-**Unity Core** is an open source Unity plugin that contains all the core functionality for the Ready Player Me Unity SDK and manages all the plugin updates and dependencies including Ready Player Me Avatar Loader and glTFast. 
+This is an open source Unity plugin that contains all the core functionality required for and manages all the plugin updates and dependencies including Ready Player Me Avatar Loader and glTFast. 
 
 Please visit the online documentation and join our public `discord` community.
 
@@ -10,7 +10,10 @@ Please visit the online documentation and join our public `discord` community.
 
 
 ## Quick Start 
-***NOTE: This plugin supports Unity Version 2020.3 or higher***
+
+### Requirements
+- Unity Version 2020.3 or higher
+- [Git](https://git-scm.com) needs to be installed to fetch the Unity package. [Download here](https://git-scm.com/downloads)
 
 To add the new Ready Player Me Unity SDK to your project you can use the Unity Package Manager to import the package directly from the Git URL. 
 
