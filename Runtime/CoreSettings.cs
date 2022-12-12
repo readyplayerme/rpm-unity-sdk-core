@@ -8,25 +8,25 @@ namespace ReadyPlayerMe.Core
     {
         public const string SETTINGS_PATH = "Settings/PartnerSubDomainSettings";
 
-        public static PartnerSubDomainSettings PartnerSubDomainSettings
+        public static PartnerSubdomainSettings PartnerSubdomainSettings
         {
             get
             {
-                if (partnerSubDomainSettings == null)
+                if (partnerSubdomainSettings == null)
                 {
-                    partnerSubDomainSettings = Resources.Load<PartnerSubDomainSettings>(SETTINGS_PATH);
+                    partnerSubdomainSettings = Resources.Load<PartnerSubdomainSettings>(SETTINGS_PATH);
                 }
-                return partnerSubDomainSettings;
+                return partnerSubdomainSettings;
             }
         }
 
-        private static PartnerSubDomainSettings partnerSubDomainSettings;
+        private static PartnerSubdomainSettings partnerSubdomainSettings;
 
         public static void SaveSubDomain(string subDomain)
         {
-            partnerSubDomainSettings.Subdomain = subDomain;
+            partnerSubdomainSettings.Subdomain = subDomain;
 #if UNITY_EDITOR
-            EditorUtility.SetDirty(partnerSubDomainSettings);
+            EditorUtility.SetDirty(partnerSubdomainSettings);
             AssetDatabase.SaveAssets();
 #endif
         }

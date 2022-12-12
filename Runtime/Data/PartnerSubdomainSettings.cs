@@ -2,7 +2,7 @@
 
 namespace ReadyPlayerMe.Core.Data
 {
-    public class PartnerSubDomainSettings : ScriptableObject
+    public class PartnerSubdomainSettings : ScriptableObject
     {
         public string Subdomain;
     }

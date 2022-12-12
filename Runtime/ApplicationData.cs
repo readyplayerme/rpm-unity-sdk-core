@@ -16,7 +16,7 @@ namespace ReadyPlayerMe.Core
         static ApplicationData()
         {
             Data.SDKVersion = SDK_VERSION;
-            Data.PartnerName = CoreSettings.PartnerSubDomainSettings.Subdomain;
+            Data.PartnerName = CoreSettings.PartnerSubdomainSettings.Subdomain;
             Data.UnityVersion = Application.unityVersion;
             Data.UnityPlatform = Application.platform.ToString();
             Data.RenderPipeline = GetRenderPipeline();

@@ -27,7 +27,7 @@ namespace ReadyPlayerMe.Core.Editor
 
         private static void CreatePartnerSubDomainSetting()
         {
-            var partnerSubDomainSettings = ScriptableObject.CreateInstance<PartnerSubDomainSettings>();
+            var partnerSubDomainSettings = ScriptableObject.CreateInstance<PartnerSubdomainSettings>();
             partnerSubDomainSettings.Subdomain = "demo";
 
             AssetDatabase.CreateAsset(partnerSubDomainSettings, $"Assets/{SETTINGS_SAVE_FOLDER}/{PARTNER_SUB_DOMAIN_ASSET_NAME}");
