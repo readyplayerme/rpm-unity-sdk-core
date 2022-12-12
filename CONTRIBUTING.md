@@ -1,4 +1,4 @@
-# Welcome top the Ready Player Me Unity SDK (Core) contributing guide
+# Welcome to the Ready Player Me Unity SDK (Core) contributing guide
 
 Thank you for investing your time in contributing to our project! Any contribution you make will be reflected on [https://github.com/readyplayerme/Unity-Core](https://github.com/readyplayerme/Unity-Core) :sparkles:. 
 
