@@ -1,7 +1,6 @@
 using System;
 using System.Linq;
 using UnityEditor;
-using UnityEngine;
 using System.Threading;
 using UnityEditor.PackageManager;
 using System.Collections.Generic;
@@ -12,6 +11,8 @@ namespace ReadyPlayerMe.Core.Editor
     [InitializeOnLoad]
     public static class ModuleInstaller
     {
+        private const string TAG = nameof(ModuleInstaller);
+        
         private const int THREAD_SLEEP_TIME = 100;
         private const string PROGRESS_BAR_TITLE = "Ready Player Me";
         private const string RPM_SCRIPTING_SYMBOL = "READY_PLAYER_ME";
@@ -57,7 +58,7 @@ namespace ReadyPlayerMe.Core.Editor
             EditorUtility.DisplayProgressBar(PROGRESS_BAR_TITLE, "Installing modules...", 0);
             Thread.Sleep(THREAD_SLEEP_TIME);
             
-            ModuleInfo[] missingModules = GetMissingModuleNames();
+            var missingModules = GetMissingModuleNames();
 
             if (missingModules.Length > 0)
             {
@@ -89,7 +90,7 @@ namespace ReadyPlayerMe.Core.Editor
             
             if (addRequest.Error != null)
             {
-                Debug.Log("Error: " + addRequest.Error.message);
+                SDKLogger.Log(TAG, "Error: " + addRequest.Error.message);
             }
         }
         
@@ -121,7 +122,7 @@ namespace ReadyPlayerMe.Core.Editor
 
             if (listRequest.Error != null)
             {
-                Debug.Log("Error: " + listRequest.Error.message);
+                SDKLogger.Log(TAG, "Error: " + listRequest.Error.message);
                 return Array.Empty<PackageInfo>();
             }
 
@@ -131,7 +132,7 @@ namespace ReadyPlayerMe.Core.Editor
         // Append RPM scripting symbol to player settings.
         private static void AppendScriptingSymbol()
         {
-            BuildTargetGroup target = EditorUserBuildSettings.selectedBuildTargetGroup;
+            var target = EditorUserBuildSettings.selectedBuildTargetGroup;
             var defineSymbols = PlayerSettings.GetScriptingDefineSymbolsForGroup(target);
             var symbols = new HashSet<string>(defineSymbols.Split(';')) { RPM_SCRIPTING_SYMBOL };
             var newDefineString = string.Join(";", symbols.ToArray());
