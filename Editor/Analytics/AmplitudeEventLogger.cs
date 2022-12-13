@@ -112,13 +112,13 @@ namespace ReadyPlayerMe.Core.Analytics
 
                     if (request.result == UnityWebRequest.Result.ProtocolError || request.result == UnityWebRequest.Result.ConnectionError)
                     {
-                        throw new CustomException(FailureType.DownloadError, request.error);
+                        throw new Exception(request.error);
                     }
                     return;
                 }
             }
 
-            throw new CustomException(FailureType.NoInternetConnection, NO_INTERNET_CONNECTION);
+            throw new Exception(NO_INTERNET_CONNECTION);
         }
 
         #region Analytics Target
