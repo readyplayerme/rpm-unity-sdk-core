@@ -24,11 +24,10 @@ namespace ReadyPlayerMe.Core.Editor
             Events.registeringPackages += OnRegisteringPackages;
         }
 
-        public static  Action RegisteredPackage;
-        
         // Called when a package is added, removed or changed.
         private static void OnRegisteredPackages(PackageRegistrationEventArgs args)
         {
+            Events.registeredPackages -= OnRegisteredPackages;
             // Core Module installed
             if (args.added != null && args.added.Any(p => p.name == CORE_MODULE_NAME))
             {
@@ -36,8 +35,6 @@ namespace ReadyPlayerMe.Core.Editor
                 AppendScriptingSymbol();
                 EditorAssetGenerator.CreateSettingsAssets();
             }
-            RegisteredPackage?.Invoke();
-            Events.registeredPackages -= OnRegisteredPackages;
         }
         
         // Called when a package is about to be added, removed or changed.
