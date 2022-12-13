@@ -33,7 +33,7 @@ namespace ReadyPlayerMe.Core.Editor
             {
                 InstallModules();
                 AppendScriptingSymbol();
-                EditorAssetLoader.CreateSettingsAssets();
+                EditorAssetGenerator.CreateSettingsAssets();
             }
             
             Events.registeredPackages -= OnRegisteredPackages;
