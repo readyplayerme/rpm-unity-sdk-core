@@ -14,13 +14,13 @@
             {
                 name = "com.readyplayerme.avatarloader",
                 gitUrl = "https://github.com/readyplayerme/Unity-Avatar-Loader.git",
-                branch = "feature/move-scripts-from-core"
+                branch = ""
             },
             new ModuleInfo 
             {
                 name = "com.readyplayerme.webview",
                 gitUrl = "https://github.com/readyplayerme/Unity-WebView.git",
-                branch = "feature/core-adjustment"
+                branch = ""
             }
         };
 
