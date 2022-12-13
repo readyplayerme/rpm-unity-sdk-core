@@ -14,12 +14,12 @@ A clear and concise description of what the bug is.
 
 Attach or link to .glb files or avatar URL that trigger the bug. 
 
-In addition, make sure to run those files through the Ready Player Me Unity SDK example scenes first. If you encounter errors or warnings, try to make sure they are not responsible for the issue and file a bug report with the software that generated the glTF file as well.
+In addition, make sure to run those files through the example scenes first. If you encounter errors or warnings, try to make sure they are not responsible for the issue.
 
 > Note: You have to ZIP archive them first in order for GitHub to accept the upload.
 If your files are confidential:
 
-- Try to create a similar, but intellectual-property-free Unity example project or biuld that reproduces the bug in the same way (so any community member can have a look)
+- Try to create a similar, but intellectual-property-free Unity example project or build that reproduces the bug in the same way (so any community member can have a look)
 - Otherwise, still create this issue and send the files (or a link to them) discretely via email
 
 **To Reproduce**
@@ -37,6 +37,9 @@ If applicable, add screenshots to help explain your problem.
 
 **Desktop (please complete the following information):**
  - Ready Player Me Core version
+ - Ready Player Me Avatar Loader version
+ - Ready Player Me WebView version
+ - glTFast version
  - Unity Editor version [e.g. 2021.2.1f1]
  - Render Pipeline and version [e.g. Universal Render Pipeline 12.0]
  - Operating System [e.g. Windows, Mac, Linux ]

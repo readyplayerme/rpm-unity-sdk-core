@@ -52,7 +52,7 @@ Changes that are cosmetic in nature and do not add anything substantial to the s
 
 #### **Do you have questions about the source code?**
 
-* Ask any question about how to use Ruby on Rails in the [Ready Player Me support email](mailto:support@readyplayer.me).
+* Ask any question about how to use the Ready Player Me Unity SDK in the [Ready Player Me support email](mailto:support@readyplayer.me).
 
 
 ### Issues
@@ -79,26 +79,6 @@ Scan through our [existing issues](https://github.com/github/docs/issues) to fin
 
 - Using the command line:
   - [Fork the repo](https://docs.github.com/en/github/getting-started-with-github/fork-a-repo#fork-an-example-repository) so that you can make your changes without affecting the original project until you're ready to merge them.
-
-4. Create a working branch and start with your changes!
-
-<!-- #### Make changes within a working Unity Project
-
-1. Create a Unity Project (or open an existing) using Unity version 2020.3 or higher.
-2. Add the DISABLE_AUTO_INSTALLER scripting define symbol to prevent the modules from auto installing into Packages folder (resulting in duplicate versions of the plugin)
-3. Clone the 2 Unity Modules (Unity-Core and Unity-Avatar-Loader) into your UNITY_PROJECT_NAME/Assets/ folder
-4. Create a working branch on the module repository you wish to make changes to -->
-
-
-2. Fork the repository.
-- Using GitHub Desktop:
-  - [Getting started with GitHub Desktop](https://docs.github.com/en/desktop/installing-and-configuring-github-desktop/getting-started-with-github-desktop) will guide you through setting up Desktop.
-  - Once Desktop is set up, you can use it to [fork the repo](https://docs.github.com/en/desktop/contributing-and-collaborating-using-github-desktop/cloning-and-forking-repositories-from-github-desktop)!
-
-- Using the command line:
-  - [Fork the repo](https://docs.github.com/en/github/getting-started-with-github/fork-a-repo#fork-an-example-repository) so that you can make your changes without affecting the original project until you're ready to merge them.
-
-3. Install or update to **Node.js v16**. For more information, see [the development guide](contributing/development.md).
 
 4. Create a working branch and start with your changes!
 
