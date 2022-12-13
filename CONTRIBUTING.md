@@ -54,8 +54,7 @@ Changes that are cosmetic in nature and do not add anything substantial to the s
 
 * Ask any question about how to use the Ready Player Me Unity SDK in the [Ready Player Me support email](mailto:support@readyplayer.me).
 
-
-### Issues
+## Issues
 
 #### Create a new issue
 
@@ -103,7 +102,7 @@ For content changes, make sure that you:
 
 ### Pull Request
 
-When you're finished with the changes, create a pull request, also known as a PR.
+When you're finished with the changes, create a [pull request](https://docs.github.com/en/pull-requests/collaborating-with-pull-requests/proposing-changes-to-your-work-with-pull-requests/about-pull-requests).
 - Fill the "Ready for review" template so that we can review your PR. This template helps reviewers understand your changes as well as the purpose of your pull request. 
 - Don't forget to [link PR to issue](https://docs.github.com/en/issues/tracking-your-work-with-issues/linking-a-pull-request-to-an-issue) if you are solving one.
 - Enable the checkbox to [allow maintainer edits](https://docs.github.com/en/github/collaborating-with-issues-and-pull-requests/allowing-changes-to-a-pull-request-branch-created-from-a-fork) so the branch can be updated for a merge.
