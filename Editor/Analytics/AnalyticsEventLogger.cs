@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using ReadyPlayerMe.AvatarLoader;
 using UnityEditor;
 using UnityEngine;
 
