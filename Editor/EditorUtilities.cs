@@ -1,5 +1,4 @@
 ﻿using System.Text.RegularExpressions;
-using ReadyPlayerMe.AvatarLoader;
 using UnityEditor;
 using UnityEngine;
 
