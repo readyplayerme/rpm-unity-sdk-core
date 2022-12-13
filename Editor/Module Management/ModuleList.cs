@@ -14,7 +14,7 @@
             {
                 name = "com.readyplayerme.avatarloader",
                 gitUrl = "https://github.com/readyplayerme/Unity-Avatar-Loader.git",
-                branch = "bug/namespace-fix"
+                branch = "bugfix/namespace-fix"
             },
             new ModuleInfo 
             {
