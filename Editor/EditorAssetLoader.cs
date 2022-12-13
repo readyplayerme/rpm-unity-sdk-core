@@ -1,17 +1,17 @@
-﻿using UnityEditor;
+﻿using ReadyPlayerMe.Core.Data;
+using UnityEditor;
 using UnityEngine;
 
 namespace ReadyPlayerMe.Core.Editor
 {
     public static class EditorAssetLoader
     {
-        private const string SETTINGS_SAVE_FOLDER = "Ready Player Me/Resources/Settings";
-        private const string SETTINGS_ASSET_NAME = "ReadyPlayerMeSettings.asset";
+        private const string SETTINGS_SAVE_FOLDER =  "Ready Player Me/Resources/Settings";
         private const string AVATAR_LOADER_ASSET_NAME = "AvatarLoaderSettings.asset";
+        private const string PARTNER_SUB_DOMAIN_ASSET_NAME = "PartnerSubDomainSettings.asset";
 
         private const string CONFIG_SAVE_FOLDER = "Ready Player Me/Resources/Configurations";
 
-        public static readonly string DefaultReadyPlayerMeSettingsPath = $"Packages/com.readyplayerme.core/Settings/{SETTINGS_ASSET_NAME}";
         public static readonly string DefaultAvatarLoaderSettingsPath = $"Packages/com.readyplayerme.core/Settings/{AVATAR_LOADER_ASSET_NAME}";
 
         private static readonly string[] DefaultConfigNames = { "Avatar Config Medium", "Avatar Config Low", "Avatar Config High" };
@@ -22,18 +22,15 @@ namespace ReadyPlayerMe.Core.Editor
             AssetDatabase.Refresh();
             CreateAvatarConfigAssets();
             CreateAvatarLoaderSettings();
-            CreateReadyPlayerMeSettings();
+            CreatePartnerSubDomainSetting();
         }
 
-        private static void CreateReadyPlayerMeSettings()
+        private static void CreatePartnerSubDomainSetting()
         {
-            var defaultSettings = AssetDatabase.LoadAssetAtPath<ReadyPlayerMeSettings>(DefaultReadyPlayerMeSettingsPath);
-            ReadyPlayerMeSettings newSettings = ScriptableObject.CreateInstance<ReadyPlayerMeSettings>();
-            newSettings.partnerSubdomain = defaultSettings.partnerSubdomain;
-            var loaderSettings = AvatarLoaderSettings.LoadSettings();
-            newSettings.avatarLoaderSettings = loaderSettings;
+            var partnerSubDomainSettings = ScriptableObject.CreateInstance<PartnerSubdomainSettings>();
+            partnerSubDomainSettings.Subdomain = "demo";
 
-            AssetDatabase.CreateAsset(newSettings, $"Assets/{SETTINGS_SAVE_FOLDER}/{SETTINGS_ASSET_NAME}");
+            AssetDatabase.CreateAsset(partnerSubDomainSettings, $"Assets/{SETTINGS_SAVE_FOLDER}/{PARTNER_SUB_DOMAIN_ASSET_NAME}");
             AssetDatabase.SaveAssets();
             AssetDatabase.Refresh();
         }

@@ -16,22 +16,13 @@ namespace ReadyPlayerMe.Core
         static ApplicationData()
         {
             Data.SDKVersion = SDK_VERSION;
-            Data.PartnerName = GetPartnerSubdomain();
+            Data.PartnerName = CoreSettings.PartnerSubdomainSettings.Subdomain;
             Data.UnityVersion = Application.unityVersion;
             Data.UnityPlatform = Application.platform.ToString();
             Data.RenderPipeline = GetRenderPipeline();
 #if UNITY_EDITOR
             Data.BuildTarget = EditorUserBuildSettings.activeBuildTarget.ToString();
 #endif
-        }
-
-        private static string GetPartnerSubdomain()
-        {
-            var partner = Resources.Load<ScriptableObject>("Partner");
-            Type type = partner != null ? partner.GetType() : null;
-            MethodInfo method = type?.GetMethod("GetSubdomain");
-            var partnerSubdomain = method?.Invoke(partner, null) as string;
-            return partnerSubdomain;
         }
 
         private static string GetRenderPipeline()
