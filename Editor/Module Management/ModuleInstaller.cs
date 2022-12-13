@@ -18,13 +18,14 @@ namespace ReadyPlayerMe.Core.Editor
         private const string RPM_SCRIPTING_SYMBOL = "READY_PLAYER_ME";
         private const string CORE_MODULE_NAME = "com.readyplayerme.core";
 
-        #region Register Package Events
         static ModuleInstaller()
         {
             Events.registeredPackages += OnRegisteredPackages;
             Events.registeringPackages += OnRegisteringPackages;
         }
 
+        public static  Action RegisteredPackage;
+        
         // Called when a package is added, removed or changed.
         private static void OnRegisteredPackages(PackageRegistrationEventArgs args)
         {
@@ -35,7 +36,7 @@ namespace ReadyPlayerMe.Core.Editor
                 AppendScriptingSymbol();
                 EditorAssetGenerator.CreateSettingsAssets();
             }
-            
+            RegisteredPackage?.Invoke();
             Events.registeredPackages -= OnRegisteredPackages;
         }
         
@@ -50,7 +51,6 @@ namespace ReadyPlayerMe.Core.Editor
             
             Events.registeringPackages -= OnRegisteringPackages;
         }
-        #endregion
         
         // Installs the missing modules and displays a progress bar to notify the user.
         private static void InstallModules()
