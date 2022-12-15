@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading;
 using UnityEditor;
 using UnityEditor.PackageManager;
+using UnityEngine;
 using PackageInfo = UnityEditor.PackageManager.PackageInfo;
 
 namespace ReadyPlayerMe.Core.Editor
@@ -139,6 +140,7 @@ namespace ReadyPlayerMe.Core.Editor
         
         private static void ValidateModules()
         {
+            Debug.Log("Validate modules ");
             for (var i = 0; i < ModuleList.Modules.Length; i++)
             {
                 if (IsModuleInstalled(ModuleList.Modules[i].name))
@@ -147,10 +149,10 @@ namespace ReadyPlayerMe.Core.Editor
                 }
             }
 
-            if (ModuleList.Modules.Any(x => !x.isInstalled))
-            {
-                SDKLogger.LogWarning(TAG, "Something went wrong while installing modules.");
-            }
+            SDKLogger.LogWarning(TAG,
+                ModuleList.Modules.Any(x => !x.isInstalled)
+                    ? "Something went wrong while installing modules."
+                    : "All the modules installed successfully. Ready Player Me avatar system is ready to use.");
         }
     }
 }

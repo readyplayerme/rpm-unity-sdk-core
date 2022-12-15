@@ -91,6 +91,7 @@ namespace ReadyPlayerMe.Core.Analytics
             };
 
             var json = JsonConvert.SerializeObject(payload);
+            Debug.Log(json);
             var bytes = Encoding.UTF8.GetBytes(json);
 
             try
