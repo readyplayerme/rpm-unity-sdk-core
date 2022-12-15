@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Text;
 using System.Threading.Tasks;
 using Newtonsoft.Json;
+using ReadyPlayerMe.Core.Editor;
 using UnityEditor;
 using UnityEngine;
 using UnityEngine.Networking;
@@ -63,6 +64,13 @@ namespace ReadyPlayerMe.Core.Analytics
                 { Constants.AmplitudeKeys.OPERATING_SYSTEM, SystemInfo.operatingSystem }
             };
 
+            var modules = ModuleList.GetInstalledModuleVersionDictionary();
+            foreach (var module in modules)
+            {
+                eventData.Add(module.Key, module.Value);
+            }
+            
+            
             if (userProperties != null)
             {
                 eventData.Add(Constants.AmplitudeKeys.USER_PROPERTIES, userProperties);
