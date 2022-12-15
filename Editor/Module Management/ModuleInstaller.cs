@@ -1,9 +1,9 @@
 using System;
-using System.Linq;
-using UnityEditor;
-using System.Threading;
-using UnityEditor.PackageManager;
 using System.Collections.Generic;
+using System.Linq;
+using System.Threading;
+using UnityEditor;
+using UnityEditor.PackageManager;
 using PackageInfo = UnityEditor.PackageManager.PackageInfo;
 
 namespace ReadyPlayerMe.Core.Editor
@@ -34,8 +34,8 @@ namespace ReadyPlayerMe.Core.Editor
                 InstallModules();
                 AppendScriptingSymbol();
                 EditorAssetGenerator.CreateSettingsAssets();
-                ValidateModules();
             }
+            ValidateModules();
         }
         
         // Called when a package is about to be added, removed or changed.
@@ -143,8 +143,13 @@ namespace ReadyPlayerMe.Core.Editor
             {
                 if (IsModuleInstalled(ModuleList.Modules[i].name))
                 {
-                    ModuleList.Modules[i].IsInstalled = true;
+                    ModuleList.Modules[i].isInstalled = true;
                 }
+            }
+
+            if (ModuleList.Modules.Any(x => !x.isInstalled))
+            {
+                SDKLogger.LogWarning(TAG, "Something went wrong while installing modules.");
             }
         }
     }

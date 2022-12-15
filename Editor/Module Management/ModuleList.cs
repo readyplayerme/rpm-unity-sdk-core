@@ -4,6 +4,14 @@ namespace ReadyPlayerMe.Core.Editor
 {
     public static class ModuleList
     {
+        public static ModuleInfo Core = new ModuleInfo
+        {
+            name = "com.readyplayerme.core",
+            gitUrl = "https://github.com/readyplayerme/Unity-Core.git",
+            branch = "",
+            version = "0.1.0"
+        };
+
         public static readonly ModuleInfo[] Modules =
         {
             new ModuleInfo
@@ -11,21 +19,21 @@ namespace ReadyPlayerMe.Core.Editor
                 name = "com.atteneder.gltfast",
                 gitUrl = "https://github.com/atteneder/glTFast.git",
                 branch = "fbb449b8f5e1c6b1626fc153505da89cca0ddb72",
-                Version = "5.0.0"
+                version = "4.0.0"
             },
             new ModuleInfo
             {
                 name = "com.readyplayerme.avatarloader",
                 gitUrl = "https://github.com/readyplayerme/Unity-Avatar-Loader.git",
                 branch = "develop",
-                Version = "0.1.0"
+                version = "0.1.0"
             },
             new ModuleInfo
             {
                 name = "com.readyplayerme.webview",
                 gitUrl = "https://github.com/readyplayerme/Unity-WebView.git",
                 branch = "develop",
-                Version = "0.1.0"
+                version = "0.1.0"
             }
         };
 
@@ -34,33 +42,25 @@ namespace ReadyPlayerMe.Core.Editor
             name = "com.atteneder.draco",
             gitUrl = "https://github.com/atteneder/DracoUnity.git",
             branch = "",
-            Version = "4.0.2"
-        };
-
-        public static ModuleInfo Core = new ModuleInfo
-        {
-            name = "com.readyplayerme.core",
-            gitUrl = "https://github.com/readyplayerme/Unity-Core.git",
-            branch = "",
-            Version = "0.1.0"
+            version = "4.0.2"
         };
 
         public static Dictionary<string, string> GetInstalledModuleVersionDictionary()
         {
             var installedModules = new Dictionary<string, string>();
-            installedModules.Add(Core.name, Core.Version);
+            installedModules.Add(Core.name, Core.version);
 
             foreach (var module in Modules)
             {
-                if (module.IsInstalled)
+                if (module.isInstalled)
                 {
-                    installedModules.Add(module.name, module.Version);
+                    installedModules.Add(module.name, module.version);
                 }
             }
 
-            if (DracoCompression.IsInstalled)
+            if (DracoCompression.isInstalled)
             {
-                installedModules.Add(DracoCompression.name, DracoCompression.Version);
+                installedModules.Add(DracoCompression.name, DracoCompression.version);
             }
 
             return installedModules;
