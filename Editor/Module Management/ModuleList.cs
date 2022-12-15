@@ -1,5 +1,5 @@
 ﻿using System.Collections.Generic;
-using UnityEngine;
+using System.Linq;
 
 namespace ReadyPlayerMe.Core.Editor
 {
@@ -48,19 +48,20 @@ namespace ReadyPlayerMe.Core.Editor
 
         public static Dictionary<string, string> GetInstalledModuleVersionDictionary()
         {
+            var packageList = ModuleInstaller.GetPackageList();
+
             var installedModules = new Dictionary<string, string>();
             installedModules.Add(Core.name, Core.version);
 
             foreach (var module in Modules)
             {
-                Debug.Log("Module: " + module.name + ", " + module.isInstalled);
-                if (module.isInstalled)
+                if (packageList.Any(x => x.name == module.name))
                 {
                     installedModules.Add(module.name, module.version);
                 }
             }
 
-            if (DracoCompression.isInstalled)
+            if (packageList.Any(x => x.name == DracoCompression.name))
             {
                 installedModules.Add(DracoCompression.name, DracoCompression.version);
             }

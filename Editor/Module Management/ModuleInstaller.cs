@@ -113,7 +113,7 @@ namespace ReadyPlayerMe.Core.Editor
         }
         
         // Get the list of unity packages installed in the current project.
-        private static PackageInfo[] GetPackageList()
+        public static PackageInfo[] GetPackageList()
         {
             var listRequest = Client.List(true);
             while (!listRequest.IsCompleted)
@@ -141,19 +141,14 @@ namespace ReadyPlayerMe.Core.Editor
         private static void ValidateModules()
         {
             Debug.Log("Validate modules ");
-            for (var i = 0; i < ModuleList.Modules.Length; i++)
+            if (ModuleList.Modules.Any(x => !IsModuleInstalled(x.name)))
             {
-                if (IsModuleInstalled(ModuleList.Modules[i].name))
-                {
-                    Debug.Log("Module: " + ModuleList.Modules[i].name);
-                    ModuleList.Modules[i].isInstalled = true;
-                }
+                SDKLogger.LogWarning(TAG, "Something went wrong while installing modules.");
             }
-
-            SDKLogger.LogWarning(TAG,
-                ModuleList.Modules.Any(x => !x.isInstalled)
-                    ? "Something went wrong while installing modules."
-                    : "All the modules installed successfully. Ready Player Me avatar system is ready to use.");
+            else
+            {
+                SDKLogger.Log(TAG, "All the modules are installed successfully. Ready Player Me avatar system is ready to use.");
+            }
         }
     }
 }
