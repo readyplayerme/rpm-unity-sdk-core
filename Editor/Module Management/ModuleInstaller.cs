@@ -145,6 +145,7 @@ namespace ReadyPlayerMe.Core.Editor
             {
                 if (IsModuleInstalled(ModuleList.Modules[i].name))
                 {
+                    Debug.Log("Module: " + ModuleList.Modules[i].name);
                     ModuleList.Modules[i].isInstalled = true;
                 }
             }

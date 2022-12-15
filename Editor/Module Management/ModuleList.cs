@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using UnityEngine;
 
 namespace ReadyPlayerMe.Core.Editor
 {
@@ -52,6 +53,7 @@ namespace ReadyPlayerMe.Core.Editor
 
             foreach (var module in Modules)
             {
+                Debug.Log("Module: " + module.name + ", " + module.isInstalled);
                 if (module.isInstalled)
                 {
                     installedModules.Add(module.name, module.version);
