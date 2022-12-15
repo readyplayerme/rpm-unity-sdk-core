@@ -140,14 +140,23 @@ namespace ReadyPlayerMe.Core.Editor
         
         private static void ValidateModules()
         {
-            Debug.Log("Validate modules ");
-            if (ModuleList.Modules.Any(x => !IsModuleInstalled(x.name)))
+            var packageList = GetPackageList();
+            var allModuleInstalled = true;
+            foreach (var module in ModuleList.Modules)
             {
-                SDKLogger.LogWarning(TAG, "Something went wrong while installing modules.");
+                if (packageList.All(x => x.name != module.name))
+                {
+                    allModuleInstalled = false;
+                }
+            }
+           
+            if (allModuleInstalled)
+            {
+                SDKLogger.Log(TAG, "All the modules are installed successfully. Ready Player Me avatar system is ready to use.");
             }
             else
             {
-                SDKLogger.Log(TAG, "All the modules are installed successfully. Ready Player Me avatar system is ready to use.");
+                SDKLogger.LogWarning(TAG, "Something went wrong while installing modules.");
             }
         }
     }

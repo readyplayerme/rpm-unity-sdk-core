@@ -58,7 +58,6 @@ namespace ReadyPlayerMe.Core.Analytics
             LogEvent(Constants.EventName.SET_USER_PROPERTIES, null, userProperties);
         }
 
-
         public async void LogEvent(string eventName, Dictionary<string, object> eventProperties = null, Dictionary<string, object> userProperties = null)
         {
             var eventData = new Dictionary<string, object>
@@ -71,7 +70,6 @@ namespace ReadyPlayerMe.Core.Analytics
                 { Constants.AmplitudeKeys.OPERATING_SYSTEM, SystemInfo.operatingSystem }
             };
 
-
             if (userProperties != null)
             {
                 eventData.Add(Constants.AmplitudeKeys.USER_PROPERTIES, userProperties);
@@ -81,7 +79,6 @@ namespace ReadyPlayerMe.Core.Analytics
             {
                 eventData.Add(Constants.AmplitudeKeys.EVENT_PROPERTIES, eventProperties);
             }
-
 
             var payload = new
             {
