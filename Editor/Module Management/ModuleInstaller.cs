@@ -34,6 +34,7 @@ namespace ReadyPlayerMe.Core.Editor
                 InstallModules();
                 AppendScriptingSymbol();
                 EditorAssetGenerator.CreateSettingsAssets();
+                ValidateModules();
             }
         }
         
@@ -134,6 +135,17 @@ namespace ReadyPlayerMe.Core.Editor
             var symbols = new HashSet<string>(defineSymbols.Split(';')) { RPM_SCRIPTING_SYMBOL };
             var newDefineString = string.Join(";", symbols.ToArray());
             PlayerSettings.SetScriptingDefineSymbolsForGroup(target, newDefineString);
+        }
+        
+        private static void ValidateModules()
+        {
+            for (var i = 0; i < ModuleList.Modules.Length; i++)
+            {
+                if (IsModuleInstalled(ModuleList.Modules[i].name))
+                {
+                    ModuleList.Modules[i].IsInstalled = true;
+                }
+            }
         }
     }
 }

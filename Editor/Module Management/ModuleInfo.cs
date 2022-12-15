@@ -9,6 +9,8 @@ namespace ReadyPlayerMe.Core.Editor
         public string name;
         public string gitUrl;
         public string branch;
+        public string Version;
+        public bool IsInstalled;
         
         public string Identifier
         {
