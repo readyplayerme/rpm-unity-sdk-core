@@ -19,8 +19,8 @@ namespace ReadyPlayerMe.Core.Editor
             {
                 name = "com.atteneder.gltfast",
                 gitUrl = "https://github.com/atteneder/glTFast.git",
-                branch = "fbb449b8f5e1c6b1626fc153505da89cca0ddb72",
-                version = "4.0.0"
+                branch = "v5.0.0",
+                version = "5.0.0"
             },
             new ModuleInfo
             {
@@ -42,7 +42,7 @@ namespace ReadyPlayerMe.Core.Editor
         {
             name = "com.atteneder.draco",
             gitUrl = "https://github.com/atteneder/DracoUnity.git",
-            branch = "",
+            branch = "v4.0.2",
             version = "4.0.2"
         };
 
