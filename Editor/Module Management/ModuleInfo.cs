@@ -1,5 +1,4 @@
 using System;
-using UnityEditor.PackageManager;
 
 namespace ReadyPlayerMe.Core.Editor
 {
@@ -9,6 +8,7 @@ namespace ReadyPlayerMe.Core.Editor
         public string name;
         public string gitUrl;
         public string branch;
+        public string version;
         
         public string Identifier
         {

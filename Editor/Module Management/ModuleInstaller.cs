@@ -1,9 +1,10 @@
 using System;
-using System.Linq;
-using UnityEditor;
-using System.Threading;
-using UnityEditor.PackageManager;
 using System.Collections.Generic;
+using System.Linq;
+using System.Threading;
+using UnityEditor;
+using UnityEditor.PackageManager;
+using UnityEngine;
 using PackageInfo = UnityEditor.PackageManager.PackageInfo;
 
 namespace ReadyPlayerMe.Core.Editor
@@ -17,6 +18,9 @@ namespace ReadyPlayerMe.Core.Editor
         private const string PROGRESS_BAR_TITLE = "Ready Player Me";
         private const string RPM_SCRIPTING_SYMBOL = "READY_PLAYER_ME";
         private const string CORE_MODULE_NAME = "com.readyplayerme.core";
+        private const string MODULE_INSTALLATION_SUCCESS_MESSAGE =
+            "All the modules are installed successfully. Ready Player Me avatar system is ready to use.";
+        private const string MODULE_INSTALLATION_FAILURE_MESSAGE = "Something went wrong while installing modules.";
 
         static ModuleInstaller()
         {
@@ -35,6 +39,7 @@ namespace ReadyPlayerMe.Core.Editor
                 AppendScriptingSymbol();
                 EditorAssetGenerator.CreateSettingsAssets();
             }
+            ValidateModules();
         }
         
         // Called when a package is about to be added, removed or changed.
@@ -111,7 +116,7 @@ namespace ReadyPlayerMe.Core.Editor
         }
         
         // Get the list of unity packages installed in the current project.
-        private static PackageInfo[] GetPackageList()
+        public static PackageInfo[] GetPackageList()
         {
             var listRequest = Client.List(true);
             while (!listRequest.IsCompleted)
@@ -134,6 +139,28 @@ namespace ReadyPlayerMe.Core.Editor
             var symbols = new HashSet<string>(defineSymbols.Split(';')) { RPM_SCRIPTING_SYMBOL };
             var newDefineString = string.Join(";", symbols.ToArray());
             PlayerSettings.SetScriptingDefineSymbolsForGroup(target, newDefineString);
+        }
+        
+        private static void ValidateModules()
+        {
+            var packageList = GetPackageList();
+            var allModuleInstalled = true;
+            foreach (var module in ModuleList.Modules)
+            {
+                if (packageList.All(x => x.name != module.name))
+                {
+                    allModuleInstalled = false;
+                }
+            }
+           
+            if (allModuleInstalled)
+            {
+                SDKLogger.Log(TAG, MODULE_INSTALLATION_SUCCESS_MESSAGE);
+            }
+            else
+            {
+                SDKLogger.LogWarning(TAG, MODULE_INSTALLATION_FAILURE_MESSAGE);
+            }
         }
     }
 }

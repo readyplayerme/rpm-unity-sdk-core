@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Text;
 using System.Threading.Tasks;
 using Newtonsoft.Json;
+using ReadyPlayerMe.Core.Editor;
 using UnityEditor;
 using UnityEngine;
 using UnityEngine.Networking;
@@ -47,9 +48,15 @@ namespace ReadyPlayerMe.Core.Analytics
                 { Constants.Properties.ALLOW_ANALYTICS, true }
             };
 
+            var modules = ModuleList.GetInstalledModuleVersionDictionary();
+            
+            foreach (var module in modules)
+            {
+                userProperties.Add(module.Key, module.Value);
+            }
+            
             LogEvent(Constants.EventName.SET_USER_PROPERTIES, null, userProperties);
         }
-
 
         public async void LogEvent(string eventName, Dictionary<string, object> eventProperties = null, Dictionary<string, object> userProperties = null)
         {
@@ -67,7 +74,7 @@ namespace ReadyPlayerMe.Core.Analytics
             {
                 eventData.Add(Constants.AmplitudeKeys.USER_PROPERTIES, userProperties);
             }
-
+            
             if (eventProperties != null)
             {
                 eventData.Add(Constants.AmplitudeKeys.EVENT_PROPERTIES, eventProperties);

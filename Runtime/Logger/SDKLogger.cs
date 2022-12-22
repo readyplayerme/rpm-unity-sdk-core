@@ -17,5 +17,10 @@ namespace ReadyPlayerMe.Core
         {
             AvatarLoaderLogger.Log(tag, message);
         }
+
+        public static void LogWarning(string tag, object message)
+        {
+            AvatarLoaderLogger.LogWarning(tag, message);
+        }
     }
 }
