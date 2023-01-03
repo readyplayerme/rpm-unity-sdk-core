@@ -1,18 +1,21 @@
-﻿using System;
-using System.Linq;
-using UnityEditor;
-using UnityEngine;
-using Newtonsoft.Json;
-using System.Threading;
-using UnityEngine.Networking;
-using System.Threading.Tasks;
-using UnityEditor.PackageManager;
+using System;
 using System.Collections.Generic;
+using System.Linq;
+using System.Threading;
+using System.Threading.Tasks;
+using Newtonsoft.Json;
+using UnityEditor;
+using UnityEditor.PackageManager;
 using UnityEditor.PackageManager.Requests;
+using UnityEngine;
+using UnityEngine.Networking;
 using PackageInfo = UnityEditor.PackageManager.PackageInfo;
 
 namespace ReadyPlayerMe.Core.Editor
 {
+    /// <summary>
+    ///     Class <c>ModuleUpdater</c> is responsible for checking and updating the Ready Player Me SDK modules.
+    /// </summary>
     public static class ModuleUpdater
     {
         private const string PACKAGE_DOMAIN = "com.readyplayerme";
@@ -20,11 +23,19 @@ namespace ReadyPlayerMe.Core.Editor
 
         private const string GITHUB_WEBSITE = "https://github.com";
         private const string GITHUB_API_URL = "https://api.github.com/repos";
-        
+
+        private const string WARNING_PACKAGES_NOT_FOUND = "No Ready Player Me packages found.";
+        private const string WARNING_UPDATE_SKIPPED = "No Ready Player Me packages found.";
+        private const int MILLISECONDS_TIMEOUT = 20;
+        private const string ASSET_FILTER = "package";
+
+        /// <summary>
+        ///     Check for Ready Player Me package updates.
+        /// </summary>
         [MenuItem("Ready Player Me/Check For Updates")]
-        public static void GetCurrentRelease()
+        public static void CheckForUpdates()
         {
-            List<PackageInfo> packages = AssetDatabase.FindAssets("package")
+            List<PackageInfo> packages = AssetDatabase.FindAssets(ASSET_FILTER)
                 .Select(AssetDatabase.GUIDToAssetPath)
                 .Where(x => x.Contains(PACKAGE_JSON) && x.Contains(PACKAGE_DOMAIN))
                 .Select(PackageInfo.FindForAssetPath)
@@ -32,20 +43,27 @@ namespace ReadyPlayerMe.Core.Editor
 
             if (packages.Count == 0)
             {
-                Debug.LogWarning($"No Ready Player Me packages found.");
+                Debug.LogWarning(WARNING_PACKAGES_NOT_FOUND);
             }
 
-            foreach (var package in packages)
+            foreach (PackageInfo package in packages)
             {
                 var repoUrl = package.packageId.Split('@')[1];
                 var releasesUrl = repoUrl.Replace(GITHUB_WEBSITE, GITHUB_API_URL)
-                                              .Split(new[] { ".git#" }, StringSplitOptions.None)[0] + "/releases";
+                    .Split(new[] { ".git#" }, StringSplitOptions.None)[0] + "/releases";
                 var packageUrl = repoUrl.Split('#')[0];
                 var version = package.version.Split('-')[0];
                 FetchReleases(package.name, packageUrl, releasesUrl, new Version(version));
             }
         }
 
+        /// <summary>
+        ///     Fetch latest release for each module and prompt for update if available.
+        /// </summary>
+        /// <param name="packageName">The name of the Unity package.</param>
+        /// <param name="packageUrl">The Git URL of the Unity package.</param>
+        /// <param name="releasesUrl">The Git URL of the Unity package.</param>
+        /// <param name="currentVersion">The current version of the package.</param>
         private static async void FetchReleases(string packageName, string packageUrl, string releasesUrl,
             Version currentVersion)
         {
@@ -73,10 +91,17 @@ namespace ReadyPlayerMe.Core.Editor
             }
         }
 
+        /// <summary>
+        ///     Display a Unity popup with notification about available package updates with buttons to update or skip.
+        /// </summary>
+        /// <param name="packageName">The name of the Unity package.</param>
+        /// <param name="currentVersion">The current version of the package.</param>
+        /// <param name="latestVersion">The new version of the package.</param>
+        /// <param name="packageUrl">The Git URL of the Unity package.</param>
         private static void PromptForUpdate(string packageName, Version currentVersion, Version latestVersion,
             string packageUrl)
         {
-            bool shouldUpdate = EditorUtility.DisplayDialog("Update Packages",
+            var shouldUpdate = EditorUtility.DisplayDialog("Update Packages",
                 $"New update available for {packageName}\nCurrent version: {currentVersion}\nLatest version: {latestVersion}",
                 "Update",
                 "Skip");
@@ -89,22 +114,29 @@ namespace ReadyPlayerMe.Core.Editor
             else
             {
                 // TODO: Bring analytics here
-                Debug.LogWarning("Update skipped.");
+                Debug.LogWarning(WARNING_UPDATE_SKIPPED);
             }
         }
 
+        /// <summary>
+        ///     Update the specified module by removing the current version and then adding the specified version.
+        /// </summary>
+        /// <param name="name">The name of the Unity package.</param>
+        /// <param name="url">The Git URL of the Unity package.</param>
+        /// <param name="current">The current version of the package.</param>
+        /// <param name="latest">The new version of the package.</param>
         private static void Update(string name, string url, Version current, Version latest)
         {
             RemoveRequest removeRequest = Client.Remove(name);
-            while (!removeRequest.IsCompleted) Thread.Sleep(20);
-            
+            while (!removeRequest.IsCompleted) Thread.Sleep(MILLISECONDS_TIMEOUT);
+
             AddRequest addRequest = Client.Add(url);
-            while (!addRequest.IsCompleted) Thread.Sleep(20);
+            while (!addRequest.IsCompleted) Thread.Sleep(MILLISECONDS_TIMEOUT);
 
             Debug.Log($"Updated {name} from v{current} to v{latest}");
         }
     }
-    
+
     internal class Release
     {
         [JsonProperty("tag_name")] public string Tag;
