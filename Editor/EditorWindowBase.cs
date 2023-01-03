@@ -6,7 +6,8 @@ using UnityEngine;
 namespace ReadyPlayerMe.Core.Editor
 {
     /// <summary>
-    /// This <c>EditorWindow</c> class is used as a base class for Ready Player Me Editor windows and contains functionality that is shared between each child class. 
+    ///     This <c>EditorWindow</c> class is used as a base class for Ready Player Me Editor windows and contains
+    ///     functionality that is shared between each child class.
     /// </summary>
     public class EditorWindowBase : EditorWindow
     {

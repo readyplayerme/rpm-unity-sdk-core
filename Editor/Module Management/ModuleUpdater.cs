@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
@@ -87,7 +87,7 @@ namespace ReadyPlayerMe.Core.Editor
             }
             else
             {
-                Debug.Log($"Failed to fetch { packageName } releases. Error: {request.error} ");
+                Debug.Log($"Failed to fetch {packageName} releases. Error: {request.error} ");
             }
         }
 

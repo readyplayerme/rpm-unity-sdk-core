@@ -1,4 +1,4 @@
-﻿namespace ReadyPlayerMe.Core.Analytics
+namespace ReadyPlayerMe.Core.Analytics
 {
     public interface IAnalyticsEventLogger
     {

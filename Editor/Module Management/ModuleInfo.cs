@@ -2,6 +2,9 @@ using System;
 
 namespace ReadyPlayerMe.Core.Editor
 {
+    /// <summary>
+    ///     Structure <c>ModuleInfo</c> describes a Ready Player Me Module or Unity package.
+    /// </summary>
     [Serializable]
     public struct ModuleInfo
     {
@@ -9,7 +12,14 @@ namespace ReadyPlayerMe.Core.Editor
         public string gitUrl;
         public string branch;
         public string version;
-        
+
+        /// <summary>
+        ///     Get the Unity package identifier.
+        /// </summary>
+        /// <returns>
+        ///     A <c>string</c> representing the Unity packages Git Url including branch if specified. Returns module name if
+        ///     gitUrl is not set.
+        /// </returns>
         public string Identifier
         {
             get
@@ -19,7 +29,7 @@ namespace ReadyPlayerMe.Core.Editor
                     return name;
                 }
 
-                return gitUrl + (string.IsNullOrEmpty(branch) ? string.Empty : $"#{branch}" );
+                return gitUrl + (string.IsNullOrEmpty(branch) ? string.Empty : $"#{branch}");
             }
         }
     }

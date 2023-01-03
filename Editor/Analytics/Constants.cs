@@ -1,4 +1,4 @@
-﻿namespace ReadyPlayerMe.Core.Analytics
+namespace ReadyPlayerMe.Core.Analytics
 {
     public static class Constants
     {
@@ -48,6 +48,5 @@
             public const string OPERATING_SYSTEM = "os_name";
             public const string SESSION_ID = "session_id";
         }
-
     }
 }

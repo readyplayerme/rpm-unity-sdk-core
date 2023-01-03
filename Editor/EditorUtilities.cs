@@ -25,7 +25,7 @@ namespace ReadyPlayerMe.Core.Editor
             var newText = EditorGUILayout.TextField(text, layoutOptions);
             if (string.IsNullOrEmpty(text))
             {
-                var previousColor = GUI.color;
+                Color previousColor = GUI.color;
                 GUI.color = Color.grey;
                 EditorGUI.LabelField(GUILayoutUtility.GetLastRect(), placeholder);
                 GUI.color = previousColor;

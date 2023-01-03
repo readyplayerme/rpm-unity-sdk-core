@@ -4,7 +4,7 @@ using UnityEngine;
 
 namespace ReadyPlayerMe.Core.Editor
 {
-    /// <summary> 
+    /// <summary>
     ///     This class is used to display an Editor window with a prompt to optionally enable Editor analytics and event
     ///     logging. It is also responsible for loading Editor UI styles and drawing the UI content.
     /// </summary>
@@ -33,9 +33,9 @@ namespace ReadyPlayerMe.Core.Editor
         private GUIStyle buttonStyle;
 
         private bool variablesLoaded;
-        
+
         /// <summary>
-        /// Constructor method that subscribes to the StartUp event.
+        ///     Constructor method that subscribes to the StartUp event.
         /// </summary>
         static AnalyticsConfirmationEditorWindow()
         {
@@ -43,7 +43,7 @@ namespace ReadyPlayerMe.Core.Editor
         }
 
         /// <summary>
-        /// This method is called when Unity Editor is closed or this package is removed.
+        ///     This method is called when Unity Editor is closed or this package is removed.
         /// </summary>
         private void OnDestroy()
         {
@@ -51,7 +51,7 @@ namespace ReadyPlayerMe.Core.Editor
         }
 
         /// <summary>
-        /// This method is called for rendering and handling GUI event. It triggers the UI updates of the <c>EditorWindow</c>.
+        ///     This method is called for rendering and handling GUI event. It triggers the UI updates of the <c>EditorWindow</c>.
         /// </summary>
         private void OnGUI()
         {
@@ -61,7 +61,8 @@ namespace ReadyPlayerMe.Core.Editor
         }
 
         /// <summary>
-        /// This method is called when a Unity project is opened or after this Unity package has finished importing and is responsible for displaying the window. It also calls anayltics events if enabled.  
+        ///     This method is called when a Unity project is opened or after this Unity package has finished importing and is
+        ///     responsible for displaying the window. It also calls anayltics events if enabled.
         /// </summary>
         private static void OnStartup()
         {
@@ -79,7 +80,7 @@ namespace ReadyPlayerMe.Core.Editor
         }
 
         /// <summary>
-        /// This method is called when the Unity Editor is closed and logs the close event.
+        ///     This method is called when the Unity Editor is closed and logs the close event.
         /// </summary>
         private static void OnQuit()
         {
@@ -87,7 +88,7 @@ namespace ReadyPlayerMe.Core.Editor
         }
 
         /// <summary>
-        /// Show the <c>EditorWindow</c> and log open event.
+        ///     Show the <c>EditorWindow</c> and log open event.
         /// </summary>
         private static void ShowWindowMenu()
         {
@@ -108,7 +109,7 @@ namespace ReadyPlayerMe.Core.Editor
         }
 
         /// <summary>
-        /// Sets the <c>EditorWindow</c> styles.
+        ///     Sets the <c>EditorWindow</c> styles.
         /// </summary>
         private void LoadStyles()
         {
@@ -136,7 +137,7 @@ namespace ReadyPlayerMe.Core.Editor
         }
 
         /// <summary>
-        /// Creates all the GUI elements to be displayed in the window. It also logs analytics events. 
+        ///     Creates all the GUI elements to be displayed in the window. It also logs analytics events.
         /// </summary>
         private void DrawContent()
         {
