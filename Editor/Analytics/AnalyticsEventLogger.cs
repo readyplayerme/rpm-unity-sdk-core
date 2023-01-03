@@ -60,7 +60,7 @@ namespace ReadyPlayerMe.Core.Analytics
         public void LogOpenDocumentation(string target)
         {
             if (!isEnabled) return;
-            amplitudeEventLogger.LogEvent(Constants.EventName.OPEN_DOCUMENTATION, new Dictionary<string, object>()
+            amplitudeEventLogger.LogEvent(Constants.EventName.OPEN_DOCUMENTATION, new Dictionary<string, object>
             {
                 { Constants.Properties.TARGET, target }
             });
@@ -69,7 +69,7 @@ namespace ReadyPlayerMe.Core.Analytics
         public void LogOpenFaq(string target)
         {
             if (!isEnabled) return;
-            amplitudeEventLogger.LogEvent(Constants.EventName.OPEN_FAQ, new Dictionary<string, object>()
+            amplitudeEventLogger.LogEvent(Constants.EventName.OPEN_FAQ, new Dictionary<string, object>
             {
                 { Constants.Properties.TARGET, target }
             });
@@ -78,7 +78,7 @@ namespace ReadyPlayerMe.Core.Analytics
         public void LogOpenDiscord(string target)
         {
             if (!isEnabled) return;
-            amplitudeEventLogger.LogEvent(Constants.EventName.OPEN_DISCORD, new Dictionary<string, object>()
+            amplitudeEventLogger.LogEvent(Constants.EventName.OPEN_DISCORD, new Dictionary<string, object>
             {
                 { Constants.Properties.TARGET, target }
             });
@@ -87,7 +87,7 @@ namespace ReadyPlayerMe.Core.Analytics
         public void LogLoadAvatarFromDialog(string avatarUrl, bool eyeAnimation, bool voiceHandler)
         {
             if (!isEnabled) return;
-            amplitudeEventLogger.LogEvent(Constants.EventName.LOAD_AVATAR_FROM_DIALOG, new Dictionary<string, object>()
+            amplitudeEventLogger.LogEvent(Constants.EventName.LOAD_AVATAR_FROM_DIALOG, new Dictionary<string, object>
             {
                 { Constants.Properties.AVATAR_URL, avatarUrl },
                 { Constants.Properties.EYE_ANIMATION, eyeAnimation },
@@ -98,11 +98,11 @@ namespace ReadyPlayerMe.Core.Analytics
         public void LogUpdatePartnerURL(string previousSubdomain, string newSubdomain)
         {
             if (!isEnabled) return;
-            amplitudeEventLogger.LogEvent(Constants.EventName.UPDATED_PARTNER_URL, new Dictionary<string, object>()
+            amplitudeEventLogger.LogEvent(Constants.EventName.UPDATED_PARTNER_URL, new Dictionary<string, object>
             {
                 { Constants.Properties.PREVIOUS_SUBDOMAIN, previousSubdomain },
                 { Constants.Properties.NEW_SUBDOMAIN, newSubdomain }
-            }, new Dictionary<string, object>()
+            }, new Dictionary<string, object>
             {
                 { Constants.Properties.SUBDOMAIN, newSubdomain }
             });
@@ -112,7 +112,7 @@ namespace ReadyPlayerMe.Core.Analytics
         public void LogOpenDialog(string dialog)
         {
             if (!isEnabled) return;
-            amplitudeEventLogger.LogEvent(Constants.EventName.OPEN_DIALOG, new Dictionary<string, object>()
+            amplitudeEventLogger.LogEvent(Constants.EventName.OPEN_DIALOG, new Dictionary<string, object>
             {
                 { Constants.Properties.DIALOG, dialog }
             });
@@ -121,7 +121,7 @@ namespace ReadyPlayerMe.Core.Analytics
         public void LogBuildApplication(string target, string appName, bool productionBuild)
         {
             if (!isEnabled) return;
-            amplitudeEventLogger.LogEvent(Constants.EventName.BUILD_APPLICATION, new Dictionary<string, object>()
+            amplitudeEventLogger.LogEvent(Constants.EventName.BUILD_APPLICATION, new Dictionary<string, object>
             {
                 { Constants.Properties.TARGET, target },
                 { Constants.Properties.APP_NAME, appName },
@@ -138,8 +138,8 @@ namespace ReadyPlayerMe.Core.Analytics
         private void ToggleAnalytics(bool allow)
         {
             if (!isEnabled) return;
-            var appData = ApplicationData.GetData();
-            amplitudeEventLogger.LogEvent(Constants.EventName.ALLOW_ANALYTICS, new Dictionary<string, object>()
+            AppData appData = ApplicationData.GetData();
+            amplitudeEventLogger.LogEvent(Constants.EventName.ALLOW_ANALYTICS, new Dictionary<string, object>
             {
                 { Constants.Properties.ALLOW, allow }
             }, new Dictionary<string, object>

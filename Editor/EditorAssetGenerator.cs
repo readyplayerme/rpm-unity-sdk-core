@@ -1,4 +1,4 @@
-﻿using ReadyPlayerMe.Core.Data;
+using ReadyPlayerMe.Core.Data;
 using UnityEditor;
 using UnityEngine;
 
