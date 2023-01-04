@@ -162,7 +162,7 @@ namespace ReadyPlayerMe.Core.Editor
         }
 
         /// <summary>
-        ///     Check all modules installed succesfully
+        ///     Check all modules installed successfully
         /// </summary>
         private static void ValidateModules()
         {

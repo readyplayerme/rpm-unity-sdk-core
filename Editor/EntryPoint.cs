@@ -3,17 +3,12 @@ using UnityEditor;
 
 namespace ReadyPlayerMe.Core.Editor
 {
-    /// <summary>
-    /// A static class 
-    /// </summary>
     [InitializeOnLoad]
     public static class EntryPoint
     {
-
         private const string SESSION_STARTED_KEY = "SessionStarted";
-        /// <summary>
+
         ///     Event for when package is imported or when project with package is opened.
-        /// </summary>
         public static Action Startup;
 
         static EntryPoint()
