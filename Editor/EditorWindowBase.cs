@@ -5,6 +5,10 @@ using UnityEngine;
 
 namespace ReadyPlayerMe.Core.Editor
 {
+    /// <summary>
+    ///     This <c>EditorWindow</c> class is used as a base class for Ready Player Me Editor windows and contains
+    ///     functionality that is shared between each child class.
+    /// </summary>
     public class EditorWindowBase : EditorWindow
     {
         private const string SUPPORT_HEADING = "Support";
@@ -24,38 +28,35 @@ namespace ReadyPlayerMe.Core.Editor
 
         private string editorWindowName;
         private bool windowResized;
-        
+
 #if !DISABLE_AUTO_INSTALLER
         public static readonly string ERROR_IMAGE_PATH = "Packages/com.readyplayerme.core/Editor/error.png";
 #else
         public static readonly string ERROR_IMAGE_PATH = "Assets/Ready Player Me/Core/Editor/error.png";
 #endif
 
+        /// <summary>
+        /// 
+        /// </summary>
         private void LoadAssets()
         {
-            if (banner == null)
-            {
-                banner = new Banner();
-            }
+            banner ??= new Banner();
 
-            if (HeadingStyle == null)
+            HeadingStyle ??= new GUIStyle
             {
-                HeadingStyle = new GUIStyle()
+                fontSize = 14,
+                richText = true,
+                fontStyle = FontStyle.Bold,
+                margin = new RectOffset(5, 0, 0, 8),
+                normal =
                 {
-                    fontSize = 14,
-                    richText = true,
-                    fontStyle = FontStyle.Bold,
-                    margin = new RectOffset(5, 0, 0, 8),
-                    normal =
-                    {
-                        textColor = Color.white
-                    }
-                };
-            }
+                    textColor = Color.white
+                }
+            };
 
             if (DescriptionStyle == null)
             {
-                DescriptionStyle = new GUIStyle()
+                DescriptionStyle = new GUIStyle
                 {
                     fontSize = 12,
                     richText = true,
@@ -131,7 +132,7 @@ namespace ReadyPlayerMe.Core.Editor
 
         private void SetWindowSize()
         {
-            float height = GUILayoutUtility.GetLastRect().height;
+            var height = GUILayoutUtility.GetLastRect().height;
             if (!windowResized && height > 1)
             {
                 minSize = maxSize = new Vector2(460, height);

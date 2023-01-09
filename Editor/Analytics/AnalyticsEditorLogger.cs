@@ -7,13 +7,14 @@ namespace ReadyPlayerMe.Core.Analytics
         private const string ANALYTICS_LOGGING_ACCEPTED = "AnalyticsLoggingAccepted";
 
         public static readonly IAnalyticsEventLogger EventLogger;
-        public static bool IsEnabled { get; private set; }
 
         static AnalyticsEditorLogger()
         {
             IsEnabled = EditorPrefs.GetBool(ANALYTICS_LOGGING_ACCEPTED);
             EventLogger = new AnalyticsEventLogger(IsEnabled);
         }
+
+        public static bool IsEnabled { get; private set; }
 
         public static void Enable()
         {
