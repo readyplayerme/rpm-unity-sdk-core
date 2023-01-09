@@ -59,7 +59,7 @@ namespace ReadyPlayerMe.Core.Editor
         /// <summary>
         ///     Get installed modules from Modules list.
         /// </summary>
-        /// <returns>A <see cref="Dictionary"/> of Unity Modules in the format of <c>Dictionary&lt;string: name, string: version&gt;</c>. </returns>
+        /// <returns>A <see cref="Dictionary"/> of installed Unity Module information in the format of <c>Dictionary&lt;string: name, string: version&gt;</c>. </returns>
         public static Dictionary<string, string> GetInstalledModuleVersionDictionary()
         {
             PackageInfo[] packageList = ModuleInstaller.GetPackageList();
