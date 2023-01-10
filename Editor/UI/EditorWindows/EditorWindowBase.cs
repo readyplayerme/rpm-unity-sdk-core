@@ -2,7 +2,6 @@ using System;
 using System.Linq;
 using UnityEditor;
 using UnityEngine;
-using ReadyPlayerMe.Core.Analytics;
 
 namespace ReadyPlayerMe.Core.Editor
 {
