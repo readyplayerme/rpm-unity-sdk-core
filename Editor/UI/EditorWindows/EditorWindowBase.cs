@@ -35,7 +35,6 @@ namespace ReadyPlayerMe.Core.Editor
             
             footer ??= new Footer(editorWindowName);
             
-            // TODO: move this into avatar loader settings window
             if (errorIcon == null)
             {
                 var assetGuid = AssetDatabase.FindAssets(ERROR_ICON_SEARCH_FILTER).FirstOrDefault();
