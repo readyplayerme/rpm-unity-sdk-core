@@ -15,12 +15,16 @@ namespace ReadyPlayerMe.Core
 
         public static void Log(string tag, object message)
         {
+#if RPM_LOG
             AvatarLoaderLogger.Log(tag, message);
+#endif
         }
 
         public static void LogWarning(string tag, object message)
         {
+#if RPM_LOG
             AvatarLoaderLogger.LogWarning(tag, message);
+#endif
         }
     }
 }
