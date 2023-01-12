@@ -3,13 +3,15 @@
 All notable changes to this project will be documented in this file.
 This project adheres to [Semantic Versioning](http://semver.org/).
 
-## [x.xx.x] - yyyy.mm.dd
+## [0.1.0] - 2023.01.12
 
 ### Added
-- add Added items here
+- inline code documentation
+- Contribution guide and code of conduct
+- module installer and updater for handling package installation
 
 ### Updated
-- add Updated items here
+- A big refactor of code and classes
 
 ### Fixed
-- add Fixed items here
+- Various bug fixes and improvements
