@@ -39,7 +39,7 @@ namespace ReadyPlayerMe.Core.Editor
             new ModuleInfo
             {
                 name = "com.readyplayerme.webview",
-                gitUrl = "https://github.com/readyplayerme/rpm-unity-sdk-unity-webview.git",
+                gitUrl = "https://github.com/readyplayerme/rpm-unity-sdk-webview.git",
                 branch = "",
                 version = "0.1.0"
             }
