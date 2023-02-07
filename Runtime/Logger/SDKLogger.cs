@@ -1,5 +1,4 @@
-﻿using UnityEditor;
-using UnityEngine;
+﻿using UnityEngine;
 
 namespace ReadyPlayerMe.Core
 {
@@ -14,26 +13,25 @@ namespace ReadyPlayerMe.Core
     {
         public static readonly Logger AvatarLoaderLogger = new Logger(new CustomLogHandler());
 
-        private static readonly string LoggingEnabledPref = $"rpm-sdk-logging-enabled-{Application.dataPath.GetHashCode()}";
-  
         private static bool loggingEnabled;
 
         static SDKLogger()
         {
-            loggingEnabled = GetEnabledPref();
+            loggingEnabled = IsLoggingEnabled();
         }
 
-        public static bool GetEnabledPref()
+        public static bool IsLoggingEnabled()
         {
-            return EditorPrefs.GetBool(LoggingEnabledPref, false);
+            return CoreSettingsHandler.CoreSettings.EnableLogging;
         }
 
-        public static void SetEnabledPref(bool enabled)
+        public static void EnableLogging(bool enabled)
         {
             loggingEnabled = enabled;
-            EditorPrefs.SetBool(LoggingEnabledPref, loggingEnabled);
+            CoreSettingsHandler.CoreSettings.EnableLogging = loggingEnabled;
+            CoreSettingsHandler.Save();
         }
-        
+
         public static void Log(string tag, object message)
         {
             if (loggingEnabled)

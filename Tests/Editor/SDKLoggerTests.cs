@@ -40,15 +40,15 @@ namespace Tests
             Application.logMessageReceived += OnLogMessageReceived;
 
             SDKLogger.AvatarLoaderLogger.logEnabled = true;
-            var wasLoggingEnabled = SDKLogger.GetEnabledPref();
-            SDKLogger.SetEnabledPref(true);
+            var wasLoggingEnabled = SDKLogger.IsLoggingEnabled();
+            SDKLogger.EnableLogging(true);
             SDKLogger.Log(TAG, TEST_LOG_STRING);
 
             yield return null;
 
             Application.logMessageReceived -= OnLogMessageReceived;
             Assert.AreEqual(true, messageReceived, "Message should have been received");
-            SDKLogger.SetEnabledPref(wasLoggingEnabled);
+            SDKLogger.EnableLogging(wasLoggingEnabled);
         }
 
         [UnityTest]
@@ -63,14 +63,14 @@ namespace Tests
 
             Application.logMessageReceived += OnLogMessageReceived;
             SDKLogger.AvatarLoaderLogger.logEnabled = true;
-            var wasLoggingEnabled = SDKLogger.GetEnabledPref();
-            SDKLogger.SetEnabledPref(true);
+            var wasLoggingEnabled = SDKLogger.IsLoggingEnabled();
+            SDKLogger.EnableLogging(true);
             SDKLogger.Log(TAG, TEST_LOG_STRING);
 
             yield return null;
             Application.logMessageReceived -= OnLogMessageReceived;
             Assert.AreEqual(PREFIX + TEST_LOG_STRING, messageReceived);
-            SDKLogger.SetEnabledPref(wasLoggingEnabled);
+            SDKLogger.EnableLogging(wasLoggingEnabled);
         }
 
         [UnityTest]
@@ -86,15 +86,15 @@ namespace Tests
             Application.logMessageReceived += OnLogMessageReceived;
 
             SDKLogger.AvatarLoaderLogger.logEnabled = false;
-            var wasLoggingEnabled = SDKLogger.GetEnabledPref();
-            SDKLogger.SetEnabledPref(false);
+            var wasLoggingEnabled = SDKLogger.IsLoggingEnabled();
+            SDKLogger.EnableLogging(false);
             SDKLogger.Log(TAG, TEST_LOG_STRING);
 
             yield return null;
 
             Application.logMessageReceived -= OnLogMessageReceived;
             Assert.AreEqual(false, messageReceived, "Message shouldn't have been received");
-            SDKLogger.SetEnabledPref(wasLoggingEnabled);
+            SDKLogger.EnableLogging(wasLoggingEnabled);
         }
     }
 }

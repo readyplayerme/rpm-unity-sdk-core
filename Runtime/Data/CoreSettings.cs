@@ -2,8 +2,9 @@
 
 namespace ReadyPlayerMe.Core.Data
 {
-    public class PartnerSubdomainSettings : ScriptableObject
+    public class CoreSettings : ScriptableObject
     {
         public string Subdomain;
+        public bool EnableLogging;
     }
 }
