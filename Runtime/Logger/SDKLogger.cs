@@ -17,15 +17,15 @@ namespace ReadyPlayerMe.Core
 
         static SDKLogger()
         {
-            loggingEnabled = GetEnabledPref();
+            loggingEnabled = IsLoggingEnabled();
         }
 
-        public static bool GetEnabledPref()
+        public static bool IsLoggingEnabled()
         {
             return CoreSettingsHandler.CoreSettings.EnableLogging;
         }
 
-        public static void SetEnabledPref(bool enabled)
+        public static void EnableLogging(bool enabled)
         {
             loggingEnabled = enabled;
             CoreSettingsHandler.CoreSettings.EnableLogging = loggingEnabled;
