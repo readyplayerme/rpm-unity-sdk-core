@@ -15,6 +15,12 @@ namespace ReadyPlayerMe.Core
                 if (coreSettings == null)
                 {
                     coreSettings = Resources.Load<CoreSettings>(SETTINGS_PATH);
+#if UNITY_EDITOR
+                    if (coreSettings == null)
+                    {
+                        coreSettings = CreateCoreSettings();
+                    }
+#endif
                 }
                 return coreSettings;
             }
@@ -35,5 +41,18 @@ namespace ReadyPlayerMe.Core
             AssetDatabase.SaveAssets();
 #endif
         }
+        
+#if UNITY_EDITOR
+        private static CoreSettings CreateCoreSettings()
+        {
+            var coreSettings = ScriptableObject.CreateInstance<CoreSettings>();
+            coreSettings.Subdomain = "demo";
+
+            AssetDatabase.CreateAsset(coreSettings, $"Assets/Ready Player Me/Resources/Settings/CoreSettings.asset");
+            AssetDatabase.SaveAssets();
+            AssetDatabase.Refresh();
+            return coreSettings;
+        }
+#endif
     }
 }
