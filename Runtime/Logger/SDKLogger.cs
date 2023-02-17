@@ -13,14 +13,39 @@ namespace ReadyPlayerMe.Core
     {
         public static readonly Logger AvatarLoaderLogger = new Logger(new CustomLogHandler());
 
+        private static bool loggingEnabled;
+
+        static SDKLogger()
+        {
+            loggingEnabled = IsLoggingEnabled();
+        }
+
+        public static bool IsLoggingEnabled()
+        {
+            return CoreSettingsHandler.CoreSettings.EnableLogging;
+        }
+
+        public static void EnableLogging(bool enabled)
+        {
+            loggingEnabled = enabled;
+            CoreSettingsHandler.CoreSettings.EnableLogging = loggingEnabled;
+            CoreSettingsHandler.Save();
+        }
+
         public static void Log(string tag, object message)
         {
-            AvatarLoaderLogger.Log(tag, message);
+            if (loggingEnabled)
+            {
+                AvatarLoaderLogger.Log(tag, message);
+            }
         }
 
         public static void LogWarning(string tag, object message)
         {
-            AvatarLoaderLogger.LogWarning(tag, message);
+            if (loggingEnabled)
+            {
+                AvatarLoaderLogger.LogWarning(tag, message);
+            }
         }
     }
 }

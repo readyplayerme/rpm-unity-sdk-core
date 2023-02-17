@@ -1,13 +1,13 @@
 {
   "name": "com.readyplayerme.core",
-  "version": "0.1.1",
+  "version": "0.2.0",
   "displayName": "Ready Player Me Core",
   "description": "Ready Player Me Core is responsible for module management and setting up the SDK for first time use.",
   "unity": "2020.3",
   "unityRelease": "0f1",
   "documentationUrl": "https://docs.readyplayer.me/ready-player-me/integration-guides/unity-sdk",
   "changelogUrl": "https://docs.readyplayer.me/ready-player-me/integration-guides/unity-sdk/changelog",
-  "licensesUrl": "https://github.com/readyplayerme/Unity-Core/blob/main/LICENSE.md",
+  "licensesUrl": "https://github.com/readyplayerme/rpm-unity-sdk-core/blob/main/LICENSE.md",
   "dependencies": {
     "com.unity.nuget.newtonsoft-json": "3.0.2"
   },

@@ -40,12 +40,15 @@ namespace Tests
             Application.logMessageReceived += OnLogMessageReceived;
 
             SDKLogger.AvatarLoaderLogger.logEnabled = true;
+            var wasLoggingEnabled = SDKLogger.IsLoggingEnabled();
+            SDKLogger.EnableLogging(true);
             SDKLogger.Log(TAG, TEST_LOG_STRING);
 
             yield return null;
 
             Application.logMessageReceived -= OnLogMessageReceived;
             Assert.AreEqual(true, messageReceived, "Message should have been received");
+            SDKLogger.EnableLogging(wasLoggingEnabled);
         }
 
         [UnityTest]
@@ -60,11 +63,14 @@ namespace Tests
 
             Application.logMessageReceived += OnLogMessageReceived;
             SDKLogger.AvatarLoaderLogger.logEnabled = true;
+            var wasLoggingEnabled = SDKLogger.IsLoggingEnabled();
+            SDKLogger.EnableLogging(true);
             SDKLogger.Log(TAG, TEST_LOG_STRING);
 
             yield return null;
             Application.logMessageReceived -= OnLogMessageReceived;
             Assert.AreEqual(PREFIX + TEST_LOG_STRING, messageReceived);
+            SDKLogger.EnableLogging(wasLoggingEnabled);
         }
 
         [UnityTest]
@@ -80,12 +86,15 @@ namespace Tests
             Application.logMessageReceived += OnLogMessageReceived;
 
             SDKLogger.AvatarLoaderLogger.logEnabled = false;
+            var wasLoggingEnabled = SDKLogger.IsLoggingEnabled();
+            SDKLogger.EnableLogging(false);
             SDKLogger.Log(TAG, TEST_LOG_STRING);
 
             yield return null;
 
             Application.logMessageReceived -= OnLogMessageReceived;
             Assert.AreEqual(false, messageReceived, "Message shouldn't have been received");
+            SDKLogger.EnableLogging(wasLoggingEnabled);
         }
     }
 }

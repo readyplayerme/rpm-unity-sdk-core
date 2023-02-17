@@ -7,21 +7,21 @@ namespace ReadyPlayerMe.Core.Editor
     public static class EditorAssetGenerator
     {
         private const string SETTINGS_SAVE_FOLDER = "Ready Player Me/Resources/Settings";
-        private const string PARTNER_SUB_DOMAIN_ASSET_NAME = "PartnerSubdomainSettings.asset";
+        private const string CORE_SETTINGS_ASSET_NAME = "CoreSettings.asset";
 
         public static void CreateSettingsAssets()
         {
             DirectoryUtility.ValidateDirectory($"{Application.dataPath}/{SETTINGS_SAVE_FOLDER}");
             AssetDatabase.Refresh();
-            CreatePartnerSubdomainSetting();
+            CreateCoreSettings();
         }
 
-        private static void CreatePartnerSubdomainSetting()
+        private static void CreateCoreSettings()
         {
-            var partnerSubdomainSettings = ScriptableObject.CreateInstance<PartnerSubdomainSettings>();
-            partnerSubdomainSettings.Subdomain = "demo";
+            var coreSettings = ScriptableObject.CreateInstance<CoreSettings>();
+            coreSettings.Subdomain = "demo";
 
-            AssetDatabase.CreateAsset(partnerSubdomainSettings, $"Assets/{SETTINGS_SAVE_FOLDER}/{PARTNER_SUB_DOMAIN_ASSET_NAME}");
+            AssetDatabase.CreateAsset(coreSettings, $"Assets/{SETTINGS_SAVE_FOLDER}/{CORE_SETTINGS_ASSET_NAME}");
             AssetDatabase.SaveAssets();
             AssetDatabase.Refresh();
         }
