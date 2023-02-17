@@ -45,8 +45,11 @@ namespace ReadyPlayerMe.Core.Editor
             foreach (PackageInfo package in packages)
             {
                 var repoUrl = package.packageId.Split('@')[1];
-                var releasesUrl = repoUrl.Replace(GITHUB_WEBSITE, GITHUB_API_URL)
-                    .Split(new[] { ".git#" }, StringSplitOptions.None)[0] + "/releases";
+                var releasesUrl = repoUrl
+                    .Split(new[] { ".git" }, StringSplitOptions.None)[0] 
+                    .Replace(GITHUB_WEBSITE, GITHUB_API_URL) + "/releases";
+                
+                
                 var packageUrl = repoUrl.Split('#')[0];
 
                 // Experimental or prerelease packages might look like 0.1.0-exp.1, remove after dash to parse with Version
