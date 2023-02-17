@@ -13,8 +13,8 @@ namespace ReadyPlayerMe.Core.Editor
         {
             name = "com.readyplayerme.core",
             gitUrl = "https://github.com/readyplayerme/rpm-unity-sdk-core.git",
-            branch = "develop",
-            version = "0.1.1"
+            branch = "",
+            version = "0.2.0"
         };
 
         /// <summary>
@@ -33,15 +33,15 @@ namespace ReadyPlayerMe.Core.Editor
             {
                 name = "com.readyplayerme.avatarloader",
                 gitUrl = "https://github.com/readyplayerme/rpm-unity-sdk-avatar-loader.git",
-                branch = "develop",
-                version = "0.1.1"
+                branch = "",
+                version = "0.2.0"
             },
             new ModuleInfo
             {
                 name = "com.readyplayerme.webview",
                 gitUrl = "https://github.com/readyplayerme/rpm-unity-sdk-webview.git",
-                branch = "develop",
-                version = "0.1.0"
+                branch = "",
+                version = "0.2.0"
             }
         };
 
