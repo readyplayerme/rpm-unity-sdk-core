@@ -90,6 +90,7 @@ namespace ReadyPlayerMe.Core.Editor
         /// <summary>
         ///     Show the <c>EditorWindow</c> and log open event.
         /// </summary>
+        [MenuItem("Ready Player Me/Welcome")]
         private static void ShowWindowMenu()
         {
             var window = (AnalyticsConfirmationEditorWindow) GetWindow(typeof(AnalyticsConfirmationEditorWindow));
