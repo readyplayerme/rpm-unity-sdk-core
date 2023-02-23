@@ -45,9 +45,6 @@ namespace ReadyPlayerMe.Core.Editor
             var rect = new Rect((position.size.x - BANNER_WIDTH) / 2, 0, BANNER_WIDTH, BANNER_HEIGHT);
             GUI.DrawTexture(rect, banner);
 
-            var versionText = new Rect((position.width + BANNER_WIDTH) / 2 - 10, 10, 0, 0);
-            EditorGUI.DropShadowLabel(versionText, ApplicationData.GetData().SDKVersion, versionTextStyle);
-
             GUILayout.Space(128);
         }
     }
