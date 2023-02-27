@@ -19,9 +19,7 @@ namespace ReadyPlayerMe.Core.Editor
         private const string ANALYTICS_PRIVACY_URL =
             "https://docs.readyplayer.me/ready-player-me/integration-guides/unity/help-us-improve-the-unity-sdk";
         private const string METRICS_NEVER_ASK_AGAIN = "rpm-sdk-metrics-never-ask-again";
-
-        private const string EDITOR_WINDOW_NAME = "allow analytics popup";
-        private const string ANALYTICS_CONFIRMATION = "Analytics Confirmation";
+        
         private const string NEVER_ASK_AGAIN = "Never Ask Again";
         private const string DONT_ENABLE_ANALYTICS = "Don't Enable Analytics";
         private const string ENABLE_ANALYTICS = "Enable Analytics";
@@ -59,7 +57,6 @@ namespace ReadyPlayerMe.Core.Editor
         /// </summary>
         private void LoadStyles()
         {
-
             HeadingStyle ??= new GUIStyle
             {
                 fontSize = 14,
@@ -96,6 +93,7 @@ namespace ReadyPlayerMe.Core.Editor
 
         public void Draw(Rect position)
         {
+            if (!variablesLoaded) LoadCachedVariables();
             LoadStyles();
             EditorGUILayout.BeginVertical("Box");
             GUILayout.Label(HEADING, HeadingStyle);
