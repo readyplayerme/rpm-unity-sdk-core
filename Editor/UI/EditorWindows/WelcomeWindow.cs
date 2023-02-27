@@ -4,6 +4,7 @@ using UnityEngine;
 
 namespace ReadyPlayerMe.Core.Editor
 {
+    [InitializeOnLoad]
     public class WelcomeWindow : EditorWindowBase
     {
         private Banner banner;
