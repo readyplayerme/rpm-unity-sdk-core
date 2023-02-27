@@ -94,11 +94,11 @@ namespace ReadyPlayerMe.Core.Editor
             GUILayout.FlexibleSpace();
             if (GUILayout.Button("Close", buttonStyle))
             {
-                
+                OnCloseClick?.Invoke();
             }
             if (GUILayout.Button("QuickStart", buttonStyle))
             {
-                Debug.Log("QuickStart");
+                OnQuickStartClick?.Invoke();
             }
             GUILayout.FlexibleSpace();
             EditorGUILayout.EndHorizontal();

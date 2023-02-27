@@ -36,12 +36,10 @@ namespace ReadyPlayerMe.Core.Editor
                 quickStartPanel = new QuickStartPanel();
                 quickStartPanel.OnQuickStartClick.AddListener(() =>
                 {
-                    //TODO add event for opening quick start sample
                     Close();
                 });                
                 quickStartPanel.OnCloseClick.AddListener(() =>
                 {
-                    //TODO add event for NOT opening quick start sample
                     Close();
                 });
             }
