@@ -1,8 +1,11 @@
-using System.Collections;
-using System.Collections.Generic;
+using System.Linq;
+using System.Threading;
 using UnityEditor;
+using UnityEditor.PackageManager.UI;
+using UnityEditor.SceneManagement;
 using UnityEngine;
 using UnityEngine.Events;
+using PackageInfo = UnityEditor.PackageManager.PackageInfo;
 
 namespace ReadyPlayerMe.Core.Editor
 {
@@ -12,8 +15,6 @@ namespace ReadyPlayerMe.Core.Editor
         
         private const string HEADING = "New to Ready Player Me? ";
         private const string DESCRIPTION = "Get started with the QuickStart sample.";
-        private const int BUTTON_FONT_SIZE = 12;
-
         private static bool neverAskAgain;
 
         private bool variablesLoaded;
@@ -24,10 +25,12 @@ namespace ReadyPlayerMe.Core.Editor
         
         public readonly UnityEvent OnQuickStartClick = new UnityEvent();
         public readonly UnityEvent OnCloseClick = new UnityEvent();
-        
+
+        private const string LOADER_PACKAGE = "com.readyplayerme.avatarloader";
+        private const string QUICKSTART_SAMPLE_NAME = "QuickStart";
+
         private void LoadStyles()
         {
-
             buttonStyle ??= new GUIStyle(GUI.skin.button)
             {
                 fontSize = 12,
@@ -96,13 +99,38 @@ namespace ReadyPlayerMe.Core.Editor
             {
                 OnCloseClick?.Invoke();
             }
-            if (GUILayout.Button("QuickStart", buttonStyle))
+            if (GUILayout.Button(QUICKSTART_SAMPLE_NAME, buttonStyle))
             {
+                var quickStartSample = GetQuickStartSample();
+                if (!quickStartSample.isImported)
+                {
+                    ImportAndOpenSample(quickStartSample);
+                }
                 OnQuickStartClick?.Invoke();
             }
             GUILayout.FlexibleSpace();
             EditorGUILayout.EndHorizontal();
             GUILayout.Space(8);
+        }
+
+        private Sample GetQuickStartSample()
+        {
+            var samples = Sample.FindByPackage(LOADER_PACKAGE, null).ToArray();
+            var quickStartSample = samples.First(x => x.displayName == QUICKSTART_SAMPLE_NAME);
+            return quickStartSample;
+        }
+        
+        private void ImportAndOpenSample(Sample quickStartSample)
+        {
+            quickStartSample.Import();
+            while (!quickStartSample.isImported)
+                Thread.Sleep(1);
+            OpenQuickStartScene(quickStartSample.importPath);
+        }
+
+        private void OpenQuickStartScene(string importPath)
+        {
+            EditorSceneManager.OpenScene($"{importPath}/{QUICKSTART_SAMPLE_NAME}.unity");
         }
     }
 }
