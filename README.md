@@ -1,5 +1,7 @@
 # Ready Player Me Unity SDK Core
 
+[![GitHub release (latest SemVer)](https://img.shields.io/github/v/release/readyplayerme/rpm-unity-sdk-core)](https://github.com/readyplayerme/rpm-unity-sdk-core/releases/latest)
+
 This is an open source Unity plugin that contains all the core functionality required for and manages all the plugin updates and dependencies including Ready Player Me Avatar Loader and glTFast. 
 
 Please visit the online documentation and join our public `discord` community.
@@ -42,4 +44,55 @@ After the process is complete you project will have imported these packages:
 
 ![package-import-complete](https://user-images.githubusercontent.com/7085672/206432761-dc078cc7-23b0-4d83-a638-46db19faabd6.png)
 
+## Alternate Installation
 
+### Using Git URL
+
+1. Navigate to your project's Packages folder and open the manifest.json file.
+2. Add this line below the `"dependencies": {` line
+    - ```json title="Packages/manifest.json"
+      "com.readyplayerme.core": "https://github.com/readyplayerme/Unity-core.git",
+      ```
+3. UPM should now install the package.
+
+### OpenUPM (using command line)
+
+1. The package is available on the [openupm registry](https://openupm.com).
+2. Execute the openum command.
+    - ```
+      openupm add com.readyplayerme.core
+      ```
+### OpenUPM (using editor)
+
+1. Open Edit/Project Settings/Package Manager
+2. Add a new Scoped Registry (or edit the existing OpenUPM entry)
+```
+Name     package.openupm.com
+URL      https://package.openupm.com
+Scope(s) com.readyplayerme.core
+```
+3. Click Save (or Apply)
+4. Open Window/Package Manager
+5. Click +
+6. Select Add package by name... or Add package from git URL...
+7. paste `com.readyplayerme.core` into name
+8. Click Add
+
+### OpenUPM (using manifest)
+1. Add this to manifest 
+```
+{
+    "scopedRegistries": [
+        {
+            "name": "package.openupm.com",
+            "url": "https://package.openupm.com",
+            "scopes": [
+                "com.readyplayerme.core"
+            ]
+        }
+    ],
+    "dependencies": {
+        "com.readyplayerme.core": "1.0.0"
+    }
+}
+```
