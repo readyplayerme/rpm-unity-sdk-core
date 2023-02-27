@@ -59,14 +59,16 @@ namespace ReadyPlayerMe.Core.Editor
         {
             AnalyticsEditorLogger.EventLogger.LogCloseProject();
         }
-
-        [MenuItem("Ready Player Me/Welcome")]
+        
         public static void ShowWindow()
         {
             GetWindow(typeof(WelcomeWindow), false, "Welcome");
         }
 
-        private void LoadAssets()
+        /// <summary>
+        ///     This method the panels and banner if not set already and sets the button event listeners
+        /// </summary>
+        private void LoadPanels()
         {
             if (analyticsPanel == null)
             {
@@ -74,6 +76,7 @@ namespace ReadyPlayerMe.Core.Editor
                 analyticsPanel.OnButtonClick.AddListener(() =>
                 {
                     displayQuickStart = true;
+                    // resize for quick start panel
                     minSize = maxSize = new Vector2(460, 248);
                 });
             }
@@ -81,20 +84,14 @@ namespace ReadyPlayerMe.Core.Editor
             if (quickStartPanel == null)
             {
                 quickStartPanel = new QuickStartPanel();
-                quickStartPanel.OnQuickStartClick.AddListener(() =>
-                {
-                    Close();
-                });                
-                quickStartPanel.OnCloseClick.AddListener(() =>
-                {
-                    Close();
-                });
+                quickStartPanel.OnQuickStartClick.AddListener(Close);                
+                quickStartPanel.OnCloseClick.AddListener(Close);
             }
         }
 
         private void OnGUI()
         {
-            LoadAssets();
+            LoadPanels();
             DrawContent(DrawContent, false);
         }
 
