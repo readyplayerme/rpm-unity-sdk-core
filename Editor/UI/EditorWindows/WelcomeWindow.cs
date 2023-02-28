@@ -14,9 +14,9 @@ namespace ReadyPlayerMe.Core.Editor
         private AnalyticsPanel analyticsPanel;
         private QuickStartPanel quickStartPanel;
         private bool displayQuickStart;
-        
-        private const string METRICS_NEVER_ASK_AGAIN = "rpm-sdk-metrics-never-ask-again";
 
+        public static readonly string NeverAskAgainPref = $"{Application.dataPath}rpm-sdk-metrics-never-ask-again";
+        
         /// <summary>
         ///     Constructor method that subscribes to the StartUp event.
         /// </summary>
@@ -35,11 +35,11 @@ namespace ReadyPlayerMe.Core.Editor
         
         /// <summary>
         ///     This method is called when a Unity project is opened or after this Unity package has finished importing and is
-        ///     responsible for displaying the window. It also calls anayltics events if enabled.
+        ///     responsible for displaying the window. It also calls analytics events if enabled.
         /// </summary>
         private static void OnStartup()
         {
-            if (!EditorPrefs.GetBool(METRICS_NEVER_ASK_AGAIN) && !AnalyticsEditorLogger.IsEnabled)
+            if (CanShowWindow())
             {
                 ShowWindow();
             }
@@ -50,6 +50,11 @@ namespace ReadyPlayerMe.Core.Editor
                 AnalyticsEditorLogger.EventLogger.IdentifyUser();
                 EditorApplication.quitting += OnQuit;
             }
+        }
+        
+        private static bool CanShowWindow()
+        {
+            return !EditorPrefs.GetBool(NeverAskAgainPref);
         }
 
         /// <summary>
@@ -80,7 +85,7 @@ namespace ReadyPlayerMe.Core.Editor
                     minSize = maxSize = new Vector2(460, 248);
                 });
             }
-            banner ??= new Banner("Banner");
+            banner ??= new Banner();
             if (quickStartPanel == null)
             {
                 quickStartPanel = new QuickStartPanel();

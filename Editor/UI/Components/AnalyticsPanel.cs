@@ -1,8 +1,4 @@
-using System;
-using System.Collections;
-using System.Collections.Generic;
 using ReadyPlayerMe.Core.Analytics;
-using ReadyPlayerMe.Core.Editor;
 using UnityEditor;
 using UnityEngine;
 using UnityEngine.Events;
@@ -10,7 +6,7 @@ using UnityEngine.Events;
 
 namespace ReadyPlayerMe.Core.Editor
 {
-    public class AnalyticsPanel : IEditorWindowComponent
+    public class AnalyticsPanel
     {
         private const string HEADING = "Help us improve Ready Player Me SDK";
         private const string DESCRIPTION =
@@ -18,7 +14,6 @@ namespace ReadyPlayerMe.Core.Editor
         private const string ANALYTICS_PRIVACY_TEXT = "Read our Privacy Policy and learn how we use the data <b>here</b>.";
         private const string ANALYTICS_PRIVACY_URL =
             "https://docs.readyplayer.me/ready-player-me/integration-guides/unity/help-us-improve-the-unity-sdk";
-        private const string METRICS_NEVER_ASK_AGAIN = "rpm-sdk-metrics-never-ask-again";
         
         private const string NEVER_ASK_AGAIN = "Never Ask Again";
         private const string DONT_ENABLE_ANALYTICS = "Don't Enable Analytics";
@@ -37,7 +32,7 @@ namespace ReadyPlayerMe.Core.Editor
         public string EditorWindowName { get; set; }
         
         public UnityEvent OnButtonClick = new UnityEvent();
-
+        
         public AnalyticsPanel(string editorWindowName)
         {
             EditorWindowName = editorWindowName;
@@ -48,7 +43,7 @@ namespace ReadyPlayerMe.Core.Editor
         /// </summary>
         private void LoadCachedVariables()
         {
-            neverAskAgain = EditorPrefs.GetBool(METRICS_NEVER_ASK_AGAIN);
+            neverAskAgain = EditorPrefs.GetBool(WelcomeWindow.NeverAskAgainPref);
             variablesLoaded = true;
         }
 
@@ -91,6 +86,7 @@ namespace ReadyPlayerMe.Core.Editor
             };
         }
 
+
         public void Draw(Rect position)
         {
             if (!variablesLoaded) LoadCachedVariables();
@@ -116,7 +112,7 @@ namespace ReadyPlayerMe.Core.Editor
             GUILayout.Label(NEVER_ASK_AGAIN);
             GUILayout.FlexibleSpace();
 
-            EditorPrefs.SetBool(METRICS_NEVER_ASK_AGAIN, neverAskAgain);
+            EditorPrefs.SetBool(WelcomeWindow.NeverAskAgainPref, neverAskAgain);
             EditorGUILayout.EndHorizontal();
 
             GUILayout.Space(10);

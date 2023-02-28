@@ -5,13 +5,11 @@ using UnityEditor.PackageManager.UI;
 using UnityEditor.SceneManagement;
 using UnityEngine;
 using UnityEngine.Events;
-using PackageInfo = UnityEditor.PackageManager.PackageInfo;
 
 namespace ReadyPlayerMe.Core.Editor
 {
-    public class QuickStartPanel : IEditorWindowComponent
+    public class QuickStartPanel
     {
-        public string EditorWindowName { get; set; }
         
         private const string HEADING = "New to Ready Player Me? ";
         private const string DESCRIPTION = "Get started with the QuickStart sample.";
