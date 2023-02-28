@@ -8,7 +8,7 @@ using UnityEngine.Events;
 
 namespace ReadyPlayerMe.Core.Editor
 {
-    public class QuickStartPanel
+    public class QuickStartPanel : IEditorWindowComponent
     {
         
         private const string HEADING = "New to Ready Player Me? ";
@@ -68,7 +68,7 @@ namespace ReadyPlayerMe.Core.Editor
             };
         }
         
-        public void Draw(Rect position)
+        public void Draw(Rect position = new Rect())
         {
             LoadStyles();
             EditorGUILayout.BeginVertical("Box");

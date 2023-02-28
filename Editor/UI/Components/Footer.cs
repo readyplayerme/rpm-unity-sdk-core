@@ -7,7 +7,7 @@ namespace ReadyPlayerMe.Core.Editor
     /// <summary>
     ///     Footer for RPM editor windows. Contains buttons for external links.
     /// </summary>
-    public class Footer
+    public class Footer : IEditorWindowComponent
     {
         private const string DOCS_URL = "https://bit.ly/UnitySDKDocs";
         private const string FAQ_URL = "https://docs.readyplayer.me/overview/frequently-asked-questions/game-engine-faq";
@@ -29,7 +29,7 @@ namespace ReadyPlayerMe.Core.Editor
             webButtonStyle.padding = new RectOffset(5, 5, 5, 5);
         }
 
-        public void Draw()
+        public void Draw(Rect position = new Rect())
         {
             EditorGUILayout.BeginHorizontal();
             

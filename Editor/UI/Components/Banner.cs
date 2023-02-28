@@ -7,7 +7,7 @@ namespace ReadyPlayerMe.Core.Editor
     /// <summary>
     ///     Banner for RPM editor windows. Contains a image and version of the SDK.
     /// </summary>
-    public class Banner
+    public class Banner : IEditorWindowComponent
     {
         private const int FONT_SIZE = 14;
         

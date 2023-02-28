@@ -6,7 +6,7 @@ using UnityEngine.Events;
 
 namespace ReadyPlayerMe.Core.Editor
 {
-    public class AnalyticsPanel
+    public class AnalyticsPanel : IEditorWindowComponent
     {
         private const string HEADING = "Help us improve Ready Player Me SDK";
         private const string DESCRIPTION =
@@ -87,7 +87,7 @@ namespace ReadyPlayerMe.Core.Editor
         }
 
 
-        public void Draw(Rect position)
+        public void Draw(Rect position = new Rect())
         {
             if (!variablesLoaded) LoadCachedVariables();
             LoadStyles();
