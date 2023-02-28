@@ -29,7 +29,7 @@ Please visit the online documentation and join our public `discord` community.
 
 **4.** Paste in this url 
 
-`https://github.com/readyplayerme/Unity-core.git`
+`https://github.com/readyplayerme/rpm-unity-sdk-core.git`
 
 ![paste-git-url](https://user-images.githubusercontent.com/7085672/206432731-f9e0d161-7843-4d6e-8851-47b1f3bfb3bc.png)
 
@@ -51,7 +51,7 @@ After the process is complete you project will have imported these packages:
 1. Navigate to your project's Packages folder and open the manifest.json file.
 2. Add this line below the `"dependencies": {` line
     - ```json title="Packages/manifest.json"
-      "com.readyplayerme.core": "https://github.com/readyplayerme/Unity-core.git",
+      "com.readyplayerme.core": "https://github.com/readyplayerme/rpm-unity-sdk-core.git",
       ```
 3. UPM should now install the package.
 
