@@ -1,6 +1,6 @@
 # Ready Player Me Unity SDK Core
 
-[![GitHub release (latest SemVer)](https://img.shields.io/github/v/release/readyplayerme/rpm-unity-sdk-core)](https://github.com/readyplayerme/rpm-unity-sdk-core/releases/latest)
+[![GitHub release (latest SemVer)](https://img.shields.io/github/v/release/readyplayerme/rpm-unity-sdk-core)](https://github.com/readyplayerme/rpm-unity-sdk-core/releases/latest) [![GitHub Discussions](https://img.shields.io/github/discussions/readyplayerme/rpm-unity-sdk-core)](https://github.com/readyplayerme/rpm-unity-sdk-core/discussions)
 
 This is an open source Unity plugin that contains all the core functionality required for and manages all the plugin updates and dependencies including Ready Player Me Avatar Loader and glTFast. 
 
@@ -10,6 +10,7 @@ Please visit the online documentation and join our public `discord` community.
 
 ![](https://i.imgur.com/FgbNsPN.png) **[Discord Channel]( https://discord.gg/9veRUu2 )**
 
+:octocat:**[Github Discussions]( https://github.com/readyplayerme/rpm-unity-sdk-core/discussions )**
 
 ## Quick Start 
 
