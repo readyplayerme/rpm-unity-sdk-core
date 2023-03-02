@@ -43,7 +43,7 @@ namespace ReadyPlayerMe.Core.Editor
         /// </summary>
         private void LoadCachedVariables()
         {
-            neverAskAgain = EditorPrefs.GetBool(WelcomeWindow.NeverAskAgainPref);
+            neverAskAgain = ProjectPrefs.GetBool(WelcomeWindow.NeverAskAgainPref);
             variablesLoaded = true;
         }
 
@@ -112,7 +112,7 @@ namespace ReadyPlayerMe.Core.Editor
             GUILayout.Label(NEVER_ASK_AGAIN);
             GUILayout.FlexibleSpace();
 
-            EditorPrefs.SetBool(WelcomeWindow.NeverAskAgainPref, neverAskAgain);
+            ProjectPrefs.SetBool(WelcomeWindow.NeverAskAgainPref, neverAskAgain);
             EditorGUILayout.EndHorizontal();
 
             GUILayout.Space(10);

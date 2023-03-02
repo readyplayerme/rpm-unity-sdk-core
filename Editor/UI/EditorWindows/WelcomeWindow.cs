@@ -15,7 +15,7 @@ namespace ReadyPlayerMe.Core.Editor
         private QuickStartPanel quickStartPanel;
         private bool displayQuickStart;
 
-        public static readonly string NeverAskAgainPref = $"{Application.dataPath}rpm-sdk-metrics-never-ask-again";
+        public static readonly string NeverAskAgainPref = "rpm-sdk-metrics-never-ask-again";
         
         /// <summary>
         ///     Constructor method that subscribes to the StartUp event.
@@ -54,7 +54,7 @@ namespace ReadyPlayerMe.Core.Editor
         
         private static bool CanShowWindow()
         {
-            return !EditorPrefs.GetBool(NeverAskAgainPref);
+            return !ProjectPrefs.GetBool(NeverAskAgainPref);
         }
 
         /// <summary>
