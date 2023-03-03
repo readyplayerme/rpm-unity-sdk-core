@@ -130,6 +130,16 @@ namespace ReadyPlayerMe.Core.Analytics
             });
         }
 
+        public void LogMetadataDownloaded()
+        {
+            amplitudeEventLogger.LogEvent(Constants.EventName.METADATA_DOWNLOADED);
+        }
+        
+        public void LogAvatarLoaded()
+        {
+            amplitudeEventLogger.LogEvent(Constants.EventName.AVATAR_LOADED);
+        }
+
         private void GenerateSessionId()
         {
             amplitudeEventLogger.SetSessionId(DateTimeOffset.Now.ToUnixTimeMilliseconds());

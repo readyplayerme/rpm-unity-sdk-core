@@ -14,6 +14,8 @@ namespace ReadyPlayerMe.Core.Analytics
             public const string OPEN_DIALOG = "open dialog";
             public const string BUILD_APPLICATION = "build application";
             public const string CLOSE_PROJECT = "close project";
+            public const string METADATA_DOWNLOADED = "metadata downloaded";
+            public const string AVATAR_LOADED = "avatar loaded";
             public const string SET_USER_PROPERTIES = "set user properties";
         }
 

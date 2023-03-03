@@ -14,5 +14,8 @@ namespace ReadyPlayerMe.Core.Analytics
         void LogUpdatePartnerURL(string previousSubdomain, string newSubdomain);
         void LogOpenDialog(string dialog);
         void LogBuildApplication(string target, string appName, bool productionBuild);
+        void LogMetadataDownloaded();
+        void LogAvatarLoaded();
+
     }
 }
