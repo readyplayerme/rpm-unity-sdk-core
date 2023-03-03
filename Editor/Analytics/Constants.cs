@@ -14,6 +14,8 @@ namespace ReadyPlayerMe.Core.Analytics
             public const string OPEN_DIALOG = "open dialog";
             public const string BUILD_APPLICATION = "build application";
             public const string CLOSE_PROJECT = "close project";
+            public const string METADATA_DOWNLOADED = "metadata downloaded";
+            public const string AVATAR_LOADED = "avatar loaded";
             public const string SET_USER_PROPERTIES = "set user properties";
         }
 
@@ -35,6 +37,7 @@ namespace ReadyPlayerMe.Core.Analytics
             public const string AVATAR_URL = "avatar url";
             public const string APP_IDENTIFIER = "app identifier";
             public const string ALLOW_ANALYTICS = "allow analytics";
+            public const string DURATION = "duration";
         }
 
         public static class AmplitudeKeys
