@@ -108,7 +108,6 @@ namespace ReadyPlayerMe.Core.Analytics
             });
         }
 
-
         public void LogOpenDialog(string dialog)
         {
             if (!isEnabled) return;
@@ -130,14 +129,20 @@ namespace ReadyPlayerMe.Core.Analytics
             });
         }
 
-        public void LogMetadataDownloaded()
+        public void LogMetadataDownloaded(double duration)
         {
-            amplitudeEventLogger.LogEvent(Constants.EventName.METADATA_DOWNLOADED);
+            amplitudeEventLogger.LogEvent(Constants.EventName.METADATA_DOWNLOADED, new Dictionary<string, object>
+            {
+                { Constants.Properties.DURATION, duration }
+            });
         }
-        
-        public void LogAvatarLoaded()
+
+        public void LogAvatarLoaded(double duration)
         {
-            amplitudeEventLogger.LogEvent(Constants.EventName.AVATAR_LOADED);
+            amplitudeEventLogger.LogEvent(Constants.EventName.AVATAR_LOADED, new Dictionary<string, object>
+            {
+                { Constants.Properties.DURATION, duration }
+            });
         }
 
         private void GenerateSessionId()

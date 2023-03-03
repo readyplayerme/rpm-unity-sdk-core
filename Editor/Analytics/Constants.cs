@@ -37,6 +37,7 @@ namespace ReadyPlayerMe.Core.Analytics
             public const string AVATAR_URL = "avatar url";
             public const string APP_IDENTIFIER = "app identifier";
             public const string ALLOW_ANALYTICS = "allow analytics";
+            public const string DURATION = "duration";
         }
 
         public static class AmplitudeKeys
