@@ -31,7 +31,7 @@ namespace ReadyPlayerMe.Core.Editor
 
         private void LoadAssets()
         {
-            banner ??= new Banner(editorWindowName);
+            banner ??= new Banner();
             
             footer ??= new Footer(editorWindowName);
             
@@ -100,7 +100,7 @@ namespace ReadyPlayerMe.Core.Editor
                         Vertical(() =>
                         {
                             GUILayout.Label(SUPPORT_HEADING, HeadingStyle);
-                            footer.Draw(position);
+                            footer.Draw();
                         }, true);
                     }
                 }, windowWidth);

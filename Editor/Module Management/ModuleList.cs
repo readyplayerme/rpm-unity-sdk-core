@@ -1,4 +1,4 @@
-﻿using System.Collections.Generic;
+using System.Collections.Generic;
 using System.Linq;
 using UnityEditor.PackageManager;
 
@@ -13,7 +13,7 @@ namespace ReadyPlayerMe.Core.Editor
         {
             name = "com.readyplayerme.core",
             gitUrl = "https://github.com/readyplayerme/rpm-unity-sdk-core.git",
-            branch = "",
+            branch = "develop",
             version = "1.0.0"
         };
 
@@ -33,7 +33,7 @@ namespace ReadyPlayerMe.Core.Editor
             {
                 name = "com.readyplayerme.avatarloader",
                 gitUrl = "https://github.com/readyplayerme/rpm-unity-sdk-avatar-loader.git",
-                branch = "",
+                branch = "develop",
                 version = "1.0.0"
             },
             new ModuleInfo
