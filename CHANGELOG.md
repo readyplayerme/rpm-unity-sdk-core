@@ -3,7 +3,7 @@
 All notable changes to this project will be documented in this file.
 This project adheres to [Semantic Versioning](http://semver.org/).
 
-## [0.3.0] - UNRELEASED
+## [1.1.0] - UNRELEASED
 
 ### Added
 - quick start popup
@@ -13,7 +13,18 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 ### Updated
 - OpenUPM installation added to README.md
 
+## [1.0.0] - 2023.02.20
+
+### Added
+- optional sdk logging
+- don't ask again option for update check
+
+### Updated
+- PartnerSubdomainSettings refactored to a CoreSettings scriptable object
+
 ### Fixed
+- core settings asset now automatically created if it is missing
+- Various bug fixes and improvements
 
 ## [0.2.0] - 2023.02.08
 
