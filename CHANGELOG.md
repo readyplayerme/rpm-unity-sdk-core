@@ -3,6 +3,18 @@
 All notable changes to this project will be documented in this file.
 This project adheres to [Semantic Versioning](http://semver.org/).
 
+## [0.3.0] - UNRELEASED
+
+### Added
+- quick start popup
+- added operation completed event
+- discussion link to README.md
+
+### Updated
+- OpenUPM installation added to README.md
+
+### Fixed
+
 ## [0.2.0] - 2023.02.08
 
 ### Added
