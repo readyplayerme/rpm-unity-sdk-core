@@ -1,14 +1,11 @@
-This update fixes a number of bugs and adds support for optional SDK logging.
+This update includes an additional popup for the new Quick Start sample, operation completed event and README updates. 
 
 ## Changelog
 
 ### Added
-- optional sdk logging
-- don't ask again option for update check
+- quick start sample popup
+- added operation completed event
+- discussion link to README.md
 
 ### Updated
-- PartnerSubdomainSettings refactored to a CoreSettings scriptable object
-
-### Fixed
-- core settings asset now automatically created if it is missing.
-- Various bug fixes and improvements
+- OpenUPM installation added to README.md
