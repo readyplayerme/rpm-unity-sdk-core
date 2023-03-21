@@ -10,11 +10,14 @@ namespace ReadyPlayerMe.Core
         private readonly IOperation<T>[] operations;
         private readonly int operationsCount;
 
+        public int Timeout;
+        public Action<IOperation<T>> OperationCompleted;
+
         private CancellationTokenSource ctxSource;
         private int currentIndex;
 
         private float currentProgress;
-        public int Timeout;
+        
 
         public OperationExecutor(IOperation<T>[] operations)
         {
@@ -28,7 +31,7 @@ namespace ReadyPlayerMe.Core
         public async Task<T> Execute(T context)
         {
             ctxSource = new CancellationTokenSource();
-            foreach (IOperation<T> operation in operations)
+            foreach (var operation in operations)
             {
                 operation.ProgressChanged += OnProgressChanged;
                 operation.Timeout = Timeout;
@@ -47,6 +50,7 @@ namespace ReadyPlayerMe.Core
                     throw;
                 }
                 operation.ProgressChanged -= OnProgressChanged;
+                OperationCompleted?.Invoke(operation);
             }
 
             return context;

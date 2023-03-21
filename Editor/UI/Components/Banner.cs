@@ -7,7 +7,7 @@ namespace ReadyPlayerMe.Core.Editor
     /// <summary>
     ///     Banner for RPM editor windows. Contains a image and version of the SDK.
     /// </summary>
-    public class Banner: IEditorWindowComponent
+    public class Banner : IEditorWindowComponent
     {
         private const int FONT_SIZE = 14;
         
@@ -18,12 +18,9 @@ namespace ReadyPlayerMe.Core.Editor
 
         private readonly Texture2D banner;
         private readonly GUIStyle versionTextStyle;
-        
-        public string EditorWindowName { get; set; }
 
-        public Banner(string editorWindowName)
+        public Banner()
         {
-            EditorWindowName = editorWindowName;
             
             var assetGuid = AssetDatabase.FindAssets(BANNER_SEARCH_FILTER).FirstOrDefault();
             var assetPath = AssetDatabase.GUIDToAssetPath(assetGuid);
@@ -44,9 +41,6 @@ namespace ReadyPlayerMe.Core.Editor
         {
             var rect = new Rect((position.size.x - BANNER_WIDTH) / 2, 0, BANNER_WIDTH, BANNER_HEIGHT);
             GUI.DrawTexture(rect, banner);
-
-            var versionText = new Rect((position.width + BANNER_WIDTH) / 2 - 10, 10, 0, 0);
-            EditorGUI.DropShadowLabel(versionText, ApplicationData.GetData().SDKVersion, versionTextStyle);
 
             GUILayout.Space(128);
         }
