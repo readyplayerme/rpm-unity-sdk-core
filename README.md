@@ -43,7 +43,7 @@ After the process is complete you project will have imported these packages:
 - **Ready Player Me WebView**
 - **glTFast**
 
-![package-import-complete](https://user-images.githubusercontent.com/7085672/206432761-dc078cc7-23b0-4d83-a638-46db19faabd6.png)
+![package-import-complete](https://user-images.githubusercontent.com/3163281/228290266-e6d1ee63-c7e3-4979-ab92-f702f3678f92.png)
 
 ## Alternate Installation
 
