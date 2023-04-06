@@ -67,20 +67,19 @@ namespace ReadyPlayerMe.Core
             if (ctx.IsCancellationRequested)
             {
                 request.Abort();
-                response.Parse(false,request);
+                response.Parse(false, request);
                 return response;
             }
 
             if (request.result != UnityWebRequest.Result.Success)
             {
                 Debug.Log(request.downloadHandler.text + "\n" + url);
-                response.Parse(false,request);
+                response.Parse(false, request);
                 return response;
             }
 
             var requestDuration = Time.realtimeSinceStartup - startTime;
-            response.Parse(true,request);
-
+            response.Parse(true, request);
             return response;
         }
     }
