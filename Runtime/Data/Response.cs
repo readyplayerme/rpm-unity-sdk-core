@@ -1,10 +1,8 @@
-﻿using System.Threading.Tasks;
-using UnityEngine;
-using UnityEngine.Networking;
+﻿using UnityEngine.Networking;
 
 namespace ReadyPlayerMe.Core
 {
-    public struct Response : IResponse
+    public class Response : IResponse
     {
         public string Text;
         public byte[] Data;

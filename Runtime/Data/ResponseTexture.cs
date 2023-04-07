@@ -1,10 +1,9 @@
-﻿using System.Threading.Tasks;
-using UnityEngine;
+﻿using UnityEngine;
 using UnityEngine.Networking;
 
 namespace ReadyPlayerMe.Core
 {
-    public struct ResponseTexture : IResponse
+    public class ResponseTexture : IResponse
     {
         public Texture2D Texture;
 
