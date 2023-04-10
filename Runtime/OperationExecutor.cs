@@ -6,7 +6,6 @@ namespace ReadyPlayerMe.Core
 {
     public class OperationExecutor<T> where T : Context
     {
-
         private readonly IOperation<T>[] operations;
         private readonly int operationsCount;
 
@@ -17,7 +16,6 @@ namespace ReadyPlayerMe.Core
         private int currentIndex;
 
         private float currentProgress;
-        
 
         public OperationExecutor(IOperation<T>[] operations)
         {

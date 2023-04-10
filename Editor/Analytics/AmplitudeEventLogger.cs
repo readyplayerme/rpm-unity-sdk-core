@@ -6,7 +6,6 @@ using Newtonsoft.Json;
 using ReadyPlayerMe.Core.Editor;
 using UnityEditor;
 using UnityEngine;
-using UnityEngine.Networking;
 
 namespace ReadyPlayerMe.Core.Analytics
 {
@@ -95,7 +94,7 @@ namespace ReadyPlayerMe.Core.Analytics
 
             try
             {
-                await Dispatch(ENDPOINT, bytes);
+                await Dispatch(ENDPOINT, json);
             }
             catch (Exception exception)
             {
@@ -103,30 +102,25 @@ namespace ReadyPlayerMe.Core.Analytics
             }
         }
 
-        private async Task Dispatch(string url, byte[] bytes)
+        private async Task Dispatch(string url, string payload)
         {
-            if (HasInternetConnection)
+            if (!HasInternetConnection)
             {
-                using (UnityWebRequest request = UnityWebRequest.Put(url, bytes))
-                {
-                    request.method = "POST";
-                    request.SetRequestHeader("Content-Type", "application/json");
-
-                    UnityWebRequestAsyncOperation asyncOperation = request.SendWebRequest();
-                    while (!asyncOperation.isDone)
-                    {
-                        await Task.Yield();
-                    }
-
-                    if (request.result == UnityWebRequest.Result.ProtocolError || request.result == UnityWebRequest.Result.ConnectionError)
-                    {
-                        throw new Exception(request.error);
-                    }
-                    return;
-                }
+                throw new Exception(NO_INTERNET_CONNECTION);
             }
 
-            throw new Exception(NO_INTERNET_CONNECTION);
+            var headers = new Dictionary<string, string>()
+            {
+                { "Content-Type", "application/json" }
+            };
+
+            var webRequestDispatcher = new WebRequestDispatcher();
+            var response = await webRequestDispatcher.SendRequest<Response>(url, HttpMethod.POST, headers, payload);
+
+            if (!response.IsSuccess)
+            {
+                throw new Exception(response.Error);
+            }
         }
 
         #region Analytics Target
