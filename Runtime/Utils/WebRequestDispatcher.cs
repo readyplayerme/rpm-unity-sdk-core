@@ -7,7 +7,7 @@ using UnityEngine.Networking;
 
 namespace ReadyPlayerMe.Core
 {
-    public enum Method
+    public enum HttpMethod
     {
         GET,
         POST,
@@ -24,7 +24,7 @@ namespace ReadyPlayerMe.Core
 
         public async Task<T> SendRequest<T>(
             string url,
-            Method method,
+            HttpMethod httpMethod,
             Dictionary<string, string> headers = null,
             string payload = null,
             DownloadHandler downloadHandler = default,
@@ -33,7 +33,7 @@ namespace ReadyPlayerMe.Core
             using var request = new UnityWebRequest();
             request.timeout = Timeout;
             request.url = url;
-            request.method = method.ToString();
+            request.method = httpMethod.ToString();
 
             if (headers != null)
             {
