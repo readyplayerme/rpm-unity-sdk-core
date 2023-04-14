@@ -40,8 +40,8 @@ namespace ReadyPlayerMe.Core.Editor
             {
                 name = "com.readyplayerme.webview",
                 gitUrl = "https://github.com/readyplayerme/rpm-unity-sdk-webview.git",
-                branch = "release/v1.2.0",
-                version = "1.2.0"
+                branch = "",
+                version = "1.1.0"
             }
         };
 
