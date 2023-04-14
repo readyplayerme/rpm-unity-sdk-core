@@ -4,8 +4,9 @@ namespace ReadyPlayerMe.Core
 {
     public interface IResponse
     {
-        bool IsSuccess { get; }
-        string Error { get; }
-        void Parse(bool isSuccess, UnityWebRequest request);
+        bool IsSuccess { get; set; }
+        string Error { get; set; }
+        long ResponseCode { get; set; }
+        void Parse(UnityWebRequest request);
     }
 }
