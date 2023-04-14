@@ -7,17 +7,12 @@ namespace ReadyPlayerMe.Core
         public string Text;
         public byte[] Data;
 
-        public bool IsSuccess { get; private set; }
-        public string Error { get; private set; }
+        public bool IsSuccess { get; set; }
+        public string Error { get;  set; }
+        public long ResponseCode { get; set; }
 
-        public void Parse(bool isSuccess, UnityWebRequest request)
+        public void Parse(UnityWebRequest request)
         {
-            IsSuccess = isSuccess;
-            if (!IsSuccess)
-            {
-                Error = request.error;
-            }
-
             if (request.downloadHandler is DownloadHandlerFile)
             {
                 return;
