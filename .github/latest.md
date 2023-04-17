@@ -3,7 +3,7 @@ This update includes an additional popup for the new Quick Start sample, operati
 ## Changelog
 
 ### Added
-- support for response codes [62](https://github.com/readyplayerme/rpm-unity-sdk-core/pull/62)
+- support for response codes [#62](https://github.com/readyplayerme/rpm-unity-sdk-core/pull/62)
 
 ### Updated
 - refactor of WebRequestDispatcher [#59](https://github.com/readyplayerme/rpm-unity-sdk-core/pull/59)
