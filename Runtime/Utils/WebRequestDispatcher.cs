@@ -53,7 +53,6 @@ namespace ReadyPlayerMe.Core
                 request.uploadHandler = new UploadHandlerRaw(bytes);
             }
 
-            var startTime = Time.realtimeSinceStartup;
             var asyncOperation = request.SendWebRequest();
 
             while (!asyncOperation.isDone && !ctx.IsCancellationRequested)
@@ -63,23 +62,26 @@ namespace ReadyPlayerMe.Core
             }
 
             var response = new T();
+            response.ResponseCode = request.responseCode;
 
             if (ctx.IsCancellationRequested)
             {
                 request.Abort();
-                response.Parse(false, request);
+                response.Error = "Request was cancelled";
+                response.Parse(request);
                 return response;
             }
 
             if (request.result != UnityWebRequest.Result.Success)
             {
                 Debug.Log(request.downloadHandler.text + "\n" + url);
-                response.Parse(false, request);
+                response.Error = request.error;
+                response.Parse(request);
                 return response;
             }
 
-            var requestDuration = Time.realtimeSinceStartup - startTime;
-            response.Parse(true, request);
+            response.IsSuccess = true;
+            response.Parse(request);
             return response;
         }
     }

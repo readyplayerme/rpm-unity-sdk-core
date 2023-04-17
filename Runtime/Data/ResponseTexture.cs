@@ -7,19 +7,15 @@ namespace ReadyPlayerMe.Core
     {
         public Texture2D Texture;
 
-        public bool IsSuccess { get; private set; }
-        public string Error { get; private set; }
+        public bool IsSuccess { get; set; }
+        public string Error { get; set; }
+        public long ResponseCode { get; set; }
 
-        public void Parse(bool isSuccess, UnityWebRequest request)
+        public void Parse(UnityWebRequest request)
         {
-            IsSuccess = isSuccess;
             if (IsSuccess)
             {
                 Texture = ((DownloadHandlerTexture) request.downloadHandler).texture;
-            }
-            else
-            {
-                Error = request.error;
             }
         }
     }
