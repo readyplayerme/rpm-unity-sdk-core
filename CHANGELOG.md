@@ -3,7 +3,10 @@
 All notable changes to this project will be documented in this file.
 This project adheres to [Semantic Versioning](http://semver.org/).
 
-## [1.2.0] - 2023.04.14
+## [1.2.0] - 2023.04.17
+
+### Added
+- support for response codes [62](https://github.com/readyplayerme/rpm-unity-sdk-core/pull/62)
 
 ### Updated
 - refactor of WebRequestDispatcher [#59](https://github.com/readyplayerme/rpm-unity-sdk-core/pull/59)
