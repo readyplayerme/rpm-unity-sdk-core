@@ -122,11 +122,13 @@ namespace ReadyPlayerMe.Core.Editor
             GUILayout.Space(3);
             if (GUILayout.Button(DONT_ENABLE_ANALYTICS, buttonStyle))
             {
+                ProjectPrefs.SetBool(WelcomeWindow.NeverAskAgainPref, neverAskAgain);
                 AnalyticsEditorLogger.Disable();
                 OnButtonClick?.Invoke();
             }
             if (GUILayout.Button(ENABLE_ANALYTICS, buttonStyle))
             {
+                ProjectPrefs.SetBool(WelcomeWindow.NeverAskAgainPref, true);
                 AnalyticsEditorLogger.Enable();
                 OnButtonClick?.Invoke();
             }
