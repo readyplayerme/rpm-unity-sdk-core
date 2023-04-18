@@ -16,7 +16,7 @@ namespace ReadyPlayerMe.Core.Editor
 
         protected GUIStyle HeadingStyle;
         protected GUIStyle DescriptionStyle;
-        
+
         protected Texture errorIcon;
 
         private GUIStyle webButtonStyle;
@@ -32,9 +32,9 @@ namespace ReadyPlayerMe.Core.Editor
         private void LoadAssets()
         {
             banner ??= new Banner();
-            
+
             footer ??= new Footer(editorWindowName);
-            
+
             if (errorIcon == null)
             {
                 var assetGuid = AssetDatabase.FindAssets(ERROR_ICON_SEARCH_FILTER).FirstOrDefault();

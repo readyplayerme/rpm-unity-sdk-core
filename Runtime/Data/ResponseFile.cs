@@ -7,15 +7,15 @@ namespace ReadyPlayerMe.Core
 {
     public class ResponseFile : IResponse
     {
-        public bool IsSuccess { get;  set; }
-        public string Error { get;  set; }
+        public bool IsSuccess { get; set; }
+        public string Error { get; set; }
         public long ResponseCode { get; set; }
 
         public byte[] Data { get; private set; }
 
         private ulong length;
 
-        public void Parse( UnityWebRequest request)
+        public void Parse(UnityWebRequest request)
         {
             length = request.downloadedBytes;
         }

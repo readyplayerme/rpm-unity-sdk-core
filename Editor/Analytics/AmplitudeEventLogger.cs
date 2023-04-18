@@ -74,7 +74,7 @@ namespace ReadyPlayerMe.Core.Analytics
             {
                 eventData.Add(Constants.AmplitudeKeys.USER_PROPERTIES, userProperties);
             }
-            
+
             if (eventProperties != null)
             {
                 eventData.Add(Constants.AmplitudeKeys.EVENT_PROPERTIES, eventProperties);

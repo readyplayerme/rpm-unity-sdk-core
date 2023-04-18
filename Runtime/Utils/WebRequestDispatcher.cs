@@ -37,7 +37,7 @@ namespace ReadyPlayerMe.Core
 
             if (headers != null)
             {
-                foreach (var header in headers)
+                foreach (KeyValuePair<string, string> header in headers)
                 {
                     request.SetRequestHeader(header.Key, header.Value);
                 }
@@ -53,7 +53,7 @@ namespace ReadyPlayerMe.Core
                 request.uploadHandler = new UploadHandlerRaw(bytes);
             }
 
-            var asyncOperation = request.SendWebRequest();
+            UnityWebRequestAsyncOperation asyncOperation = request.SendWebRequest();
 
             while (!asyncOperation.isDone && !ctx.IsCancellationRequested)
             {

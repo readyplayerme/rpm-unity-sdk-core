@@ -18,7 +18,7 @@ namespace ReadyPlayerMe.Core.Editor
         private readonly GUIStyle webButtonStyle;
 
         private string editorWindowName;
-        
+
         public Footer(string editorWindowName)
         {
             this.editorWindowName = editorWindowName;
@@ -32,7 +32,7 @@ namespace ReadyPlayerMe.Core.Editor
         public void Draw(Rect position = new Rect())
         {
             EditorGUILayout.BeginHorizontal();
-            
+
             if (GUILayout.Button("Documentation", webButtonStyle))
             {
                 AnalyticsEditorLogger.EventLogger.LogOpenDocumentation(editorWindowName);
@@ -50,7 +50,7 @@ namespace ReadyPlayerMe.Core.Editor
                 AnalyticsEditorLogger.EventLogger.LogOpenDiscord(editorWindowName);
                 Application.OpenURL(DISCORD_URL);
             }
-            
+
             EditorGUILayout.EndHorizontal();
         }
     }
