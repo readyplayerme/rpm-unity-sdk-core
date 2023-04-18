@@ -3,9 +3,10 @@ This update includes an additional popup for the new Quick Start sample, operati
 ## Changelog
 
 ### Added
-- quick start sample popup
-- added operation completed event
-- discussion link to README.md
+- support for response codes [#62](https://github.com/readyplayerme/rpm-unity-sdk-core/pull/62)
 
 ### Updated
-- OpenUPM installation added to README.md
+- refactor of WebRequestDispatcher [#59](https://github.com/readyplayerme/rpm-unity-sdk-core/pull/59)
+
+### Fixed
+- fixed an issue with the popup don't ask again pref was not updating correctly [#58](https://github.com/readyplayerme/rpm-unity-sdk-core/pull/58)
