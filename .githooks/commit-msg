@@ -9,6 +9,7 @@ if [[ $COMMIT_MESSAGE =~ $COMMIT_MESSAGE_REGEX || $COMMIT_MESSAGE =~ $AUTO_COMMI
 	exit 0
 else
     echo "Invalid commit message format:"
+    echo "Your message: '${COMMIT_MESSAGE}'"
     echo ""
     echo "Please use the following format:"
     echo "<type>: <subject>"
@@ -16,7 +17,5 @@ else
     echo "Examples:"
     echo "feat: add support for email login"
     echo "fix: fix issue with user profile image upload"
-    echo "chore: cleanup and refactor of class"
-	echo "Your message: '${COMMIT_MESSAGE}'"
 	exit 1
 fi
