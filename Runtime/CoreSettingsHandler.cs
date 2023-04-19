@@ -41,7 +41,7 @@ namespace ReadyPlayerMe.Core
             AssetDatabase.SaveAssets();
 #endif
         }
-        
+
 #if UNITY_EDITOR
         private static CoreSettings CreateCoreSettings()
         {

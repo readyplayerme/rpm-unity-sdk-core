@@ -10,7 +10,7 @@ namespace ReadyPlayerMe.Core.Editor
 {
     public class QuickStartPanel : IEditorWindowComponent
     {
-        
+
         private const string HEADING = "New to Ready Player Me? ";
         private const string DESCRIPTION = "Get started with the QuickStart sample.";
         private static bool neverAskAgain;
@@ -20,7 +20,7 @@ namespace ReadyPlayerMe.Core.Editor
         private GUIStyle buttonStyle;
         private GUIStyle descriptionStyle;
         private GUIStyle headingStyle;
-        
+
         public readonly UnityEvent OnQuickStartClick = new UnityEvent();
         public readonly UnityEvent OnCloseClick = new UnityEvent();
 
@@ -67,30 +67,30 @@ namespace ReadyPlayerMe.Core.Editor
                 alignment = TextAnchor.MiddleCenter
             };
         }
-        
+
         public void Draw(Rect position = new Rect())
         {
             LoadStyles();
             EditorGUILayout.BeginVertical("Box");
             GUILayout.Space(10);
-            
+
             EditorGUILayout.BeginHorizontal(GUILayout.ExpandWidth(true));
             GUILayout.FlexibleSpace();
             GUILayout.Label(HEADING, headingStyle);
             GUILayout.FlexibleSpace();
             EditorGUILayout.EndHorizontal();
-            
+
             GUILayout.Space(8);
-            
+
             EditorGUILayout.BeginHorizontal(GUILayout.ExpandWidth(true));
             GUILayout.FlexibleSpace();
             GUILayout.Label(DESCRIPTION, descriptionStyle);
             GUILayout.FlexibleSpace();
             EditorGUILayout.EndHorizontal();
-            
+
             GUILayout.Space(20);
             EditorGUILayout.EndVertical();
-            
+
             EditorGUILayout.BeginHorizontal(GUILayout.ExpandWidth(true));
             GUILayout.FlexibleSpace();
             if (GUILayout.Button("Close", buttonStyle))
@@ -99,7 +99,7 @@ namespace ReadyPlayerMe.Core.Editor
             }
             if (GUILayout.Button(QUICKSTART_SAMPLE_NAME, buttonStyle))
             {
-                var quickStartSample = GetQuickStartSample();
+                Sample quickStartSample = GetQuickStartSample();
                 if (!quickStartSample.isImported)
                 {
                     ImportAndOpenSample(quickStartSample);
@@ -113,11 +113,11 @@ namespace ReadyPlayerMe.Core.Editor
 
         private Sample GetQuickStartSample()
         {
-            var samples = Sample.FindByPackage(LOADER_PACKAGE, null).ToArray();
-            var quickStartSample = samples.First(x => x.displayName == QUICKSTART_SAMPLE_NAME);
+            Sample[] samples = Sample.FindByPackage(LOADER_PACKAGE, null).ToArray();
+            Sample quickStartSample = samples.First(x => x.displayName == QUICKSTART_SAMPLE_NAME);
             return quickStartSample;
         }
-        
+
         private void ImportAndOpenSample(Sample quickStartSample)
         {
             quickStartSample.Import();

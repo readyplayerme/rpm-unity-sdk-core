@@ -14,7 +14,7 @@ namespace ReadyPlayerMe.Core.Editor
         private const string ANALYTICS_PRIVACY_TEXT = "Read our Privacy Policy and learn how we use the data <b>here</b>.";
         private const string ANALYTICS_PRIVACY_URL =
             "https://docs.readyplayer.me/ready-player-me/integration-guides/unity/help-us-improve-the-unity-sdk";
-        
+
         private const string NEVER_ASK_AGAIN = "Never Ask Again";
         private const string DONT_ENABLE_ANALYTICS = "Don't Enable Analytics";
         private const string ENABLE_ANALYTICS = "Enable Analytics";
@@ -30,9 +30,9 @@ namespace ReadyPlayerMe.Core.Editor
         private GUIStyle descriptionStyle;
         private GUIStyle HeadingStyle;
         public string EditorWindowName { get; set; }
-        
+
         public UnityEvent OnButtonClick = new UnityEvent();
-        
+
         public AnalyticsPanel(string editorWindowName)
         {
             EditorWindowName = editorWindowName;
@@ -117,7 +117,7 @@ namespace ReadyPlayerMe.Core.Editor
 
             GUILayout.Space(10);
             EditorGUILayout.EndVertical();
-            
+
             EditorGUILayout.BeginHorizontal();
             GUILayout.Space(3);
             if (GUILayout.Button(DONT_ENABLE_ANALYTICS, buttonStyle))

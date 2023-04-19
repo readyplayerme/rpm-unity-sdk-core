@@ -10,7 +10,7 @@ namespace ReadyPlayerMe.Core.Editor
     public class Banner : IEditorWindowComponent
     {
         private const int FONT_SIZE = 14;
-        
+
         private const int BANNER_WIDTH = 460;
         private const int BANNER_HEIGHT = 123;
 
@@ -21,7 +21,7 @@ namespace ReadyPlayerMe.Core.Editor
 
         public Banner()
         {
-            
+
             var assetGuid = AssetDatabase.FindAssets(BANNER_SEARCH_FILTER).FirstOrDefault();
             var assetPath = AssetDatabase.GUIDToAssetPath(assetGuid);
 
