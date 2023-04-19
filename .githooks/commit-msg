@@ -2,7 +2,7 @@
 
 COMMIT_MESSAGE="$(head -n1 $1)"
 COMMIT_MESSAGE_REGEX="^(build|chore|ci|docs|feat|fix|perf|refactor|revert|style|test)(\([a-z ]+\))?: .+$"
-AUTO_COMMIT_MESSAGE_REGEX="^Merge (pull request|branch) [a-zA-Z0-9#'_\/\-]+ (of [a-zA-Z0-9#':_. \/\-]+ )?(from|into) [a-zA-Z0-9#':_. \/\-]+$"
+AUTO_COMMIT_MESSAGE_REGEX="^Merge (pull request|branch) [a-zA-Z0-9#'_/-]+ (of [a-zA-Z0-9#':_. /-]+ )?(from|into) [a-zA-Z0-9#':_. /-]+$"
 
 
 if [[ $COMMIT_MESSAGE =~ $COMMIT_MESSAGE_REGEX || $COMMIT_MESSAGE =~ $AUTO_COMMIT_MESSAGE_REGEX ]]; then
