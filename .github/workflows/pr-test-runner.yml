@@ -1,9 +1,9 @@
-name: PR test runner
+name: Run Tests
 
 on:
-  workflow_dispatch:
   pull_request:
     types: [ opened, reopened ]
+  workflow_dispatch:
 
 jobs:
   runAllTests:
