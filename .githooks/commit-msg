@@ -12,10 +12,12 @@ else
     echo "Your message: '${COMMIT_MESSAGE}'"
     echo ""
     echo "Please use the following format:"
-    echo "<type>: <subject>"
+    echo "<type>(<scope>): <subject>"
+    echo ""
+    echo " the (<scope>) part is optional"
     echo ""
     echo "Examples:"
-    echo "feat: add support for email login"
+    echo "feat(login): add support for email login"
     echo "fix: fix issue with user profile image upload"
 	exit 1
 fi
