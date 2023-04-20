@@ -34,7 +34,6 @@ namespace ReadyPlayerMe.Core
         public static void Log()
         {
             SDKLogger.Log(TAG, $"Partner Subdomain: <color=green>{Data.PartnerName}</color>");
-            SDKLogger.Log(TAG, $"SDK Version: <color=green>{Data.SDKVersion}</color>");
             SDKLogger.Log(TAG, $"Unity Version: <color=green>{Data.UnityVersion}</color>");
             SDKLogger.Log(TAG, $"Unity Platform: <color=green>{Data.UnityPlatform}</color>");
             SDKLogger.Log(TAG, $"Unity Render Pipeline: <color=green>{Data.RenderPipeline}</color>");
