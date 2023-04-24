@@ -25,12 +25,14 @@ namespace ReadyPlayerMe.Core
             return CoreSettingsHandler.CoreSettings.EnableLogging;
         }
 
+#if UNITY_EDITOR
         public static void EnableLogging(bool enabled)
         {
             loggingEnabled = enabled;
             CoreSettingsHandler.CoreSettings.EnableLogging = loggingEnabled;
             CoreSettingsHandler.Save();
         }
+#endif
 
         public static void Log(string tag, object message)
         {
