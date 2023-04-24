@@ -27,6 +27,8 @@ namespace ReadyPlayerMe.Core.Editor
         private const string MODULE_INSTALLATION_SUCCESS_MESSAGE =
             "All the modules are installed successfully. Ready Player Me avatar system is ready to use.";
         private const string MODULE_INSTALLATION_FAILURE_MESSAGE = "Something went wrong while installing modules.";
+        private const string ALL_MODULES_ARE_INSTALLED = "All modules are installed.";
+        private const string INSTALLING_MODULES = "Installing modules...";
 
         static ModuleInstaller()
         {
@@ -71,7 +73,7 @@ namespace ReadyPlayerMe.Core.Editor
         /// </summary>
         private static void InstallModules()
         {
-            EditorUtility.DisplayProgressBar(PROGRESS_BAR_TITLE, "Installing modules...", 0);
+            EditorUtility.DisplayProgressBar(PROGRESS_BAR_TITLE, INSTALLING_MODULES, 0);
             Thread.Sleep(THREAD_SLEEP_TIME);
 
             ModuleInfo[] missingModules = GetMissingModuleNames();
@@ -87,7 +89,7 @@ namespace ReadyPlayerMe.Core.Editor
                     AddModuleRequest(module.Identifier);
                 }
 
-                EditorUtility.DisplayProgressBar(PROGRESS_BAR_TITLE, "All modules are installed.", 1);
+                EditorUtility.DisplayProgressBar(PROGRESS_BAR_TITLE, ALL_MODULES_ARE_INSTALLED, 1);
                 Thread.Sleep(THREAD_SLEEP_TIME);
             }
 

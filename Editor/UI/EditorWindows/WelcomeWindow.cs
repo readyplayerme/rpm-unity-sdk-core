@@ -7,6 +7,7 @@ namespace ReadyPlayerMe.Core.Editor
     [InitializeOnLoad]
     public class WelcomeWindow : EditorWindowBase
     {
+        private const string WINDOW_NAME = "Welcome";
         private Banner banner;
         private GUIStyle buttonStyle;
         private GUIStyle descriptionStyle;
@@ -67,7 +68,7 @@ namespace ReadyPlayerMe.Core.Editor
 
         public static void ShowWindow()
         {
-            GetWindow(typeof(WelcomeWindow), false, "Welcome");
+            GetWindow(typeof(WelcomeWindow), false, WINDOW_NAME);
         }
 
         /// <summary>
@@ -77,7 +78,7 @@ namespace ReadyPlayerMe.Core.Editor
         {
             if (analyticsPanel == null)
             {
-                analyticsPanel = new AnalyticsPanel("Welcome");
+                analyticsPanel = new AnalyticsPanel(WINDOW_NAME);
                 analyticsPanel.OnButtonClick.AddListener(() =>
                 {
                     displayQuickStart = true;
