@@ -46,7 +46,7 @@ namespace ReadyPlayerMe.Core.Editor
             {
                 InstallModules();
                 AppendScriptingSymbol();
-                EditorAssetGenerator.CreateSettingsAssets();
+                CoreSettingsHandler.CreateCoreSettings();
             }
             ValidateModules();
         }
