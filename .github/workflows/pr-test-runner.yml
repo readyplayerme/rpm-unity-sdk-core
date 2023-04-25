@@ -56,7 +56,14 @@ jobs:
           AVATAR_LOADER_BRANCH="${dependency#*Avatar Loader: }"
           
           cd ../Avatar\ Loader
+          git fetch -a
           git checkout "$AVATAR_LOADER_BRANCH"
+          
+          if [ $? -ne 0 ]; then
+            echo "Avatar loader checkout failed, no branch found with name $AVATAR_LOADER_BRANCH"
+            exit 0
+          else
+
           git pull origin "$AVATAR_LOADER_BRANCH"
 
       - name: Cache Project
