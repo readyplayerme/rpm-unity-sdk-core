@@ -5,6 +5,12 @@
 
 ## [TICKETID](https://ready-player-me.atlassian.net/browse/TICKETID)
 
+<!-- Replace the branch with the dependency, if no dependency is required than set this to develop -->
+## Dependencies
+```Package
+Avatar Loader: branch
+```
+
 ## Description
 
 -   Briefly describe what this change will do
