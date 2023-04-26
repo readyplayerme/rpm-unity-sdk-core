@@ -53,9 +53,10 @@ jobs:
             exit 0
           fi
           echo "Dependencies found - ${dependency}"
-          echo "$dependency" | od -c
+          
           AVATAR_LOADER_BRANCH="${dependency#*Avatar Loader: }"
-          echo "$AVATAR_LOADER_BRANCH" | od -c
+          AVATAR_LOADER_BRANCH=$(echo "$AVATAR_LOADER_BRANCH" | tr -d '\r')
+          
           cd ../Avatar\ Loader
           git fetch -a
           git checkout "$AVATAR_LOADER_BRANCH"
@@ -63,7 +64,7 @@ jobs:
           if [ $? -ne 0 ]; then
             echo "Avatar loader checkout failed, no branch found with name $AVATAR_LOADER_BRANCH"
             exit 0
-          else
+          fi
 
           git pull origin "$AVATAR_LOADER_BRANCH"
 
