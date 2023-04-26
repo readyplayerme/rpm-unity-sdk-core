@@ -6,15 +6,18 @@ namespace ReadyPlayerMe.Core
 {
     public static class CoreSettingsHandler
     {
-        private const string SETTINGS_PATH = "Settings/CoreSettings";
-
+        private const string RESOURCE_PATH = "Settings/CoreSettings";
+        public const string PROJECT_RELATIVE_ASSET_PATH = "Assets/Ready Player Me/Resources/Settings/CoreSettings.asset";
+        private const string SETTINGS_SAVE_FOLDER = "Ready Player Me/Resources/Settings";
+        private const string DEFAULT_SUBDOMAIN = "demo";
+        
         public static CoreSettings CoreSettings
         {
             get
             {
                 if (coreSettings == null)
                 {
-                    coreSettings = Resources.Load<CoreSettings>(SETTINGS_PATH);
+                    coreSettings = Resources.Load<CoreSettings>(RESOURCE_PATH);
 #if UNITY_EDITOR
                     if (coreSettings == null)
                     {
@@ -28,30 +31,29 @@ namespace ReadyPlayerMe.Core
 
         private static CoreSettings coreSettings;
 
+#if UNITY_EDITOR
         public static void SaveSubDomain(string subDomain)
         {
             coreSettings.Subdomain = subDomain;
             Save();
         }
-
+        
         public static void Save()
         {
-#if UNITY_EDITOR
             EditorUtility.SetDirty(coreSettings);
             AssetDatabase.SaveAssets();
-#endif
         }
-
-#if UNITY_EDITOR
-        private static CoreSettings CreateCoreSettings()
+        
+        public static CoreSettings CreateCoreSettings()
         {
-            var coreSettings = ScriptableObject.CreateInstance<CoreSettings>();
-            coreSettings.Subdomain = "demo";
+            DirectoryUtility.ValidateDirectory($"{Application.dataPath}/{SETTINGS_SAVE_FOLDER}");
+            var newSettings = ScriptableObject.CreateInstance<CoreSettings>();
+            newSettings.Subdomain = DEFAULT_SUBDOMAIN;
 
-            AssetDatabase.CreateAsset(coreSettings, $"Assets/Ready Player Me/Resources/Settings/CoreSettings.asset");
+            AssetDatabase.CreateAsset(coreSettings, PROJECT_RELATIVE_ASSET_PATH);
             AssetDatabase.SaveAssets();
             AssetDatabase.Refresh();
-            return coreSettings;
+            return newSettings;
         }
 #endif
     }

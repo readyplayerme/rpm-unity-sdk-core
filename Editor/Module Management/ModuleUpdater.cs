@@ -18,6 +18,7 @@ namespace ReadyPlayerMe.Core.Editor
     [InitializeOnLoad]
     public class ModuleUpdater
     {
+
         private class Release
         {
             [JsonProperty("tag_name")]
@@ -34,6 +35,10 @@ namespace ReadyPlayerMe.Core.Editor
         private const string ASSET_FILTER = "package";
 
         private const string DONT_ASK = "Dont Ask";
+        private const string UPDATE_PACKAGES_WINDOW_TITLE = "Update Packages";
+        private const string UPDATE_BUTTON_TEXT = "Update";
+        private const string CANCEL_BUTTON_TEXT = "Cancel";
+        private const string DONT_ASK_TEXT = "Don't ask";
 
         static ModuleUpdater()
         {
@@ -129,11 +134,11 @@ namespace ReadyPlayerMe.Core.Editor
         private static void DisplayUpdateDialog(string packageName, Version currentVersion, Version latestVersion,
             string packageUrl)
         {
-            var shouldUpdate = EditorUtility.DisplayDialogComplex("Update Packages",
+            var shouldUpdate = EditorUtility.DisplayDialogComplex(UPDATE_PACKAGES_WINDOW_TITLE,
                 $"New update available for {packageName}\nCurrent version: {currentVersion}\nLatest version: {latestVersion}",
-                "Update",
-                "Cancel",
-                "Don't ask");
+                UPDATE_BUTTON_TEXT,
+                CANCEL_BUTTON_TEXT,
+                DONT_ASK_TEXT);
 
             switch (shouldUpdate)
             {

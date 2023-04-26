@@ -37,19 +37,5 @@ namespace ReadyPlayerMe.Core.Editor
         {
             return string.IsNullOrEmpty(shortcodeUrl) || Regex.Match(shortcodeUrl, SHORT_CODE_REGEX).Length > 0 || shortcodeUrl.EndsWith(".glb");
         }
-
-        public static class BackgroundStyle
-        {
-            private static readonly GUIStyle style = new GUIStyle();
-            private static readonly Texture2D texture = new Texture2D(1, 1);
-
-            public static GUIStyle Get(Color color)
-            {
-                texture.SetPixel(0, 0, color);
-                texture.Apply();
-                style.normal.background = texture;
-                return style;
-            }
-        }
     }
 }

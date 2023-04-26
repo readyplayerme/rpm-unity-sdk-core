@@ -18,6 +18,7 @@ namespace ReadyPlayerMe.Core
 
     public class WebRequestDispatcher
     {
+        private const string CALLED_ERROR = "Request was cancelled";
         public int Timeout = 240;
 
         public Action<float> ProgressChanged;
@@ -67,7 +68,7 @@ namespace ReadyPlayerMe.Core
             if (ctx.IsCancellationRequested)
             {
                 request.Abort();
-                response.Error = "Request was cancelled";
+                response.Error = CALLED_ERROR;
                 response.Parse(request);
                 return response;
             }
