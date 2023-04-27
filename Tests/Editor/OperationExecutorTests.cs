@@ -3,9 +3,8 @@ using System.Diagnostics;
 using System.Threading;
 using System.Threading.Tasks;
 using NUnit.Framework;
-using ReadyPlayerMe.Core;
 
-namespace Tests
+namespace ReadyPlayerMe.Core.Tests
 {
     public class OperationExecutorTests
     {
