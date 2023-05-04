@@ -89,16 +89,16 @@ namespace ReadyPlayerMe.Core.Editor
         {
             LoadAssets();
 
-            Horizontal(() =>
+            Layout.Horizontal(() =>
             {
                 GUILayout.FlexibleSpace();
-                Vertical(() =>
+                Layout.Vertical(() =>
                 {
                     banner.Draw(position);
                     content?.Invoke();
                     if (useFooter)
                     {
-                        Vertical(() =>
+                        Layout.Vertical(() =>
                         {
                             GUILayout.Label(SUPPORT_HEADING, HeadingStyle);
                             footer.Draw();
@@ -120,37 +120,5 @@ namespace ReadyPlayerMe.Core.Editor
                 windowResized = true;
             }
         }
-
-        #region Horizontal and Vertical Layouts
-
-        protected void Vertical(Action content, bool isBox = false)
-        {
-            EditorGUILayout.BeginVertical(isBox ? "Box" : GUIStyle.none);
-            content?.Invoke();
-            EditorGUILayout.EndVertical();
-        }
-
-        protected void Vertical(Action content, params GUILayoutOption[] options)
-        {
-            EditorGUILayout.BeginVertical(options);
-            content?.Invoke();
-            EditorGUILayout.EndVertical();
-        }
-
-        protected void Horizontal(Action content, bool isBox = false)
-        {
-            EditorGUILayout.BeginHorizontal(isBox ? "Box" : GUIStyle.none);
-            content?.Invoke();
-            EditorGUILayout.EndHorizontal();
-        }
-
-        protected void Horizontal(Action content, params GUILayoutOption[] options)
-        {
-            EditorGUILayout.BeginHorizontal(options);
-            content?.Invoke();
-            EditorGUILayout.EndHorizontal();
-        }
-
-        #endregion
     }
 }
