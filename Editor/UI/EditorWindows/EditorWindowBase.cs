@@ -13,22 +13,24 @@ namespace ReadyPlayerMe.Core.Editor
     {
         private const string SUPPORT_HEADING = "Support";
         private const string ERROR_ICON_SEARCH_FILTER = "t:Texture rpm_error_icon";
+        private const float WIDTH = 460;
+        private readonly GUILayoutOption windowWidth = GUILayout.Width(WIDTH);
+        private readonly Color descriptionColor = new Color(0.7f, 0.7f, 0.7f, 1.0f);
 
+        protected readonly float ButtonHeight = 30f;
+        
         protected GUIStyle HeadingStyle;
         protected GUIStyle DescriptionStyle;
 
-        protected Texture errorIcon;
+        protected Texture ErrorIcon;
 
         private GUIStyle webButtonStyle;
-        protected const float WIDTH = 460;
-        private readonly GUILayoutOption windowWidth = GUILayout.Width(WIDTH);
-        protected readonly float ButtonHeight = 30f;
+
         private Banner banner;
         private Footer footer;
 
         private string editorWindowName;
         private bool windowResized;
-        private readonly Color descriptionColor = new Color(0.7f, 0.7f, 0.7f, 1.0f);
 
         private void LoadAssets()
         {
@@ -36,14 +38,14 @@ namespace ReadyPlayerMe.Core.Editor
 
             footer ??= new Footer(editorWindowName);
 
-            if (errorIcon == null)
+            if (ErrorIcon == null)
             {
                 var assetGuid = AssetDatabase.FindAssets(ERROR_ICON_SEARCH_FILTER).FirstOrDefault();
                 var assetPath = AssetDatabase.GUIDToAssetPath(assetGuid);
 
                 if (assetPath != null)
                 {
-                    errorIcon = AssetDatabase.LoadAssetAtPath(assetPath, typeof(Texture)) as Texture;
+                    ErrorIcon = AssetDatabase.LoadAssetAtPath(assetPath, typeof(Texture)) as Texture;
                 }
             }
 
@@ -104,7 +106,7 @@ namespace ReadyPlayerMe.Core.Editor
                             footer.Draw();
                         }, true);
                     }
-                }, windowWidth);
+                }, false, windowWidth);
                 GUILayout.FlexibleSpace();
             });
 

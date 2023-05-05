@@ -9,31 +9,21 @@ namespace ReadyPlayerMe.Core.Editor
     /// </summary>
     public class Banner : IEditorWindowComponent
     {
-        private const int FONT_SIZE = 14;
-
         private const int BANNER_WIDTH = 460;
         private const int BANNER_HEIGHT = 123;
 
         private const string BANNER_SEARCH_FILTER = "t:Texture rpm_editor_window_banner";
 
         private readonly Texture2D banner;
-        private readonly GUIStyle versionTextStyle;
 
         public Banner()
         {
-
             var assetGuid = AssetDatabase.FindAssets(BANNER_SEARCH_FILTER).FirstOrDefault();
             var assetPath = AssetDatabase.GUIDToAssetPath(assetGuid);
 
             if (assetPath != null)
             {
                 banner = AssetDatabase.LoadAssetAtPath<Texture2D>(assetPath);
-                versionTextStyle = new GUIStyle();
-                versionTextStyle.fontSize = FONT_SIZE;
-                versionTextStyle.richText = true;
-                versionTextStyle.fontStyle = FontStyle.Bold;
-                versionTextStyle.normal.textColor = Color.white;
-                versionTextStyle.alignment = TextAnchor.UpperRight;
             }
         }
 
@@ -41,7 +31,6 @@ namespace ReadyPlayerMe.Core.Editor
         {
             var rect = new Rect((position.size.x - BANNER_WIDTH) / 2, 0, BANNER_WIDTH, BANNER_HEIGHT);
             GUI.DrawTexture(rect, banner);
-
             GUILayout.Space(128);
         }
     }
