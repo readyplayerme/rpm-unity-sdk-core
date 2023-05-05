@@ -27,7 +27,7 @@ namespace ReadyPlayerMe.Core.Editor
 
         public SubdomainField()
         {
-            partnerSubdomain = CoreSettingsHandler.CoreSettings.Subdomain ?? "demo";
+            partnerSubdomain = CoreSettingsHandler.CoreSettings.Subdomain;
             SaveSubdomain();
             LoadAssets();
         }
@@ -52,7 +52,7 @@ namespace ReadyPlayerMe.Core.Editor
                 GUI.SetNextControlName(SUBDOMAIN_FIELD_CONTROL_NAME);
                 partnerSubdomain = EditorGUILayout.TextField(oldValue, textFieldStyle, GUILayout.Width(128), GUILayout.Height(20));
 
-                EditorGUILayout.LabelField(".readyplayer.me", textLabelStyle, GUILayout.Width(116), GUILayout.Height(20));
+                EditorGUILayout.LabelField(".readyplayer.me", textLabelStyle, GUILayout.Width(100), GUILayout.Height(20));
                 var button = new GUIContent(errorIcon, DOMAIN_VALIDATION_ERROR);
 
                 var isSubdomainValid = ValidateSubdomain();
@@ -100,12 +100,11 @@ namespace ReadyPlayerMe.Core.Editor
             errorButtonStyle ??= new GUIStyle();
             errorButtonStyle.fixedWidth = 20;
             errorButtonStyle.fixedHeight = 20;
-            errorButtonStyle.margin = new RectOffset(2, 0, 2, 2);
+            errorButtonStyle.margin = new RectOffset(0, 0, 2, 2);
         }
 
         private bool ValidateSubdomain()
         {
-            partnerSubdomain ??= "demo";
             return !partnerSubdomain.All(char.IsWhiteSpace) && !partnerSubdomain.Contains('/') && !EditorUtilities.IsUrlShortcodeValid(partnerSubdomain);
         }
 
