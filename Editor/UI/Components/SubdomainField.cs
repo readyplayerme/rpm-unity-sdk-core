@@ -12,6 +12,8 @@ namespace ReadyPlayerMe.Core.Editor
         private const string WEB_VIEW_PARTNER_SAVE_KEY = "WebViewPartnerSubdomainName";
         private const string ERROR_ICON_SEARCH_FILTER = "t:Texture rpm_error_icon";
         private const string DOMAIN_VALIDATION_ERROR = "Please enter a valid partner subdomain (e.g. demo). Click here to read more about this issue.";
+        private const int FONT_SIZE = 12;
+        private const int ERROR_BUTTON_SIZE = 20;
 
         private string partnerSubdomain;
         private bool subdomainFocused;
@@ -91,15 +93,15 @@ namespace ReadyPlayerMe.Core.Editor
         private void LoadStyles()
         {
             textFieldStyle ??= new GUIStyle(GUI.skin.textField);
-            textFieldStyle.fontSize = 12;
+            textFieldStyle.fontSize = FONT_SIZE;
 
             textLabelStyle ??= new GUIStyle(GUI.skin.label);
             textLabelStyle.fontStyle = FontStyle.Bold;
-            textLabelStyle.fontSize = 12;
+            textLabelStyle.fontSize = FONT_SIZE;
 
             errorButtonStyle ??= new GUIStyle();
-            errorButtonStyle.fixedWidth = 20;
-            errorButtonStyle.fixedHeight = 20;
+            errorButtonStyle.fixedWidth = ERROR_BUTTON_SIZE;
+            errorButtonStyle.fixedHeight = ERROR_BUTTON_SIZE;
             errorButtonStyle.margin = new RectOffset(0, 0, 2, 2);
         }
 
