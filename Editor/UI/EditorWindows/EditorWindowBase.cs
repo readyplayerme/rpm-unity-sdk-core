@@ -1,5 +1,4 @@
 using System;
-using System.Linq;
 using UnityEditor;
 using UnityEngine;
 
@@ -12,15 +11,12 @@ namespace ReadyPlayerMe.Core.Editor
     public class EditorWindowBase : EditorWindow
     {
         private const string SUPPORT_HEADING = "Support";
-        private const string ERROR_ICON_SEARCH_FILTER = "t:Texture rpm_error_icon";
         private const float WIDTH = 460;
         private readonly GUILayoutOption windowWidth = GUILayout.Width(WIDTH);
 
         protected readonly float ButtonHeight = 30f;
         
         protected GUIStyle HeadingStyle;
-
-        protected Texture ErrorIcon;
 
         private GUIStyle webButtonStyle;
 
@@ -35,17 +31,6 @@ namespace ReadyPlayerMe.Core.Editor
             header ??= new Header();
 
             footer ??= new Footer(editorWindowName);
-
-            if (ErrorIcon == null)
-            {
-                var assetGuid = AssetDatabase.FindAssets(ERROR_ICON_SEARCH_FILTER).FirstOrDefault();
-                var assetPath = AssetDatabase.GUIDToAssetPath(assetGuid);
-
-                if (assetPath != null)
-                {
-                    ErrorIcon = AssetDatabase.LoadAssetAtPath(assetPath, typeof(Texture)) as Texture;
-                }
-            }
 
             HeadingStyle ??= new GUIStyle
             {
