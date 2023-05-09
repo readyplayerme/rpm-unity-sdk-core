@@ -24,15 +24,15 @@ namespace ReadyPlayerMe.Core.Editor
             this.editorWindowName = editorWindowName;
             webButtonStyle = new GUIStyle(GUI.skin.button);
             webButtonStyle.fontSize = 12;
-            webButtonStyle.fixedWidth = 149;
+            webButtonStyle.fixedWidth = 142;
             webButtonStyle.fixedHeight = BUTTON_HEIGHT;
-            webButtonStyle.padding = new RectOffset(5, 5, 5, 5);
         }
 
         public void Draw(Rect position = new Rect())
         {
             Layout.Horizontal(() =>
             {
+                GUILayout.Space(15);
                 if (GUILayout.Button("Documentation", webButtonStyle))
                 {
                     AnalyticsEditorLogger.EventLogger.LogOpenDocumentation(editorWindowName);
