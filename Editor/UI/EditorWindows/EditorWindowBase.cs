@@ -25,10 +25,11 @@ namespace ReadyPlayerMe.Core.Editor
 
         private string editorWindowName;
         private bool windowResized;
+        private string heading;
 
         private void LoadAssets()
         {
-            header ??= new Header();
+            header ??= new Header(heading);
 
             footer ??= new Footer(editorWindowName);
 
@@ -53,9 +54,11 @@ namespace ReadyPlayerMe.Core.Editor
             };
         }
 
-        protected void SetEditorWindowName(string editorName)
+        protected void SetEditorWindowName(string editorName, string headingText)
         {
+            heading = headingText;
             editorWindowName = editorName;
+
         }
 
         protected void DrawContent(Action content, bool useFooter = true)
