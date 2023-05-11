@@ -1,3 +1,4 @@
+using System;
 using System.Text.RegularExpressions;
 using UnityEditor;
 using UnityEngine;
@@ -20,7 +21,7 @@ namespace ReadyPlayerMe.Core.Editor
             EditorUtility.SetDirty(source);
         }
 
-        public static string TextFieldWithPlaceholder(string text, string placeholder, GUILayoutOption layoutOptions)
+        public static string TextFieldWithPlaceholder(string text, string placeholder, params GUILayoutOption[] layoutOptions)
         {
             var newText = EditorGUILayout.TextField(text, layoutOptions);
             if (string.IsNullOrEmpty(text))
@@ -33,9 +34,10 @@ namespace ReadyPlayerMe.Core.Editor
             return newText;
         }
 
-        public static bool IsUrlShortcodeValid(string shortcodeUrl)
+        public static bool IsUrlShortcodeValid(string urlString)
         {
-            return string.IsNullOrEmpty(shortcodeUrl) || Regex.Match(shortcodeUrl, SHORT_CODE_REGEX).Length > 0 || shortcodeUrl.EndsWith(".glb");
+            return !string.IsNullOrEmpty(urlString) && 
+                   (Regex.Match(urlString, SHORT_CODE_REGEX).Length > 0 || (Uri.IsWellFormedUriString(urlString, UriKind.Absolute) && urlString.EndsWith(".glb")));
         }
     }
 }

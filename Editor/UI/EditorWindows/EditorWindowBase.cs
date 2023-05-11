@@ -1,5 +1,4 @@
 using System;
-using System.Linq;
 using UnityEditor;
 using UnityEngine;
 
@@ -12,64 +11,37 @@ namespace ReadyPlayerMe.Core.Editor
     public class EditorWindowBase : EditorWindow
     {
         private const string SUPPORT_HEADING = "Support";
-        private const string ERROR_ICON_SEARCH_FILTER = "t:Texture rpm_error_icon";
         private const float WIDTH = 460;
         private readonly GUILayoutOption windowWidth = GUILayout.Width(WIDTH);
-        private readonly Color descriptionColor = new Color(0.7f, 0.7f, 0.7f, 1.0f);
 
         protected readonly float ButtonHeight = 30f;
         
         protected GUIStyle HeadingStyle;
-        protected GUIStyle DescriptionStyle;
-
-        protected Texture ErrorIcon;
 
         private GUIStyle webButtonStyle;
 
-        private Banner banner;
+        private Header header;
         private Footer footer;
 
         private string editorWindowName;
         private bool windowResized;
+        private string heading;
 
         private void LoadAssets()
         {
-            banner ??= new Banner();
+            header ??= new Header(heading);
 
             footer ??= new Footer(editorWindowName);
-
-            if (ErrorIcon == null)
-            {
-                var assetGuid = AssetDatabase.FindAssets(ERROR_ICON_SEARCH_FILTER).FirstOrDefault();
-                var assetPath = AssetDatabase.GUIDToAssetPath(assetGuid);
-
-                if (assetPath != null)
-                {
-                    ErrorIcon = AssetDatabase.LoadAssetAtPath(assetPath, typeof(Texture)) as Texture;
-                }
-            }
 
             HeadingStyle ??= new GUIStyle
             {
                 fontSize = 14,
                 richText = true,
                 fontStyle = FontStyle.Bold,
-                margin = new RectOffset(5, 0, 0, 8),
+                margin = new RectOffset(15, 0, 0, 8),
                 normal =
                 {
                     textColor = Color.white
-                }
-            };
-
-            DescriptionStyle ??= new GUIStyle
-            {
-                fontSize = 12,
-                richText = true,
-                wordWrap = true,
-                margin = new RectOffset(5, 0, 0, 0),
-                normal =
-                {
-                    textColor = descriptionColor
                 }
             };
 
@@ -82,9 +54,11 @@ namespace ReadyPlayerMe.Core.Editor
             };
         }
 
-        protected void SetEditorWindowName(string editorName)
+        protected void SetEditorWindowName(string editorName, string headingText)
         {
+            heading = headingText;
             editorWindowName = editorName;
+
         }
 
         protected void DrawContent(Action content, bool useFooter = true)
@@ -96,7 +70,7 @@ namespace ReadyPlayerMe.Core.Editor
                 GUILayout.FlexibleSpace();
                 Layout.Vertical(() =>
                 {
-                    banner.Draw(position);
+                    header.Draw(position);
                     content?.Invoke();
                     if (useFooter)
                     {
@@ -120,6 +94,7 @@ namespace ReadyPlayerMe.Core.Editor
             {
                 minSize = maxSize = new Vector2(WIDTH, height);
                 windowResized = true;
+                
             }
         }
     }
