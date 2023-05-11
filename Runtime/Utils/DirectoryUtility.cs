@@ -6,6 +6,8 @@ namespace ReadyPlayerMe.Core
 {
     public static class DirectoryUtility
     {
+        private const float BYTES_IN_MEGABYTE = 1024 * 1024;
+
         /// The directory where avatar files will be downloaded.
         public static string DefaultAvatarFolder { get; set; } = "Ready Player Me/Avatars";
 
@@ -42,6 +44,17 @@ namespace ReadyPlayerMe.Core
             DirectoryInfo[] directoryInfos = directoryInfo.GetDirectories();
             size += directoryInfos.Sum(GetDirectorySize);
             return size;
+        }
+
+        public static float GetFolderSizeInMb(string folderPath)
+        {
+            var bytes = GetDirectorySize(new DirectoryInfo(folderPath));
+            return !Directory.Exists(folderPath) ? 0 : BytesToMegabytes(bytes);
+        }
+
+        private static float BytesToMegabytes(long bytes)
+        {
+            return bytes / BYTES_IN_MEGABYTE;
         }
 
         public static string GetAvatarsDirectoryPath(bool saveInProjectFolder = false)
