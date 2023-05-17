@@ -26,7 +26,9 @@ namespace ReadyPlayerMe.Core
 
         public static string GetAvatarSaveDirectory(string guid, bool saveInProjectFolder = false, string paramsHash = null)
         {
-            return saveInProjectFolder ? $"{GetAvatarsDirectoryPath(true)}/{guid}" : $"{GetAvatarsDirectoryPath()}/{guid}/{paramsHash}";
+            return paramsHash == null ? 
+                $"{GetAvatarsDirectoryPath(saveInProjectFolder)}/{guid}" : 
+                $"{GetAvatarsDirectoryPath(saveInProjectFolder)}/{guid}/{paramsHash}";
         }
 
         public static string GetRelativeProjectPath(string guid)
