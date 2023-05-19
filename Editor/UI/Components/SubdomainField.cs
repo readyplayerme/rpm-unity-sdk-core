@@ -58,7 +58,7 @@ namespace ReadyPlayerMe.Core.Editor
                 GUI.SetNextControlName(SUBDOMAIN_FIELD_CONTROL_NAME);
                 partnerSubdomain = EditorGUILayout.TextField(oldValue, textFieldStyle, GUILayout.Width(128), GUILayout.Height(20));
 
-                EditorGUILayout.LabelField(".readyplayer.me", textLabelStyle, GUILayout.Width(100), GUILayout.Height(20));
+                EditorGUILayout.LabelField(".readyplayer.me", textLabelStyle, GUILayout.Width(102), GUILayout.Height(20));
                 var button = new GUIContent(errorIcon, DOMAIN_VALIDATION_ERROR);
 
                 var isSubdomainValid = ValidateSubdomain();
