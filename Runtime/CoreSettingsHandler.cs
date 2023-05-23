@@ -50,7 +50,7 @@ namespace ReadyPlayerMe.Core
             var newSettings = ScriptableObject.CreateInstance<CoreSettings>();
             newSettings.Subdomain = DEFAULT_SUBDOMAIN;
 
-            AssetDatabase.CreateAsset(coreSettings, PROJECT_RELATIVE_ASSET_PATH);
+            AssetDatabase.CreateAsset(newSettings, PROJECT_RELATIVE_ASSET_PATH);
             AssetDatabase.SaveAssets();
             AssetDatabase.Refresh();
             return newSettings;
