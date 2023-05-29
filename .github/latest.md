@@ -1,12 +1,11 @@
-This update includes an additional popup for the new Quick Start sample, operation completed event and README updates. 
+This update adds a small improvement to the module installer and a new setup guide editor window flow to help new users get started.
 
 ## Changelog
 
 ### Added
-- support for response codes [#62](https://github.com/readyplayerme/rpm-unity-sdk-core/pull/62)
-
-### Updated
-- refactor of WebRequestDispatcher [#59](https://github.com/readyplayerme/rpm-unity-sdk-core/pull/59)
+- import timeout to module installer [#70](https://github.com/readyplayerme/rpm-unity-sdk-core/pull/70)
+- Add new setup guide window [#71](https://github.com/readyplayerme/rpm-unity-sdk-core/pull/71)
+- added function for folder size in MB [#72](https://github.com/readyplayerme/rpm-unity-sdk-core/pull/72)
 
 ### Fixed
-- fixed an issue with the popup don't ask again pref was not updating correctly [#58](https://github.com/readyplayerme/rpm-unity-sdk-core/pull/58)
+- various editor window layout fixes [#73](https://github.com/readyplayerme/rpm-unity-sdk-core/pull/73)

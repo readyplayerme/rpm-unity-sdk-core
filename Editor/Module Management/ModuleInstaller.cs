@@ -6,6 +6,7 @@ using UnityEditor;
 using UnityEditor.Compilation;
 using UnityEditor.PackageManager;
 using UnityEditor.PackageManager.Requests;
+using UnityEngine;
 using PackageInfo = UnityEditor.PackageManager.PackageInfo;
 
 namespace ReadyPlayerMe.Core.Editor
@@ -23,10 +24,14 @@ namespace ReadyPlayerMe.Core.Editor
         private const string PROGRESS_BAR_TITLE = "Ready Player Me";
         private const string RPM_SCRIPTING_SYMBOL = "READY_PLAYER_ME";
         private const string CORE_MODULE_NAME = "com.readyplayerme.core";
-        
+
         private const string MODULE_INSTALLATION_SUCCESS_MESSAGE =
             "All the modules are installed successfully. Ready Player Me avatar system is ready to use.";
         private const string MODULE_INSTALLATION_FAILURE_MESSAGE = "Something went wrong while installing modules.";
+        private const string ALL_MODULES_ARE_INSTALLED = "All modules are installed.";
+        private const string INSTALLING_MODULES = "Installing modules...";
+
+        private const float TIMEOUT_FOR_MODULE_INSTALLATION = 20f;
 
         static ModuleInstaller()
         {
@@ -46,7 +51,7 @@ namespace ReadyPlayerMe.Core.Editor
             {
                 InstallModules();
                 AppendScriptingSymbol();
-                EditorAssetGenerator.CreateSettingsAssets();
+                CoreSettingsHandler.CreateCoreSettings();
             }
             ValidateModules();
         }
@@ -71,7 +76,7 @@ namespace ReadyPlayerMe.Core.Editor
         /// </summary>
         private static void InstallModules()
         {
-            EditorUtility.DisplayProgressBar(PROGRESS_BAR_TITLE, "Installing modules...", 0);
+            EditorUtility.DisplayProgressBar(PROGRESS_BAR_TITLE, INSTALLING_MODULES, 0);
             Thread.Sleep(THREAD_SLEEP_TIME);
 
             ModuleInfo[] missingModules = GetMissingModuleNames();
@@ -87,7 +92,7 @@ namespace ReadyPlayerMe.Core.Editor
                     AddModuleRequest(module.Identifier);
                 }
 
-                EditorUtility.DisplayProgressBar(PROGRESS_BAR_TITLE, "All modules are installed.", 1);
+                EditorUtility.DisplayProgressBar(PROGRESS_BAR_TITLE, ALL_MODULES_ARE_INSTALLED, 1);
                 Thread.Sleep(THREAD_SLEEP_TIME);
             }
 
@@ -100,15 +105,21 @@ namespace ReadyPlayerMe.Core.Editor
         /// <param name="identifier">The Unity package identifier of the module to be installed.</param>
         public static void AddModuleRequest(string identifier)
         {
+            var startTime = Time.realtimeSinceStartup;
             AddRequest addRequest = Client.Add(identifier);
-            while (!addRequest.IsCompleted)
+            while (!addRequest.IsCompleted && Time.realtimeSinceStartup - startTime < TIMEOUT_FOR_MODULE_INSTALLATION)
                 Thread.Sleep(THREAD_SLEEP_TIME);
 
+
+            if (Time.realtimeSinceStartup - startTime >= TIMEOUT_FOR_MODULE_INSTALLATION)
+            {
+                Debug.LogError($"Package installation timed out for {identifier}. Please try again.");
+            }
             if (addRequest.Error != null)
             {
                 AssetDatabase.Refresh();
                 CompilationPipeline.RequestScriptCompilation();
-                SDKLogger.Log(TAG, "Error: " + addRequest.Error.message);
+                Debug.LogError("Error: " + addRequest.Error.message);
             }
         }
 

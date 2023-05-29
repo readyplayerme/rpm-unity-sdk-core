@@ -8,7 +8,7 @@ namespace ReadyPlayerMe.Core
         public byte[] Data;
 
         public bool IsSuccess { get; set; }
-        public string Error { get;  set; }
+        public string Error { get; set; }
         public long ResponseCode { get; set; }
 
         public void Parse(UnityWebRequest request)

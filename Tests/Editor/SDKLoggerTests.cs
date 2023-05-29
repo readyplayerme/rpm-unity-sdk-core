@@ -1,10 +1,9 @@
 ﻿using System.Collections;
 using NUnit.Framework;
-using ReadyPlayerMe.Core;
 using UnityEngine;
 using UnityEngine.TestTools;
 
-namespace Tests
+namespace ReadyPlayerMe.Core.Tests
 {
     public class SDKLoggerTests
     {

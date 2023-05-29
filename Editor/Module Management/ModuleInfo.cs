@@ -29,8 +29,8 @@ namespace ReadyPlayerMe.Core.Editor
                     return name;
                 }
                 // if branch not set, default to the version in ModuleList
-                return gitUrl + (string.IsNullOrEmpty(branch) ? $"#v{version}": $"#{branch}");
-                
+                return gitUrl + (string.IsNullOrEmpty(branch) ? $"#v{version}" : $"#{branch}");
+
             }
         }
     }

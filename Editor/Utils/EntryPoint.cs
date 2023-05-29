@@ -13,7 +13,7 @@ namespace ReadyPlayerMe.Core.Editor
 
         ///     Event for when package is imported or when project with package is opened.
         public static Action Startup;
-        
+
         /// <summary>
         ///     This constructor is used to subscribe to the <see cref="EditorApplication.update"/> event.
         /// </summary>

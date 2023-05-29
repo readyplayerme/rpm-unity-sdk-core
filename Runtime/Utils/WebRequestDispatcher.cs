@@ -18,6 +18,7 @@ namespace ReadyPlayerMe.Core
 
     public class WebRequestDispatcher
     {
+        private const string CALLED_ERROR = "Request was cancelled";
         public int Timeout = 240;
 
         public Action<float> ProgressChanged;
@@ -37,7 +38,7 @@ namespace ReadyPlayerMe.Core
 
             if (headers != null)
             {
-                foreach (var header in headers)
+                foreach (KeyValuePair<string, string> header in headers)
                 {
                     request.SetRequestHeader(header.Key, header.Value);
                 }
@@ -53,7 +54,7 @@ namespace ReadyPlayerMe.Core
                 request.uploadHandler = new UploadHandlerRaw(bytes);
             }
 
-            var asyncOperation = request.SendWebRequest();
+            UnityWebRequestAsyncOperation asyncOperation = request.SendWebRequest();
 
             while (!asyncOperation.isDone && !ctx.IsCancellationRequested)
             {
@@ -67,7 +68,7 @@ namespace ReadyPlayerMe.Core
             if (ctx.IsCancellationRequested)
             {
                 request.Abort();
-                response.Error = "Request was cancelled";
+                response.Error = CALLED_ERROR;
                 response.Parse(request);
                 return response;
             }

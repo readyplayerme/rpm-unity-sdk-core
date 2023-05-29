@@ -1,5 +1,4 @@
 using System;
-using System.Linq;
 using UnityEditor;
 using UnityEngine;
 
@@ -12,61 +11,37 @@ namespace ReadyPlayerMe.Core.Editor
     public class EditorWindowBase : EditorWindow
     {
         private const string SUPPORT_HEADING = "Support";
-        private const string ERROR_ICON_SEARCH_FILTER = "t:Texture rpm_error_icon";
+        private const float WIDTH = 460;
+        private readonly GUILayoutOption windowWidth = GUILayout.Width(WIDTH);
 
-        protected GUIStyle HeadingStyle;
-        protected GUIStyle DescriptionStyle;
+        protected readonly float ButtonHeight = 30f;
         
-        protected Texture errorIcon;
+        protected GUIStyle HeadingStyle;
 
         private GUIStyle webButtonStyle;
 
-        private readonly GUILayoutOption windowWidth = GUILayout.Width(460);
-        protected readonly float ButtonHeight = 30f;
-        private Banner banner;
+        private Header header;
         private Footer footer;
 
         private string editorWindowName;
         private bool windowResized;
+        private string heading;
 
         private void LoadAssets()
         {
-            banner ??= new Banner();
-            
-            footer ??= new Footer(editorWindowName);
-            
-            if (errorIcon == null)
-            {
-                var assetGuid = AssetDatabase.FindAssets(ERROR_ICON_SEARCH_FILTER).FirstOrDefault();
-                var assetPath = AssetDatabase.GUIDToAssetPath(assetGuid);
+            header ??= new Header(heading);
 
-                if (assetPath != null)
-                {
-                    errorIcon = AssetDatabase.LoadAssetAtPath(assetPath, typeof(Texture)) as Texture;
-                }
-            }
+            footer ??= new Footer(editorWindowName);
 
             HeadingStyle ??= new GUIStyle
             {
                 fontSize = 14,
                 richText = true,
                 fontStyle = FontStyle.Bold,
-                margin = new RectOffset(5, 0, 0, 8),
+                margin = new RectOffset(15, 0, 0, 8),
                 normal =
                 {
                     textColor = Color.white
-                }
-            };
-
-            DescriptionStyle ??= new GUIStyle
-            {
-                fontSize = 12,
-                richText = true,
-                wordWrap = true,
-                margin = new RectOffset(5, 0, 0, 0),
-                normal =
-                {
-                    textColor = new Color(0.7f, 0.7f, 0.7f, 1.0f)
                 }
             };
 
@@ -79,31 +54,33 @@ namespace ReadyPlayerMe.Core.Editor
             };
         }
 
-        protected void SetEditorWindowName(string editorName)
+        protected void SetEditorWindowName(string editorName, string headingText)
         {
+            heading = headingText;
             editorWindowName = editorName;
+
         }
 
         protected void DrawContent(Action content, bool useFooter = true)
         {
             LoadAssets();
 
-            Horizontal(() =>
+            Layout.Horizontal(() =>
             {
                 GUILayout.FlexibleSpace();
-                Vertical(() =>
+                Layout.Vertical(() =>
                 {
-                    banner.Draw(position);
+                    header.Draw(position);
                     content?.Invoke();
                     if (useFooter)
                     {
-                        Vertical(() =>
+                        Layout.Vertical(() =>
                         {
                             GUILayout.Label(SUPPORT_HEADING, HeadingStyle);
                             footer.Draw();
                         }, true);
                     }
-                }, windowWidth);
+                }, false, windowWidth);
                 GUILayout.FlexibleSpace();
             });
 
@@ -115,41 +92,10 @@ namespace ReadyPlayerMe.Core.Editor
             var height = GUILayoutUtility.GetLastRect().height;
             if (!windowResized && height > 1)
             {
-                minSize = maxSize = new Vector2(460, height);
+                minSize = maxSize = new Vector2(WIDTH, height);
                 windowResized = true;
+                
             }
         }
-
-        #region Horizontal and Vertical Layouts
-
-        protected void Vertical(Action content, bool isBox = false)
-        {
-            EditorGUILayout.BeginVertical(isBox ? "Box" : GUIStyle.none);
-            content?.Invoke();
-            EditorGUILayout.EndVertical();
-        }
-
-        protected void Vertical(Action content, params GUILayoutOption[] options)
-        {
-            EditorGUILayout.BeginVertical(options);
-            content?.Invoke();
-            EditorGUILayout.EndVertical();
-        }
-
-        protected void Horizontal(Action content, bool isBox = false)
-        {
-            EditorGUILayout.BeginHorizontal(isBox ? "Box" : GUIStyle.none);
-            content?.Invoke();
-            EditorGUILayout.EndHorizontal();
-        }
-
-        protected void Horizontal(Action content, params GUILayoutOption[] options)
-        {
-            EditorGUILayout.BeginHorizontal(options);
-            content?.Invoke();
-            EditorGUILayout.EndHorizontal();
-        }
-
-        #endregion
     }
 }

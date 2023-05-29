@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using Newtonsoft.Json;
 using UnityEditor;
 using UnityEditor.PackageManager;
+using UnityEditor.PackageManager.Requests;
 using UnityEngine;
 using UnityEngine.Networking;
 using PackageInfo = UnityEditor.PackageManager.PackageInfo;
@@ -17,6 +18,7 @@ namespace ReadyPlayerMe.Core.Editor
     [InitializeOnLoad]
     public class ModuleUpdater
     {
+
         private class Release
         {
             [JsonProperty("tag_name")]
@@ -33,6 +35,10 @@ namespace ReadyPlayerMe.Core.Editor
         private const string ASSET_FILTER = "package";
 
         private const string DONT_ASK = "Dont Ask";
+        private const string UPDATE_PACKAGES_WINDOW_TITLE = "Update Packages";
+        private const string UPDATE_BUTTON_TEXT = "Update";
+        private const string CANCEL_BUTTON_TEXT = "Cancel";
+        private const string DONT_ASK_TEXT = "Don't ask";
 
         static ModuleUpdater()
         {
@@ -51,7 +57,7 @@ namespace ReadyPlayerMe.Core.Editor
         private static void Check(bool isStartup = false)
         {
             // Get PackageInfo array from RPM Module package.json files
-            var packages = AssetDatabase.FindAssets(ASSET_FILTER)
+            PackageInfo[] packages = AssetDatabase.FindAssets(ASSET_FILTER)
                 .Select(AssetDatabase.GUIDToAssetPath)
                 .Where(x => x.Contains(PACKAGE_JSON) && x.Contains(PACKAGE_DOMAIN))
                 .Select(PackageInfo.FindForAssetPath)
@@ -63,14 +69,14 @@ namespace ReadyPlayerMe.Core.Editor
             }
 
             // Turn package_name@repo_url#branch_name into https://api.github.com/repos/readyplayerme/repo_name/releases 
-            foreach (var package in packages)
+            foreach (PackageInfo package in packages)
             {
                 var repoUrl = package.packageId.Split('@')[1];
                 var releasesUrl = repoUrl
-                    .Split(new[] { ".git" }, StringSplitOptions.None)[0] 
+                    .Split(new[] { ".git" }, StringSplitOptions.None)[0]
                     .Replace(GITHUB_WEBSITE, GITHUB_API_URL) + "/releases";
-                
-                
+
+
                 var packageUrl = repoUrl.Split('#')[0];
 
                 // Experimental or prerelease packages might look like 0.1.0-exp.1, remove after dash to parse with Version
@@ -95,17 +101,17 @@ namespace ReadyPlayerMe.Core.Editor
         private static async void FetchReleases(string packageName, string packageUrl, string releasesUrl,
             Version currentVersion)
         {
-            var request = UnityWebRequest.Get(releasesUrl);
-            var op = request.SendWebRequest();
+            UnityWebRequest request = UnityWebRequest.Get(releasesUrl);
+            UnityWebRequestAsyncOperation op = request.SendWebRequest();
             while (!op.isDone) await Task.Yield();
 
             if (request.result == UnityWebRequest.Result.Success)
             {
                 var response = request.downloadHandler.text;
-                var releases = JsonConvert.DeserializeObject<Release[]>(response);
-                var versions = releases!.Select(r => new Version(r.Tag.Substring(1).Split('-')[0])).ToArray();
+                Release[] releases = JsonConvert.DeserializeObject<Release[]>(response);
+                Version[] versions = releases!.Select(r => new Version(r.Tag.Substring(1).Split('-')[0])).ToArray();
 
-                var latestVersion = versions.Max();
+                Version latestVersion = versions.Max();
 
                 if (latestVersion > currentVersion)
                 {
@@ -128,11 +134,11 @@ namespace ReadyPlayerMe.Core.Editor
         private static void DisplayUpdateDialog(string packageName, Version currentVersion, Version latestVersion,
             string packageUrl)
         {
-            var shouldUpdate = EditorUtility.DisplayDialogComplex("Update Packages",
+            var shouldUpdate = EditorUtility.DisplayDialogComplex(UPDATE_PACKAGES_WINDOW_TITLE,
                 $"New update available for {packageName}\nCurrent version: {currentVersion}\nLatest version: {latestVersion}",
-                "Update",
-                "Cancel",
-                "Don't ask");
+                UPDATE_BUTTON_TEXT,
+                CANCEL_BUTTON_TEXT,
+                DONT_ASK_TEXT);
 
             switch (shouldUpdate)
             {
@@ -161,10 +167,10 @@ namespace ReadyPlayerMe.Core.Editor
         /// <param name="latest">The new version of the package.</param>
         private static void UpdateModule(string name, string url, Version current, Version latest)
         {
-            var removeRequest = Client.Remove(name);
+            RemoveRequest removeRequest = Client.Remove(name);
             while (!removeRequest.IsCompleted) Thread.Sleep(MILLISECONDS_TIMEOUT);
 
-            var addRequest = Client.Add(url);
+            AddRequest addRequest = Client.Add(url);
             while (!addRequest.IsCompleted) Thread.Sleep(MILLISECONDS_TIMEOUT);
 
             Debug.Log($"Updated {name} from v{current} to v{latest}");

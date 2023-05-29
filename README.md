@@ -30,9 +30,7 @@ Please visit the online documentation and join our public `discord` community.
 
 **4.** Paste in this url 
 
-```html
-https://github.com/readyplayerme/rpm-unity-sdk-core.git
-```
+`https://github.com/readyplayerme/rpm-unity-sdk-core.git`
 
 ![paste-git-url](https://user-images.githubusercontent.com/7085672/206432731-f9e0d161-7843-4d6e-8851-47b1f3bfb3bc.png)
 
@@ -45,7 +43,7 @@ After the process is complete you project will have imported these packages:
 - **Ready Player Me WebView**
 - **glTFast**
 
-![package-import-complete](https://user-images.githubusercontent.com/3163281/228290266-e6d1ee63-c7e3-4979-ab92-f702f3678f92.png)
+![package-import-complete](https://user-images.githubusercontent.com/7085672/206432761-dc078cc7-23b0-4d83-a638-46db19faabd6.png)
 
 ## Alternate Installation
 

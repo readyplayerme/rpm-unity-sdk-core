@@ -43,7 +43,7 @@ namespace ReadyPlayerMe.Core.Analytics
                 { Constants.Properties.RENDER_PIPELINE, appData.RenderPipeline },
                 { Constants.Properties.SUBDOMAIN, appData.PartnerName },
                 { Constants.Properties.APP_NAME, PlayerSettings.productName },
-                { Constants.Properties.SDK_TARGET, "Unity" },
+                { Constants.Properties.SDK_TARGET, SDK_TARGET },
                 { Constants.Properties.APP_IDENTIFIER, Application.identifier },
                 { Constants.Properties.ALLOW_ANALYTICS, true }
             };
@@ -74,7 +74,7 @@ namespace ReadyPlayerMe.Core.Analytics
             {
                 eventData.Add(Constants.AmplitudeKeys.USER_PROPERTIES, userProperties);
             }
-            
+
             if (eventProperties != null)
             {
                 eventData.Add(Constants.AmplitudeKeys.EVENT_PROPERTIES, eventProperties);
@@ -133,6 +133,7 @@ namespace ReadyPlayerMe.Core.Analytics
 
         private const string PRODUCTION = "unity";
         private const string DEVELOPMENT = "unity-dev";
+        private const string SDK_TARGET = "Unity";
 
         private string GetAnalyticsTarget()
         {

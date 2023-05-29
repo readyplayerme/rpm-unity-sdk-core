@@ -1,3 +1,4 @@
+using System;
 using System.Text.RegularExpressions;
 using UnityEditor;
 using UnityEngine;
@@ -20,7 +21,7 @@ namespace ReadyPlayerMe.Core.Editor
             EditorUtility.SetDirty(source);
         }
 
-        public static string TextFieldWithPlaceholder(string text, string placeholder, GUILayoutOption layoutOptions)
+        public static string TextFieldWithPlaceholder(string text, string placeholder, params GUILayoutOption[] layoutOptions)
         {
             var newText = EditorGUILayout.TextField(text, layoutOptions);
             if (string.IsNullOrEmpty(text))
@@ -33,23 +34,10 @@ namespace ReadyPlayerMe.Core.Editor
             return newText;
         }
 
-        public static bool IsUrlShortcodeValid(string shortcodeUrl)
+        public static bool IsUrlShortcodeValid(string urlString)
         {
-            return string.IsNullOrEmpty(shortcodeUrl) || Regex.Match(shortcodeUrl, SHORT_CODE_REGEX).Length > 0 || shortcodeUrl.EndsWith(".glb");
-        }
-
-        public static class BackgroundStyle
-        {
-            private static readonly GUIStyle style = new GUIStyle();
-            private static readonly Texture2D texture = new Texture2D(1, 1);
-
-            public static GUIStyle Get(Color color)
-            {
-                texture.SetPixel(0, 0, color);
-                texture.Apply();
-                style.normal.background = texture;
-                return style;
-            }
+            return !string.IsNullOrEmpty(urlString) && 
+                   (Regex.Match(urlString, SHORT_CODE_REGEX).Length > 0 || (Uri.IsWellFormedUriString(urlString, UriKind.Absolute) && urlString.EndsWith(".glb")));
         }
     }
 }

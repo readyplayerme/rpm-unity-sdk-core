@@ -17,41 +17,40 @@ namespace ReadyPlayerMe.Core.Editor
 
         private readonly GUIStyle webButtonStyle;
 
-        private string editorWindowName;
-        
+        private readonly string editorWindowName;
+
         public Footer(string editorWindowName)
         {
             this.editorWindowName = editorWindowName;
             webButtonStyle = new GUIStyle(GUI.skin.button);
             webButtonStyle.fontSize = 12;
-            webButtonStyle.fixedWidth = 149;
+            webButtonStyle.fixedWidth = 142;
             webButtonStyle.fixedHeight = BUTTON_HEIGHT;
-            webButtonStyle.padding = new RectOffset(5, 5, 5, 5);
         }
 
         public void Draw(Rect position = new Rect())
         {
-            EditorGUILayout.BeginHorizontal();
-            
-            if (GUILayout.Button("Documentation", webButtonStyle))
+            Layout.Horizontal(() =>
             {
-                AnalyticsEditorLogger.EventLogger.LogOpenDocumentation(editorWindowName);
-                Application.OpenURL(DOCS_URL);
-            }
+                GUILayout.Space(15);
+                if (GUILayout.Button("Documentation", webButtonStyle))
+                {
+                    AnalyticsEditorLogger.EventLogger.LogOpenDocumentation(editorWindowName);
+                    Application.OpenURL(DOCS_URL);
+                }
 
-            if (GUILayout.Button("FAQ", webButtonStyle))
-            {
-                AnalyticsEditorLogger.EventLogger.LogOpenFaq(editorWindowName);
-                Application.OpenURL(FAQ_URL);
-            }
+                if (GUILayout.Button("FAQ", webButtonStyle))
+                {
+                    AnalyticsEditorLogger.EventLogger.LogOpenFaq(editorWindowName);
+                    Application.OpenURL(FAQ_URL);
+                }
 
-            if (GUILayout.Button("Discord", webButtonStyle))
-            {
-                AnalyticsEditorLogger.EventLogger.LogOpenDiscord(editorWindowName);
-                Application.OpenURL(DISCORD_URL);
-            }
-            
-            EditorGUILayout.EndHorizontal();
+                if (GUILayout.Button("Discord", webButtonStyle))
+                {
+                    AnalyticsEditorLogger.EventLogger.LogOpenDiscord(editorWindowName);
+                    Application.OpenURL(DISCORD_URL);
+                }
+            });
         }
     }
 }

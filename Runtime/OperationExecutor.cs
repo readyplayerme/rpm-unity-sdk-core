@@ -29,7 +29,7 @@ namespace ReadyPlayerMe.Core
         public async Task<T> Execute(T context)
         {
             ctxSource = new CancellationTokenSource();
-            foreach (var operation in operations)
+            foreach (IOperation<T> operation in operations)
             {
                 operation.ProgressChanged += OnProgressChanged;
                 operation.Timeout = Timeout;
