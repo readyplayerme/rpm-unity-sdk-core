@@ -135,7 +135,7 @@ namespace ReadyPlayerMe.Core.Editor
             return false;
         }
 
-        private void SaveSubdomain()
+        public void SaveSubdomain()
         {
             EditorPrefs.SetString(WEB_VIEW_PARTNER_SAVE_KEY, partnerSubdomain);
             var subDomain = CoreSettingsHandler.CoreSettings.Subdomain;
