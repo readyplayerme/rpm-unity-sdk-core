@@ -9,6 +9,7 @@ namespace ReadyPlayerMe.Core.Editor
     public struct ModuleInfo
     {
         public string name;
+        public string description;
         public string gitUrl;
         public string branch;
         public string version;

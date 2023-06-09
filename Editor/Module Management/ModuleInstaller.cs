@@ -130,6 +130,16 @@ namespace ReadyPlayerMe.Core.Editor
             }
         }
 
+        public static void AddOptionalModule(string packageName)
+        {
+            if (!ModuleList.OptionalModules.ContainsKey(packageName))
+            {
+                Debug.LogWarning($"Package name {packageName} does not exist in the optional modules list.");
+                return;
+            }
+            AddModuleRequest(ModuleList.OptionalModules[packageName].gitUrl);
+        }
+
         /// <summary>
         ///     Get modules from <c>ModuleList</c> that are not installed.
         /// </summary>
@@ -137,7 +147,7 @@ namespace ReadyPlayerMe.Core.Editor
         private static ModuleInfo[] GetMissingModuleNames()
         {
             PackageInfo[] installed = GetPackageList();
-            IEnumerable<ModuleInfo> missing = ModuleList.Modules.Where(m => installed.All(i => m.name != i.name));
+            IEnumerable<ModuleInfo> missing = ModuleList.RequiredModules.Where(m => installed.All(i => m.name != i.name));
 
             return missing.ToArray();
         }
@@ -190,7 +200,7 @@ namespace ReadyPlayerMe.Core.Editor
         {
             PackageInfo[] packageList = GetPackageList();
             var allModuleInstalled = true;
-            foreach (ModuleInfo module in ModuleList.Modules)
+            foreach (ModuleInfo module in ModuleList.RequiredModules)
             {
                 if (packageList.All(x => x.name != module.name))
                 {
