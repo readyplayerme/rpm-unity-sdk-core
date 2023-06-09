@@ -66,7 +66,7 @@ namespace ReadyPlayerMe.Core.Editor
                     description = "For creating RPM avatars in Unity applications without the need for web browser.",
                     gitUrl = "https://github.com/readyplayerme/rpm-unity-sdk-avatar-creator.git",
                     branch = "",
-                    version = "0.3.0"
+                    version = "0.3.1"
                 }
             }
         };
