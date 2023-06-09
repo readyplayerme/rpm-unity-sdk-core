@@ -140,6 +140,20 @@ namespace ReadyPlayerMe.Core.Editor
             AddModuleRequest(ModuleList.OptionalModules[packageName].gitUrl);
         }
 
+        // TODO: remove once we add option module UI
+        [MenuItem("RPM Test/Add WebView")]
+        public static void AddWebViewModule()
+        {
+            AddOptionalModule("com.readyplayerme.webview");
+        }
+
+        // TODO: remove once we add option module UI
+        [MenuItem("RPM Test/Add Avatar Creator")]
+        public static void AddAvatarCreatorModule()
+        {
+            AddOptionalModule("com.readyplayerme.avatarcreator");
+        }
+
         /// <summary>
         ///     Get modules from <c>ModuleList</c> that are not installed.
         /// </summary>
