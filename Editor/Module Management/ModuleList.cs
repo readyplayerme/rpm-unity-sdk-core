@@ -13,7 +13,7 @@ namespace ReadyPlayerMe.Core.Editor
         {
             name = "com.readyplayerme.core",
             gitUrl = "https://github.com/readyplayerme/rpm-unity-sdk-core.git",
-            branch = "",
+            branch = "feature/cache-refactor",
             version = "1.3.0"
         };
 
@@ -33,7 +33,7 @@ namespace ReadyPlayerMe.Core.Editor
             {
                 name = "com.readyplayerme.avatarloader",
                 gitUrl = "https://github.com/readyplayerme/rpm-unity-sdk-avatar-loader.git",
-                branch = "feature/setup-guide-fix",
+                branch = "feature/cache-refactor",
                 version = "1.3.0"
             },
             new ModuleInfo
