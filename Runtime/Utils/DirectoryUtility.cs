@@ -62,8 +62,13 @@ namespace ReadyPlayerMe.Core
 #if UNITY_EDITOR
             return $"{Application.dataPath}/{DefaultAvatarFolder}";
 #else
-            return $"{Application.persistentDataPath}/{DefaultAvatarFolder}";
+            return GetAvatarsPersistantPath();
 #endif
+        }
+
+        public static string GetAvatarsPersistantPath()
+        {
+            return $"{Application.persistentDataPath}/{DefaultAvatarFolder}";
         }
     }
 }
