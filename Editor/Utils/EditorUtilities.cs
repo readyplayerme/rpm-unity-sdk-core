@@ -36,8 +36,8 @@ namespace ReadyPlayerMe.Core.Editor
 
         public static bool IsUrlShortcodeValid(string urlString)
         {
-            return !string.IsNullOrEmpty(urlString) && 
-                   (Regex.Match(urlString, SHORT_CODE_REGEX).Length > 0 || (Uri.IsWellFormedUriString(urlString, UriKind.Absolute) && urlString.EndsWith(".glb")));
+            return !string.IsNullOrEmpty(urlString) &&
+                   (Regex.Match(urlString, SHORT_CODE_REGEX).Length > 0 || Uri.IsWellFormedUriString(urlString, UriKind.Absolute) && urlString.EndsWith(".glb"));
         }
     }
 }

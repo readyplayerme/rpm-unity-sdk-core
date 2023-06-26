@@ -11,9 +11,9 @@ namespace ReadyPlayerMe.Core
         /// The directory where avatar files will be downloaded.
         public static string DefaultAvatarFolder { get; set; } = "Ready Player Me/Avatars";
 
-        public static void ValidateAvatarSaveDirectory(string guid, bool saveInProjectFolder = false)
+        public static void ValidateAvatarSaveDirectory(string guid, string paramsHash = null)
         {
-            ValidateDirectory(GetAvatarSaveDirectory(guid, saveInProjectFolder));
+            ValidateDirectory(GetAvatarSaveDirectory(guid, paramsHash));
         }
 
         public static void ValidateDirectory(string path)
@@ -24,14 +24,14 @@ namespace ReadyPlayerMe.Core
             }
         }
 
-        public static string GetAvatarSaveDirectory(string guid, bool saveInProjectFolder = false, string paramsHash = null)
+        public static string GetAvatarSaveDirectory(string guid, string paramsHash = null)
         {
-            return saveInProjectFolder ? $"{GetAvatarsDirectoryPath(true)}/{guid}" : $"{GetAvatarsDirectoryPath()}/{guid}/{paramsHash}";
+            return paramsHash == null ? $"{GetAvatarsDirectoryPath()}/{guid}" : $"{GetAvatarsDirectoryPath()}/{guid}/{paramsHash}";
         }
 
-        public static string GetRelativeProjectPath(string guid)
+        public static string GetRelativeProjectPath(string guid, string paramsHash = null)
         {
-            return $"Assets/{DefaultAvatarFolder}/{guid}";
+            return paramsHash == null ? $"Assets/{DefaultAvatarFolder}/{guid}" : $"Assets/{DefaultAvatarFolder}/{guid}/{paramsHash}";
         }
 
         public static long GetDirectorySize(DirectoryInfo directoryInfo)
@@ -57,10 +57,18 @@ namespace ReadyPlayerMe.Core
             return bytes / BYTES_IN_MEGABYTE;
         }
 
-        public static string GetAvatarsDirectoryPath(bool saveInProjectFolder = false)
+        public static string GetAvatarsDirectoryPath()
         {
-            var directory = saveInProjectFolder ? Application.dataPath : Application.persistentDataPath;
-            return $"{directory}/{DefaultAvatarFolder}";
+#if UNITY_EDITOR
+            return $"{Application.dataPath}/{DefaultAvatarFolder}";
+#else
+            return GetAvatarsPersistantPath();
+#endif
+        }
+
+        public static string GetAvatarsPersistantPath()
+        {
+            return $"{Application.persistentDataPath}/{DefaultAvatarFolder}";
         }
     }
 }

@@ -75,9 +75,14 @@ namespace ReadyPlayerMe.Core
 
             if (request.result != UnityWebRequest.Result.Success)
             {
-                Debug.Log(request.downloadHandler.text + "\n" + url);
                 response.Error = request.error;
                 response.Parse(request);
+
+                if (!(request.downloadHandler is DownloadHandlerBuffer))
+                {
+                    return response;
+                }
+                Debug.Log(request.downloadHandler.text + "\n" + url);
                 return response;
             }
 
