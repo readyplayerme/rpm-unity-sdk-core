@@ -1,6 +1,6 @@
-This update adds a small fix for the setup guide window.
+This hotfix includes an updated avatar loader version.
 
 ## Changelog
 
 ### Fixed
-- issue with setup guide display logic [#79](https://github.com/readyplayerme/rpm-unity-sdk-core/pull/79)
+- avatar loader version update to fix setup guide window
