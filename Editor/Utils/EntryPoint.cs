@@ -1,4 +1,5 @@
 using System;
+using ReadyPlayerMe.Core.Analytics;
 using UnityEditor;
 
 namespace ReadyPlayerMe.Core.Editor
@@ -19,7 +20,11 @@ namespace ReadyPlayerMe.Core.Editor
         /// </summary>
         static EntryPoint()
         {
-            EditorApplication.update += Update;
+            if (!SessionState.GetBool(SESSION_STARTED_KEY, false))
+            {
+                SessionState.SetBool(SESSION_STARTED_KEY, true);
+                EditorApplication.update += Update;
+            }
         }
 
         /// <summary>
@@ -28,12 +33,11 @@ namespace ReadyPlayerMe.Core.Editor
         /// </summary>
         private static void Update()
         {
-            if (SessionState.GetBool(SESSION_STARTED_KEY, false)) return;
-            SessionState.SetBool(SESSION_STARTED_KEY, true);
-
+            EditorApplication.update -= Update;
+            AnalyticsEditorLogger.EventLogger.LogOpenProject();
+            AnalyticsEditorLogger.EventLogger.IdentifyUser();
             Startup?.Invoke();
             ModuleUpdater.CheckForUpdates();
-            EditorApplication.update -= Update;
         }
     }
 }
