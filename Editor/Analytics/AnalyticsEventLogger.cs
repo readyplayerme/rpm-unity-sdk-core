@@ -53,14 +53,12 @@ namespace ReadyPlayerMe.Core.Analytics
 
         public void LogCloseProject()
         {
-            if (!isEnabled) return;
-            amplitudeEventLogger.LogEvent(Constants.EventName.CLOSE_PROJECT);
+            LogEvent(Constants.EventName.CLOSE_PROJECT);
         }
 
         public void LogOpenDocumentation(string target)
         {
-            if (!isEnabled) return;
-            amplitudeEventLogger.LogEvent(Constants.EventName.OPEN_DOCUMENTATION, new Dictionary<string, object>
+            LogEvent(Constants.EventName.OPEN_DOCUMENTATION, new Dictionary<string, object>
             {
                 { Constants.Properties.TARGET, target }
             });
@@ -68,17 +66,59 @@ namespace ReadyPlayerMe.Core.Analytics
 
         public void LogOpenFaq(string target)
         {
-            if (!isEnabled) return;
-            amplitudeEventLogger.LogEvent(Constants.EventName.OPEN_FAQ, new Dictionary<string, object>
+            LogEvent(Constants.EventName.OPEN_FAQ, new Dictionary<string, object>
             {
                 { Constants.Properties.TARGET, target }
             });
         }
 
+        public void LogCheckForUpdates()
+        {
+            LogEvent(Constants.EventName.CHECK_FOR_UPDATES);
+        }
+
+        public void LogToggleLogging(bool isLoggingEnabled)
+        {
+            LogEvent(Constants.EventName.TOGGLE_LOGGING, new Dictionary<string, object>
+            {
+                { Constants.Properties.LOGGING_ENABLED, isLoggingEnabled }
+            });
+        }
+
+        public void LogToggleCaching(bool isCachingEnabled)
+        {
+            LogEvent(Constants.EventName.TOGGLE_CACHING, new Dictionary<string, object>
+            {
+                { Constants.Properties.CACHING_ENABLED, isCachingEnabled }
+            });
+        }
+
+        public void LogClearLocalCache()
+        {
+            LogEvent(Constants.EventName.CLEAR_LOCAL_CACHE);
+        }
+
+        public void LogPrivacyPolicy()
+        {
+            LogEvent(Constants.EventName.PRIVACY_POLICY);
+        }
+
+        public void LogShowInExplorer()
+        {
+            LogEvent(Constants.EventName.SHOW_IN_EXPLORER);
+        }
+
+        public void LogHelpButton(string context)
+        {
+            LogEvent(Constants.EventName.HELP_BUTTON, new Dictionary<string, object>
+            {
+                { Constants.Properties.CONTEXT, context }
+            });
+        }
+
         public void LogOpenDiscord(string target)
         {
-            if (!isEnabled) return;
-            amplitudeEventLogger.LogEvent(Constants.EventName.OPEN_DISCORD, new Dictionary<string, object>
+            LogEvent(Constants.EventName.OPEN_DISCORD, new Dictionary<string, object>
             {
                 { Constants.Properties.TARGET, target }
             });
@@ -86,8 +126,7 @@ namespace ReadyPlayerMe.Core.Analytics
 
         public void LogLoadAvatarFromDialog(string avatarUrl, bool eyeAnimation, bool voiceHandler)
         {
-            if (!isEnabled) return;
-            amplitudeEventLogger.LogEvent(Constants.EventName.LOAD_AVATAR_FROM_DIALOG, new Dictionary<string, object>
+            LogEvent(Constants.EventName.LOAD_AVATAR_FROM_DIALOG, new Dictionary<string, object>
             {
                 { Constants.Properties.AVATAR_URL, avatarUrl },
                 { Constants.Properties.EYE_ANIMATION, eyeAnimation },
@@ -97,8 +136,7 @@ namespace ReadyPlayerMe.Core.Analytics
 
         public void LogUpdatePartnerURL(string previousSubdomain, string newSubdomain)
         {
-            if (!isEnabled) return;
-            amplitudeEventLogger.LogEvent(Constants.EventName.UPDATED_PARTNER_URL, new Dictionary<string, object>
+            LogEvent(Constants.EventName.UPDATED_PARTNER_URL, new Dictionary<string, object>
             {
                 { Constants.Properties.PREVIOUS_SUBDOMAIN, previousSubdomain },
                 { Constants.Properties.NEW_SUBDOMAIN, newSubdomain }
@@ -110,17 +148,21 @@ namespace ReadyPlayerMe.Core.Analytics
 
         public void LogOpenDialog(string dialog)
         {
-            if (!isEnabled) return;
-            amplitudeEventLogger.LogEvent(Constants.EventName.OPEN_DIALOG, new Dictionary<string, object>
+            LogEvent(Constants.EventName.OPEN_DIALOG, new Dictionary<string, object>
             {
                 { Constants.Properties.DIALOG, dialog }
             });
         }
 
-        public void LogBuildApplication(string target, string appName, bool productionBuild)
+        private void LogEvent(string eventName, Dictionary<string, object> eventProperties = null, Dictionary<string, object> userProperties = null)
         {
             if (!isEnabled) return;
-            amplitudeEventLogger.LogEvent(Constants.EventName.BUILD_APPLICATION, new Dictionary<string, object>
+            amplitudeEventLogger.LogEvent(eventName, eventProperties, userProperties);
+        }
+
+        public void LogBuildApplication(string target, string appName, bool productionBuild)
+        {
+            LogEvent(Constants.EventName.BUILD_APPLICATION, new Dictionary<string, object>
             {
                 { Constants.Properties.TARGET, target },
                 { Constants.Properties.APP_NAME, appName },
@@ -131,7 +173,7 @@ namespace ReadyPlayerMe.Core.Analytics
 
         public void LogMetadataDownloaded(double duration)
         {
-            amplitudeEventLogger.LogEvent(Constants.EventName.METADATA_DOWNLOADED, new Dictionary<string, object>
+            LogEvent(Constants.EventName.METADATA_DOWNLOADED, new Dictionary<string, object>
             {
                 { Constants.Properties.DURATION, duration }
             });
@@ -139,7 +181,7 @@ namespace ReadyPlayerMe.Core.Analytics
 
         public void LogAvatarLoaded(double duration)
         {
-            amplitudeEventLogger.LogEvent(Constants.EventName.AVATAR_LOADED, new Dictionary<string, object>
+            LogEvent(Constants.EventName.AVATAR_LOADED, new Dictionary<string, object>
             {
                 { Constants.Properties.DURATION, duration }
             });
@@ -152,9 +194,8 @@ namespace ReadyPlayerMe.Core.Analytics
 
         private void ToggleAnalytics(bool allow)
         {
-            if (!isEnabled) return;
             AppData appData = ApplicationData.GetData();
-            amplitudeEventLogger.LogEvent(Constants.EventName.ALLOW_ANALYTICS, new Dictionary<string, object>
+            LogEvent(Constants.EventName.ALLOW_ANALYTICS, new Dictionary<string, object>
             {
                 { Constants.Properties.ALLOW, allow }
             }, new Dictionary<string, object>

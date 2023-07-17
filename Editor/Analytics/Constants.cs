@@ -17,6 +17,13 @@ namespace ReadyPlayerMe.Core.Analytics
             public const string METADATA_DOWNLOADED = "metadata downloaded";
             public const string AVATAR_LOADED = "avatar loaded";
             public const string SET_USER_PROPERTIES = "set user properties";
+            public const string CLEAR_LOCAL_CACHE = "clear local cache";
+            public const string SHOW_IN_EXPLORER = "show in explorer";
+            public const string TOGGLE_LOGGING = "toggle logging";
+            public const string TOGGLE_CACHING = "toggle caching";
+            public const string CHECK_FOR_UPDATES = "check for updates";
+            public const string PRIVACY_POLICY = "privacy policy";
+            public const string HELP_BUTTON = "help button";
         }
 
         public static class Properties
@@ -38,6 +45,9 @@ namespace ReadyPlayerMe.Core.Analytics
             public const string APP_IDENTIFIER = "app identifier";
             public const string ALLOW_ANALYTICS = "allow analytics";
             public const string DURATION = "duration";
+            public const string LOGGING_ENABLED = "logging enabled";
+            public const string CACHING_ENABLED = "caching enabled";
+            public const string CONTEXT = "context";
         }
 
         public static class AmplitudeKeys
