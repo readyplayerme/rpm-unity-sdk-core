@@ -1,6 +1,6 @@
 ﻿using UnityEditor;
 
-namespace ReadyPlayerMe.AvatarLoader
+namespace ReadyPlayerMe.Core
 {
     [CustomEditor(typeof(AvatarData))]
     public class AvatarDataEditor : UnityEditor.Editor

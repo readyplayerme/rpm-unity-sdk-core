@@ -5,7 +5,7 @@ using NUnit.Framework;
 using UnityEngine;
 using UnityEngine.TestTools;
 
-namespace ReadyPlayerMe.AvatarLoader.Tests
+namespace ReadyPlayerMe.Core.Tests
 {
     public class AvatarAPITests
     {
@@ -223,15 +223,15 @@ namespace ReadyPlayerMe.AvatarLoader.Tests
             Assert.IsNotNull(avatar);
             Assert.AreEqual(AVATAR_CONFIG_BLEND_SHAPE_COUNT_MED, blendShapeCount);
         }
-        
-        [Test] 
+
+        [Test]
         public async Task AvatarLoader_Avatar_API_MeshOptCompression()
         {
             var avatarConfig = ScriptableObject.CreateInstance<AvatarConfig>();
             avatarConfig.MeshLod = MeshLod.Low;
             avatarConfig.TextureAtlas = TextureAtlas.Low;
             avatarConfig.MorphTargets = new List<string> { "none" };
-            avatarConfig.TextureChannel = new [] { TextureChannel.BaseColor };
+            avatarConfig.TextureChannel = new[] { TextureChannel.BaseColor };
 
             var downloader = new AvatarDownloader();
             var normalBytes = await downloader.DownloadIntoMemory(AVATAR_API_AVATAR_URL, avatarConfig);

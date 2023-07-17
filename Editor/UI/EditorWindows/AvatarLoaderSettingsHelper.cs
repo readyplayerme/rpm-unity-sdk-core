@@ -1,6 +1,6 @@
 ﻿using UnityEditor;
 
-namespace ReadyPlayerMe.AvatarLoader.Editor
+namespace ReadyPlayerMe.Core.Editor
 {
     public static class AvatarLoaderSettingsHelper
     {

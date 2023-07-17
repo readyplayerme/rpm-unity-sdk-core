@@ -1,10 +1,9 @@
 ﻿using System;
 using System.Threading;
 using System.Threading.Tasks;
-using ReadyPlayerMe.Core;
 using UnityEngine;
 
-namespace ReadyPlayerMe.AvatarLoader
+namespace ReadyPlayerMe.Core
 {
     /// <summary>
     /// This class is responsible for requesting and downloading a 2D render of an avatar from a URL.

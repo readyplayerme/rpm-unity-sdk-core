@@ -1,10 +1,9 @@
-using ReadyPlayerMe.Core;
 using UnityEditor;
 using UnityEditor.Build;
 using UnityEditor.Build.Reporting;
 using UnityEngine;
 
-namespace ReadyPlayerMe.AvatarLoader.Editor
+namespace ReadyPlayerMe.Core.Editor
 {
     public class BuildPreprocessor : IPreprocessBuildWithReport
     {

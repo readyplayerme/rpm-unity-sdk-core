@@ -1,11 +1,10 @@
 using System;
 using System.Threading.Tasks;
-using ReadyPlayerMe.Core;
 using ReadyPlayerMe.Loader;
 using UnityEngine;
 using Object = UnityEngine.Object;
 
-namespace ReadyPlayerMe.AvatarLoader
+namespace ReadyPlayerMe.Core
 {
     /// <summary>
     /// The <c>AvatarObjectLoader</c> is responsible for loading the avatar from a url and spawning it as a GameObject in

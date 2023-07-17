@@ -3,11 +3,10 @@ using System.IO;
 using System.Threading;
 using System.Threading.Tasks;
 using GLTFast;
-using ReadyPlayerMe.Core;
 using ReadyPlayerMe.Loader;
 using UnityEngine;
 
-namespace ReadyPlayerMe.AvatarLoader
+namespace ReadyPlayerMe.Core
 {
     /// <summary>
     /// This class is responsible for the avatar model using the GltFast API.

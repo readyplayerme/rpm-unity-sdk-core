@@ -2,7 +2,7 @@
 using GLTFast.Logging;
 using UnityEngine;
 
-namespace ReadyPlayerMe.AvatarLoader
+namespace ReadyPlayerMe.Core
 {
     /// <summary>
     /// This class is responsible instantiating Avatar model as a GameObject.

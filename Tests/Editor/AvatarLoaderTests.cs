@@ -6,7 +6,7 @@ using UnityEngine;
 using UnityEngine.TestTools;
 using Object = UnityEngine.Object;
 
-namespace ReadyPlayerMe.AvatarLoader.Tests
+namespace ReadyPlayerMe.Core.Tests
 {
     public class AvatarLoaderTests
     {

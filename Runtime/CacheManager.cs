@@ -1,8 +1,7 @@
 using System.Collections.Generic;
-using ReadyPlayerMe.Core;
 using UnityEngine;
 
-namespace ReadyPlayerMe.AvatarLoader
+namespace ReadyPlayerMe.Core
 {
     public static class CacheManager
     {

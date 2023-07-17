@@ -1,7 +1,7 @@
 using GLTFast;
 using UnityEngine;
 
-namespace ReadyPlayerMe
+namespace ReadyPlayerMe.Core
 {
     public class GLTFDeferAgent : MonoBehaviour
     {

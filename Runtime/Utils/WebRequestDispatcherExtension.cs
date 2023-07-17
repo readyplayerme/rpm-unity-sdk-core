@@ -1,11 +1,10 @@
 ﻿using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
-using ReadyPlayerMe.Core;
 using UnityEngine;
 using UnityEngine.Networking;
 
-namespace ReadyPlayerMe.AvatarLoader
+namespace ReadyPlayerMe.Core
 {
     /// <summary>
     /// Provides extension methods for <see cref="WebRequestDispatcher"/> class,

@@ -1,7 +1,7 @@
 ﻿using System;
 using UnityEngine;
 
-namespace ReadyPlayerMe.AvatarLoader
+namespace ReadyPlayerMe.Core
 {
     /// <summary>
     /// This class holds all the properties necessary for failure events.

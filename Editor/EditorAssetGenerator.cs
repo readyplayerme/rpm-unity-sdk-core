@@ -1,8 +1,7 @@
-﻿using ReadyPlayerMe.Core;
-using UnityEditor;
+﻿using UnityEditor;
 using UnityEngine;
 
-namespace ReadyPlayerMe.AvatarLoader.Editor
+namespace ReadyPlayerMe.Core.Editor
 {
     [InitializeOnLoad]
     public class EditorAssetGenerator

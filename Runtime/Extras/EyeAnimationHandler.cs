@@ -2,7 +2,7 @@
 using System.Threading.Tasks;
 using UnityEngine;
 
-namespace ReadyPlayerMe.AvatarLoader
+namespace ReadyPlayerMe.Core
 {
     /// <summary>
     /// This class adds a blink animation at regular intervals to an avatar <c>SkeletonMeshRenderer</c> using blendshapes
@@ -194,9 +194,9 @@ namespace ReadyPlayerMe.AvatarLoader
             {
                 await Task.Yield();
             }
-            
-            if(ctx.IsCancellationRequested) return;
-            
+
+            if (ctx.IsCancellationRequested) return;
+
             headMesh.SetBlendShapeWeight(eyeBlinkLeftBlendShapeIndex, 0);
             headMesh.SetBlendShapeWeight(eyeBlinkRightBlendShapeIndex, 0);
         }

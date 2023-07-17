@@ -51,7 +51,7 @@ namespace ReadyPlayerMe.Core.Editor
             Layout.Horizontal(() =>
             {
                 GUILayout.Space(15);
-                EditorGUILayout.LabelField("Your subdomain:",GUILayout.Width(95));          
+                EditorGUILayout.LabelField("Your subdomain:", GUILayout.Width(95));
                 DocumentationButton.Draw(QUICKSTART_DOCS_LINK);
                 EditorGUILayout.LabelField("    https://", textLabelStyle, GUILayout.Width(60));
                 var oldValue = partnerSubdomain;

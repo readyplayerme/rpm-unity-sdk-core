@@ -1,43 +1,46 @@
 using System.Text;
 
-public class QueryBuilder
+namespace ReadyPlayerMe.Core
 {
-    private const string STARTING_CHARACTER = "?";
-    private const string PARAMETER_SEPARATOR = "&";
-    private readonly StringBuilder query = new StringBuilder();
-    public string Query => query.ToString();
-
-    public QueryBuilder()
+    public class QueryBuilder
     {
-        query.Append(STARTING_CHARACTER);
-    }
+        private const string STARTING_CHARACTER = "?";
+        private const string PARAMETER_SEPARATOR = "&";
+        private readonly StringBuilder query = new StringBuilder();
+        public string Query => query.ToString();
 
-    public QueryBuilder(string keyName, string value)
-    {
-        query.Append(STARTING_CHARACTER);
-        AddKeyValue(keyName, value);
-    }
+        public QueryBuilder()
+        {
+            query.Append(STARTING_CHARACTER);
+        }
 
-    public void AddKeyValue(string keyName, string value)
-    {
-        AddKey(keyName);
-        AddValue(value);
-    }
+        public QueryBuilder(string keyName, string value)
+        {
+            query.Append(STARTING_CHARACTER);
+            AddKeyValue(keyName, value);
+        }
 
-    private void AddKey(string keyName)
-    {
-        //if first key does not add parameter separator
-        var separator = Query.Length > 1 ? PARAMETER_SEPARATOR : "";
-        AppendQuery($"{separator}{keyName}=");
-    }
+        public void AddKeyValue(string keyName, string value)
+        {
+            AddKey(keyName);
+            AddValue(value);
+        }
 
-    private void AddValue(string value)
-    {
-        AppendQuery(value);
-    }
+        private void AddKey(string keyName)
+        {
+            //if first key does not add parameter separator
+            var separator = Query.Length > 1 ? PARAMETER_SEPARATOR : "";
+            AppendQuery($"{separator}{keyName}=");
+        }
 
-    private void AppendQuery(string text)
-    {
-        query.Append(text);
+        private void AddValue(string value)
+        {
+            AppendQuery(value);
+        }
+
+        private void AppendQuery(string text)
+        {
+            query.Append(text);
+        }
     }
 }

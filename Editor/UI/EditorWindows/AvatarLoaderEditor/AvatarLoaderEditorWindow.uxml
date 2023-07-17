@@ -2,7 +2,7 @@
     <ui:Template name="HeaderTemplate" src="../Templates/HeaderTemplate.uxml" />
     <Style src="../CommonStyle.uss" />
     <ui:Instance template="HeaderTemplate" name="HeaderTemplate" style="flex-shrink: 0;" />
-    <ReadyPlayerMe.AvatarLoader.Editor.AvatarUrlTemplate style="flex-shrink: 0; width: 500px;" />
+    <ReadyPlayerMe.Core.Editor.AvatarUrlTemplate style="flex-shrink: 0; width: 500px;" />
     <ui:VisualElement name="Extras" style="flex-shrink: 0; flex-direction: column; align-items: flex-start; justify-content: flex-start; align-self: stretch;">
         <ui:Label text="Extras" display-tooltip-when-elided="true" class="headingText" />
         <ui:Toggle label="Use Eye Animations" name="UseEyeAnimationsToggle" style="flex-direction: row-reverse; margin-left: 15px; margin-top: 10px;" />

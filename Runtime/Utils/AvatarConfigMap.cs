@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace ReadyPlayerMe.AvatarLoader
+namespace ReadyPlayerMe.Core
 {
     /// <summary>
     /// This static class contains maps that can be used for avatar configuration.
@@ -12,8 +12,8 @@ namespace ReadyPlayerMe.AvatarLoader
         /// options
         public static readonly Dictionary<Pose, string> Pose = new Dictionary<Pose, string>
         {
-            { AvatarLoader.Pose.APose, "A" },
-            { AvatarLoader.Pose.TPose, "T" }
+            { Core.Pose.APose, "A" },
+            { Core.Pose.TPose, "T" }
         };
 
         /// A map of all possible
@@ -21,10 +21,10 @@ namespace ReadyPlayerMe.AvatarLoader
         /// settings
         public static readonly Dictionary<TextureAtlas, string> TextureAtlas = new Dictionary<TextureAtlas, string>
         {
-            { AvatarLoader.TextureAtlas.None, "none" },
-            { AvatarLoader.TextureAtlas.High, "1024" },
-            { AvatarLoader.TextureAtlas.Medium, "512" },
-            { AvatarLoader.TextureAtlas.Low, "256" }
+            { Core.TextureAtlas.None, "none" },
+            { Core.TextureAtlas.High, "1024" },
+            { Core.TextureAtlas.Medium, "512" },
+            { Core.TextureAtlas.Low, "256" }
         };
     }
 }

@@ -1,11 +1,10 @@
 ﻿using System;
 using System.IO;
 using System.Linq;
-using ReadyPlayerMe.Core;
 using UnityEditor;
 using UnityEngine;
 
-namespace ReadyPlayerMe.AvatarLoader
+namespace ReadyPlayerMe.Core
 {
     /// <summary>
     /// This class is responsible for managing the avatar cache that is used for storing the avatar assets locally.

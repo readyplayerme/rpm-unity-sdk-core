@@ -1,9 +1,8 @@
-﻿using ReadyPlayerMe.Core.Editor;
-using UnityEditor;
+﻿using UnityEditor;
 using UnityEngine;
 using UnityEngine.UIElements;
 
-namespace ReadyPlayerMe.AvatarLoader.Editor
+namespace ReadyPlayerMe.Core.Editor
 {
     public class AvatarUrlTemplate : VisualElement
     {

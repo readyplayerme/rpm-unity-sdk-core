@@ -3,7 +3,7 @@ using System.Threading;
 using UnityEditor.PackageManager.UI;
 using UnityEditor.SceneManagement;
 
-namespace ReadyPlayerMe.AvatarLoader.Editor
+namespace ReadyPlayerMe.Core.Editor
 {
     public class QuickStartHelper
     {

@@ -1,10 +1,8 @@
 ﻿using System.IO;
-using ReadyPlayerMe.Core;
-using ReadyPlayerMe.Core.Editor;
 using UnityEditor;
 using UnityEngine;
 
-namespace ReadyPlayerMe.AvatarLoader.Editor
+namespace ReadyPlayerMe.Core.Editor
 {
     public class AvatarConfigFields
     {

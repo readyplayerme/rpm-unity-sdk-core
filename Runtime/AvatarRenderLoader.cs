@@ -1,10 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
-using ReadyPlayerMe.Core;
-using ReadyPlayerMe.Loader;
 using UnityEngine;
 
-namespace ReadyPlayerMe.AvatarLoader
+namespace ReadyPlayerMe.Core
 {
     /// <summary>
     /// This class is responsible for for processing, requesting and loading a 2D render of an avatar.

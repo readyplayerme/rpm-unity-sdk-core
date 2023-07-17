@@ -1,9 +1,8 @@
-using ReadyPlayerMe.Core;
 using UnityEditor;
 using UnityEngine;
 using UnityEngine.Rendering;
 
-namespace ReadyPlayerMe.AvatarLoader.Editor
+namespace ReadyPlayerMe.Core.Editor
 {
     public enum RenderPipeline { Standard, URP, HDRP }
     public static class ShaderVariantHelper

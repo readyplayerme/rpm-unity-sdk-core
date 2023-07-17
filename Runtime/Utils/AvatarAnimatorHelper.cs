@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-namespace ReadyPlayerMe.AvatarLoader
+namespace ReadyPlayerMe.Core
 {
     /// <summary>
     /// This static class contains useful helper functions used in the <see cref="ReadyPlayerMe" /> API.

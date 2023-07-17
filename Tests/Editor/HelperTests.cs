@@ -2,7 +2,7 @@ using System.Collections.Generic;
 using NUnit.Framework;
 using UnityEngine;
 
-namespace ReadyPlayerMe.AvatarLoader.Tests
+namespace ReadyPlayerMe.Core.Tests
 {
     public class HelperTests
     {

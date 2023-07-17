@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-namespace ReadyPlayerMe.AvatarLoader
+namespace ReadyPlayerMe.Core
 {
     public class AvatarData : MonoBehaviour
     {

@@ -1,8 +1,7 @@
 ﻿using ReadyPlayerMe.Core.Analytics;
-using ReadyPlayerMe.Core.Editor;
 using UnityEditor;
 
-namespace ReadyPlayerMe.AvatarLoader.Editor
+namespace ReadyPlayerMe.Core.Editor
 {
     [InitializeOnLoad]
     public static class OneTimeSetup

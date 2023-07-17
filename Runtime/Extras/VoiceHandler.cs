@@ -9,7 +9,7 @@ using UnityEngine.Android;
 #endif
 
 
-namespace ReadyPlayerMe.AvatarLoader
+namespace ReadyPlayerMe.Core
 {
     /// <summary>
     /// This enumeration describes the options for AudioProviderType.

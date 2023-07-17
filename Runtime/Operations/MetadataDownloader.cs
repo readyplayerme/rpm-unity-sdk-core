@@ -1,12 +1,11 @@
 using System;
 using System.IO;
-using UnityEngine;
-using Newtonsoft.Json;
 using System.Threading;
-using ReadyPlayerMe.Core;
 using System.Threading.Tasks;
+using Newtonsoft.Json;
+using UnityEngine;
 
-namespace ReadyPlayerMe.AvatarLoader
+namespace ReadyPlayerMe.Core
 {
     /// <summary>
     /// This class is responsible for handling the avatar meta data .json file download, save, and parsing functionality.

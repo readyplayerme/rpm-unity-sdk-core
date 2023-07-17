@@ -1,11 +1,10 @@
-using ReadyPlayerMe.AvatarLoader.Editor;
 using ReadyPlayerMe.Core;
 using ReadyPlayerMe.Core.Analytics;
+using ReadyPlayerMe.Core.Editor;
 using UnityEditor;
+using UnityEditor.UIElements;
 using UnityEngine;
 using UnityEngine.UIElements;
-using UnityEditor.UIElements;
-using ObjectField = UnityEditor.UIElements.ObjectField;
 
 public class SetupGuide : EditorWindow
 {

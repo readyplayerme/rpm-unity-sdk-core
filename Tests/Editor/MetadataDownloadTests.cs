@@ -3,7 +3,7 @@ using System.IO;
 using System.Threading.Tasks;
 using NUnit.Framework;
 
-namespace ReadyPlayerMe.AvatarLoader.Tests
+namespace ReadyPlayerMe.Core.Tests
 {
     public class MetadataDownloadTests
     {

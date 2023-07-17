@@ -1,8 +1,7 @@
-﻿using ReadyPlayerMe.Core.Editor;
-using UnityEditor;
+﻿using UnityEditor;
 using UnityEngine;
 
-namespace ReadyPlayerMe.AvatarLoader.Editor
+namespace ReadyPlayerMe.Core.Editor
 {
     public class SubdomainPanel : IEditorWindowComponent
     {

@@ -1,8 +1,7 @@
 using System.Threading.Tasks;
 using NUnit.Framework;
-using ReadyPlayerMe.Core;
 
-namespace ReadyPlayerMe.AvatarLoader.Tests
+namespace ReadyPlayerMe.Core.Tests
 {
     public class AvatarUriProcessTests
     {

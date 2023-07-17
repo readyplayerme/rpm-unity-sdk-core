@@ -1,4 +1,4 @@
-﻿namespace ReadyPlayerMe.AvatarLoader
+﻿namespace ReadyPlayerMe.Core
 {
     /// <summary>
     /// A structure that holds all the data related to an avatars url and filepath.

@@ -5,13 +5,13 @@
     <ui:VisualElement name="PartnerSettingsHeading" class="heading">
         <ui:Label text="Partner Settings" display-tooltip-when-elided="true" class="headingText" />
     </ui:VisualElement>
-    <ReadyPlayerMe.AvatarLoader.Editor.SubdomainTemplate style="flex-shrink: 0;" />
+    <ReadyPlayerMe.Core.Editor.SubdomainTemplate style="flex-shrink: 0;" />
     <ui:VisualElement name="AvatarSettings" style="flex-grow: 0; background-color: rgba(0, 0, 0, 0); height: auto; align-self: auto; justify-content: flex-start; align-items: stretch; flex-direction: flex-start; flex-shrink: 0;">
         <ui:VisualElement name="AvatarSettingsHeading" class="heading">
             <ui:Label text="Avatar Settings" display-tooltip-when-elided="true" class="headingText" />
         </ui:VisualElement>
-        <ReadyPlayerMe.AvatarLoader.Editor.AvatarConfigTemplate />
-        <ReadyPlayerMe.AvatarLoader.Editor.GltfDeferAgentTemplate />
+        <ReadyPlayerMe.Core.Editor.AvatarConfigTemplate />
+        <ReadyPlayerMe.Core.Editor.GltfDeferAgentTemplate />
     </ui:VisualElement>
     <ui:VisualElement name="AvatarCaching" style="flex-grow: 0; background-color: rgba(0, 0, 0, 0); flex-shrink: 0;">
         <ui:VisualElement name="AvatarCachingHeading" class="heading">

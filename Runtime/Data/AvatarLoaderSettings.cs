@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-namespace ReadyPlayerMe.AvatarLoader
+namespace ReadyPlayerMe.Core
 {
     /// <summary>
     /// The <c>AvatarLoaderSettings</c> class is a <c>ScriptableObject</c> that can be used to easily configure the

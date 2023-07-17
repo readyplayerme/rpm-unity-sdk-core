@@ -1,7 +1,7 @@
 using System;
 using UnityEngine;
 
-namespace ReadyPlayerMe.AvatarLoader
+namespace ReadyPlayerMe.Core
 {
     [Serializable]
     public enum LimitStrategy

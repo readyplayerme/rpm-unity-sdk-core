@@ -1,7 +1,7 @@
-using System.Globalization;
 using System.Collections.Generic;
+using System.Globalization;
 
-namespace ReadyPlayerMe.AvatarLoader
+namespace ReadyPlayerMe.Core
 {
     /// <summary>
     /// This structure holds all the data required a request to the Avatar Render API.

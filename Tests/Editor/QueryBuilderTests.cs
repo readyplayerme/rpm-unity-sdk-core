@@ -1,6 +1,6 @@
 using NUnit.Framework;
 
-namespace ReadyPlayerMe.AvatarLoader.Tests
+namespace ReadyPlayerMe.Core.Tests
 {
     public class QueryBuilderTests
     {

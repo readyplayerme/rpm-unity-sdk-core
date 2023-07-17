@@ -3,7 +3,7 @@ using ReadyPlayerMe.Core.Editor;
 using UnityEditor;
 using UnityEngine;
 
-namespace ReadyPlayerMe.AvatarLoader
+namespace ReadyPlayerMe.Core
 {
     [Obsolete("Use AvatarConfigNewEditor instead")]
     public class AvatarConfigEditor : UnityEditor.Editor

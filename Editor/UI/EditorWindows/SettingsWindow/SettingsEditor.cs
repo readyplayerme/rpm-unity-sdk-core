@@ -1,8 +1,7 @@
 using System.IO;
-using ReadyPlayerMe.AvatarLoader;
-using ReadyPlayerMe.AvatarLoader.Editor;
 using ReadyPlayerMe.Core;
 using ReadyPlayerMe.Core.Analytics;
+using ReadyPlayerMe.Core.Editor;
 using UnityEditor;
 using UnityEngine;
 using UnityEngine.UIElements;

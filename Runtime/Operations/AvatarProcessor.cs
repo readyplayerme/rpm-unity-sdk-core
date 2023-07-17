@@ -1,12 +1,10 @@
 ﻿using System;
 using System.Threading;
 using System.Threading.Tasks;
-using ReadyPlayerMe.Core;
-using UnityEditor;
 using UnityEngine;
 using Object = UnityEngine.Object;
 
-namespace ReadyPlayerMe.AvatarLoader
+namespace ReadyPlayerMe.Core
 {
     /// <summary>
     /// This class is responsible for making processing the avatar after it has been loaded into a GameObject.

@@ -1,8 +1,7 @@
 ﻿using System;
-using ReadyPlayerMe.Core.Editor;
 using UnityEngine;
 
-namespace ReadyPlayerMe.AvatarLoader.Editor
+namespace ReadyPlayerMe.Core.Editor
 {
     public static class HeadingAndDescriptionField
     {

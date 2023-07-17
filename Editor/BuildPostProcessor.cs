@@ -1,10 +1,9 @@
-﻿using ReadyPlayerMe.Core;
-using ReadyPlayerMe.Core.Analytics;
+﻿using ReadyPlayerMe.Core.Analytics;
 using UnityEditor;
 using UnityEditor.Callbacks;
 using UnityEngine;
 
-namespace ReadyPlayerMe.AvatarLoader.Editor
+namespace ReadyPlayerMe.Core.Editor
 {
     public static class BuildPostProcessor
     {

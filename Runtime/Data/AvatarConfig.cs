@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using UnityEngine;
 
-namespace ReadyPlayerMe.AvatarLoader
+namespace ReadyPlayerMe.Core
 {
     /// <summary>
     /// This is a scriptable object used to configure and store the settings to apply to the avatar during the avatar loading
@@ -22,11 +22,11 @@ namespace ReadyPlayerMe.AvatarLoader
         [Tooltip("Add textures which avatar will include")]
         public TextureChannel[] TextureChannel =
         {
-            AvatarLoader.TextureChannel.BaseColor,
-            AvatarLoader.TextureChannel.Normal,
-            AvatarLoader.TextureChannel.MetallicRoughness,
-            AvatarLoader.TextureChannel.Emissive,
-            AvatarLoader.TextureChannel.Occlusion
+            Core.TextureChannel.BaseColor,
+            Core.TextureChannel.Normal,
+            Core.TextureChannel.MetallicRoughness,
+            Core.TextureChannel.Emissive,
+            Core.TextureChannel.Occlusion
         };
         [Tooltip("Only works for halfbody avatars. If enabled, avatars will load with hand meshes included.")]
         public bool UseHands;

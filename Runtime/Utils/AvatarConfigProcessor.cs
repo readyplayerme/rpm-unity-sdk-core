@@ -1,8 +1,7 @@
 using System.Collections.Generic;
 using System.Linq;
-using ReadyPlayerMe.Core;
 
-namespace ReadyPlayerMe.AvatarLoader
+namespace ReadyPlayerMe.Core
 {
     /// <summary>
     /// This class is responsible for the <see cref="AvatarConfig" />.

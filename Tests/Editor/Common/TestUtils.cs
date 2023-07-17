@@ -1,8 +1,7 @@
 ﻿using System.IO;
-using ReadyPlayerMe.Core;
 using UnityEngine;
 
-namespace ReadyPlayerMe.AvatarLoader.Tests
+namespace ReadyPlayerMe.Core.Tests
 {
     public static class TestUtils
     {

@@ -1,7 +1,6 @@
-﻿using ReadyPlayerMe.Core.Editor;
-using UnityEngine;
+﻿using UnityEngine;
 
-namespace ReadyPlayerMe.AvatarLoader.Editor
+namespace ReadyPlayerMe.Core.Editor
 {
     public class AvatarConfigPanel : IEditorWindowComponent
     {
@@ -35,7 +34,7 @@ namespace ReadyPlayerMe.AvatarLoader.Editor
             {
                 fixedWidth = 435,
                 wordWrap = true,
-                margin = new RectOffset(15,15,0,0)
+                margin = new RectOffset(15, 15, 0, 0)
             });
         }
     }

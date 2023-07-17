@@ -1,8 +1,7 @@
-﻿using ReadyPlayerMe.Core.Editor;
-using UnityEditor;
+﻿using UnityEditor;
 using UnityEngine;
 
-namespace ReadyPlayerMe.AvatarLoader.Editor
+namespace ReadyPlayerMe.Core.Editor
 {
     public class AvatarUrlField
     {
@@ -64,7 +63,7 @@ namespace ReadyPlayerMe.AvatarLoader.Editor
                     GUILayout.Space(LEFT_MARGIN);
 
                     EditorGUILayout.LabelField(
-                        new GUIContent("Avatar URL or Shortcode", "Paste the avatar URL or shortcode received from Ready Player Me here."),labelWidth);
+                        new GUIContent("Avatar URL or Shortcode", "Paste the avatar URL or shortcode received from Ready Player Me here."), labelWidth);
 
                     Layout.Vertical(() =>
                     {

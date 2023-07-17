@@ -1,6 +1,4 @@
-using ReadyPlayerMe.Core;
-
-namespace ReadyPlayerMe.AvatarLoader
+namespace ReadyPlayerMe.Core
 {
     /// <summary>
     /// This class is used as a container to store all information about the avatar.

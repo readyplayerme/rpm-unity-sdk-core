@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace ReadyPlayerMe.AvatarLoader
+namespace ReadyPlayerMe.Core
 {
     /// <summary>
     /// This is a custom exception class used for exceptions in the Avatar Loader namespace.

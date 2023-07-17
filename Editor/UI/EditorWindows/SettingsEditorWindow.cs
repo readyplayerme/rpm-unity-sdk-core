@@ -1,11 +1,9 @@
 using System;
-using UnityEngine;
-using UnityEditor;
-using ReadyPlayerMe.Core;
-using ReadyPlayerMe.Core.Editor;
 using ReadyPlayerMe.Core.Analytics;
+using UnityEditor;
+using UnityEngine;
 
-namespace ReadyPlayerMe.AvatarLoader.Editor
+namespace ReadyPlayerMe.Core.Editor
 {
     [Obsolete("Use SettingsEditor instead")]
     public class SettingsEditorWindow : EditorWindowBase

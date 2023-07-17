@@ -1,4 +1,4 @@
-namespace ReadyPlayerMe.AvatarLoader
+namespace ReadyPlayerMe.Core
 {
     public static class RenderParameterProcessor
     {

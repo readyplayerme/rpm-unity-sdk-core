@@ -1,10 +1,9 @@
 using System;
 using ReadyPlayerMe.Core.Analytics;
-using ReadyPlayerMe.Core.Editor;
 using UnityEditor;
 using UnityEngine;
 
-namespace ReadyPlayerMe.AvatarLoader.Editor
+namespace ReadyPlayerMe.Core.Editor
 {
     [Obsolete("Use SetupGuide instead")]
     public class SetupGuideWindow : EditorWindow
