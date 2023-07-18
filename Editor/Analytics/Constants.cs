@@ -19,11 +19,11 @@ namespace ReadyPlayerMe.Core.Analytics
             public const string SET_USER_PROPERTIES = "set user properties";
             public const string CLEAR_LOCAL_CACHE = "clear local cache";
             public const string SHOW_IN_EXPLORER = "show in explorer";
-            public const string TOGGLE_LOGGING = "toggle logging";
-            public const string TOGGLE_CACHING = "toggle caching";
+            public const string SET_LOGGING_ENABLED = "set logging enabled";
+            public const string SET_CACHING_ENABLED = "set caching enabled";
             public const string CHECK_FOR_UPDATES = "check for updates";
-            public const string PRIVACY_POLICY = "privacy policy";
-            public const string HELP_BUTTON = "help button";
+            public const string PRIVACY_POLICY = "view privacy policy";
+            public const string FIND_OUT_MORE = "find out more";
         }
 
         public static class Properties

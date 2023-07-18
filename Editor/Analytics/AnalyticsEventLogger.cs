@@ -77,17 +77,17 @@ namespace ReadyPlayerMe.Core.Analytics
             LogEvent(Constants.EventName.CHECK_FOR_UPDATES);
         }
 
-        public void LogToggleLogging(bool isLoggingEnabled)
+        public void LogSetLoggingEnabled(bool isLoggingEnabled)
         {
-            LogEvent(Constants.EventName.TOGGLE_LOGGING, new Dictionary<string, object>
+            LogEvent(Constants.EventName.SET_LOGGING_ENABLED, new Dictionary<string, object>
             {
                 { Constants.Properties.LOGGING_ENABLED, isLoggingEnabled }
             });
         }
 
-        public void LogToggleCaching(bool isCachingEnabled)
+        public void LogSetCachingEnabled(bool isCachingEnabled)
         {
-            LogEvent(Constants.EventName.TOGGLE_CACHING, new Dictionary<string, object>
+            LogEvent(Constants.EventName.SET_CACHING_ENABLED, new Dictionary<string, object>
             {
                 { Constants.Properties.CACHING_ENABLED, isCachingEnabled }
             });
@@ -98,7 +98,7 @@ namespace ReadyPlayerMe.Core.Analytics
             LogEvent(Constants.EventName.CLEAR_LOCAL_CACHE);
         }
 
-        public void LogPrivacyPolicy()
+        public void LogViewPrivacyPolicy()
         {
             LogEvent(Constants.EventName.PRIVACY_POLICY);
         }
@@ -108,9 +108,9 @@ namespace ReadyPlayerMe.Core.Analytics
             LogEvent(Constants.EventName.SHOW_IN_EXPLORER);
         }
 
-        public void LogHelpButton(string context)
+        public void LogFindOutMore(string context)
         {
-            LogEvent(Constants.EventName.HELP_BUTTON, new Dictionary<string, object>
+            LogEvent(Constants.EventName.FIND_OUT_MORE, new Dictionary<string, object>
             {
                 { Constants.Properties.CONTEXT, context }
             });
