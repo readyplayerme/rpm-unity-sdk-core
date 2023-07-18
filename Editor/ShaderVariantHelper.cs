@@ -30,10 +30,12 @@ namespace ReadyPlayerMe.Core.Editor
         [InitializeOnLoadMethod]
         private static void InitializeOnLoad()
         {
+#if GLTFAST
             if (SessionState.GetBool(SHADER_SESSION_CHECK, false)) return;
             SessionState.SetBool(SHADER_SESSION_CHECK, true);
 
             EditorApplication.update += CheckAndUpdatePreloadShaders;
+#endif
         }
 
         private static void CheckAndUpdatePreloadShaders()
