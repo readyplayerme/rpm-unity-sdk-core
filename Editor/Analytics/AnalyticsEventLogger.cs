@@ -72,50 +72,6 @@ namespace ReadyPlayerMe.Core.Analytics
             });
         }
 
-        public void LogCheckForUpdates()
-        {
-            LogEvent(Constants.EventName.CHECK_FOR_UPDATES);
-        }
-
-        public void LogSetLoggingEnabled(bool isLoggingEnabled)
-        {
-            LogEvent(Constants.EventName.SET_LOGGING_ENABLED, new Dictionary<string, object>
-            {
-                { Constants.Properties.LOGGING_ENABLED, isLoggingEnabled }
-            });
-        }
-
-        public void LogSetCachingEnabled(bool isCachingEnabled)
-        {
-            LogEvent(Constants.EventName.SET_CACHING_ENABLED, new Dictionary<string, object>
-            {
-                { Constants.Properties.CACHING_ENABLED, isCachingEnabled }
-            });
-        }
-
-        public void LogClearLocalCache()
-        {
-            LogEvent(Constants.EventName.CLEAR_LOCAL_CACHE);
-        }
-
-        public void LogViewPrivacyPolicy()
-        {
-            LogEvent(Constants.EventName.PRIVACY_POLICY);
-        }
-
-        public void LogShowInExplorer()
-        {
-            LogEvent(Constants.EventName.SHOW_IN_EXPLORER);
-        }
-
-        public void LogFindOutMore(string context)
-        {
-            LogEvent(Constants.EventName.FIND_OUT_MORE, new Dictionary<string, object>
-            {
-                { Constants.Properties.CONTEXT, context }
-            });
-        }
-
         public void LogOpenDiscord(string target)
         {
             LogEvent(Constants.EventName.OPEN_DISCORD, new Dictionary<string, object>
@@ -207,6 +163,51 @@ namespace ReadyPlayerMe.Core.Analytics
                 { Constants.Properties.SDK_TARGET, "Unity" },
                 { Constants.Properties.APP_IDENTIFIER, Application.identifier },
                 { Constants.Properties.ALLOW_ANALYTICS, allow }
+            });
+        }
+        
+        
+        public void LogCheckForUpdates()
+        {
+            LogEvent(Constants.EventName.CHECK_FOR_UPDATES);
+        }
+
+        public void LogSetLoggingEnabled(bool isLoggingEnabled)
+        {
+            LogEvent(Constants.EventName.SET_LOGGING_ENABLED, new Dictionary<string, object>
+            {
+                { Constants.Properties.LOGGING_ENABLED, isLoggingEnabled }
+            });
+        }
+
+        public void LogSetCachingEnabled(bool isCachingEnabled)
+        {
+            LogEvent(Constants.EventName.SET_CACHING_ENABLED, new Dictionary<string, object>
+            {
+                { Constants.Properties.CACHING_ENABLED, isCachingEnabled }
+            });
+        }
+
+        public void LogClearLocalCache()
+        {
+            LogEvent(Constants.EventName.CLEAR_LOCAL_CACHE);
+        }
+
+        public void LogViewPrivacyPolicy()
+        {
+            LogEvent(Constants.EventName.PRIVACY_POLICY);
+        }
+
+        public void LogShowInExplorer()
+        {
+            LogEvent(Constants.EventName.SHOW_IN_EXPLORER);
+        }
+
+        public void LogFindOutMore(string context)
+        {
+            LogEvent(Constants.EventName.FIND_OUT_MORE, new Dictionary<string, object>
+            {
+                { Constants.Properties.CONTEXT, context }
             });
         }
     }

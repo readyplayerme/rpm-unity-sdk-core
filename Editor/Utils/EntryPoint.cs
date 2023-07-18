@@ -37,7 +37,6 @@ namespace ReadyPlayerMe.Core.Editor
             AnalyticsEditorLogger.EventLogger.LogOpenProject();
             AnalyticsEditorLogger.EventLogger.IdentifyUser();
             Startup?.Invoke();
-            ModuleUpdater.CheckForUpdates();
         }
     }
 }

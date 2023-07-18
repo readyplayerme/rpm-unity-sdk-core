@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
@@ -56,6 +56,7 @@ namespace ReadyPlayerMe.Core.Editor
 
         private static void Check(bool isStartup = false)
         {
+            Debug.Log("Check for updates");
             // Get PackageInfo array from RPM Module package.json files
             PackageInfo[] packages = AssetDatabase.FindAssets(ASSET_FILTER)
                 .Select(AssetDatabase.GUIDToAssetPath)
