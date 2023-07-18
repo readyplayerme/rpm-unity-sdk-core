@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using UnityEngine;
@@ -50,7 +51,7 @@ namespace ReadyPlayerMe.Core
 
             if (!string.IsNullOrEmpty(payload))
             {
-                var bytes = System.Text.Encoding.UTF8.GetBytes(payload);
+                var bytes = Encoding.UTF8.GetBytes(payload);
                 request.uploadHandler = new UploadHandlerRaw(bytes);
             }
 

@@ -23,6 +23,7 @@ namespace ReadyPlayerMe.Core.Editor
         private const int THREAD_SLEEP_TIME = 100;
         private const string PROGRESS_BAR_TITLE = "Ready Player Me";
         private const string RPM_SCRIPTING_SYMBOL = "READY_PLAYER_ME";
+        private const string GLTFAST_SYMBOL = "GLTFAST";
         private const string CORE_MODULE_NAME = "com.readyplayerme.core";
 
         private const string MODULE_INSTALLATION_SUCCESS_MESSAGE =
@@ -178,7 +179,7 @@ namespace ReadyPlayerMe.Core.Editor
         {
             BuildTargetGroup target = EditorUserBuildSettings.selectedBuildTargetGroup;
             var defineSymbols = PlayerSettings.GetScriptingDefineSymbolsForGroup(target);
-            var symbols = new HashSet<string>(defineSymbols.Split(';')) { RPM_SCRIPTING_SYMBOL };
+            var symbols = new HashSet<string>(defineSymbols.Split(';')) { RPM_SCRIPTING_SYMBOL, GLTFAST_SYMBOL };
             var newDefineString = string.Join(";", symbols.ToArray());
             PlayerSettings.SetScriptingDefineSymbolsForGroup(target, newDefineString);
         }

@@ -1,4 +1,4 @@
-﻿using System.Linq;
+using System.Linq;
 using ReadyPlayerMe.Core.Analytics;
 using UnityEditor;
 using UnityEngine;

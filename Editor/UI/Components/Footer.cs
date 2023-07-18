@@ -1,6 +1,5 @@
-using UnityEditor;
-using UnityEngine;
 using ReadyPlayerMe.Core.Analytics;
+using UnityEngine;
 
 namespace ReadyPlayerMe.Core.Editor
 {
