@@ -58,8 +58,8 @@ namespace ReadyPlayerMe.Core
 
             try
             {
-                var gltfWrapper = new GltfWrapper(token);
-                return await gltfWrapper.Import(bytes, gltfDeferAgent);
+                var gltfImporter = new GltfImporter(token);
+                return await gltfImporter.Import(bytes, gltfDeferAgent);
             }
             catch (Exception exception)
             {
@@ -79,8 +79,8 @@ namespace ReadyPlayerMe.Core
 
             try
             {
-                var gltfWrapper = new GltfWrapper(token);
-                return await gltfWrapper.Import(path);
+                var gltfImporter = new GltfImporter(token);
+                return await gltfImporter.Import(path);
             }
             catch (Exception exception)
             {

@@ -9,11 +9,11 @@ using System.IO;
 
 namespace ReadyPlayerMe.Core
 {
-    public class GltfWrapper
+    public class GltfImporter
     {
         private readonly CancellationToken token;
 
-        public GltfWrapper(CancellationToken token)
+        public GltfImporter(CancellationToken token)
         {
             this.token = token;
         }
