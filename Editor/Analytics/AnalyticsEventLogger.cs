@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using ReadyPlayerMe.Core.Editor;
 using UnityEditor;
 using UnityEngine;
 
@@ -203,11 +204,11 @@ namespace ReadyPlayerMe.Core.Analytics
             LogEvent(Constants.EventName.SHOW_IN_EXPLORER);
         }
 
-        public void LogFindOutMore(string context)
+        public void LogFindOutMore(DocumentationContext context)
         {
             LogEvent(Constants.EventName.FIND_OUT_MORE, new Dictionary<string, object>
             {
-                { Constants.Properties.CONTEXT, context }
+                { Constants.Properties.CONTEXT, Constants.DocumentationContextMap[context] }
             });
         }
     }

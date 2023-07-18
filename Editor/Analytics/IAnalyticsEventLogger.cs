@@ -1,3 +1,5 @@
+using ReadyPlayerMe.Core.Editor;
+
 namespace ReadyPlayerMe.Core.Analytics
 {
     public interface IAnalyticsEventLogger
@@ -22,7 +24,6 @@ namespace ReadyPlayerMe.Core.Analytics
         public void LogClearLocalCache();
         public void LogViewPrivacyPolicy();
         public void LogShowInExplorer();
-        public void LogFindOutMore(string context);
-
+        public void LogFindOutMore(DocumentationContext context);
     }
 }
