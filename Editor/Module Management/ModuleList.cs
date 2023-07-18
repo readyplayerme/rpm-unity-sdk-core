@@ -31,13 +31,6 @@ namespace ReadyPlayerMe.Core.Editor
             },
             new ModuleInfo
             {
-                name = "com.readyplayerme.avatarloader",
-                gitUrl = "https://github.com/readyplayerme/rpm-unity-sdk-avatar-loader.git",
-                branch = "",
-                version = "1.3.4"
-            },
-            new ModuleInfo
-            {
                 name = "com.readyplayerme.webview",
                 gitUrl = "https://github.com/readyplayerme/rpm-unity-sdk-webview.git",
                 branch = "",
