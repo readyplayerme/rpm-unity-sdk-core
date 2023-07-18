@@ -12,9 +12,9 @@ namespace ReadyPlayerMe.Core.Editor
         private const string GRAPHICS_SETTING_PATH = "ProjectSettings/GraphicsSettings.asset";
 
 #if DISABLE_AUTO_INSTALLER
-        private const string SHADER_VARIANT_FOLDER = "Assets/Ready Player Me/Avatar Loader/Shaders";
+        private const string SHADER_VARIANT_FOLDER = "Assets/Ready Player Me/Core/Shaders";
 #else
-    private const string SHADER_VARIANT_FOLDER = "Packages/com.readyplayerme.avatarloader/Shaders";
+    private const string SHADER_VARIANT_FOLDER = "Packages/com.readyplayerme.core/Shaders";
 #endif
 
         private const string SHADER_VARIANTS_STANDARD = "glTFastShaderVariants";
