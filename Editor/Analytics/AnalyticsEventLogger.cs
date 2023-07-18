@@ -204,11 +204,11 @@ namespace ReadyPlayerMe.Core.Analytics
             LogEvent(Constants.EventName.SHOW_IN_EXPLORER);
         }
 
-        public void LogFindOutMore(DocumentationContext context)
+        public void LogFindOutMore(string context)
         {
             LogEvent(Constants.EventName.FIND_OUT_MORE, new Dictionary<string, object>
             {
-                { Constants.Properties.CONTEXT, Constants.DocumentationContextMap[context] }
+                { Constants.Properties.CONTEXT, context}
             });
         }
     }

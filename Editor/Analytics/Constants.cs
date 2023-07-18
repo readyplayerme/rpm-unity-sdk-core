@@ -1,16 +1,8 @@
 using System.Collections.Generic;
+using ReadyPlayerMe.Core.Editor;
 
 namespace ReadyPlayerMe.Core.Analytics
 {
-    public enum DocumentationContext
-    {
-        AvatarCaching,
-        Subdomain,
-        AvatarConfig,
-        GltfDeferAgent,
-        DownloadAvatarIntoScene
-    }
-    
     public static class Constants
     {
         public static class EventName
@@ -72,14 +64,5 @@ namespace ReadyPlayerMe.Core.Analytics
             public const string OPERATING_SYSTEM = "os_name";
             public const string SESSION_ID = "session_id";
         }
-        
-        public static readonly Dictionary<DocumentationContext, string> DocumentationContextMap = new Dictionary<DocumentationContext, string>
-        {
-            { DocumentationContext.AvatarCaching, "avatar caching" },
-            { DocumentationContext.Subdomain, "subdomain" },
-            { DocumentationContext.AvatarConfig, "avatar config" },
-            { DocumentationContext.GltfDeferAgent, "gltf defer agent" },
-            { DocumentationContext.DownloadAvatarIntoScene, "download avatar into scene" }
-        };
     }
 }
