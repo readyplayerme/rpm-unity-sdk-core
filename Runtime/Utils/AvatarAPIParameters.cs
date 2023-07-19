@@ -3,7 +3,7 @@ namespace ReadyPlayerMe.Core
     public static class AvatarAPIParameters
     {
         public const string POSE = "pose";
-        public const string MESH_LOD = "meshLod";
+        public const string LOD = "lod";
         public const string TEXTURE_ATLAS = "textureAtlas";
         public const string TEXTURE_SIZE_LIMIT = "textureSizeLimit";
         public const string TEXTURE_CHANNELS = "textureChannels";
