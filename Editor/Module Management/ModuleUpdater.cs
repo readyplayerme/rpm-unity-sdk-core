@@ -39,6 +39,8 @@ namespace ReadyPlayerMe.Core.Editor
         private const string UPDATE_BUTTON_TEXT = "Update";
         private const string CANCEL_BUTTON_TEXT = "Cancel";
         private const string DONT_ASK_TEXT = "Don't ask";
+        
+        private const string AVATAR_LOADER_PACKAGE = "com.readyplayerme.avatarloader";
 
         static ModuleUpdater()
         {
@@ -179,7 +181,12 @@ namespace ReadyPlayerMe.Core.Editor
 
         private static void CleanRedundantAvatarLoader()
         {
-            RemoveRequest removeRequest = Client.Remove("com.readyplayerme.avatarloader");
+            if (!ModuleInstaller.IsModuleInstalled(AVATAR_LOADER_PACKAGE))
+            {
+                return;
+            }
+
+            RemoveRequest removeRequest = Client.Remove(AVATAR_LOADER_PACKAGE);
             while (!removeRequest.IsCompleted) Thread.Sleep(MILLISECONDS_TIMEOUT);
         }
     }
