@@ -1,4 +1,5 @@
-﻿using UnityEditor;
+﻿using ReadyPlayerMe.Core.Analytics;
+using UnityEditor;
 using UnityEngine;
 using UnityEngine.UIElements;
 
@@ -11,9 +12,7 @@ namespace ReadyPlayerMe.Core.Editor
         private const string URL_ELEMENT = "UrlField";
         private const string ERROR_LABEL = "ErrorLabel";
         private const string HELP_BUTTON = "HelpButton";
-
         private const string ERROR_HELP_URL = "https://docs.readyplayer.me/ready-player-me/avatars/avatar-creator#avatar-url-and-data-format";
-        private const string LOAD_AVATAR_DOCS = "https://docs.readyplayer.me/ready-player-me/integration-guides/unity/load-avatars#save-avatars-as-npcs-in-your-project";
 
         public new class UxmlFactory : UxmlFactory<AvatarUrlTemplate, UxmlTraits>
         {
@@ -41,13 +40,15 @@ namespace ReadyPlayerMe.Core.Editor
             errorLabel.visible = !EditorUtilities.IsUrlShortcodeValid(url);
             errorLabel.RegisterCallback<MouseDownEvent>(_ =>
             {
+                AnalyticsEditorLogger.EventLogger.LogFindOutMore(HelpSubject.LoadingAvatars);
                 Application.OpenURL(ERROR_HELP_URL);
             });
-         
+
             var helpButton = this.Q<Button>(HELP_BUTTON);
             helpButton.clicked += () =>
             {
-                Application.OpenURL(LOAD_AVATAR_DOCS);
+                AnalyticsEditorLogger.EventLogger.LogFindOutMore(HelpSubject.LoadingAvatars);
+                Application.OpenURL(Constants.Links.DOCS_LOAD_AVATAR);
             };
         }
 

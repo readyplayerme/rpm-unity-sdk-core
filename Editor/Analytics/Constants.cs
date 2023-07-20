@@ -17,6 +17,13 @@ namespace ReadyPlayerMe.Core.Analytics
             public const string METADATA_DOWNLOADED = "metadata downloaded";
             public const string AVATAR_LOADED = "avatar loaded";
             public const string SET_USER_PROPERTIES = "set user properties";
+            public const string CLEAR_LOCAL_CACHE = "clear local cache";
+            public const string SHOW_IN_EXPLORER = "show in explorer";
+            public const string SET_LOGGING_ENABLED = "set logging enabled";
+            public const string SET_CACHING_ENABLED = "set caching enabled";
+            public const string CHECK_FOR_UPDATES = "check for updates";
+            public const string PRIVACY_POLICY = "view privacy policy";
+            public const string FIND_OUT_MORE = "find out more";
         }
 
         public static class Properties
@@ -38,6 +45,9 @@ namespace ReadyPlayerMe.Core.Analytics
             public const string APP_IDENTIFIER = "app identifier";
             public const string ALLOW_ANALYTICS = "allow analytics";
             public const string DURATION = "duration";
+            public const string LOGGING_ENABLED = "logging enabled";
+            public const string CACHING_ENABLED = "caching enabled";
+            public const string CONTEXT = "context";
         }
 
         public static class AmplitudeKeys
@@ -50,6 +60,16 @@ namespace ReadyPlayerMe.Core.Analytics
             public const string USER_PROPERTIES = "user_properties";
             public const string OPERATING_SYSTEM = "os_name";
             public const string SESSION_ID = "session_id";
+        }
+
+        public static class Links
+        {
+            public const string DOCS_PARTNERS_LINK = "https://docs.readyplayer.me/ready-player-me/for-partners/partner-subdomains";
+            public const string DOCS_QUICKSTART_LINK = "https://docs.readyplayer.me/ready-player-me/integration-guides/unity/quickstart#before-you-begin";
+            public const string DOCS_DEFER_AGENT_LINK = "https://docs.readyplayer.me/ready-player-me/integration-guides/unity/optimize/defer-agents";
+            public const string DOCS_LOAD_AVATAR = "https://docs.readyplayer.me/ready-player-me/integration-guides/unity/load-avatars#save-avatars-as-npcs-in-your-project";
+            public const string DOCS_AVATAR_CONFIG_LINK = "https://docs.readyplayer.me/ready-player-me/integration-guides/unity/optimize/avatar-configuration";
+            public const string DOCS_AVATAR_CACHING = "https://docs.readyplayer.me/ready-player-me/integration-guides/unity/optimize/avatar-caching";
         }
     }
 }

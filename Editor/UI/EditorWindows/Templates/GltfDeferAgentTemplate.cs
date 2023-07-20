@@ -1,4 +1,5 @@
-﻿using UnityEditor.UIElements;
+﻿using ReadyPlayerMe.Core.Analytics;
+using UnityEditor.UIElements;
 using UnityEngine;
 using UnityEngine.UIElements;
 
@@ -9,7 +10,6 @@ namespace ReadyPlayerMe.Core.Editor
         private const string XML_PATH = "GltfDeferAgentTemplate";
         private const string DEFER_AGENT_FIELD = "DeferAgentField";
         private const string DEFER_AGENT_TOOLTIP = "Assign a defer agent which decides how the glTF will be loaded.";
-        private const string DEFER_AGENT_DOCS_LINK = "https://docs.readyplayer.me/ready-player-me/integration-guides/unity/optimize/defer-agents";
         private const string DEFER_AGENT_LABEL = "DeferAgentLabel";
         private const string DEFER_AGENT_HELP_BUTTON = "DeferAgentHelpButton";
 
@@ -35,7 +35,8 @@ namespace ReadyPlayerMe.Core.Editor
 
         private void OnHelpButtonClicked()
         {
-            Application.OpenURL(DEFER_AGENT_DOCS_LINK);
+            AnalyticsEditorLogger.EventLogger.LogFindOutMore(HelpSubject.GltfDeferAgent);
+            Application.OpenURL(Constants.Links.DOCS_DEFER_AGENT_LINK);
         }
 
         private void OnAvatarConfigChanged(ChangeEvent<Object> evt)

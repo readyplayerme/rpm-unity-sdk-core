@@ -3,6 +3,7 @@ using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using Newtonsoft.Json;
+using ReadyPlayerMe.Core.Analytics;
 using UnityEditor;
 using UnityEditor.PackageManager;
 using UnityEditor.PackageManager.Requests;
@@ -53,6 +54,7 @@ namespace ReadyPlayerMe.Core.Editor
         [MenuItem("Ready Player Me/Check For Updates")]
         public static void CheckForUpdates()
         {
+            AnalyticsEditorLogger.EventLogger.LogCheckForUpdates();
             Check();
         }
 

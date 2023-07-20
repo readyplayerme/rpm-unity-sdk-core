@@ -1,4 +1,5 @@
-﻿using UnityEditor;
+﻿using ReadyPlayerMe.Core.Analytics;
+using UnityEditor;
 using UnityEngine;
 
 namespace ReadyPlayerMe.Core.Editor
@@ -8,8 +9,6 @@ namespace ReadyPlayerMe.Core.Editor
         private const string AVATAR_HEADING = "Download Avatar into Scene";
         private const string URL_SHORTCODE_ERROR = "<color=red>Please enter a valid Avatar URL or Shortcode.<b>Read more.</b></color>";
         private const string ERROR_HELP_URL = "https://docs.readyplayer.me/ready-player-me/avatars/avatar-creator#avatar-url-and-data-format";
-        private const string LOAD_AVATAR_DOCS = "https://docs.readyplayer.me/ready-player-me/integration-guides/unity/load-avatars#save-avatars-as-npcs-in-your-project";
-
         private const string URL_SAVE_KEY = "UrlSaveKey";
         private const int LEFT_MARGIN = 15;
 
@@ -54,7 +53,7 @@ namespace ReadyPlayerMe.Core.Editor
                 Layout.Horizontal(() =>
                 {
                     GUILayout.Label(AVATAR_HEADING, headingStyle);
-                    DocumentationButton.Draw(LOAD_AVATAR_DOCS);
+                    DocumentationButton.Draw(Constants.Links.DOCS_LOAD_AVATAR);
                     GUILayout.FlexibleSpace();
                 });
 

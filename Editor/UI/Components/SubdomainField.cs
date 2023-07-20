@@ -1,4 +1,4 @@
-﻿using System.Linq;
+using System.Linq;
 using ReadyPlayerMe.Core.Analytics;
 using UnityEditor;
 using UnityEngine;
@@ -52,7 +52,7 @@ namespace ReadyPlayerMe.Core.Editor
             {
                 GUILayout.Space(15);
                 EditorGUILayout.LabelField("Your subdomain:", GUILayout.Width(95));
-                DocumentationButton.Draw(QUICKSTART_DOCS_LINK);
+                DocumentationButton.Draw(Constants.Links.DOCS_PARTNERS_LINK);
                 EditorGUILayout.LabelField("    https://", textLabelStyle, GUILayout.Width(60));
                 var oldValue = partnerSubdomain;
                 GUI.SetNextControlName(SUBDOMAIN_FIELD_CONTROL_NAME);

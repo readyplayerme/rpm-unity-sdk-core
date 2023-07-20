@@ -3,8 +3,11 @@ using UnityEngine;
 
 namespace ReadyPlayerMe.Core.Editor
 {
+
+
     public static class DocumentationButton
     {
+
         private static readonly GUIStyle Style = new GUIStyle(GUI.skin.button)
         {
             fontSize = 14,
@@ -17,7 +20,7 @@ namespace ReadyPlayerMe.Core.Editor
                 textColor = new Color(0.7f, 0.7f, 0.7f, 1.0f)
             },
             alignment = TextAnchor.MiddleCenter
-            
+
         };
 
         public static void Draw(string url)
