@@ -8,7 +8,8 @@ using UnityEngine.UIElements;
 
 public class SetupGuide : EditorWindow
 {
-    private const string SETUP_GUIDE = "SetupGuide";
+    private const string SETUP_GUIDE = "Setup Guide";
+    private const string HEADER_LABEL = "HeaderLabel";
     private const string STUDIO_URL = "https://studio.readyplayer.me";
     private const string ANALYTICS_PRIVACY_URL = "https://docs.readyplayer.me/ready-player-me/integration-guides/unity/help-us-improve-the-unity-sdk";
     private const string SUBDOMAIN_PANEL = "SubdomainPanel";
@@ -58,6 +59,9 @@ public class SetupGuide : EditorWindow
 
     private VisualElement InitializeSubdomainPanel()
     {
+        var headerLabel = rootVisualElement.Q<Label>(HEADER_LABEL);
+        headerLabel.text = SETUP_GUIDE;
+        
         var subdomainPanel = rootVisualElement.Q<VisualElement>(SUBDOMAIN_PANEL);
         subdomainPanel.style.display = new StyleEnum<DisplayStyle>(DisplayStyle.None);
 
@@ -174,15 +178,7 @@ public class SetupGuide : EditorWindow
         }
     }
 
-    private void OnOpenQuickStartButton()
-    {
-        Close();
-
-        if (!new QuickStartHelper().Open())
-        {
-            EditorUtility.DisplayDialog(SETUP_GUIDE, "No quick start sample found.", "OK");
-        }
-    }
+   
 
     private void StartStateMachine()
     {
