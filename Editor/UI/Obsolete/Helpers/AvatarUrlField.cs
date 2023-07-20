@@ -1,4 +1,5 @@
-﻿using UnityEditor;
+﻿using ReadyPlayerMe.Core.Analytics;
+using UnityEditor;
 using UnityEngine;
 
 namespace ReadyPlayerMe.Core.Editor
@@ -52,7 +53,7 @@ namespace ReadyPlayerMe.Core.Editor
                 Layout.Horizontal(() =>
                 {
                     GUILayout.Label(AVATAR_HEADING, headingStyle);
-                    DocumentationButton.Draw(DocumentationContext.DownloadAvatarIntoScene);
+                    DocumentationButton.Draw(Constants.Links.DOCS_LOAD_AVATAR);
                     GUILayout.FlexibleSpace();
                 });
 

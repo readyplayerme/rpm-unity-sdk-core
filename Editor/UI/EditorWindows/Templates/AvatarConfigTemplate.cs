@@ -1,3 +1,4 @@
+using ReadyPlayerMe.Core.Analytics;
 using UnityEditor.UIElements;
 using UnityEngine;
 using UnityEngine.UIElements;
@@ -9,7 +10,6 @@ namespace ReadyPlayerMe.Core.Editor
         private const string XML_PATH = "AvatarConfigTemplate";
         private const string AVATAR_CONFIG_FIELD = "AvatarConfigField";
         private const string AVATAR_CONFIG_TOOLTIP = "Assign an avatar configuration to include Avatar API request parameters.";
-        private const string AVATAR_CONFIG_DOCS_LINK = "https://docs.readyplayer.me/ready-player-me/integration-guides/unity/optimize/avatar-configuration";
         private const string AVATAR_CONFIG_LABEL = "AvatarConfigLabel";
         private const string AVATAR_CONFIG_HELP_BUTTON = "AvatarConfigHelpButton";
 
@@ -35,7 +35,8 @@ namespace ReadyPlayerMe.Core.Editor
 
         private void OnHelpButtonClicked()
         {
-            Application.OpenURL(AVATAR_CONFIG_DOCS_LINK);
+            AnalyticsEditorLogger.EventLogger.LogFindOutMore(HelpSubject.AvatarConfig);
+            Application.OpenURL(Constants.Links.DOCS_AVATAR_CONFIG_LINK);
         }
 
         private void OnAvatarConfigChanged(ChangeEvent<Object> evt)

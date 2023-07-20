@@ -1,6 +1,3 @@
-using System.Collections.Generic;
-using ReadyPlayerMe.Core.Editor;
-
 namespace ReadyPlayerMe.Core.Analytics
 {
     public static class Constants
@@ -63,6 +60,16 @@ namespace ReadyPlayerMe.Core.Analytics
             public const string USER_PROPERTIES = "user_properties";
             public const string OPERATING_SYSTEM = "os_name";
             public const string SESSION_ID = "session_id";
+        }
+
+        public static class Links
+        {
+            public const string DOCS_PARTNERS_LINK = "https://docs.readyplayer.me/ready-player-me/for-partners/partner-subdomains";
+            public const string DOCS_QUICKSTART_LINK = "https://docs.readyplayer.me/ready-player-me/integration-guides/unity/quickstart#before-you-begin";
+            public const string DOCS_DEFER_AGENT_LINK = "https://docs.readyplayer.me/ready-player-me/integration-guides/unity/optimize/defer-agents";
+            public const string DOCS_LOAD_AVATAR = "https://docs.readyplayer.me/ready-player-me/integration-guides/unity/load-avatars#save-avatars-as-npcs-in-your-project";
+            public const string DOCS_AVATAR_CONFIG_LINK = "https://docs.readyplayer.me/ready-player-me/integration-guides/unity/optimize/avatar-configuration";
+            public const string DOCS_AVATAR_CACHING = "https://docs.readyplayer.me/ready-player-me/integration-guides/unity/optimize/avatar-caching";
         }
     }
 }

@@ -10,8 +10,6 @@ namespace ReadyPlayerMe.Core.Editor
     {
         private const string XML_PATH = "SubdomainTemplate";
         private const string DOMAIN_VALIDATION_ERROR = "Please enter a valid partner subdomain (e.g. demo). Click here to read more about this issue.";
-        private const string PARTNERS_DOCS_LINK = "https://docs.readyplayer.me/ready-player-me/for-partners/partner-subdomains";
-        private const string QUICKSTART_DOCS_LINK = "https://docs.readyplayer.me/ready-player-me/integration-guides/unity/quickstart#before-you-begin";
         private const string WEB_VIEW_PARTNER_SAVE_KEY = "WebViewPartnerSubdomainName";
 
         public new class UxmlFactory : UxmlFactory<SubdomainTemplate, UxmlTraits>
@@ -40,11 +38,11 @@ namespace ReadyPlayerMe.Core.Editor
             this.Q<Button>("SubdomainHelpButton").clicked += OnSubdomainHelpClicked;
 
             errorIcon.RegisterCallback<MouseUpEvent>(OnErrorIconClicked);
-            
+
             subdomainField.RegisterValueChangedCallback(OnSubdomainChanged(errorIcon));
             subdomainField.RegisterCallback<FocusOutEvent>(OnSubdomainFocusOut);
         }
-        
+
         public void SetSubdomain(string subdomain)
         {
             subdomainField.SetValueWithoutNotify(subdomain);
@@ -54,12 +52,13 @@ namespace ReadyPlayerMe.Core.Editor
 
         private static void OnSubdomainHelpClicked()
         {
-            Application.OpenURL(QUICKSTART_DOCS_LINK);
+            AnalyticsEditorLogger.EventLogger.LogFindOutMore(HelpSubject.Subdomain);
+            Application.OpenURL(Constants.Links.DOCS_PARTNERS_LINK);
         }
 
         private void OnErrorIconClicked(MouseUpEvent _)
         {
-            Application.OpenURL(PARTNERS_DOCS_LINK);
+            Application.OpenURL(Constants.Links.DOCS_QUICKSTART_LINK);
         }
 
         private void OnSubdomainFocusOut(FocusOutEvent _)

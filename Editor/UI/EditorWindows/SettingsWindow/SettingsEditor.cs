@@ -37,7 +37,6 @@ namespace ReadyPlayerMe.Settings.Editor
         private const string SHOW_CACHING_FOLDER_BUTTON_TEXT = "Show in explorer";
 #endif
 
-        private const string CACHING_DOCS_LINK = "https://docs.readyplayer.me/ready-player-me/integration-guides/unity/optimize/avatar-caching";
         private const string ANALYTICS_PRIVACY_URL = "https://docs.readyplayer.me/ready-player-me/integration-guides/unity/help-us-improve-the-unity-sdk";
 
         private const string DOCS_URL = "https://bit.ly/UnitySDKDocs";
@@ -71,7 +70,7 @@ namespace ReadyPlayerMe.Settings.Editor
 
             rootVisualElement.Q(AVATAR_CACHING_HEADING).tooltip = CACHING_TOOLTIP;
 
-            rootVisualElement.Q<Button>(AVATAR_CACHING_HELP_BUTTON).clicked += () => Application.OpenURL(CACHING_DOCS_LINK);
+            rootVisualElement.Q<Button>(AVATAR_CACHING_HELP_BUTTON).clicked += OnCachingHelpClick;
 
             var avatarCachingToggle = rootVisualElement.Q<Toggle>(AVATAR_CACHING_ENABLED_TOGGLE);
             avatarCachingToggle.value = AvatarLoaderSettingsHelper.AvatarLoaderSettings.AvatarCachingEnabled;
@@ -98,6 +97,12 @@ namespace ReadyPlayerMe.Settings.Editor
             rootVisualElement.Q<Button>(DOCUMENTATION_BUTTON).clicked += () => Application.OpenURL(DOCS_URL);
             rootVisualElement.Q<Button>(FAQ_BUTTON).clicked += () => Application.OpenURL(FAQ_URL);
             rootVisualElement.Q<Button>(DISCORD_BUTTON).clicked += () => Application.OpenURL(DISCORD_URL);
+        }
+
+        private void OnCachingHelpClick()
+        {
+            AnalyticsEditorLogger.EventLogger.LogFindOutMore(HelpSubject.AvatarCaching);
+            Application.OpenURL(Constants.Links.DOCS_AVATAR_CACHING);
         }
 
         private void OnAvatarCachingToggle(ChangeEvent<bool> evt)

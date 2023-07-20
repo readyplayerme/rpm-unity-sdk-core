@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using ReadyPlayerMe.Core.Editor;
 using UnityEditor;
@@ -204,12 +204,26 @@ namespace ReadyPlayerMe.Core.Analytics
             LogEvent(Constants.EventName.SHOW_IN_EXPLORER);
         }
 
-        public void LogFindOutMore(string context)
+        public void LogFindOutMore(HelpSubject subject)
         {
             LogEvent(Constants.EventName.FIND_OUT_MORE, new Dictionary<string, object>
             {
-                { Constants.Properties.CONTEXT, context}
+                { Constants.Properties.CONTEXT, GetSubjectName(subject) }
             });
         }
+
+        public static string GetSubjectName(HelpSubject helpSubject)
+        {
+            return HelpDataMap[helpSubject];
+        }
+
+        private static readonly Dictionary<HelpSubject, string> HelpDataMap = new Dictionary<HelpSubject, string>
+        {
+            { HelpSubject.AvatarCaching, "avatar caching" },
+            { HelpSubject.Subdomain, "subdomain" },
+            { HelpSubject.AvatarConfig, "avatar config" },
+            { HelpSubject.GltfDeferAgent, "gltf defer agent" },
+            { HelpSubject.LoadingAvatars, "download avatar into scene" }
+        };
     }
 }

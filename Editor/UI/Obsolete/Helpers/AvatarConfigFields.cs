@@ -1,4 +1,5 @@
 ﻿using System.IO;
+using ReadyPlayerMe.Core.Analytics;
 using UnityEditor;
 using UnityEngine;
 
@@ -57,7 +58,7 @@ namespace ReadyPlayerMe.Core.Editor
             {
                 GUILayout.Space(15);
                 EditorGUILayout.LabelField(new GUIContent(AVATAR_CONFIG, AVATAR_CONFIG_TOOLTIP), GUILayout.Width(81));
-                DocumentationButton.Draw(DocumentationContext.AvatarConfig);
+                DocumentationButton.Draw(Constants.Links.DOCS_AVATAR_CONFIG_LINK);
                 GUILayout.Space(49);
 
                 avatarConfig = EditorGUILayout.ObjectField(avatarConfig, typeof(AvatarConfig), false, objectFieldWidth) as AvatarConfig;
@@ -75,7 +76,7 @@ namespace ReadyPlayerMe.Core.Editor
             {
                 GUILayout.Space(15);
                 EditorGUILayout.LabelField(new GUIContent(GLTF_DEFER_AGENT, DEFER_AGENT_TOOLTIP), GUILayout.Width(100));
-                DocumentationButton.Draw(DocumentationContext.GltfDeferAgent);
+                DocumentationButton.Draw(Constants.Links.DOCS_DEFER_AGENT_LINK);
                 GUILayout.Space(30);
 
                 gltfDeferAgent = EditorGUILayout.ObjectField(gltfDeferAgent, typeof(GLTFDeferAgent), false, objectFieldWidth) as GLTFDeferAgent;

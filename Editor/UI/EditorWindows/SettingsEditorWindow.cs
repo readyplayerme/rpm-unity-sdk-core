@@ -128,7 +128,7 @@ namespace ReadyPlayerMe.Core.Editor
                 Layout.Horizontal(() =>
                 {
                     GUILayout.Label("Avatar Caching", HeadingStyle);
-                    DocumentationButton.Draw(DocumentationContext.AvatarCaching);
+                    DocumentationButton.Draw(Constants.Links.DOCS_AVATAR_CACHING);
                     GUILayout.FlexibleSpace();
                 });
 

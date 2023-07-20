@@ -24,6 +24,6 @@ namespace ReadyPlayerMe.Core.Analytics
         public void LogClearLocalCache();
         public void LogViewPrivacyPolicy();
         public void LogShowInExplorer();
-        public void LogFindOutMore(string context);
+        public void LogFindOutMore(HelpSubject subject);
     }
 }
