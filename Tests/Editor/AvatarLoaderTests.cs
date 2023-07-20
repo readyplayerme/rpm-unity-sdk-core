@@ -2,7 +2,6 @@ using System;
 using System.Collections;
 using System.Linq;
 using System.Threading.Tasks;
-using JetBrains.Annotations;
 using NUnit.Framework;
 using UnityEngine;
 using UnityEngine.TestTools;
@@ -176,7 +175,7 @@ namespace ReadyPlayerMe.Core.Tests
             Assert.AreEqual(null, avatar);
         }
 
-        [UnityTest, CanBeNull]
+        [UnityTest]
         public IEnumerator AvatarLoader_Low_LOD_Smaller_than_High_LOD()
         {
             var failureType = FailureType.None;
