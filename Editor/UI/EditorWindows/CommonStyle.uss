@@ -24,3 +24,7 @@
 .unity-toggle__label {
     margin-left: 10px;
 }
+
+.box {
+    background-color: var(--unity-colors-alternated_rows-background);
+}
