@@ -13,7 +13,6 @@ namespace ReadyPlayerMe.Core.Tests
     public class AvatarLoaderTests
     {
         private GameObject avatar;
-        private GameObject avatar2;
 
         [TearDown]
         public void Cleanup()
@@ -24,10 +23,6 @@ namespace ReadyPlayerMe.Core.Tests
             if (avatar != null)
             {
                 Object.DestroyImmediate(avatar);
-            }
-            if (avatar2 != null)
-            {
-                Object.DestroyImmediate(avatar2);
             }
         }
 
@@ -198,16 +193,17 @@ namespace ReadyPlayerMe.Core.Tests
             var thisRenderer = avatar.GetComponentsInChildren<SkinnedMeshRenderer>();
             var lowLODVertices = thisRenderer.Aggregate(0, (totalVertices, renderer) => totalVertices + renderer.sharedMesh.vertexCount);
 
+            Object.DestroyImmediate(avatar);
             loader = new AvatarObjectLoader();
             loader.AvatarConfig.MeshLod = MeshLod.High;
             loader.OnCompleted += (sender, args) =>
             {
-                avatar2 = args.Avatar;
+                avatar = args.Avatar;
             };
             loader.OnFailed += (sender, args) => { failureType = args.Type; };
             loader.LoadAvatar(TestAvatarData.DefaultAvatarUri.ModelUrl);
-            yield return new WaitUntil(() => avatar2 != null || failureType != FailureType.None);
-            thisRenderer = avatar2.GetComponentsInChildren<SkinnedMeshRenderer>();
+            yield return new WaitUntil(() => avatar != null || failureType != FailureType.None);
+            thisRenderer = avatar.GetComponentsInChildren<SkinnedMeshRenderer>();
             var highLODVertices = thisRenderer.Aggregate(0, (totalVertices, renderer) => totalVertices + renderer.sharedMesh.vertexCount);
 
             Assert.IsTrue(lowLODVertices < highLODVertices);
