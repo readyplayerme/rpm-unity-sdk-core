@@ -52,7 +52,6 @@ public class SetupGuide : EditorWindow
         panel = new[]
         {
             InitializeSubdomainPanel(),
-            InitializedAvatarConfigPanel(),
             InitializeAnalyticsPanel()
         };
 
@@ -93,20 +92,6 @@ public class SetupGuide : EditorWindow
         });
 
         return subdomainPanel;
-    }
-
-    private VisualElement InitializedAvatarConfigPanel()
-    {
-        var avatarConfigPanel = rootVisualElement.Q<VisualElement>(AVATAR_CONFIG_PANEL);
-        avatarConfigPanel.style.display = new StyleEnum<DisplayStyle>(DisplayStyle.None);
-
-        avatarConfigField = avatarConfigPanel.Q<ObjectField>(AVATAR_CONFIG_FIELD);
-        avatarConfigField.RegisterValueChangedCallback(x =>
-        {
-            nextButton.SetEnabled(x.newValue != null);
-        });
-
-        return avatarConfigPanel;
     }
 
     private VisualElement InitializeAnalyticsPanel()
@@ -179,13 +164,6 @@ public class SetupGuide : EditorWindow
                 SetDisplay(openQuickStartButton, false);
                 break;
             case 1:
-                SetVisibility(backButton, true);
-                SetDisplay(nextButton, true);
-                nextButton.SetEnabled(avatarConfigField.value != null);
-                SetDisplay(finishSetupButton, false);
-                SetDisplay(openQuickStartButton, false);
-                break;
-            case 2:
                 SetVisibility(backButton, true);
                 SetDisplay(nextButton, false);
                 SetDisplay(finishSetupButton, true);
