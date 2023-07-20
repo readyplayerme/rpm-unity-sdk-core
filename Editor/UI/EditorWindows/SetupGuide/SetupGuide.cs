@@ -16,14 +16,11 @@ public class SetupGuide : EditorWindow
     private const string SUBDOMAIN_FIELD = "SubdomainField";
     private const string USE_DEMO_SUBDOMAIN_TOGGLE = "UseDemoSubdomainToggle";
     private const string DEMO = "demo";
-    private const string AVATAR_CONFIG_PANEL = "AvatarConfigPanel";
-    private const string AVATAR_CONFIG_FIELD = "AvatarConfigField";
     private const string ANALYTICS_PANEL = "AnalyticsPanel";
     private const string ANALYTICS_ENABLED_TOGGLE = "AnalyticsEnabledToggle";
     private const string NEXT_BUTTON = "NextButton";
     private const string BACK_BUTTON = "BackButton";
     private const string FINISH_SETUP_BUTTON = "FinishSetupButton";
-    private const string OPEN_QUICK_START_BUTTON = "OpenQuickStartButton";
 
     [SerializeField] private VisualTreeAsset visualTreeAsset;
 
@@ -76,6 +73,7 @@ public class SetupGuide : EditorWindow
         if (CoreSettingsHandler.CoreSettings.Subdomain == DEMO)
         {
             useDemoSubdomainToggle.value = true;
+            subdomainTemplate.SetFieldEnabled(false);
         }
 
         subdomainPanel.Q<Toggle>(USE_DEMO_SUBDOMAIN_TOGGLE).RegisterValueChangedCallback(x =>
@@ -83,6 +81,11 @@ public class SetupGuide : EditorWindow
             if (x.newValue)
             {
                 subdomainTemplate.SetSubdomain(DEMO);
+                subdomainTemplate.SetFieldEnabled(false);
+            }
+            else
+            {
+                subdomainTemplate.SetFieldEnabled(true);
             }
         });
 
@@ -130,10 +133,11 @@ public class SetupGuide : EditorWindow
         backButton.clicked += PreviousPanel;
 
         finishSetupButton = rootVisualElement.Q<Button>(FINISH_SETUP_BUTTON);
-        finishSetupButton.clicked += Close;
-
-        openQuickStartButton = rootVisualElement.Q<Button>(OPEN_QUICK_START_BUTTON);
-        openQuickStartButton.clicked += OnOpenQuickStartButton;
+        finishSetupButton.clicked += ()=>
+        {
+            Close();
+            IntegrationGuide.ShowWindow();
+        };
     }
 
 
@@ -161,13 +165,11 @@ public class SetupGuide : EditorWindow
                 SetVisibility(backButton, false);
                 SetDisplay(nextButton, true);
                 SetDisplay(finishSetupButton, false);
-                SetDisplay(openQuickStartButton, false);
                 break;
             case 1:
                 SetVisibility(backButton, true);
                 SetDisplay(nextButton, false);
                 SetDisplay(finishSetupButton, true);
-                SetDisplay(openQuickStartButton, true);
                 break;
         }
     }
