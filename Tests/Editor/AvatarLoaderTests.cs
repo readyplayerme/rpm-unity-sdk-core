@@ -1,5 +1,6 @@
 using System;
 using System.Collections;
+using System.Linq;
 using System.Threading.Tasks;
 using NUnit.Framework;
 using UnityEngine;
@@ -11,7 +12,7 @@ namespace ReadyPlayerMe.Core.Tests
     public class AvatarLoaderTests
     {
         private GameObject avatar;
-        
+
         [TearDown]
         public void Cleanup()
         {
@@ -172,6 +173,39 @@ namespace ReadyPlayerMe.Core.Tests
 
             Assert.AreNotEqual(FailureType.None, failureType);
             Assert.AreEqual(null, avatar);
+        }
+
+        [UnityTest]
+        public IEnumerator AvatarLoader_Low_LOD_Smaller_than_High_LOD()
+        {
+            var failureType = FailureType.None;
+
+            var loader = new AvatarObjectLoader();
+            loader.OnCompleted += (sender, args) =>
+            {
+                avatar = args.Avatar;
+            };
+            loader.AvatarConfig.MeshLod = MeshLod.Low;
+            loader.OnFailed += (sender, args) => { failureType = args.Type; };
+            loader.LoadAvatar(TestAvatarData.DefaultAvatarUri.ModelUrl);
+            yield return new WaitUntil(() => avatar != null || failureType != FailureType.None);
+            var thisRenderer = avatar.GetComponentsInChildren<SkinnedMeshRenderer>();
+            var lowLODVertices = thisRenderer.Aggregate(0, (totalVertices, renderer) => totalVertices + renderer.sharedMesh.vertexCount);
+
+            Object.DestroyImmediate(avatar);
+            loader = new AvatarObjectLoader();
+            loader.AvatarConfig.MeshLod = MeshLod.High;
+            loader.OnCompleted += (sender, args) =>
+            {
+                avatar = args.Avatar;
+            };
+            loader.OnFailed += (sender, args) => { failureType = args.Type; };
+            loader.LoadAvatar(TestAvatarData.DefaultAvatarUri.ModelUrl);
+            yield return new WaitUntil(() => avatar != null || failureType != FailureType.None);
+            thisRenderer = avatar.GetComponentsInChildren<SkinnedMeshRenderer>();
+            var highLODVertices = thisRenderer.Aggregate(0, (totalVertices, renderer) => totalVertices + renderer.sharedMesh.vertexCount);
+
+            Assert.IsTrue(lowLODVertices < highLODVertices);
         }
     }
 }

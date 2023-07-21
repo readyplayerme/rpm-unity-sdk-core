@@ -5,7 +5,7 @@ namespace ReadyPlayerMe.Core.Tests
     public class QueryBuilderTests
     {
         private const string ATLAS_AND_MORPHS = "?textureAtlas=1024&morphTargets=mouthSmile,ARKit";
-        private const string QUALITY_LOW_MESH_LOD = "?quality=low&meshLod=0";
+        private const string QUALITY_LOW_MESH_LOD = "?quality=low&lod=0";
         private const string LOW_QUALITY = "low";
         private const string ATLAS_1024 = "1024";
         private const string LOD_0 = "0";
@@ -18,7 +18,7 @@ namespace ReadyPlayerMe.Core.Tests
         {
             var queryBuilder = new QueryBuilder();
             queryBuilder.AddKeyValue(AvatarAPIParameters.QUALITY, LOW_QUALITY);
-            queryBuilder.AddKeyValue(AvatarAPIParameters.MESH_LOD, LOD_0);
+            queryBuilder.AddKeyValue(AvatarAPIParameters.LOD, LOD_0);
             Assert.AreEqual(queryBuilder.Query, QUALITY_LOW_MESH_LOD);
         }
 
