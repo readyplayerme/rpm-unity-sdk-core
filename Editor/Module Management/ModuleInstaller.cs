@@ -173,7 +173,7 @@ namespace ReadyPlayerMe.Core.Editor
         }
 
         /// <summary>
-        ///     Append RPM scripting symbol to Unity player settings.
+        ///     Set RPM scripting symbol to Unity player settings for supported platforms.
         /// </summary>
         private static void AppendScriptingSymbol()
         {
