@@ -173,11 +173,19 @@ namespace ReadyPlayerMe.Core.Editor
         }
 
         /// <summary>
-        ///     Append RPM scripting symbol to Unity player settings.
+        ///     Set RPM scripting symbol to Unity player settings for supported platforms.
         /// </summary>
         private static void AppendScriptingSymbol()
         {
-            BuildTargetGroup target = EditorUserBuildSettings.selectedBuildTargetGroup;
+            SetDefineSymbol(BuildTargetGroup.Standalone);
+            SetDefineSymbol(BuildTargetGroup.WSA);
+            SetDefineSymbol(BuildTargetGroup.WebGL);
+            SetDefineSymbol(BuildTargetGroup.Android);
+            SetDefineSymbol(BuildTargetGroup.iOS);
+        }
+
+        private static void SetDefineSymbol(BuildTargetGroup target)
+        {
             var defineSymbols = PlayerSettings.GetScriptingDefineSymbolsForGroup(target);
             var symbols = new HashSet<string>(defineSymbols.Split(';')) { RPM_SCRIPTING_SYMBOL, GLTFAST_SYMBOL };
             var newDefineString = string.Join(";", symbols.ToArray());
