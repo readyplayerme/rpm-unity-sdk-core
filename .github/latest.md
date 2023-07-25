@@ -1,4 +1,4 @@
-We're excited to introduce the 2.0 release of our Unity package, which merges the Avatar Loader plugin into Core for improved maintenance and package installation. Please note that this update includes breaking changes. We recommend backing up your project and consulting our documentation if you encounter any installation issues. Thank you for your continued support, and we're here to assist throughout the update process.
+We're excited to introduce the 3.0 release of our Unity package, which merges the Avatar Loader plugin into Core for improved maintenance and package installation. Please note that this update includes breaking changes. We recommend backing up your project and consulting our documentation if you encounter any installation issues. Thank you for your continued support, and we're here to assist throughout the update process.
 
 ## Changelog
 

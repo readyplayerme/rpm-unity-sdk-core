@@ -1,6 +1,6 @@
 {
   "name": "com.readyplayerme.core",
-  "version": "2.0.0",
+  "version": "3.0.0",
   "displayName": "Ready Player Me Core",
   "description": "Ready Player Me Core is responsible for downloading, importing and preparing Ready Player Me avatars for use in editor and runtime. It also handles package updates and module management.",
   "unity": "2020.3",
