@@ -1,7 +1,7 @@
 using System;
 using UnityEngine;
 
-namespace ReadyPlayerMe.QuickStart
+namespace ReadyPlayerMe.Samples
 {
     [RequireComponent(typeof(CharacterController), typeof(GroundCheck))]
     public class ThirdPersonMovement : MonoBehaviour

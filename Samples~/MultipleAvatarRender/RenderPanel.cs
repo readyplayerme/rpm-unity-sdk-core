@@ -2,7 +2,7 @@ using System.Linq;
 using UnityEngine;
 using UnityEngine.UI;
 
-namespace ReadyPlayerMe.AvatarLoader
+namespace ReadyPlayerMe.Samples
 {
     public class RenderPanel : MonoBehaviour
     {

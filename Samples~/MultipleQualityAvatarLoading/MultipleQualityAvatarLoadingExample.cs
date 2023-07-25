@@ -1,12 +1,11 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
-using ReadyPlayerMe.AvatarLoader;
 using ReadyPlayerMe.Core;
 using UnityEngine;
 using UnityEngine.UI;
 
-namespace ReadyPlayerMe
+namespace ReadyPlayerMe.Samples
 {
     public class MultipleQualityAvatarLoadingExample : MonoBehaviour
     {
