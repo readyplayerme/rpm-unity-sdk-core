@@ -42,8 +42,7 @@ After the process is complete you project will have imported these packages:
 - **Ready Player Me WebView**
 - **glTFast**
 
-![image](https://github.com/readyplayerme/rpm-unity-sdk-core/assets/7085672/246dd4fe-233f-4176-9d94-eb0ed3daec09)
-
+![image](https://github.com/readyplayerme/rpm-unity-sdk-core/assets/1121080/234ff559-cb19-4b39-bb14-a5621db1811b)
 
 ## Alternate Installation
 
