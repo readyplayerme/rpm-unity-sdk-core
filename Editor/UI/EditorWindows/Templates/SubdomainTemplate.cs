@@ -19,9 +19,8 @@ namespace ReadyPlayerMe.Core.Editor
         {
         }
 
+        private readonly TextField subdomainField;
         private string partnerSubdomain;
-        private TextField subdomainField;
-
 
         public SubdomainTemplate()
         {
@@ -48,6 +47,11 @@ namespace ReadyPlayerMe.Core.Editor
             subdomainField.SetValueWithoutNotify(subdomain);
             partnerSubdomain = subdomain;
             SaveSubdomain();
+        }
+        
+        public void SetFieldEnabled(bool enabled)
+        {
+            subdomainField.SetEnabled(enabled);
         }
 
         private static void OnSubdomainHelpClicked()

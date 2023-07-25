@@ -1,12 +1,10 @@
 using System.IO;
-using ReadyPlayerMe.Core;
 using ReadyPlayerMe.Core.Analytics;
-using ReadyPlayerMe.Core.Editor;
 using UnityEditor;
 using UnityEngine;
 using UnityEngine.UIElements;
 
-namespace ReadyPlayerMe.Settings.Editor
+namespace ReadyPlayerMe.Core.Editor
 {
     public class SettingsEditor : EditorWindow
     {
