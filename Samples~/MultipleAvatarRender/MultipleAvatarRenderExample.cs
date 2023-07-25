@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 using ReadyPlayerMe.Core;
 using UnityEngine;
 
-namespace ReadyPlayerMe.AvatarLoader
+namespace ReadyPlayerMe.Samples
 {
     /// <summary>
     /// This class is a simple example on how to load a request a 2D render of a Ready Player Me avatar at runtime.

@@ -1,10 +1,9 @@
 ﻿using System.Collections.Generic;
 using System.Threading.Tasks;
-using ReadyPlayerMe.AvatarLoader;
 using ReadyPlayerMe.Core;
 using UnityEngine;
 
-namespace ReadyPlayerMe
+namespace ReadyPlayerMe.Samples
 {
     /// <summary>
     ///     This class is a simple <see cref="Monobehaviour"/> to serve as an example on how to load a Ready Player Me avatar with multiple LOD's (level of detail) and spawn as a <see cref="GameObject"/> into the scene at runtime.

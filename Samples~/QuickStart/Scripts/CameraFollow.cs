@@ -1,7 +1,7 @@
 using ReadyPlayerMe.Core;
 using UnityEngine;
 
-namespace ReadyPlayerMe.QuickStart
+namespace ReadyPlayerMe.Samples
 {
     public class CameraFollow : MonoBehaviour
     {

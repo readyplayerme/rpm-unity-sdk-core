@@ -1,7 +1,7 @@
 
 using UnityEngine;
 
-namespace ReadyPlayerMe.QuickStart
+namespace ReadyPlayerMe.Samples
 {
     public class CameraOrbit : MonoBehaviour
     {

@@ -2,7 +2,7 @@
 using ReadyPlayerMe.Core;
 using UnityEngine;
 
-namespace ReadyPlayerMe.AvatarLoader
+namespace ReadyPlayerMe.Samples
 {
     /// <summary>
     /// This class is a simple <see cref="Monobehaviour"/> to serve as an example on how to load a request a 2D render of a Ready Player Me avatar at runtime.
@@ -11,17 +11,17 @@ namespace ReadyPlayerMe.AvatarLoader
     {
         private const string TAG = nameof(AvatarRenderExample);
 
-        [SerializeField][Tooltip("Set this to the URL or shortcode of the Ready Player Me Avatar you want to render.")]
+        [SerializeField] [Tooltip("Set this to the URL or shortcode of the Ready Player Me Avatar you want to render.")]
         private string url = "https://api.readyplayer.me/v1/avatars/638df70ed72bffc6fa179596.glb";
-        [SerializeField][Tooltip("The scene to use for the avatar render.")]
+        [SerializeField] [Tooltip("The scene to use for the avatar render.")]
         private AvatarRenderScene scene = AvatarRenderScene.FullBodyPostureTransparent;
-        [SerializeField] 
+        [SerializeField]
         private SpriteRenderer spriteRenderer;
-        [SerializeField] 
+        [SerializeField]
         private GameObject loadingPanel;
 
-        private readonly string[] blendShapeMeshes = {"Wolf3D_Head", "Wolf3D_Teeth"};
-        
+        private readonly string[] blendShapeMeshes = { "Wolf3D_Head", "Wolf3D_Teeth" };
+
         /// A collection of blendshape names and values to pose the face mesh into a smile using blendshapes
         private readonly Dictionary<string, float> blendShapes = new Dictionary<string, float>
         {
