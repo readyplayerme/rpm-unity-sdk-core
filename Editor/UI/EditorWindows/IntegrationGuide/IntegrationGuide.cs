@@ -9,7 +9,7 @@ namespace ReadyPlayerMe.Core.Editor
         private const string INTEGRATION_GUIDE = "Integration Guide";
         private const string HEADER_LABEL = "HeaderLabel";
         private const string LOAD_AVATARS_URL = "https://docs.readyplayer.me/ready-player-me/integration-guides/unity/load-avatars";
-        private const string ADD_ANIMATION_URL = "https://docs.readyplayer.me/ready-player-me/integration-guides/unity/loading-mixamo-animations";
+        private const string ADD_ANIMATION_URL = "https://docs.readyplayer.me/ready-player-me/integration-guides/unity/animations";
         private const string AVATAR_CREATOR_URL = "https://docs.readyplayer.me/ready-player-me/integration-guides/unity/avatar-creator";
         private const string OPTIMIZE_PERFORMANCE_URL = "https://docs.readyplayer.me/ready-player-me/integration-guides/unity/optimize";
         private const string QUICK_START = "QuickStart";
