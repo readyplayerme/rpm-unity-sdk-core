@@ -7,7 +7,7 @@ namespace ReadyPlayerMe.Core.Editor
 {
     public class QuickStartHelper
     {
-        private const string LOADER_PACKAGE = "com.readyplayerme.avatarloader";
+        private const string LOADER_PACKAGE = "com.readyplayerme.core";
         private const string QUICKSTART_SAMPLE_NAME = "QuickStart";
 
         public bool Open()
