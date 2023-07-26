@@ -12,6 +12,7 @@ namespace ReadyPlayerMe.Core.Editor
         private const string XML_PATH = "SubdomainTemplate";
         private const string DOMAIN_VALIDATION_ERROR = "Please enter a valid partner subdomain (e.g. demo). Click here to read more about this issue.";
         private const string WEB_VIEW_PARTNER_SAVE_KEY = "WebViewPartnerSubdomainName";
+        private const string DEMO = "demo";
 
         public new class UxmlFactory : UxmlFactory<SubdomainTemplate, UxmlTraits>
         {
@@ -22,6 +23,7 @@ namespace ReadyPlayerMe.Core.Editor
 
         private readonly TextField subdomainField;
         private string partnerSubdomain;
+        private bool isSubdomainFieldEnabled;
 
         public SubdomainTemplate()
         {
@@ -43,16 +45,16 @@ namespace ReadyPlayerMe.Core.Editor
             subdomainField.RegisterCallback<FocusOutEvent>(OnSubdomainFocusOut);
         }
 
-        public void SetSubdomain(string subdomain)
+        public void SetDefaultSubdomain()
         {
-            subdomainField.SetValueWithoutNotify(subdomain);
-            partnerSubdomain = subdomain;
+            partnerSubdomain = DEMO;
             SaveSubdomain();
         }
 
         public void SetFieldEnabled(bool enabled)
         {
-            subdomainField.SetEnabled(enabled);
+            isSubdomainFieldEnabled = enabled;
+            subdomainField.SetEnabled(isSubdomainFieldEnabled);
         }
 
         private static void OnSubdomainHelpClicked()
