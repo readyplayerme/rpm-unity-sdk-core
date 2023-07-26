@@ -74,6 +74,7 @@ namespace ReadyPlayerMe.Core.Editor
             {
                 if (x.newValue)
                 {
+                    subdomainTemplate.SetDefaultSubdomain();
                     subdomainTemplate.SetFieldEnabled(false);
                 }
                 else

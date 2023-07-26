@@ -48,6 +48,7 @@ namespace ReadyPlayerMe.Core.Editor
         public void SetDefaultSubdomain()
         {
             partnerSubdomain = DEMO;
+            subdomainField.SetValueWithoutNotify(partnerSubdomain);
             SaveSubdomain();
         }
 
