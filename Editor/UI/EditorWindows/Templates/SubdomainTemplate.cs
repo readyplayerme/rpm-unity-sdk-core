@@ -1,6 +1,7 @@
 using System;
 using System.Linq;
 using ReadyPlayerMe.Core.Analytics;
+using ReadyPlayerMe.Core.Data;
 using UnityEditor;
 using UnityEngine;
 using UnityEngine.UIElements;
@@ -12,7 +13,6 @@ namespace ReadyPlayerMe.Core.Editor
         private const string XML_PATH = "SubdomainTemplate";
         private const string DOMAIN_VALIDATION_ERROR = "Please enter a valid partner subdomain (e.g. demo). Click here to read more about this issue.";
         private const string WEB_VIEW_PARTNER_SAVE_KEY = "WebViewPartnerSubdomainName";
-        private const string DEMO = "demo";
 
         public new class UxmlFactory : UxmlFactory<SubdomainTemplate, UxmlTraits>
         {
@@ -47,7 +47,7 @@ namespace ReadyPlayerMe.Core.Editor
 
         public void SetDefaultSubdomain()
         {
-            partnerSubdomain = DEMO;
+            partnerSubdomain = CoreSettings.DEFAULT_SUBDOMAIN;
             subdomainField.SetValueWithoutNotify(partnerSubdomain);
             SaveSubdomain();
         }
