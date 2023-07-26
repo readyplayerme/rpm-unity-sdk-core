@@ -39,7 +39,7 @@ namespace ReadyPlayerMe.Core.Editor
         {
             var window = GetWindow<SetupGuide>();
             window.titleContent = new GUIContent(SETUP_GUIDE);
-            window.minSize = new Vector2(500, 400);
+            window.minSize = new Vector2(500, 380);
         }
 
         public void CreateGUI()
