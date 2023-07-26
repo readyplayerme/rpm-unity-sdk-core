@@ -1,3 +1,4 @@
+using System;
 using System.Linq;
 using ReadyPlayerMe.Core.Analytics;
 using UnityEditor;
@@ -48,7 +49,7 @@ namespace ReadyPlayerMe.Core.Editor
             partnerSubdomain = subdomain;
             SaveSubdomain();
         }
-        
+
         public void SetFieldEnabled(bool enabled)
         {
             subdomainField.SetEnabled(enabled);
@@ -77,9 +78,24 @@ namespace ReadyPlayerMe.Core.Editor
         {
             return changeEvent =>
             {
-                partnerSubdomain = changeEvent.newValue;
+                partnerSubdomain = ExtractSubdomain(changeEvent.newValue);
                 errorIcon.visible = !ValidateSubdomain();
+                subdomainField.SetValueWithoutNotify(partnerSubdomain);
             };
+        }
+
+        private static string ExtractSubdomain(string url)
+        {
+            if (Uri.TryCreate(url, UriKind.Absolute, out Uri uri))
+            {
+                url = uri.Host;
+            }
+            var hostParts = url.Split('.');
+            if (hostParts.Length > 1)
+            {
+                return hostParts[0];
+            }
+            return url;
         }
 
         private bool ValidateSubdomain()
