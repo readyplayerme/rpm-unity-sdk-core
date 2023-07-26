@@ -22,6 +22,9 @@ namespace ReadyPlayerMe.Core.Editor
         }
 
         private readonly TextField subdomainField;
+
+        public event Action<string> OnSubdomainChanged;
+
         private string partnerSubdomain;
         private bool isSubdomainFieldEnabled;
 
@@ -41,7 +44,7 @@ namespace ReadyPlayerMe.Core.Editor
 
             errorIcon.RegisterCallback<MouseUpEvent>(OnErrorIconClicked);
 
-            subdomainField.RegisterValueChangedCallback(OnSubdomainChanged(errorIcon));
+            subdomainField.RegisterValueChangedCallback(SubdomainChanged(errorIcon));
             subdomainField.RegisterCallback<FocusOutEvent>(OnSubdomainFocusOut);
         }
 
@@ -77,13 +80,14 @@ namespace ReadyPlayerMe.Core.Editor
             }
         }
 
-        private EventCallback<ChangeEvent<string>> OnSubdomainChanged(VisualElement errorIcon)
+        private EventCallback<ChangeEvent<string>> SubdomainChanged(VisualElement errorIcon)
         {
             return changeEvent =>
             {
                 partnerSubdomain = ExtractSubdomain(changeEvent.newValue);
                 errorIcon.visible = !ValidateSubdomain();
                 subdomainField.SetValueWithoutNotify(partnerSubdomain);
+                OnSubdomainChanged?.Invoke(partnerSubdomain);
             };
         }
 

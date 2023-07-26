@@ -69,6 +69,10 @@ namespace ReadyPlayerMe.Core.Editor
             });
 
             var subdomainTemplate = subdomainPanel.Q<SubdomainTemplate>();
+            subdomainTemplate.OnSubdomainChanged += subdomain =>
+            {
+                nextButton.SetEnabled(!string.IsNullOrEmpty(subdomain));
+            };
 
             subdomainPanel.Q<Toggle>(USE_DEMO_SUBDOMAIN_TOGGLE).RegisterValueChangedCallback(x =>
             {
@@ -76,6 +80,7 @@ namespace ReadyPlayerMe.Core.Editor
                 {
                     subdomainTemplate.SetDefaultSubdomain();
                     subdomainTemplate.SetFieldEnabled(false);
+                    nextButton.SetEnabled(true);
                 }
                 else
                 {
