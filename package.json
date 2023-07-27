@@ -2,7 +2,7 @@
   "name": "com.readyplayerme.core",
   "version": "3.0.0",
   "displayName": "Ready Player Me Core",
-  "description": "Ready Player Me Core is responsible for downloading, importing and preparing Ready Player Me avatars for use in editor and runtime. It also handles package updates and module management.",
+  "description": "This Module contains all the core functionality required for using Ready Player Me avatars in Unity, including features such as: \n - Module management and automatic package setup logic\n - Avatar loading from .glb files\n - Avatar and 2D render requests\n - Optional Analytics\n - Custom editor windows\n - Sample scenes and assets",
   "unity": "2020.3",
   "unityRelease": "0f1",
   "documentationUrl": "https://docs.readyplayer.me/ready-player-me/integration-guides/unity-sdk",
