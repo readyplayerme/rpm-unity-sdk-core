@@ -1,3 +1,5 @@
+using System;
+using ReadyPlayerMe.Core;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -7,7 +9,9 @@ namespace ReadyPlayerMe.Samples
     {
         [SerializeField] private Button openPersonalAvatarPanelButton;
         [SerializeField] private Text openPersonalAvatarPanelButtonText;
+        [SerializeField] private GameObject avatarLoading;
         [SerializeField] private Button closeButton;
+        [SerializeField] private Text linkText;
         [SerializeField] private Button linkButton;
         [SerializeField] private Button loadAvatarButton;
         [SerializeField] private InputField avatarUrlField;
@@ -36,6 +40,7 @@ namespace ReadyPlayerMe.Samples
 
         private void OnOpenPersonalAvatarPanel()
         {
+            linkText.text = $"https://{CoreSettingsHandler.CoreSettings.Subdomain}.readyplayer.me";
             personalAvatarPanel.SetActive(true);
         }
 
@@ -46,7 +51,7 @@ namespace ReadyPlayerMe.Samples
 
         private void OnLinkButton()
         {
-            Application.OpenURL("https://readyplayer.me/");
+            Application.OpenURL(linkText.text);
         }
 
         private void OnLoadAvatarButton()
@@ -55,6 +60,7 @@ namespace ReadyPlayerMe.Samples
             defaultButtonText = openPersonalAvatarPanelButtonText.text;
             openPersonalAvatarPanelButtonText.text = "Loading...";
             openPersonalAvatarPanelButton.interactable = false;
+            avatarLoading.SetActive(true);
             thirdPersonLoader.LoadAvatar(avatarUrlField.text);
             personalAvatarPanel.SetActive(false);
         }
@@ -64,11 +70,19 @@ namespace ReadyPlayerMe.Samples
             thirdPersonLoader.OnLoadComplete -= OnLoadComplete;
             openPersonalAvatarPanelButtonText.text = defaultButtonText;
             openPersonalAvatarPanelButton.interactable = true;
+            avatarLoading.SetActive(false);
         }
 
         private void OnAvatarUrlFieldValueChanged(string url)
         {
-            loadAvatarButton.interactable = !string.IsNullOrEmpty(url);
+            if (!string.IsNullOrEmpty(url) && Uri.TryCreate(url, UriKind.Absolute, out Uri _))
+            {
+                loadAvatarButton.interactable = true;
+            }
+            else
+            {
+                loadAvatarButton.interactable = false;
+            }
         }
     }
 }
