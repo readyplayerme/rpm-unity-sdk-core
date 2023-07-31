@@ -64,7 +64,7 @@ namespace ReadyPlayerMe.Core.Analytics
 
         public static class Links
         {
-            public const string DOCS_PARTNERS_LINK = "https://docs.readyplayer.me/ready-player-me/for-partners/partner-subdomains";
+            public const string DOCS_PARTNERS_LINK = "https://docs.readyplayer.me/ready-player-me/getting-started/1.-quickstart#setup-your-ready-player-me-subdomain";
             public const string DOCS_QUICKSTART_LINK = "https://docs.readyplayer.me/ready-player-me/integration-guides/unity/quickstart#before-you-begin";
             public const string DOCS_DEFER_AGENT_LINK = "https://docs.readyplayer.me/ready-player-me/integration-guides/unity/optimize/defer-agents";
             public const string DOCS_LOAD_AVATAR = "https://docs.readyplayer.me/ready-player-me/integration-guides/unity/load-avatars#save-avatars-as-npcs-in-your-project";

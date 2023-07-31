@@ -1,5 +1,7 @@
+using System;
 using System.Linq;
 using ReadyPlayerMe.Core.Analytics;
+using ReadyPlayerMe.Core.Data;
 using UnityEditor;
 using UnityEngine;
 using UnityEngine.UIElements;
@@ -20,7 +22,11 @@ namespace ReadyPlayerMe.Core.Editor
         }
 
         private readonly TextField subdomainField;
+
+        public event Action<string> OnSubdomainChanged;
+
         private string partnerSubdomain;
+        private bool isSubdomainFieldEnabled;
 
         public SubdomainTemplate()
         {
@@ -38,20 +44,21 @@ namespace ReadyPlayerMe.Core.Editor
 
             errorIcon.RegisterCallback<MouseUpEvent>(OnErrorIconClicked);
 
-            subdomainField.RegisterValueChangedCallback(OnSubdomainChanged(errorIcon));
+            subdomainField.RegisterValueChangedCallback(SubdomainChanged(errorIcon));
             subdomainField.RegisterCallback<FocusOutEvent>(OnSubdomainFocusOut);
         }
 
-        public void SetSubdomain(string subdomain)
+        public void SetDefaultSubdomain()
         {
-            subdomainField.SetValueWithoutNotify(subdomain);
-            partnerSubdomain = subdomain;
+            partnerSubdomain = CoreSettings.DEFAULT_SUBDOMAIN;
+            subdomainField.SetValueWithoutNotify(partnerSubdomain);
             SaveSubdomain();
         }
-        
+
         public void SetFieldEnabled(bool enabled)
         {
-            subdomainField.SetEnabled(enabled);
+            isSubdomainFieldEnabled = enabled;
+            subdomainField.SetEnabled(isSubdomainFieldEnabled);
         }
 
         private static void OnSubdomainHelpClicked()
@@ -73,13 +80,29 @@ namespace ReadyPlayerMe.Core.Editor
             }
         }
 
-        private EventCallback<ChangeEvent<string>> OnSubdomainChanged(VisualElement errorIcon)
+        private EventCallback<ChangeEvent<string>> SubdomainChanged(VisualElement errorIcon)
         {
             return changeEvent =>
             {
-                partnerSubdomain = changeEvent.newValue;
+                partnerSubdomain = ExtractSubdomain(changeEvent.newValue);
                 errorIcon.visible = !ValidateSubdomain();
+                subdomainField.SetValueWithoutNotify(partnerSubdomain);
+                OnSubdomainChanged?.Invoke(partnerSubdomain);
             };
+        }
+
+        private static string ExtractSubdomain(string url)
+        {
+            if (Uri.TryCreate(url, UriKind.Absolute, out Uri uri))
+            {
+                url = uri.Host;
+            }
+            var hostParts = url.Split('.');
+            if (hostParts.Length > 1)
+            {
+                return hostParts[0];
+            }
+            return url;
         }
 
         private bool ValidateSubdomain()

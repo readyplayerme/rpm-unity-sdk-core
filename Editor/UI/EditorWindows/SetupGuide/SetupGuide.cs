@@ -14,9 +14,7 @@ namespace ReadyPlayerMe.Core.Editor
         private const string ANALYTICS_PRIVACY_URL = "https://docs.readyplayer.me/ready-player-me/integration-guides/unity/help-us-improve-the-unity-sdk";
         private const string SUBDOMAIN_PANEL = "SubdomainPanel";
         private const string STUDIO_URL_LABEL = "StudioUrl";
-        private const string SUBDOMAIN_FIELD = "SubdomainField";
         private const string USE_DEMO_SUBDOMAIN_TOGGLE = "UseDemoSubdomainToggle";
-        private const string DEMO = "demo";
         private const string ANALYTICS_PANEL = "AnalyticsPanel";
         private const string ANALYTICS_ENABLED_TOGGLE = "AnalyticsEnabledToggle";
         private const string NEXT_BUTTON = "NextButton";
@@ -41,7 +39,7 @@ namespace ReadyPlayerMe.Core.Editor
         {
             var window = GetWindow<SetupGuide>();
             window.titleContent = new GUIContent(SETUP_GUIDE);
-            window.minSize = new Vector2(500, 400);
+            window.minSize = new Vector2(500, 380);
         }
 
         public void CreateGUI()
@@ -71,31 +69,23 @@ namespace ReadyPlayerMe.Core.Editor
             });
 
             var subdomainTemplate = subdomainPanel.Q<SubdomainTemplate>();
-            var subdomainField = subdomainTemplate.Q<TextField>(SUBDOMAIN_FIELD);
-
-            var useDemoSubdomainToggle = subdomainPanel.Q<Toggle>(USE_DEMO_SUBDOMAIN_TOGGLE);
-            if (CoreSettingsHandler.CoreSettings.Subdomain == DEMO)
+            subdomainTemplate.OnSubdomainChanged += subdomain =>
             {
-                useDemoSubdomainToggle.value = true;
-                subdomainTemplate.SetFieldEnabled(false);
-            }
+                nextButton.SetEnabled(!string.IsNullOrEmpty(subdomain));
+            };
 
             subdomainPanel.Q<Toggle>(USE_DEMO_SUBDOMAIN_TOGGLE).RegisterValueChangedCallback(x =>
             {
                 if (x.newValue)
                 {
-                    subdomainTemplate.SetSubdomain(DEMO);
+                    subdomainTemplate.SetDefaultSubdomain();
                     subdomainTemplate.SetFieldEnabled(false);
+                    nextButton.SetEnabled(true);
                 }
                 else
                 {
                     subdomainTemplate.SetFieldEnabled(true);
                 }
-            });
-
-            subdomainField.RegisterValueChangedCallback(x =>
-            {
-                useDemoSubdomainToggle.SetValueWithoutNotify(x.newValue == DEMO);
             });
 
             return subdomainPanel;

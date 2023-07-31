@@ -28,3 +28,7 @@
 .box {
     background-color: var(--unity-colors-alternated_rows-background);
 }
+
+.link{
+    cursor: link;
+}

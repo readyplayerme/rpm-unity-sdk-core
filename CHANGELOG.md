@@ -3,6 +3,22 @@
 All notable changes to this project will be documented in this file.
 This project adheres to [Semantic Versioning](http://semver.org/).
 
+## [3.0.0] - 2023.07.31
+
+### Added
+- **Breaking:** all scripts and assets from Avatar Loader [#87](https://github.com/readyplayerme/rpm-unity-sdk-core/pull/87)
+- module installer now automatically removes Avatar Loader after update [#89](https://github.com/readyplayerme/rpm-unity-sdk-core/pull/89)
+- new Integration guide editor window [#91](https://github.com/readyplayerme/rpm-unity-sdk-core/pull/91)
+
+### Removed
+- **Breaking:** all references to ReadyPlayerMe.AvatarLoader namespace [#87](https://github.com/readyplayerme/rpm-unity-sdk-core/pull/87)
+
+### Updated
+- moved GltFast dependent code behind scripting define symbol [#87](https://github.com/readyplayerme/rpm-unity-sdk-core/pull/87) 
+- avatar config processor now uses new mesh LOD parameter [#90](https://github.com/readyplayerme/rpm-unity-sdk-core/pull/90)
+- setup guide window improvements [#91](https://github.com/readyplayerme/rpm-unity-sdk-core/pull/91)
+
+
 ## [1.3.0] - 2023.05.29
 
 ### Added

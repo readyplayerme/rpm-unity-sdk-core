@@ -9,8 +9,7 @@ namespace ReadyPlayerMe.Core
         private const string RESOURCE_PATH = "Settings/CoreSettings";
         public const string PROJECT_RELATIVE_ASSET_PATH = "Assets/Ready Player Me/Resources/Settings/CoreSettings.asset";
         private const string SETTINGS_SAVE_FOLDER = "Ready Player Me/Resources/Settings";
-        private const string DEFAULT_SUBDOMAIN = "demo";
-        
+
         public static CoreSettings CoreSettings
         {
             get
@@ -37,19 +36,17 @@ namespace ReadyPlayerMe.Core
             coreSettings.Subdomain = subDomain;
             Save();
         }
-        
+
         public static void Save()
         {
             EditorUtility.SetDirty(coreSettings);
             AssetDatabase.SaveAssets();
         }
-        
+
         public static CoreSettings CreateCoreSettings()
         {
             DirectoryUtility.ValidateDirectory($"{Application.dataPath}/{SETTINGS_SAVE_FOLDER}");
             var newSettings = ScriptableObject.CreateInstance<CoreSettings>();
-            newSettings.Subdomain = DEFAULT_SUBDOMAIN;
-
             AssetDatabase.CreateAsset(newSettings, PROJECT_RELATIVE_ASSET_PATH);
             AssetDatabase.SaveAssets();
             AssetDatabase.Refresh();
