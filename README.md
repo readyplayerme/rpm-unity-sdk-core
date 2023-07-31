@@ -39,11 +39,10 @@ Please visit the online documentation and join our public `discord` community.
 After the process is complete you project will have imported these packages:
 
 - **Ready Player Me Core**
-- **Ready Player Me Avatar Loader**
 - **Ready Player Me WebView**
 - **glTFast**
 
-![package-import-complete](https://user-images.githubusercontent.com/7085672/206432761-dc078cc7-23b0-4d83-a638-46db19faabd6.png)
+![image](https://github.com/readyplayerme/rpm-unity-sdk-core/assets/1121080/234ff559-cb19-4b39-bb14-a5621db1811b)
 
 ## Alternate Installation
 
@@ -93,7 +92,7 @@ After the process is complete you project will have imported these packages:
         }
      ],
      "dependencies": {
-        "com.readyplayerme.core": "1.0.0"
+        "com.readyplayerme.core": "3.0.0"
        }
      }
      ```

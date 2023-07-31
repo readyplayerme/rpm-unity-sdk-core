@@ -14,7 +14,7 @@ namespace ReadyPlayerMe.Core.Editor
             name = "com.readyplayerme.core",
             gitUrl = "https://github.com/readyplayerme/rpm-unity-sdk-core.git",
             branch = "",
-            version = "1.3.3"
+            version = "3.0.0"
         };
 
         /// <summary>
@@ -28,13 +28,6 @@ namespace ReadyPlayerMe.Core.Editor
                 gitUrl = "https://github.com/atteneder/glTFast.git",
                 branch = "v5.0.0",
                 version = "5.0.0"
-            },
-            new ModuleInfo
-            {
-                name = "com.readyplayerme.avatarloader",
-                gitUrl = "https://github.com/readyplayerme/rpm-unity-sdk-avatar-loader.git",
-                branch = "",
-                version = "1.3.4"
             },
             new ModuleInfo
             {
