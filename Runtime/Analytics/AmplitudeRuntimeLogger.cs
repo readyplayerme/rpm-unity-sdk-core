@@ -2,6 +2,9 @@
 
 namespace ReadyPlayerMe.Core.Analytics
 {
+    /// <summary>
+    /// Runtime analytics for sample which runs in the editor only.
+    /// </summary>
     public class AmplitudeRuntimeLogger : IAnalyticsRuntimeLogger
     {
         private const string RUN_QUICKSTART_SCENE = "run quickstart scene";
@@ -30,7 +33,10 @@ namespace ReadyPlayerMe.Core.Analytics
         private void LogEvent(string eventName, Dictionary<string, object> eventProperties = null, Dictionary<string, object> userProperties = null)
         {
             if (!CoreSettingsHandler.CoreSettings.EnableAnalytics) return;
+
+#if UNITY_EDITOR
             AmplitudeEventLogger.LogEvent(eventName, eventProperties, userProperties);
+#endif
         }
     }
 }
