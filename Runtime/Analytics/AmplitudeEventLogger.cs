@@ -4,7 +4,7 @@ using System.Threading.Tasks;
 using Newtonsoft.Json;
 using UnityEngine;
 
-namespace ReadyPlayerMe.Core
+namespace ReadyPlayerMe.Core.Analytics
 {
     public static class AmplitudeEventLogger
     {

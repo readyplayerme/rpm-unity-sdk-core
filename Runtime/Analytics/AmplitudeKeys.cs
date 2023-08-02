@@ -1,4 +1,4 @@
-﻿namespace ReadyPlayerMe.Core
+﻿namespace ReadyPlayerMe.Core.Analytics
 {
     public static class AmplitudeKeys
     {

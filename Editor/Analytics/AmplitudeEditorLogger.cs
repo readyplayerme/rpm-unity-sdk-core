@@ -6,7 +6,7 @@ using UnityEngine;
 
 namespace ReadyPlayerMe.Core.Analytics
 {
-    public class AnalyticsEditorEventLogger : IAnalyticsEditorLogger
+    public class AmplitudeEditorLogger : IAnalyticsEditorLogger
     {
         private const string SDK_TARGET = "Unity";
 
@@ -22,7 +22,7 @@ namespace ReadyPlayerMe.Core.Analytics
         private bool isEnabled;
         private readonly AppData appData;
 
-        public AnalyticsEditorEventLogger(bool isEnabled)
+        public AmplitudeEditorLogger(bool isEnabled)
         {
             this.isEnabled = isEnabled;
             appData = ApplicationData.GetData();

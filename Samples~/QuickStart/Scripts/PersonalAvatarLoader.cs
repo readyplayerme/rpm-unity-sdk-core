@@ -1,5 +1,6 @@
 using System;
 using ReadyPlayerMe.Core;
+using ReadyPlayerMe.Core.Analytics;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -64,12 +65,12 @@ namespace ReadyPlayerMe.Samples
         {
             thirdPersonLoader.OnLoadComplete += OnLoadComplete;
             defaultButtonText = openPersonalAvatarPanelButtonText.text;
-            openPersonalAvatarPanelButtonText.text = "Loading...";
+             openPersonalAvatarPanelButtonText.text = "Loading...";
             openPersonalAvatarPanelButton.interactable = false;
             avatarLoading.SetActive(true);
             thirdPersonLoader.LoadAvatar(avatarUrlField.text);
             personalAvatarPanel.SetActive(false);
-            AnalyticsRuntimeLogger.EventLogger.LogPersonalAvatarLoading();
+            AnalyticsRuntimeLogger.EventLogger.LogPersonalAvatarLoading(avatarUrlField.text);
         }
 
         private void OnAvatarUrlFieldValueChanged(string url)

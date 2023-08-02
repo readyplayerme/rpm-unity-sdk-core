@@ -1,4 +1,4 @@
-﻿namespace ReadyPlayerMe.Core
+﻿namespace ReadyPlayerMe.Core.Analytics
 {
     public static class AnalyticsRuntimeLogger
     {
@@ -6,7 +6,7 @@
 
         static AnalyticsRuntimeLogger()
         {
-            EventLogger = new AnalyticsRuntimeEventLogger();
+            EventLogger = new AmplitudeRuntimeLogger();
         }
     }
 }

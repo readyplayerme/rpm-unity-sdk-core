@@ -1,10 +1,10 @@
-﻿namespace ReadyPlayerMe.Core
+﻿namespace ReadyPlayerMe.Core.Analytics
 {
-    internal interface IAnalyticsRuntimeLogger
+    public interface IAnalyticsRuntimeLogger
     {
         void LogRunQuickStartScene();
         void LogLoadPersonalAvatarButton();
-        void LogPersonalAvatarLoading();
+        void LogPersonalAvatarLoading(string url);
 
     }
 }

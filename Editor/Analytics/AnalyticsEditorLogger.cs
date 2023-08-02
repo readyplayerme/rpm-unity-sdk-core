@@ -7,7 +7,7 @@
         static AnalyticsEditorLogger()
         {
             IsEnabled = CoreSettingsHandler.CoreSettings.EnableAnalytics;
-            EventLogger = new AnalyticsEditorEventLogger(IsEnabled);
+            EventLogger = new AmplitudeEditorLogger(IsEnabled);
         }
 
         public static bool IsEnabled { get; private set; }
