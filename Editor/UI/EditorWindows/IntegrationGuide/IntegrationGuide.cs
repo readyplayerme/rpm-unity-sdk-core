@@ -1,3 +1,4 @@
+using ReadyPlayerMe.Core.Analytics;
 using UnityEditor;
 using UnityEngine;
 using UnityEngine.UIElements;
@@ -26,6 +27,7 @@ namespace ReadyPlayerMe.Core.Editor
             var window = GetWindow<IntegrationGuide>();
             window.titleContent = new GUIContent(INTEGRATION_GUIDE);
             window.minSize = new Vector2(500, 530);
+            AnalyticsEditorLogger.EventLogger.LogOpenIntegrationGuide();
         }
 
         public void CreateGUI()
@@ -38,16 +40,32 @@ namespace ReadyPlayerMe.Core.Editor
             var quickStartButton = rootVisualElement.Q<VisualElement>(QUICK_START).Q<Button>();
             quickStartButton.clicked += OnOpenQuickStartButton;
             var loadAvatarsDocButton = rootVisualElement.Q<VisualElement>(LOAD_AVATARS).Q<Button>();
-            loadAvatarsDocButton.clicked += () => OpenDocumentation(LOAD_AVATARS_URL);
+            loadAvatarsDocButton.clicked += () =>
+            {
+                AnalyticsEditorLogger.EventLogger.LogOpenAvatarDocumentation();
+                OpenDocumentation(LOAD_AVATARS_URL);
+            };
 
             var addAnimationDocButton = rootVisualElement.Q<VisualElement>(ADD_ANIMATIONS).Q<Button>();
-            addAnimationDocButton.clicked += () => OpenDocumentation(ADD_ANIMATION_URL);
+            addAnimationDocButton.clicked += () =>
+            {
+                AnalyticsEditorLogger.EventLogger.LogOpenAnimationDocumentation();
+                OpenDocumentation(ADD_ANIMATION_URL);
+            };
 
             var integrateAvatarCreatorDocButton = rootVisualElement.Q<VisualElement>(INTEGRATE_AVATAR_CREATOR).Q<Button>();
-            integrateAvatarCreatorDocButton.clicked += () => OpenDocumentation(AVATAR_CREATOR_URL);
+            integrateAvatarCreatorDocButton.clicked += () =>
+            {
+                AnalyticsEditorLogger.EventLogger.LogOpenAvatarCreatorDocumentation();
+                OpenDocumentation(AVATAR_CREATOR_URL);
+            };
 
             var optimizePerformanceDocButton = rootVisualElement.Q<VisualElement>(OPTIMIZE_THE_PERFORMANCE).Q<Button>();
-            optimizePerformanceDocButton.clicked += () => OpenDocumentation(OPTIMIZE_PERFORMANCE_URL);
+            optimizePerformanceDocButton.clicked += () =>
+            {
+                AnalyticsEditorLogger.EventLogger.LogOpenOptimizationDocumentation();
+                OpenDocumentation(OPTIMIZE_PERFORMANCE_URL);
+            };
         }
 
         private void OnOpenQuickStartButton()
@@ -58,6 +76,7 @@ namespace ReadyPlayerMe.Core.Editor
             {
                 EditorUtility.DisplayDialog(INTEGRATION_GUIDE, "No quick start sample found.", "OK");
             }
+            AnalyticsEditorLogger.EventLogger.LogLoadQuickStartScene();
         }
 
         private void OpenDocumentation(string link)

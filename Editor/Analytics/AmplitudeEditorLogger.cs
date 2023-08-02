@@ -192,6 +192,41 @@ namespace ReadyPlayerMe.Core.Analytics
             });
         }
 
+        public void LogOpenSetupGuide()
+        {
+            LogEvent(Constants.EventName.OPEN_SETUP_GUIDE);
+        }
+
+        public void LogOpenIntegrationGuide()
+        {
+            LogEvent(Constants.EventName.OPEN_INTEGRATION_GUIDE);
+        }
+
+        public void LogLoadQuickStartScene()
+        {
+            LogEvent(Constants.EventName.LOAD_QUICK_START_SCENE);
+        }
+
+        public void LogOpenAvatarDocumentation()
+        {
+            LogEvent(Constants.EventName.OPEN_AVATAR_DOCUMENTATION);
+        }
+
+        public void LogOpenAnimationDocumentation()
+        {
+            LogEvent(Constants.EventName.OPEN_ANIMATION_DOCUMENTATION);
+        }
+
+        public void LogOpenAvatarCreatorDocumentation()
+        {
+            LogEvent(Constants.EventName.OPEN_AVATAR_CREATOR_DOCUMENTATION);
+        }
+
+        public void LogOpenOptimizationDocumentation()
+        {
+            LogEvent(Constants.EventName.OPEN_OPTIMIZATION_DOCUMENTATION);
+        }
+
         private void SetUserProperties()
         {
             var userProperties = new Dictionary<string, object>

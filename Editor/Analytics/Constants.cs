@@ -24,6 +24,13 @@ namespace ReadyPlayerMe.Core.Analytics
             public const string CHECK_FOR_UPDATES = "check for updates";
             public const string PRIVACY_POLICY = "view privacy policy";
             public const string FIND_OUT_MORE = "find out more";
+            public const string OPEN_SETUP_GUIDE = "open setup guide";
+            public const string OPEN_INTEGRATION_GUIDE = "open integration guide";
+            public const string LOAD_QUICK_START_SCENE = "load quick start scene";
+            public const string OPEN_AVATAR_DOCUMENTATION = "open avatar documentation";
+            public const string OPEN_ANIMATION_DOCUMENTATION = "open animation documentation";
+            public const string OPEN_AVATAR_CREATOR_DOCUMENTATION = "open avatar creator documentation";
+            public const string OPEN_OPTIMIZATION_DOCUMENTATION = "open optimization documentation";
         }
 
         public static class Properties

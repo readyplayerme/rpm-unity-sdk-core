@@ -16,12 +16,19 @@ namespace ReadyPlayerMe.Core.Analytics
         void LogBuildApplication(string target, string appName, bool productionBuild);
         void LogMetadataDownloaded(double duration);
         void LogAvatarLoaded(double duration);
-        public void LogCheckForUpdates();
-        public void LogSetLoggingEnabled(bool isLoggingEnabled);
-        public void LogSetCachingEnabled(bool isCachingEnabled);
-        public void LogClearLocalCache();
-        public void LogViewPrivacyPolicy();
-        public void LogShowInExplorer();
-        public void LogFindOutMore(HelpSubject subject);
+        void LogCheckForUpdates();
+        void LogSetLoggingEnabled(bool isLoggingEnabled);
+        void LogSetCachingEnabled(bool isCachingEnabled);
+        void LogClearLocalCache();
+        void LogViewPrivacyPolicy();
+        void LogShowInExplorer();
+        void LogFindOutMore(HelpSubject subject);
+        void LogOpenSetupGuide();
+        void LogOpenIntegrationGuide();
+        void LogLoadQuickStartScene();
+        void LogOpenAvatarDocumentation();
+        void LogOpenAnimationDocumentation();
+        void LogOpenAvatarCreatorDocumentation();
+        void LogOpenOptimizationDocumentation();
     }
 }
