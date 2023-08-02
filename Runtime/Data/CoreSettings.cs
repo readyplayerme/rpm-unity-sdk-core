@@ -6,6 +6,7 @@ namespace ReadyPlayerMe.Core.Data
     {
         public string Subdomain = DEFAULT_SUBDOMAIN;
         public bool EnableLogging;
+        public bool EnableAnalytics;
         public const string DEFAULT_SUBDOMAIN = "demo";
     }
 }

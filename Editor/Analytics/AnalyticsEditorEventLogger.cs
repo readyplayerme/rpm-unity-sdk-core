@@ -6,22 +6,32 @@ using UnityEngine;
 
 namespace ReadyPlayerMe.Core.Analytics
 {
-    public class AnalyticsEventLogger : IAnalyticsEventLogger
+    public class AnalyticsEditorEventLogger : IAnalyticsEditorLogger
     {
-        private readonly AmplitudeEventLogger amplitudeEventLogger;
+        private const string SDK_TARGET = "Unity";
+
+        private readonly Dictionary<HelpSubject, string> helpDataMap = new Dictionary<HelpSubject, string>
+        {
+            { HelpSubject.AvatarCaching, "avatar caching" },
+            { HelpSubject.Subdomain, "subdomain" },
+            { HelpSubject.AvatarConfig, "avatar config" },
+            { HelpSubject.GltfDeferAgent, "gltf defer agent" },
+            { HelpSubject.LoadingAvatars, "download avatar into scene" }
+        };
 
         private bool isEnabled;
+        private readonly AppData appData;
 
-        public AnalyticsEventLogger(bool isEnabled)
+        public AnalyticsEditorEventLogger(bool isEnabled)
         {
-            amplitudeEventLogger = new AmplitudeEventLogger();
             this.isEnabled = isEnabled;
+            appData = ApplicationData.GetData();
         }
 
         public void Enable()
         {
             isEnabled = true;
-            if (!amplitudeEventLogger.IsSessionIdSet())
+            if (!AmplitudeEventLogger.IsSessionIdSet())
             {
                 GenerateSessionId();
             }
@@ -32,24 +42,24 @@ namespace ReadyPlayerMe.Core.Analytics
         {
             ToggleAnalytics(false);
             isEnabled = false;
-            amplitudeEventLogger.SetSessionId(0);
+            AmplitudeEventLogger.SetSessionId(0);
         }
 
         public void IdentifyUser()
         {
             if (!isEnabled) return;
-            if (!amplitudeEventLogger.IsSessionIdSet())
+            if (!AmplitudeEventLogger.IsSessionIdSet())
             {
                 GenerateSessionId();
             }
-            amplitudeEventLogger.SetUserProperties();
+            SetUserProperties();
         }
 
         public void LogOpenProject()
         {
             if (!isEnabled) return;
             GenerateSessionId();
-            amplitudeEventLogger.LogEvent(Constants.EventName.OPEN_PROJECT);
+            AmplitudeEventLogger.LogEvent(Constants.EventName.OPEN_PROJECT);
         }
 
         public void LogCloseProject()
@@ -110,13 +120,7 @@ namespace ReadyPlayerMe.Core.Analytics
                 { Constants.Properties.DIALOG, dialog }
             });
         }
-
-        private void LogEvent(string eventName, Dictionary<string, object> eventProperties = null, Dictionary<string, object> userProperties = null)
-        {
-            if (!isEnabled) return;
-            amplitudeEventLogger.LogEvent(eventName, eventProperties, userProperties);
-        }
-
+        
         public void LogBuildApplication(string target, string appName, bool productionBuild)
         {
             LogEvent(Constants.EventName.BUILD_APPLICATION, new Dictionary<string, object>
@@ -144,30 +148,6 @@ namespace ReadyPlayerMe.Core.Analytics
             });
         }
 
-        private void GenerateSessionId()
-        {
-            amplitudeEventLogger.SetSessionId(DateTimeOffset.Now.ToUnixTimeMilliseconds());
-        }
-
-        private void ToggleAnalytics(bool allow)
-        {
-            AppData appData = ApplicationData.GetData();
-            LogEvent(Constants.EventName.ALLOW_ANALYTICS, new Dictionary<string, object>
-            {
-                { Constants.Properties.ALLOW, allow }
-            }, new Dictionary<string, object>
-            {
-                { Constants.Properties.ENGINE_VERSION, appData.UnityVersion },
-                { Constants.Properties.RENDER_PIPELINE, appData.RenderPipeline },
-                { Constants.Properties.SUBDOMAIN, appData.PartnerName },
-                { Constants.Properties.APP_NAME, PlayerSettings.productName },
-                { Constants.Properties.SDK_TARGET, "Unity" },
-                { Constants.Properties.APP_IDENTIFIER, Application.identifier },
-                { Constants.Properties.ALLOW_ANALYTICS, allow }
-            });
-        }
-        
-        
         public void LogCheckForUpdates()
         {
             LogEvent(Constants.EventName.CHECK_FOR_UPDATES);
@@ -208,22 +188,59 @@ namespace ReadyPlayerMe.Core.Analytics
         {
             LogEvent(Constants.EventName.FIND_OUT_MORE, new Dictionary<string, object>
             {
-                { Constants.Properties.CONTEXT, GetSubjectName(subject) }
+                { Constants.Properties.CONTEXT, helpDataMap[subject] }
             });
         }
 
-        public static string GetSubjectName(HelpSubject helpSubject)
+        private void SetUserProperties()
         {
-            return HelpDataMap[helpSubject];
+            var userProperties = new Dictionary<string, object>
+            {
+                { Constants.Properties.ENGINE_VERSION, appData.UnityVersion },
+                { Constants.Properties.RENDER_PIPELINE, appData.RenderPipeline },
+                { Constants.Properties.SUBDOMAIN, appData.PartnerName },
+                { Constants.Properties.APP_NAME, PlayerSettings.productName },
+                { Constants.Properties.SDK_TARGET, SDK_TARGET },
+                { Constants.Properties.APP_IDENTIFIER, Application.identifier },
+                { Constants.Properties.ALLOW_ANALYTICS, true }
+            };
+
+            Dictionary<string, string> modules = ModuleList.GetInstalledModuleVersionDictionary();
+
+            foreach (KeyValuePair<string, string> module in modules)
+            {
+                userProperties.Add(module.Key, module.Value);
+            }
+
+            LogEvent(Constants.EventName.SET_USER_PROPERTIES, null, userProperties);
         }
 
-        private static readonly Dictionary<HelpSubject, string> HelpDataMap = new Dictionary<HelpSubject, string>
+        private void GenerateSessionId()
         {
-            { HelpSubject.AvatarCaching, "avatar caching" },
-            { HelpSubject.Subdomain, "subdomain" },
-            { HelpSubject.AvatarConfig, "avatar config" },
-            { HelpSubject.GltfDeferAgent, "gltf defer agent" },
-            { HelpSubject.LoadingAvatars, "download avatar into scene" }
-        };
+            AmplitudeEventLogger.SetSessionId(DateTimeOffset.Now.ToUnixTimeMilliseconds());
+        }
+
+        private void ToggleAnalytics(bool allow)
+        {
+            LogEvent(Constants.EventName.ALLOW_ANALYTICS, new Dictionary<string, object>
+            {
+                { Constants.Properties.ALLOW, allow }
+            }, new Dictionary<string, object>
+            {
+                { Constants.Properties.ENGINE_VERSION, appData.UnityVersion },
+                { Constants.Properties.RENDER_PIPELINE, appData.RenderPipeline },
+                { Constants.Properties.SUBDOMAIN, appData.PartnerName },
+                { Constants.Properties.APP_NAME, PlayerSettings.productName },
+                { Constants.Properties.SDK_TARGET, "Unity" },
+                { Constants.Properties.APP_IDENTIFIER, Application.identifier },
+                { Constants.Properties.ALLOW_ANALYTICS, allow }
+            });
+        }
+        
+        private void LogEvent(string eventName, Dictionary<string, object> eventProperties = null, Dictionary<string, object> userProperties = null)
+        {
+            if (!isEnabled) return;
+            AmplitudeEventLogger.LogEvent(eventName, eventProperties, userProperties);
+        }
     }
 }

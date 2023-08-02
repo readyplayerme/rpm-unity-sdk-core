@@ -20,6 +20,11 @@ namespace ReadyPlayerMe.Samples
 
         private string defaultButtonText;
 
+        private void Start()
+        {
+            AnalyticsRuntimeLogger.EventLogger.LogRunQuickStartScene();
+        }
+
         private void OnEnable()
         {
             openPersonalAvatarPanelButton.onClick.AddListener(OnOpenPersonalAvatarPanel);
@@ -42,6 +47,7 @@ namespace ReadyPlayerMe.Samples
         {
             linkText.text = $"https://{CoreSettingsHandler.CoreSettings.Subdomain}.readyplayer.me";
             personalAvatarPanel.SetActive(true);
+            AnalyticsRuntimeLogger.EventLogger.LogLoadPersonalAvatarButton();
         }
 
         private void OnCloseButton()
@@ -63,14 +69,7 @@ namespace ReadyPlayerMe.Samples
             avatarLoading.SetActive(true);
             thirdPersonLoader.LoadAvatar(avatarUrlField.text);
             personalAvatarPanel.SetActive(false);
-        }
-
-        private void OnLoadComplete()
-        {
-            thirdPersonLoader.OnLoadComplete -= OnLoadComplete;
-            openPersonalAvatarPanelButtonText.text = defaultButtonText;
-            openPersonalAvatarPanelButton.interactable = true;
-            avatarLoading.SetActive(false);
+            AnalyticsRuntimeLogger.EventLogger.LogPersonalAvatarLoading();
         }
 
         private void OnAvatarUrlFieldValueChanged(string url)
@@ -83,6 +82,14 @@ namespace ReadyPlayerMe.Samples
             {
                 loadAvatarButton.interactable = false;
             }
+        }
+
+        private void OnLoadComplete()
+        {
+            thirdPersonLoader.OnLoadComplete -= OnLoadComplete;
+            openPersonalAvatarPanelButtonText.text = defaultButtonText;
+            openPersonalAvatarPanelButton.interactable = true;
+            avatarLoading.SetActive(false);
         }
     }
 }

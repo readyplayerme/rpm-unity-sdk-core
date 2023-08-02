@@ -1,8 +1,6 @@
-using ReadyPlayerMe.Core.Editor;
-
 namespace ReadyPlayerMe.Core.Analytics
 {
-    public interface IAnalyticsEventLogger
+    public interface IAnalyticsEditorLogger
     {
         void Enable();
         void Disable();

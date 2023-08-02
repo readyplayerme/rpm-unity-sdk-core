@@ -1,17 +1,13 @@
-﻿using UnityEditor;
-
-namespace ReadyPlayerMe.Core.Analytics
+﻿namespace ReadyPlayerMe.Core.Analytics
 {
     public static class AnalyticsEditorLogger
     {
-        private const string ANALYTICS_LOGGING_ACCEPTED = "rpm-sdk-metrics-logging-accepted";
-
-        public static readonly IAnalyticsEventLogger EventLogger;
+        public static readonly IAnalyticsEditorLogger EventLogger;
 
         static AnalyticsEditorLogger()
         {
-            IsEnabled = EditorPrefs.GetBool(ANALYTICS_LOGGING_ACCEPTED);
-            EventLogger = new AnalyticsEventLogger(IsEnabled);
+            IsEnabled = CoreSettingsHandler.CoreSettings.EnableAnalytics;
+            EventLogger = new AnalyticsEditorEventLogger(IsEnabled);
         }
 
         public static bool IsEnabled { get; private set; }
@@ -20,14 +16,16 @@ namespace ReadyPlayerMe.Core.Analytics
         {
             IsEnabled = true;
             EventLogger.Enable();
-            EditorPrefs.SetBool(ANALYTICS_LOGGING_ACCEPTED, true);
+            CoreSettingsHandler.CoreSettings.EnableAnalytics = true;
+            CoreSettingsHandler.Save();
         }
 
         public static void Disable()
         {
             EventLogger.Disable();
             IsEnabled = false;
-            EditorPrefs.SetBool(ANALYTICS_LOGGING_ACCEPTED, false);
+            CoreSettingsHandler.CoreSettings.EnableAnalytics = false;
+            CoreSettingsHandler.Save();
         }
     }
 }
