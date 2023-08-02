@@ -100,7 +100,6 @@ namespace ReadyPlayerMe.Samples
 
         private void SetActiveLoading(bool enable, string text)
         {
-            Debug.Log(enable);
             openPersonalAvatarPanelButtonText.text = text;
             openPersonalAvatarPanelButton.interactable = !enable;
             avatarLoading.SetActive(enable);
