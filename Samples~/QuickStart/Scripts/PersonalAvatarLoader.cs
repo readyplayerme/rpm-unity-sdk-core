@@ -8,17 +8,22 @@ namespace ReadyPlayerMe.Samples
 {
     public class PersonalAvatarLoader : MonoBehaviour
     {
-        [SerializeField] private Button openPersonalAvatarPanelButton;
+        [Header("UI")]
         [SerializeField] private Text openPersonalAvatarPanelButtonText;
-        [SerializeField] private GameObject avatarLoading;
-        [SerializeField] private Button closeButton;
         [SerializeField] private Text linkText;
+        [SerializeField] private InputField avatarUrlField;
+        [SerializeField] private Button openPersonalAvatarPanelButton;
+        [SerializeField] private Button closeButton;
         [SerializeField] private Button linkButton;
         [SerializeField] private Button loadAvatarButton;
-        [SerializeField] private InputField avatarUrlField;
-        [SerializeField] private ThirdPersonLoader thirdPersonLoader;
+        [SerializeField] private GameObject avatarLoading;
         [SerializeField] private GameObject personalAvatarPanel;
 
+        [Header("Character Managers")]
+        [SerializeField] private ThirdPersonLoader thirdPersonLoader;
+        [SerializeField] private CameraOrbit cameraOrbit;
+        [SerializeField] private ThirdPersonController thirdPersonController;
+        
         private string defaultButtonText;
 
         private void Start()
@@ -48,11 +53,13 @@ namespace ReadyPlayerMe.Samples
         {
             linkText.text = $"https://{CoreSettingsHandler.CoreSettings.Subdomain}.readyplayer.me";
             personalAvatarPanel.SetActive(true);
+            SetActiveThirdPersonalControls(false);
             AnalyticsRuntimeLogger.EventLogger.LogLoadPersonalAvatarButton();
         }
 
         private void OnCloseButton()
         {
+            SetActiveThirdPersonalControls(true);
             personalAvatarPanel.SetActive(false);
         }
 
@@ -65,11 +72,11 @@ namespace ReadyPlayerMe.Samples
         {
             thirdPersonLoader.OnLoadComplete += OnLoadComplete;
             defaultButtonText = openPersonalAvatarPanelButtonText.text;
-             openPersonalAvatarPanelButtonText.text = "Loading...";
-            openPersonalAvatarPanelButton.interactable = false;
-            avatarLoading.SetActive(true);
+            SetActiveLoading(true, "Loading...");
+
             thirdPersonLoader.LoadAvatar(avatarUrlField.text);
             personalAvatarPanel.SetActive(false);
+            SetActiveThirdPersonalControls(true);
             AnalyticsRuntimeLogger.EventLogger.LogPersonalAvatarLoading(avatarUrlField.text);
         }
 
@@ -88,9 +95,21 @@ namespace ReadyPlayerMe.Samples
         private void OnLoadComplete()
         {
             thirdPersonLoader.OnLoadComplete -= OnLoadComplete;
-            openPersonalAvatarPanelButtonText.text = defaultButtonText;
-            openPersonalAvatarPanelButton.interactable = true;
-            avatarLoading.SetActive(false);
+            SetActiveLoading(false, defaultButtonText);
+        }
+
+        private void SetActiveLoading(bool enable, string text)
+        {
+            Debug.Log(enable);
+            openPersonalAvatarPanelButtonText.text = text;
+            openPersonalAvatarPanelButton.interactable = !enable;
+            avatarLoading.SetActive(enable);
+        }
+
+        private void SetActiveThirdPersonalControls(bool enable)
+        {
+            cameraOrbit.enabled = enable;
+            thirdPersonController.enabled = enable;
         }
     }
 }
