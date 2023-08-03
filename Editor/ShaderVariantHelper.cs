@@ -11,7 +11,7 @@ namespace ReadyPlayerMe.Core.Editor
         private const string PRELOADED_SHADER_PROPERTY = "m_PreloadedShaders";
         private const string GRAPHICS_SETTING_PATH = "ProjectSettings/GraphicsSettings.asset";
 
-#if DISABLE_AUTO_INSTALLER
+#if RPM_DEVELOPMENT
         private const string SHADER_VARIANT_FOLDER = "Assets/Ready Player Me/Core/Shaders";
 #else
     private const string SHADER_VARIANT_FOLDER = "Packages/com.readyplayerme.core/Shaders";

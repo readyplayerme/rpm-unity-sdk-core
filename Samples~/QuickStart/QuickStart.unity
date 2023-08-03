@@ -320,16 +320,18 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 707b0a470d481d94fbbd7427c5d6a880, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  openPersonalAvatarPanelButton: {fileID: 1870617777}
   openPersonalAvatarPanelButtonText: {fileID: 1163686839}
-  avatarLoading: {fileID: 493509256}
-  closeButton: {fileID: 263772905}
   linkText: {fileID: 576652124}
+  avatarUrlField: {fileID: 1168962533}
+  openPersonalAvatarPanelButton: {fileID: 1870617777}
+  closeButton: {fileID: 263772905}
   linkButton: {fileID: 250103206}
   loadAvatarButton: {fileID: 1061582525}
-  avatarUrlField: {fileID: 1168962533}
-  thirdPersonLoader: {fileID: 2260252}
+  avatarLoading: {fileID: 493509256}
   personalAvatarPanel: {fileID: 944222469}
+  thirdPersonLoader: {fileID: 2260252}
+  cameraOrbit: {fileID: 1642864804}
+  thirdPersonController: {fileID: 919711512}
 --- !u!4 &200806133
 Transform:
   m_ObjectHideFlags: 0
@@ -1221,6 +1223,18 @@ GameObject:
     type: 3}
   m_PrefabInstance: {fileID: 930796662}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &919711512 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 5079932738637831219, guid: b5e780cfda18ab9469c25deff06532aa,
+    type: 3}
+  m_PrefabInstance: {fileID: 5079932738494291322}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bb4b6cd8da1d3694f9f27a4db307b536, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &930796662
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -1860,8 +1874,8 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 21300000, guid: 4d267838cc649284dac0e347a0072f24, type: 3}
-  m_Type: 0
+  m_Sprite: {fileID: 21300000, guid: 1ce2af3d56a65e841837f0e95ed65a30, type: 3}
+  m_Type: 1
   m_PreserveAspect: 0
   m_FillCenter: 1
   m_FillMethod: 4
@@ -2168,8 +2182,8 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 21300000, guid: 4d267838cc649284dac0e347a0072f24, type: 3}
-  m_Type: 0
+  m_Sprite: {fileID: 21300000, guid: 1ce2af3d56a65e841837f0e95ed65a30, type: 3}
+  m_Type: 1
   m_PreserveAspect: 0
   m_FillCenter: 1
   m_FillMethod: 4
@@ -2517,6 +2531,18 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1630476557}
   m_CullTransparentMesh: 1
+--- !u!114 &1642864804 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 7825374990175108134, guid: 01f1fd5ec62010a4ca56411ec3f9751c,
+    type: 3}
+  m_PrefabInstance: {fileID: 7825374990703333725}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 731873f07a43384478f87bb5e9cf0f32, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1757702657
 GameObject:
   m_ObjectHideFlags: 0
@@ -2756,8 +2782,8 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 21300000, guid: 4d267838cc649284dac0e347a0072f24, type: 3}
-  m_Type: 0
+  m_Sprite: {fileID: 21300000, guid: 1ce2af3d56a65e841837f0e95ed65a30, type: 3}
+  m_Type: 1
   m_PreserveAspect: 0
   m_FillCenter: 1
   m_FillMethod: 4
