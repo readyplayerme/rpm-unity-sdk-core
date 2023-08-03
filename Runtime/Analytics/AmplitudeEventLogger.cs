@@ -10,9 +10,12 @@ namespace ReadyPlayerMe.Core.Analytics
     {
         private const string ENDPOINT = "https://analytics-sdk.readyplayer.me/";
         private const string NO_INTERNET_CONNECTION = "No internet connection.";
-        private const string PRODUCTION = "unity";
-        private const string DEVELOPMENT = "unity-dev";
-
+#if RPM_DEVELOPMENT
+        private const  string TARGET_ENVIRONMENT = "unity";
+#else
+        private const  string TARGET_ENVIRONMENT = "unity-dev";
+#endif
+        
         private static long sessionId;
 
         private static bool HasInternetConnection => Application.internetReachability != NetworkReachability.NotReachable;
@@ -51,7 +54,7 @@ namespace ReadyPlayerMe.Core.Analytics
 
             var payload = new
             {
-                target = GetAnalyticsTarget(),
+                target = TARGET_ENVIRONMENT,
                 events = new[]
                 {
                     eventData
@@ -90,15 +93,5 @@ namespace ReadyPlayerMe.Core.Analytics
                 throw new Exception(response.Error);
             }
         }
-        
-        private static string GetAnalyticsTarget()
-        {
-#if RPM_DEVELOPMENT
-                    return DEVELOPMENT;
-#else
-                    return PRODUCTION;
-#endif
-        }
-        
     }
 }
