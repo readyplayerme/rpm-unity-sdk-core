@@ -2,7 +2,7 @@
 {
     public static class AnalyticsRuntimeLogger
     {
-        internal static readonly IAnalyticsRuntimeLogger EventLogger;
+        public static readonly IAnalyticsRuntimeLogger EventLogger;
 
         static AnalyticsRuntimeLogger()
         {
