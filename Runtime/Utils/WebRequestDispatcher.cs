@@ -45,6 +45,8 @@ namespace ReadyPlayerMe.Core
                 }
             }
 
+            request.SetRequestHeader("X-APP-ID", CoreSettingsHandler.CoreSettings.AppId);
+
             downloadHandler ??= new DownloadHandlerBuffer();
 
             request.downloadHandler = downloadHandler;
