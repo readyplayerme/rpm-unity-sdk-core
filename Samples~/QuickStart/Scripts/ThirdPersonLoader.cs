@@ -1,3 +1,4 @@
+using System;
 using ReadyPlayerMe.Core;
 using UnityEngine;
 
@@ -17,6 +18,8 @@ namespace ReadyPlayerMe.Samples
         private bool loadOnStart = true;
         [SerializeField][Tooltip("Preview avatar to display until avatar loads. Will be destroyed after new avatar is loaded")]
         private GameObject previewAvatar;
+
+        public event Action OnLoadComplete;
         
         private void Start()
         {
@@ -36,7 +39,7 @@ namespace ReadyPlayerMe.Samples
 
         private void OnLoadFailed(object sender, FailureEventArgs args)
         {
-
+            OnLoadComplete?.Invoke();
         }
 
         private void OnLoadCompleted(object sender, CompletionEventArgs args)
@@ -47,6 +50,7 @@ namespace ReadyPlayerMe.Samples
                 previewAvatar = null;
             }
             SetupAvatar(args.Avatar);
+            OnLoadComplete?.Invoke();
         }
 
         private void SetupAvatar(GameObject  targetAvatar)

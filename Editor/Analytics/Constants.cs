@@ -24,6 +24,13 @@ namespace ReadyPlayerMe.Core.Analytics
             public const string CHECK_FOR_UPDATES = "check for updates";
             public const string PRIVACY_POLICY = "view privacy policy";
             public const string FIND_OUT_MORE = "find out more";
+            public const string OPEN_SETUP_GUIDE = "open setup guide";
+            public const string OPEN_INTEGRATION_GUIDE = "open integration guide";
+            public const string LOAD_QUICK_START_SCENE = "load quick start scene";
+            public const string OPEN_AVATAR_DOCUMENTATION = "open avatar documentation";
+            public const string OPEN_ANIMATION_DOCUMENTATION = "open animation documentation";
+            public const string OPEN_AVATAR_CREATOR_DOCUMENTATION = "open avatar creator documentation";
+            public const string OPEN_OPTIMIZATION_DOCUMENTATION = "open optimization documentation";
         }
 
         public static class Properties
@@ -50,17 +57,7 @@ namespace ReadyPlayerMe.Core.Analytics
             public const string CONTEXT = "context";
         }
 
-        public static class AmplitudeKeys
-        {
-            public const string APP_VERSION = "app_version";
-            public const string DEVICE_ID = "device_id";
-            public const string EVENT_TYPE = "event_type";
-            public const string PLATFORM = "platform";
-            public const string EVENT_PROPERTIES = "event_properties";
-            public const string USER_PROPERTIES = "user_properties";
-            public const string OPERATING_SYSTEM = "os_name";
-            public const string SESSION_ID = "session_id";
-        }
+      
 
         public static class Links
         {

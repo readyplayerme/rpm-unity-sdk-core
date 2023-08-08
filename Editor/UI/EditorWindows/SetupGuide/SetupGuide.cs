@@ -34,12 +34,13 @@ namespace ReadyPlayerMe.Core.Editor
         private Button finishSetupButton;
         private Button openQuickStartButton;
 
-        [MenuItem("Ready Player Me/Re-run Setup")]
+        [MenuItem("Ready Player Me/Setup Guide")]
         public static void ShowWindow()
         {
             var window = GetWindow<SetupGuide>();
             window.titleContent = new GUIContent(SETUP_GUIDE);
             window.minSize = new Vector2(500, 380);
+            AnalyticsEditorLogger.EventLogger.LogOpenSetupGuide();
         }
 
         public void CreateGUI()
