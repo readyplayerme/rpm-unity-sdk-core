@@ -3,6 +3,18 @@
 All notable changes to this project will be documented in this file.
 This project adheres to [Semantic Versioning](http://semver.org/).
 
+## [3.1.1] - 2023.08.11
+
+### Fixed
+- fixed an issue causing analytics events being sent to development environmenmt [#102](https://github.com/readyplayerme/rpm-unity-sdk-core/pull/102)
+- readded RPM define symbol required for supporting packages [#102](https://github.com/readyplayerme/rpm-unity-sdk-core/pull/102)
+
+## [3.1.0] - 2023.08.08
+
+### Added
+* personal avatar loading in quick start by @rYuuk in https://github.com/readyplayerme/rpm-unity-sdk-core/pull/97
+* runtime analytics to quick start by @rYuuk in https://github.com/readyplayerme/rpm-unity-sdk-core/pull/98
+
 ## [3.0.0] - 2023.07.31
 
 ### Added
