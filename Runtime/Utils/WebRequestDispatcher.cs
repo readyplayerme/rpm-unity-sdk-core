@@ -19,7 +19,8 @@ namespace ReadyPlayerMe.Core
 
     public class WebRequestDispatcher
     {
-        private const string CALLED_ERROR = "Request was cancelled";
+        private const string REQUEST_CANCEL_ERROR = "Request was cancelled";
+        private const string APP_ID = "X-APP-ID";
         public int Timeout = 240;
 
         public Action<float> ProgressChanged;
@@ -45,7 +46,7 @@ namespace ReadyPlayerMe.Core
                 }
             }
 
-            request.SetRequestHeader("X-APP-ID", CoreSettingsHandler.CoreSettings.AppId);
+            request.SetRequestHeader(APP_ID, CoreSettingsHandler.CoreSettings.AppId);
 
             downloadHandler ??= new DownloadHandlerBuffer();
 
@@ -71,7 +72,7 @@ namespace ReadyPlayerMe.Core
             if (ctx.IsCancellationRequested)
             {
                 request.Abort();
-                response.Error = CALLED_ERROR;
+                response.Error = REQUEST_CANCEL_ERROR;
                 response.Parse(request);
                 return response;
             }
