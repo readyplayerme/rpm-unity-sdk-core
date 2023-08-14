@@ -39,7 +39,8 @@ namespace ReadyPlayerMe.Core.Editor
 
         static ModuleInstaller()
         {
-
+            AddScriptingDefineSymbolToAllBuildTargetGroups(READY_PLAYER_ME_SYMBOL);
+            AddScriptingDefineSymbolToAllBuildTargetGroups(GLTFAST_SYMBOL);
             Events.registeredPackages += OnRegisteredPackages;
             Events.registeringPackages += OnRegisteringPackages;
         }
@@ -59,8 +60,8 @@ namespace ReadyPlayerMe.Core.Editor
             if (args.added != null && args.added.Any(p => p.name == CORE_MODULE_NAME))
             {
                 InstallModules();
-                AppendScriptingSymbol();
                 CoreSettingsHandler.CreateCoreSettings();
+                CompilationPipeline.RequestScriptCompilation();
             }
             ValidateModules();
         }
@@ -179,25 +180,30 @@ namespace ReadyPlayerMe.Core.Editor
             return listRequest.Result.ToArray();
         }
 
-        /// <summary>
-        ///     Set RPM scripting symbol to Unity player settings for supported platforms.
-        /// </summary>
-        private static void AppendScriptingSymbol()
+        private static void AddScriptingDefineSymbolToAllBuildTargetGroups(string defineSymbol)
         {
-            SetDefineSymbol(BuildTargetGroup.Standalone);
-            SetDefineSymbol(BuildTargetGroup.WSA);
-            SetDefineSymbol(BuildTargetGroup.WebGL);
-            SetDefineSymbol(BuildTargetGroup.Android);
-            SetDefineSymbol(BuildTargetGroup.iOS);
-            BuildPipeline.BuildPlayer(new BuildPlayerOptions());
-        }
+            foreach (BuildTarget target in Enum.GetValues(typeof(BuildTarget)))
+            {
+                BuildTargetGroup group = BuildPipeline.GetBuildTargetGroup(target);
 
-        private static void SetDefineSymbol(BuildTargetGroup target)
-        {
-            var defineSymbols = PlayerSettings.GetScriptingDefineSymbolsForGroup(target);
-            var symbols = new HashSet<string>(defineSymbols.Split(';')) { GLTFAST_SYMBOL, READY_PLAYER_ME_SYMBOL };
-            var newDefineString = string.Join(";", symbols.ToArray());
-            PlayerSettings.SetScriptingDefineSymbolsForGroup(target, newDefineString);
+                if (group == BuildTargetGroup.Unknown)
+                {
+                    continue;
+                }
+
+                List<string> defineSymbols = PlayerSettings.GetScriptingDefineSymbolsForGroup(group).Split(';').Select(d => d.Trim()).ToList();
+
+                if (defineSymbols.Contains(defineSymbol)) continue;
+                defineSymbols.Add(defineSymbol);
+                try
+                {
+                    PlayerSettings.SetScriptingDefineSymbolsForGroup(group, string.Join(";", defineSymbols.ToArray()));
+                }
+                catch (Exception e)
+                {
+                    Debug.LogWarning("Could not set RPM " + defineSymbol + " defines for build target: " + target + " group: " + group + " " + e);
+                }
+            }
         }
 
         /// <summary>
