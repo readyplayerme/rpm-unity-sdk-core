@@ -22,7 +22,7 @@ namespace ReadyPlayerMe.Core.Editor
 
         private const int THREAD_SLEEP_TIME = 100;
         private const string PROGRESS_BAR_TITLE = "Ready Player Me";
-        private const string RPM_DEVELOPMENT_SCRIPTING_SYMBOL = "RPM_DEVELOPMENT";
+        private const string READY_PLAYER_ME_SYMBOL = "READY_PLAYER_ME";
         private const string GLTFAST_SYMBOL = "GLTFAST";
         private const string CORE_MODULE_NAME = "com.readyplayerme.core";
 
@@ -35,11 +35,14 @@ namespace ReadyPlayerMe.Core.Editor
         private const float TIMEOUT_FOR_MODULE_INSTALLATION = 20f;
         private const string AVATAR_LOADER_SUBSTRING = "avatarloader";
 
+
         static ModuleInstaller()
         {
+
             Events.registeredPackages += OnRegisteredPackages;
             Events.registeringPackages += OnRegisteringPackages;
         }
+
 
         /// <summary>
         ///     Called when a package is added, removed or changed.
@@ -48,6 +51,9 @@ namespace ReadyPlayerMe.Core.Editor
         private static void OnRegisteredPackages(PackageRegistrationEventArgs args)
         {
             Events.registeredPackages -= OnRegisteredPackages;
+#if RPM_DEVELOPMENT
+            return;
+#endif
             // Core Module installed
             if (args.added != null && args.added.Any(p => p.name == CORE_MODULE_NAME))
             {
@@ -187,7 +193,7 @@ namespace ReadyPlayerMe.Core.Editor
         private static void SetDefineSymbol(BuildTargetGroup target)
         {
             var defineSymbols = PlayerSettings.GetScriptingDefineSymbolsForGroup(target);
-            var symbols = new HashSet<string>(defineSymbols.Split(';')) { GLTFAST_SYMBOL };
+            var symbols = new HashSet<string>(defineSymbols.Split(';')) { GLTFAST_SYMBOL, READY_PLAYER_ME_SYMBOL };
             var newDefineString = string.Join(";", symbols.ToArray());
             PlayerSettings.SetScriptingDefineSymbolsForGroup(target, newDefineString);
         }

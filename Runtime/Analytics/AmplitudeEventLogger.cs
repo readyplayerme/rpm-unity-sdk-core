@@ -11,11 +11,11 @@ namespace ReadyPlayerMe.Core.Analytics
         private const string ENDPOINT = "https://analytics-sdk.readyplayer.me/";
         private const string NO_INTERNET_CONNECTION = "No internet connection.";
 #if RPM_DEVELOPMENT
-        private const  string TARGET_ENVIRONMENT = "unity";
-#else
         private const  string TARGET_ENVIRONMENT = "unity-dev";
+#else
+        private const string TARGET_ENVIRONMENT = "unity";
 #endif
-        
+
         private static long sessionId;
 
         private static bool HasInternetConnection => Application.internetReachability != NetworkReachability.NotReachable;
@@ -38,7 +38,7 @@ namespace ReadyPlayerMe.Core.Analytics
                 { AmplitudeKeys.EVENT_TYPE, eventName },
                 { AmplitudeKeys.PLATFORM, ApplicationData.GetData().UnityPlatform },
                 { AmplitudeKeys.SESSION_ID, sessionId },
-                { AmplitudeKeys.APP_VERSION,ApplicationData.GetData().SDKVersion },
+                { AmplitudeKeys.APP_VERSION, ApplicationData.GetData().SDKVersion },
                 { AmplitudeKeys.OPERATING_SYSTEM, SystemInfo.operatingSystem }
             };
 
