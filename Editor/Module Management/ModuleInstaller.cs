@@ -189,8 +189,7 @@ namespace ReadyPlayerMe.Core.Editor
             SetDefineSymbol(BuildTargetGroup.WebGL);
             SetDefineSymbol(BuildTargetGroup.Android);
             SetDefineSymbol(BuildTargetGroup.iOS);
-            CompilationPipeline.RequestScriptCompilation();
-            CodeEditor.CurrentEditor.SyncAll();
+            BuildPipeline.BuildPlayer(new BuildPlayerOptions());
         }
 
         private static void SetDefineSymbol(BuildTargetGroup target)
