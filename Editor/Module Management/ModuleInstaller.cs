@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
+using Unity.CodeEditor;
 using UnityEditor;
 using UnityEditor.Compilation;
 using UnityEditor.PackageManager;
@@ -189,6 +190,7 @@ namespace ReadyPlayerMe.Core.Editor
             SetDefineSymbol(BuildTargetGroup.Android);
             SetDefineSymbol(BuildTargetGroup.iOS);
             CompilationPipeline.RequestScriptCompilation();
+            CodeEditor.CurrentEditor.SyncAll();
         }
 
         private static void SetDefineSymbol(BuildTargetGroup target)
