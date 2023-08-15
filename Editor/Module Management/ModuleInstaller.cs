@@ -58,9 +58,11 @@ namespace ReadyPlayerMe.Core.Editor
             if (args.added != null && args.added.Any(p => p.name == CORE_MODULE_NAME))
             {
                 AddScriptingDefineSymbolToAllBuildTargetGroups(READY_PLAYER_ME_SYMBOL);
-                AddScriptingDefineSymbolToAllBuildTargetGroups(GLTFAST_SYMBOL);
                 InstallModules();
                 CoreSettingsHandler.CreateCoreSettings();
+#if !GLTFAST
+            UnityEditor.Compilation.CompilationPipeline.RequestScriptCompilation();
+#endif
             }
             ValidateModules();
         }
@@ -106,10 +108,6 @@ namespace ReadyPlayerMe.Core.Editor
             }
 
             EditorUtility.ClearProgressBar();
-            CompilationPipeline.RequestScriptCompilation();
-            EditorUtility.RequestScriptReload();
-            AssetDatabase.SaveAssets();
-            AssetDatabase.Refresh();
         }
 
         /// <summary>
@@ -137,6 +135,10 @@ namespace ReadyPlayerMe.Core.Editor
             if (addRequest.Error != null)
             {
                 AssetDatabase.Refresh();
+                if (identifier.Contains("gltfast"))
+                {
+                    AddScriptingDefineSymbolToAllBuildTargetGroups(GLTFAST_SYMBOL);
+                }
                 CompilationPipeline.RequestScriptCompilation();
                 Debug.LogError("Error: " + addRequest.Error.message);
             }
