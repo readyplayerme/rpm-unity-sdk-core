@@ -39,8 +39,6 @@ namespace ReadyPlayerMe.Core.Editor
 
         static ModuleInstaller()
         {
-            AddScriptingDefineSymbolToAllBuildTargetGroups(READY_PLAYER_ME_SYMBOL);
-            AddScriptingDefineSymbolToAllBuildTargetGroups(GLTFAST_SYMBOL);
             Events.registeredPackages += OnRegisteredPackages;
             Events.registeringPackages += OnRegisteringPackages;
         }
@@ -59,9 +57,10 @@ namespace ReadyPlayerMe.Core.Editor
             // Core Module installed
             if (args.added != null && args.added.Any(p => p.name == CORE_MODULE_NAME))
             {
+                AddScriptingDefineSymbolToAllBuildTargetGroups(READY_PLAYER_ME_SYMBOL);
+                AddScriptingDefineSymbolToAllBuildTargetGroups(GLTFAST_SYMBOL);
                 InstallModules();
                 CoreSettingsHandler.CreateCoreSettings();
-                CompilationPipeline.RequestScriptCompilation();
             }
             ValidateModules();
         }
@@ -107,6 +106,10 @@ namespace ReadyPlayerMe.Core.Editor
             }
 
             EditorUtility.ClearProgressBar();
+            CompilationPipeline.RequestScriptCompilation();
+            EditorUtility.RequestScriptReload();
+            AssetDatabase.SaveAssets();
+            AssetDatabase.Refresh();
         }
 
         /// <summary>
