@@ -127,15 +127,12 @@ namespace ReadyPlayerMe.Core.Editor
             while (!addRequest.IsCompleted && Time.realtimeSinceStartup - startTime < TIMEOUT_FOR_MODULE_INSTALLATION)
                 Thread.Sleep(THREAD_SLEEP_TIME);
 
-
             if (Time.realtimeSinceStartup - startTime >= TIMEOUT_FOR_MODULE_INSTALLATION)
             {
                 Debug.LogError($"Package installation timed out for {identifier}. Please try again.");
             }
             if (addRequest.Error != null)
             {
-                AssetDatabase.Refresh();
-                CompilationPipeline.RequestScriptCompilation();
                 Debug.LogError("Error: " + addRequest.Error.message);
             }
         }
