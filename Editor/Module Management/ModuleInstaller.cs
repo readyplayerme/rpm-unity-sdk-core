@@ -61,7 +61,7 @@ namespace ReadyPlayerMe.Core.Editor
                 InstallModules();
                 CoreSettingsHandler.CreateCoreSettings();
 #if !GLTFAST
-            UnityEditor.Compilation.CompilationPipeline.RequestScriptCompilation();
+                AddGltfastSymbol();
 #endif
             }
             ValidateModules();
@@ -135,10 +135,6 @@ namespace ReadyPlayerMe.Core.Editor
             if (addRequest.Error != null)
             {
                 AssetDatabase.Refresh();
-                if (identifier.Contains("gltfast"))
-                {
-                    AddScriptingDefineSymbolToAllBuildTargetGroups(GLTFAST_SYMBOL);
-                }
                 CompilationPipeline.RequestScriptCompilation();
                 Debug.LogError("Error: " + addRequest.Error.message);
             }
@@ -185,6 +181,11 @@ namespace ReadyPlayerMe.Core.Editor
             return listRequest.Result.ToArray();
         }
 
+        public static void AddGltfastSymbol()
+        {
+            AddScriptingDefineSymbolToAllBuildTargetGroups(GLTFAST_SYMBOL);
+        }
+
         private static void AddScriptingDefineSymbolToAllBuildTargetGroups(string defineSymbol)
         {
             foreach (BuildTarget target in Enum.GetValues(typeof(BuildTarget)))
@@ -209,6 +210,8 @@ namespace ReadyPlayerMe.Core.Editor
                     Debug.LogWarning("Could not set RPM " + defineSymbol + " defines for build target: " + target + " group: " + group + " " + e);
                 }
             }
+
+            CompilationPipeline.RequestScriptCompilation();
         }
 
         /// <summary>

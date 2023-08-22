@@ -28,12 +28,12 @@ namespace ReadyPlayerMe.Core.Editor
         [MenuItem("Ready Player Me/Avatar Loader", priority = 0)]
         public static void ShowWindow()
         {
+#if !GLTFAST
+            ModuleInstaller.AddGltfastSymbol();
+#endif
             var window = GetWindow<AvatarLoaderEditor>();
             window.titleContent = new GUIContent(AVATAR_LOADER);
             window.minSize = new Vector2(500, 300);
-// #if !GLTFAST
-//             UnityEditor.Compilation.CompilationPipeline.RequestScriptCompilation();
-// #endif
         }
 
         public void CreateGUI()
