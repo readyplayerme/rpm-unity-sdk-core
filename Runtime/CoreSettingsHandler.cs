@@ -37,6 +37,12 @@ namespace ReadyPlayerMe.Core
             Save();
         }
 
+        public static void SaveAppId(string appId)
+        {
+            coreSettings.AppId = appId;
+            Save();
+        }
+
         public static void Save()
         {
             EditorUtility.SetDirty(coreSettings);
