@@ -47,7 +47,7 @@ namespace ReadyPlayerMe.Core.Tests
         private AvatarConfig GetLowConfig()
         {
             var avatarConfig = ScriptableObject.CreateInstance<AvatarConfig>();
-            avatarConfig.MeshLod = MeshLod.Low;
+            avatarConfig.Lod = Lod.Low;
             avatarConfig.Pose = Pose.APose;
             avatarConfig.TextureAtlas = TextureAtlas.Low;
             avatarConfig.TextureSizeLimit = 256;
@@ -64,7 +64,7 @@ namespace ReadyPlayerMe.Core.Tests
         private AvatarConfig GetMedConfig()
         {
             var avatarConfig = ScriptableObject.CreateInstance<AvatarConfig>();
-            avatarConfig.MeshLod = MeshLod.Medium;
+            avatarConfig.Lod = Lod.Medium;
             avatarConfig.Pose = Pose.APose;
             avatarConfig.TextureAtlas = TextureAtlas.Medium;
             avatarConfig.TextureSizeLimit = 512;
@@ -81,7 +81,7 @@ namespace ReadyPlayerMe.Core.Tests
         private AvatarConfig GetHighConfig()
         {
             var avatarConfig = ScriptableObject.CreateInstance<AvatarConfig>();
-            avatarConfig.MeshLod = MeshLod.High;
+            avatarConfig.Lod = Lod.High;
             avatarConfig.Pose = Pose.APose;
             avatarConfig.TextureAtlas = TextureAtlas.High;
             avatarConfig.TextureSizeLimit = 1024;
@@ -228,7 +228,7 @@ namespace ReadyPlayerMe.Core.Tests
         public async Task AvatarLoader_Avatar_API_MeshOptCompression()
         {
             var avatarConfig = ScriptableObject.CreateInstance<AvatarConfig>();
-            avatarConfig.MeshLod = MeshLod.Low;
+            avatarConfig.Lod = Lod.Low;
             avatarConfig.TextureAtlas = TextureAtlas.Low;
             avatarConfig.MorphTargets = new List<string> { "none" };
             avatarConfig.TextureChannel = new[] { TextureChannel.BaseColor };

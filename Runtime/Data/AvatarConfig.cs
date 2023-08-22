@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 namespace ReadyPlayerMe.Core
 {
@@ -11,8 +12,8 @@ namespace ReadyPlayerMe.Core
      HelpURL("https://docs.readyplayer.me/ready-player-me/integration-guides/unity-sdk/how-to-use#load-avatars-at-runtime")]
     public class AvatarConfig : ScriptableObject
     {
-        [Tooltip("The mesh level of detail.")]
-        public MeshLod MeshLod;
+        [FormerlySerializedAs("MeshLod"), Tooltip("The mesh level of detail.")]
+        public Lod Lod;
         [Tooltip("The resting pose of the avatars skeleton.")]
         public Pose Pose;
         [Tooltip("If set to NONE the mesh, materials and textures will not be combined into 1. (or 2 if an assets texture contains transparency)")]
