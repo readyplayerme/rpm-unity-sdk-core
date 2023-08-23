@@ -185,6 +185,7 @@ namespace ReadyPlayerMe.Core.Tests
             {
                 avatar = args.Avatar;
             };
+            loader.AvatarConfig = ScriptableObject.CreateInstance<AvatarConfig>();
             Assert.AreEqual(JsonUtility.ToJson(loader.AvatarConfig), "");
             loader.AvatarConfig.Lod = Lod.Low;
             loader.OnFailed += (sender, args) => { failureType = args.Type; };
