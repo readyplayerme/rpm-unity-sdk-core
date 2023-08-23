@@ -185,7 +185,7 @@ namespace ReadyPlayerMe.Core.Tests
             {
                 avatar = args.Avatar;
             };
-            loader.AvatarConfig.MeshLod = MeshLod.Low;
+            loader.AvatarConfig.Lod = Lod.Low;
             loader.OnFailed += (sender, args) => { failureType = args.Type; };
             loader.LoadAvatar(TestAvatarData.DefaultAvatarUri.ModelUrl);
             yield return new WaitUntil(() => avatar != null || failureType != FailureType.None);
@@ -194,7 +194,7 @@ namespace ReadyPlayerMe.Core.Tests
 
             Object.DestroyImmediate(avatar);
             loader = new AvatarObjectLoader();
-            loader.AvatarConfig.MeshLod = MeshLod.High;
+            loader.AvatarConfig.Lod = Lod.High;
             loader.OnCompleted += (sender, args) =>
             {
                 avatar = args.Avatar;

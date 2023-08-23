@@ -70,7 +70,7 @@ namespace ReadyPlayerMe.Samples
                 container.name = quality;
                 container.position = new Vector3(data.PosX, 0, 0);
                 container.GetComponentInChildren<Text>().text = "<b>" + quality + "</b>\n" +
-                                                                "MeshLoad: " + data.Config.MeshLod + "\n" +
+                                                                "MeshLoad: " + data.Config.Lod + "\n" +
                                                                 "Texture: " + data.Config.TextureAtlas;
                 avatar.name = "Avatar";
                 avatar.transform.SetParent(container, false);
