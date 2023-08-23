@@ -195,6 +195,7 @@ namespace ReadyPlayerMe.Core.Tests
 
             Object.DestroyImmediate(avatar);
             loader = new AvatarObjectLoader();
+            loader.AvatarConfig = ScriptableObject.CreateInstance<AvatarConfig>();
             loader.AvatarConfig.Lod = Lod.High;
             loader.OnCompleted += (sender, args) =>
             {
