@@ -185,7 +185,7 @@ namespace ReadyPlayerMe.Core.Tests
             {
                 avatar = args.Avatar;
             };
-            Assert.AreEqual(JsonUtility.ToJson(loader), "");
+            Assert.AreEqual(JsonUtility.ToJson(loader.AvatarConfig), "");
             loader.AvatarConfig.Lod = Lod.Low;
             loader.OnFailed += (sender, args) => { failureType = args.Type; };
             loader.LoadAvatar(TestAvatarData.DefaultAvatarUri.ModelUrl);
