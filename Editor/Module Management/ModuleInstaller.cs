@@ -39,6 +39,9 @@ namespace ReadyPlayerMe.Core.Editor
 
         static ModuleInstaller()
         {
+    #if !GLTFAST
+            AddGltfastSymbol();
+    #endif
             Events.registeredPackages += OnRegisteredPackages;
             Events.registeringPackages += OnRegisteringPackages;
         }
@@ -57,12 +60,10 @@ namespace ReadyPlayerMe.Core.Editor
             // Core Module installed
             if (args.added != null && args.added.Any(p => p.name == CORE_MODULE_NAME))
             {
-                AddScriptingDefineSymbolToAllBuildTargetGroups(READY_PLAYER_ME_SYMBOL);
                 InstallModules();
                 CoreSettingsHandler.CreateCoreSettings();
-#if !GLTFAST
+                AddScriptingDefineSymbolToAllBuildTargetGroups(READY_PLAYER_ME_SYMBOL);
                 AddGltfastSymbol();
-#endif
             }
             ValidateModules();
         }
