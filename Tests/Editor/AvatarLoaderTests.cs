@@ -185,6 +185,7 @@ namespace ReadyPlayerMe.Core.Tests
             {
                 avatar = args.Avatar;
             };
+            loader.AvatarConfig = ScriptableObject.CreateInstance<AvatarConfig>();
             loader.AvatarConfig.Lod = Lod.Low;
             loader.OnFailed += (sender, args) => { failureType = args.Type; };
             loader.LoadAvatar(TestAvatarData.DefaultAvatarUri.ModelUrl);
@@ -194,6 +195,7 @@ namespace ReadyPlayerMe.Core.Tests
 
             Object.DestroyImmediate(avatar);
             loader = new AvatarObjectLoader();
+            loader.AvatarConfig = ScriptableObject.CreateInstance<AvatarConfig>();
             loader.AvatarConfig.Lod = Lod.High;
             loader.OnCompleted += (sender, args) =>
             {
