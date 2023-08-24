@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
+using Unity.CodeEditor;
 using UnityEditor;
 using UnityEditor.Compilation;
 using UnityEditor.PackageManager;
@@ -38,7 +39,9 @@ namespace ReadyPlayerMe.Core.Editor
 
         static ModuleInstaller()
         {
-
+    #if !GLTFAST
+            AddGltfastSymbol();
+    #endif
             Events.registeredPackages += OnRegisteredPackages;
             Events.registeringPackages += OnRegisteringPackages;
         }
@@ -58,8 +61,9 @@ namespace ReadyPlayerMe.Core.Editor
             if (args.added != null && args.added.Any(p => p.name == CORE_MODULE_NAME))
             {
                 InstallModules();
-                AppendScriptingSymbol();
                 CoreSettingsHandler.CreateCoreSettings();
+                AddScriptingDefineSymbolToAllBuildTargetGroups(READY_PLAYER_ME_SYMBOL);
+                AddGltfastSymbol();
             }
             ValidateModules();
         }
@@ -124,15 +128,12 @@ namespace ReadyPlayerMe.Core.Editor
             while (!addRequest.IsCompleted && Time.realtimeSinceStartup - startTime < TIMEOUT_FOR_MODULE_INSTALLATION)
                 Thread.Sleep(THREAD_SLEEP_TIME);
 
-
             if (Time.realtimeSinceStartup - startTime >= TIMEOUT_FOR_MODULE_INSTALLATION)
             {
                 Debug.LogError($"Package installation timed out for {identifier}. Please try again.");
             }
             if (addRequest.Error != null)
             {
-                AssetDatabase.Refresh();
-                CompilationPipeline.RequestScriptCompilation();
                 Debug.LogError("Error: " + addRequest.Error.message);
             }
         }
@@ -178,24 +179,37 @@ namespace ReadyPlayerMe.Core.Editor
             return listRequest.Result.ToArray();
         }
 
-        /// <summary>
-        ///     Set RPM scripting symbol to Unity player settings for supported platforms.
-        /// </summary>
-        private static void AppendScriptingSymbol()
+        public static void AddGltfastSymbol()
         {
-            SetDefineSymbol(BuildTargetGroup.Standalone);
-            SetDefineSymbol(BuildTargetGroup.WSA);
-            SetDefineSymbol(BuildTargetGroup.WebGL);
-            SetDefineSymbol(BuildTargetGroup.Android);
-            SetDefineSymbol(BuildTargetGroup.iOS);
+            AddScriptingDefineSymbolToAllBuildTargetGroups(GLTFAST_SYMBOL);
         }
 
-        private static void SetDefineSymbol(BuildTargetGroup target)
+        private static void AddScriptingDefineSymbolToAllBuildTargetGroups(string defineSymbol)
         {
-            var defineSymbols = PlayerSettings.GetScriptingDefineSymbolsForGroup(target);
-            var symbols = new HashSet<string>(defineSymbols.Split(';')) { GLTFAST_SYMBOL, READY_PLAYER_ME_SYMBOL };
-            var newDefineString = string.Join(";", symbols.ToArray());
-            PlayerSettings.SetScriptingDefineSymbolsForGroup(target, newDefineString);
+            foreach (BuildTarget target in Enum.GetValues(typeof(BuildTarget)))
+            {
+                BuildTargetGroup group = BuildPipeline.GetBuildTargetGroup(target);
+
+                if (group == BuildTargetGroup.Unknown)
+                {
+                    continue;
+                }
+
+                List<string> defineSymbols = PlayerSettings.GetScriptingDefineSymbolsForGroup(group).Split(';').Select(d => d.Trim()).ToList();
+
+                if (defineSymbols.Contains(defineSymbol)) continue;
+                defineSymbols.Add(defineSymbol);
+                try
+                {
+                    PlayerSettings.SetScriptingDefineSymbolsForGroup(group, string.Join(";", defineSymbols.ToArray()));
+                }
+                catch (Exception e)
+                {
+                    Debug.LogWarning("Could not set RPM " + defineSymbol + " defines for build target: " + target + " group: " + group + " " + e);
+                }
+            }
+
+            CompilationPipeline.RequestScriptCompilation();
         }
 
         /// <summary>
