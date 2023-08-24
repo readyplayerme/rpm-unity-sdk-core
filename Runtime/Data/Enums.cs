@@ -58,7 +58,7 @@ namespace ReadyPlayerMe.Core
     /// <summary>
     /// This enumeration describes the avatar mesh LOD (Level of Detail) options.
     /// </summary>
-    public enum MeshLod
+    public enum Lod
     {
         [InspectorName("High (LOD0)")]
         High,

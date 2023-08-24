@@ -14,7 +14,7 @@ namespace ReadyPlayerMe.Core.Tests
 
 
         [Test]
-        public void Low_Quality_MeshLod_0()
+        public void Low_Quality_Lod_0()
         {
             var queryBuilder = new QueryBuilder();
             queryBuilder.AddKeyValue(AvatarAPIParameters.QUALITY, LOW_QUALITY);
