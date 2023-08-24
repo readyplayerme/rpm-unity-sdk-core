@@ -3,11 +3,19 @@
 All notable changes to this project will be documented in this file.
 This project adheres to [Semantic Versioning](http://semver.org/).
 
+## [3.2.0] - 2023.08.24
+
+### Added
+- app Id is added to header of all web requests
+
+### Fixed
+- GLTF scripting define symbol not getting assigned
+
 ## [3.1.1] - 2023.08.11
 
 ### Fixed
-- fixed an issue causing analytics events being sent to development environmenmt [#102](https://github.com/readyplayerme/rpm-unity-sdk-core/pull/102)
-- readded RPM define symbol required for supporting packages [#102](https://github.com/readyplayerme/rpm-unity-sdk-core/pull/102)
+- fixed an issue causing analytics events being sent to development environment [#102](https://github.com/readyplayerme/rpm-unity-sdk-core/pull/102)
+- re-added RPM define symbol required for supporting packages [#102](https://github.com/readyplayerme/rpm-unity-sdk-core/pull/102)
 
 ## [3.1.0] - 2023.08.08
 

@@ -52,7 +52,7 @@ namespace ReadyPlayerMe.Core.Editor
         {
             var window = GetWindow<SettingsEditor>();
             window.titleContent = new GUIContent(SETTINGS);
-            window.minSize = new Vector2(500, 580);
+            window.minSize = new Vector2(500, 620);
 
             AnalyticsEditorLogger.EventLogger.LogOpenDialog(SETTINGS);
         }

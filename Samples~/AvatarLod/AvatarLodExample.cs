@@ -40,7 +40,7 @@ namespace ReadyPlayerMe.Samples
             
             foreach (var config in lodConfigs)
             {
-                var lodLevel = (int) config.MeshLod;
+                var lodLevel = (int) config.Lod;
 
                 AvatarObjectLoader loader = new AvatarObjectLoader();
                 loader.AvatarConfig = config;
