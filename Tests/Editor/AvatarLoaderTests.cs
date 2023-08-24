@@ -199,7 +199,6 @@ namespace ReadyPlayerMe.Core.Tests
 
             Object.DestroyImmediate(avatar);
             loader = new AvatarObjectLoader();
-            // update config
             avatarConfig.Lod = Lod.High;
             loader.AvatarConfig = avatarConfig;
             
