@@ -113,27 +113,19 @@ namespace ReadyPlayerMe.Core.Editor
 
         private void Completed(object sender, CompletionEventArgs args)
         {
-            GameObject avatar = args.Avatar;
-
-            if (useEyeAnimations) avatar.AddComponent<EyeAnimationHandler>();
-            if (useVoiceToAnim) avatar.AddComponent<VoiceHandler>();
             if (avatarLoaderSettings == null)
             {
                 avatarLoaderSettings = AvatarLoaderSettings.LoadSettings();
             }
-
             var paramHash = AvatarCache.GetAvatarConfigurationHash(avatarLoaderSettings.AvatarConfig);
-            var modelFilePath = $"{DirectoryUtility.GetRelativeProjectPath(avatar.name, paramHash)}/{avatar.name}.glb";
-            AssetDatabase.Refresh();
-            Object source = AssetDatabase.LoadAssetAtPath(modelFilePath, typeof(GameObject));
-            var objSource = (GameObject) PrefabUtility.InstantiatePrefab(source);
-            var avatarProcessor = new AvatarProcessor();
-            PrefabUtility.UnpackPrefabInstance(objSource, PrefabUnpackMode.Completely, InteractionMode.AutomatedAction);
-            avatarProcessor.ProcessAvatar(objSource, args.Metadata);
-            EditorUtilities.CreatePrefab(objSource, $"{DirectoryUtility.GetRelativeProjectPath(avatar.name, paramHash)}/{avatar.name}.prefab");
-            Selection.activeObject = args.Avatar;
+            var path = $"{DirectoryUtility.GetRelativeProjectPath(args.Avatar.name, paramHash)}/{args.Avatar.name}";
+            GameObject avatar = EditorUtilities.CreateAvatarPrefab(args.Metadata, path);
+            if (useEyeAnimations) avatar.AddComponent<EyeAnimationHandler>();
+            if (useVoiceToAnim) avatar.AddComponent<VoiceHandler>();
+            DestroyImmediate(args.Avatar, true);
+            Selection.activeObject = avatar;
             AnalyticsEditorLogger.EventLogger.LogAvatarLoaded(EditorApplication.timeSinceStartup - startTime);
-            DestroyImmediate(objSource);
+
         }
     }
 }
