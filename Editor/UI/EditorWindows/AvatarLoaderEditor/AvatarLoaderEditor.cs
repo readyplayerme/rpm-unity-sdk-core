@@ -125,7 +125,6 @@ namespace ReadyPlayerMe.Core.Editor
             DestroyImmediate(args.Avatar, true);
             Selection.activeObject = avatar;
             AnalyticsEditorLogger.EventLogger.LogAvatarLoaded(EditorApplication.timeSinceStartup - startTime);
-
         }
     }
 }
