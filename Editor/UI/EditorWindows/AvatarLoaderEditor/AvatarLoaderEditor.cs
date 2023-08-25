@@ -123,10 +123,17 @@ namespace ReadyPlayerMe.Core.Editor
             }
 
             var paramHash = AvatarCache.GetAvatarConfigurationHash(avatarLoaderSettings.AvatarConfig);
-            EditorUtilities.CreatePrefab(avatar, $"{DirectoryUtility.GetRelativeProjectPath(avatar.name, paramHash)}/{avatar.name}.prefab");
-
+            var modelFilePath = $"{DirectoryUtility.GetRelativeProjectPath(avatar.name, paramHash)}/{avatar.name}.glb";
+            AssetDatabase.Refresh();
+            Object source = AssetDatabase.LoadAssetAtPath(modelFilePath, typeof(GameObject));
+            var objSource = (GameObject) PrefabUtility.InstantiatePrefab(source);
+            var avatarProcessor = new AvatarProcessor();
+            PrefabUtility.UnpackPrefabInstance(objSource, PrefabUnpackMode.Completely, InteractionMode.AutomatedAction);
+            avatarProcessor.ProcessAvatar(objSource, args.Metadata);
+            EditorUtilities.CreatePrefab(objSource, $"{DirectoryUtility.GetRelativeProjectPath(avatar.name, paramHash)}/{avatar.name}.prefab");
             Selection.activeObject = args.Avatar;
             AnalyticsEditorLogger.EventLogger.LogAvatarLoaded(EditorApplication.timeSinceStartup - startTime);
+            DestroyImmediate(objSource);
         }
     }
 }
