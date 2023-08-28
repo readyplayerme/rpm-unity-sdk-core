@@ -2,6 +2,7 @@ using System;
 using System.Text.RegularExpressions;
 using UnityEditor;
 using UnityEngine;
+using Object = UnityEngine.Object;
 
 namespace ReadyPlayerMe.Core.Editor
 {
@@ -38,6 +39,22 @@ namespace ReadyPlayerMe.Core.Editor
         {
             return !string.IsNullOrEmpty(urlString) &&
                    (Regex.Match(urlString, SHORT_CODE_REGEX).Length > 0 || Uri.IsWellFormedUriString(urlString, UriKind.Absolute) && urlString.EndsWith(".glb"));
+        }
+        
+        public static GameObject CreateAvatarPrefab(AvatarMetadata avatarMetadata, string path)
+        {
+            var modelFilePath = $"{path}.glb";
+            AssetDatabase.Refresh();
+            Object avatarSource = AssetDatabase.LoadAssetAtPath(modelFilePath, typeof(GameObject));
+            var newAvatar = (GameObject) PrefabUtility.InstantiatePrefab(avatarSource);
+            var avatarProcessor = new AvatarProcessor();
+            PrefabUtility.UnpackPrefabInstance(newAvatar, PrefabUnpackMode.Completely, InteractionMode.AutomatedAction);
+            avatarProcessor.ProcessAvatar(newAvatar, avatarMetadata);
+            var avatarData = newAvatar.AddComponent<AvatarData>();
+            avatarData.AvatarMetadata = avatarMetadata;
+            avatarData.AvatarId = newAvatar.name;
+            CreatePrefab(newAvatar, $"{path}.prefab");
+            return newAvatar;
         }
     }
 }

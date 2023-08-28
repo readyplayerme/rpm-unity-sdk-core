@@ -3,6 +3,11 @@
 All notable changes to this project will be documented in this file.
 This project adheres to [Semantic Versioning](http://semver.org/).
 
+## [3.2.1] - 2023.08.28
+
+### Fixed
+- issue of missing mesh references when prefabs were created by avatar loader window
+
 ## [3.2.0] - 2023.08.24
 
 ### Added
