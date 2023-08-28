@@ -40,7 +40,7 @@ namespace ReadyPlayerMe.Core.Editor
             return !string.IsNullOrEmpty(urlString) &&
                    (Regex.Match(urlString, SHORT_CODE_REGEX).Length > 0 || Uri.IsWellFormedUriString(urlString, UriKind.Absolute) && urlString.EndsWith(".glb"));
         }
-
+        
         public static GameObject CreateAvatarPrefab(AvatarMetadata avatarMetadata, string path)
         {
             var modelFilePath = $"{path}.glb";
