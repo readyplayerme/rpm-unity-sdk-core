@@ -35,6 +35,7 @@ namespace ReadyPlayerMe.Core.Editor
 
         private const float TIMEOUT_FOR_MODULE_INSTALLATION = 20f;
         private const string AVATAR_LOADER_SUBSTRING = "avatarloader";
+        private const string GLTFAST_CLASS = "GLTFast.GltfAsset";
 
 
         static ModuleInstaller()
@@ -181,6 +182,11 @@ namespace ReadyPlayerMe.Core.Editor
 
         public static void AddGltfastSymbol()
         {
+            if(Type.GetType(GLTFAST_CLASS)  == null)
+            {
+                SDKLogger.Log(TAG, "GLTFast is not installed. Do not add scripting define symbol.");
+                return;
+            }
             AddScriptingDefineSymbolToAllBuildTargetGroups(GLTFAST_SYMBOL);
         }
 
