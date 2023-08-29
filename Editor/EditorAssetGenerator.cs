@@ -11,10 +11,7 @@ namespace ReadyPlayerMe.Core.Editor
 
         static EditorAssetGenerator()
         {
-            if (!Resources.Load<AvatarLoaderSettings>(AvatarLoaderSettings.SETTINGS_PATH))
-            {
-                CreateSettingsAssets();
-            }
+            CreateSettingsAssets();
         }
 
         private static void CreateSettingsAssets()

@@ -62,9 +62,9 @@ namespace ReadyPlayerMe.Core.Editor
             if (args.added != null && args.added.Any(p => p.name == CORE_MODULE_NAME))
             {
                 InstallModules();
+                AddGltfastSymbol();
                 CoreSettingsHandler.CreateCoreSettings();
                 AddScriptingDefineSymbolToAllBuildTargetGroups(READY_PLAYER_ME_SYMBOL);
-                AddGltfastSymbol();
             }
             ValidateModules();
         }
