@@ -27,7 +27,6 @@ namespace ReadyPlayerMe.Core.Editor
                 AnalyticsEditorLogger.EventLogger.LogOpenProject();
                 AnalyticsEditorLogger.EventLogger.IdentifyUser();
                 EditorApplication.quitting += OnQuit;
-
             }
         }
 

@@ -28,6 +28,9 @@ namespace ReadyPlayerMe.Core.Editor
         [MenuItem("Ready Player Me/Avatar Loader", priority = 0)]
         public static void ShowWindow()
         {
+#if !GLTFAST
+            ModuleInstaller.AddGltfastSymbol();
+#endif
             var window = GetWindow<AvatarLoaderEditor>();
             window.titleContent = new GUIContent(AVATAR_LOADER);
             window.minSize = new Vector2(500, 300);
@@ -110,19 +113,17 @@ namespace ReadyPlayerMe.Core.Editor
 
         private void Completed(object sender, CompletionEventArgs args)
         {
-            GameObject avatar = args.Avatar;
-
-            if (useEyeAnimations) avatar.AddComponent<EyeAnimationHandler>();
-            if (useVoiceToAnim) avatar.AddComponent<VoiceHandler>();
             if (avatarLoaderSettings == null)
             {
                 avatarLoaderSettings = AvatarLoaderSettings.LoadSettings();
             }
-
             var paramHash = AvatarCache.GetAvatarConfigurationHash(avatarLoaderSettings.AvatarConfig);
-            EditorUtilities.CreatePrefab(avatar, $"{DirectoryUtility.GetRelativeProjectPath(avatar.name, paramHash)}/{avatar.name}.prefab");
-
-            Selection.activeObject = args.Avatar;
+            var path = $"{DirectoryUtility.GetRelativeProjectPath(args.Avatar.name, paramHash)}/{args.Avatar.name}";
+            GameObject avatar = EditorUtilities.CreateAvatarPrefab(args.Metadata, path);
+            if (useEyeAnimations) avatar.AddComponent<EyeAnimationHandler>();
+            if (useVoiceToAnim) avatar.AddComponent<VoiceHandler>();
+            DestroyImmediate(args.Avatar, true);
+            Selection.activeObject = avatar;
             AnalyticsEditorLogger.EventLogger.LogAvatarLoaded(EditorApplication.timeSinceStartup - startTime);
         }
     }
