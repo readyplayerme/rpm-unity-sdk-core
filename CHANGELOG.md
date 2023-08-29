@@ -3,6 +3,11 @@
 All notable changes to this project will be documented in this file.
 This project adheres to [Semantic Versioning](http://semver.org/).
 
+## [3.2.2] - 2023.08.29
+
+### Fixed
+- issue where order of operations caused scriptable object creation errors
+
 ## [3.2.1] - 2023.08.28
 
 ### Fixed

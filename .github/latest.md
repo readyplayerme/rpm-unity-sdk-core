@@ -2,5 +2,5 @@
 ## Changelog
 
 ### Fixed
-- issue of missing mesh references when prefabs were created by avatar loader window
+- issue where order of operations caused scriptable object creation errors
 
