@@ -3,7 +3,6 @@ using UnityEngine;
 
 namespace ReadyPlayerMe.Core.Editor
 {
-    [InitializeOnLoad]
     public class EditorAssetGenerator
     {
         private const string SETTINGS_SAVE_FOLDER = "Ready Player Me/Resources/Settings";
