@@ -40,14 +40,10 @@ namespace ReadyPlayerMe.Core.Editor
 
         static ModuleInstaller()
         {
-    #if !GLTFAST
-            AddGltfastSymbol();
-    #endif
             Events.registeredPackages += OnRegisteredPackages;
             Events.registeringPackages += OnRegisteringPackages;
         }
-
-
+        
         /// <summary>
         ///     Called when a package is added, removed or changed.
         /// </summary>
