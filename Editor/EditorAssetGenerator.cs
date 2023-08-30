@@ -13,6 +13,11 @@ namespace ReadyPlayerMe.Core.Editor
         {
             EditorApplication.delayCall += CreateSettingsAssets;
         }
+        
+        ~EditorAssetGenerator()
+        {
+            EditorApplication.delayCall -= CreateSettingsAssets;
+        }
 
         private static void CreateSettingsAssets()
         {
