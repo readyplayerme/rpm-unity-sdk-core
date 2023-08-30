@@ -25,7 +25,7 @@ namespace ReadyPlayerMe.Core.Tests
             }
         }
 
-        [UnityTest, CanBeNull]
+        [UnityTest]
         public IEnumerator Avatar_Loaded_Stored_And_No_Overrides()
         {
             AvatarLoaderEditor window = EditorWindow.GetWindow<AvatarLoaderEditor>();
