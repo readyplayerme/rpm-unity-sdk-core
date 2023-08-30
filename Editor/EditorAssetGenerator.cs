@@ -10,7 +10,7 @@ namespace ReadyPlayerMe.Core.Editor
 
         static EditorAssetGenerator()
         {
-            CreateSettingsAssets();
+            EditorApplication.delayCall += CreateSettingsAssets;
         }
 
         private static void CreateSettingsAssets()
