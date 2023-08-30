@@ -178,11 +178,6 @@ namespace ReadyPlayerMe.Core.Editor
 
         public static void AddGltfastSymbol()
         {
-            if(Type.GetType(GLTFAST_CLASS)  == null)
-            {
-                SDKLogger.Log(TAG, "GLTFast is not installed. Do not add scripting define symbol.");
-                return;
-            }
             AddScriptingDefineSymbolToAllBuildTargetGroups(GLTFAST_SYMBOL);
         }
 
