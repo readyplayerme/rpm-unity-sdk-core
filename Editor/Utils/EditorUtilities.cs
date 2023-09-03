@@ -40,8 +40,8 @@ namespace ReadyPlayerMe.Core.Editor
             return !string.IsNullOrEmpty(urlString) &&
                    (Regex.Match(urlString, SHORT_CODE_REGEX).Length > 0 || Uri.IsWellFormedUriString(urlString, UriKind.Absolute) && urlString.EndsWith(".glb"));
         }
-        
-        public static GameObject CreateAvatarPrefab(AvatarMetadata avatarMetadata, string path)
+
+        public static GameObject CreateAvatarPrefab(AvatarMetadata avatarMetadata, string path, string prefabPath = null)
         {
             var modelFilePath = $"{path}.glb";
             AssetDatabase.Refresh();
@@ -53,7 +53,7 @@ namespace ReadyPlayerMe.Core.Editor
             var avatarData = newAvatar.AddComponent<AvatarData>();
             avatarData.AvatarMetadata = avatarMetadata;
             avatarData.AvatarId = newAvatar.name;
-            CreatePrefab(newAvatar, $"{path}.prefab");
+            CreatePrefab(newAvatar, prefabPath ?? $"{path}.prefab");
             return newAvatar;
         }
     }
