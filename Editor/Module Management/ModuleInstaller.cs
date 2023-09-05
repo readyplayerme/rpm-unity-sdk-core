@@ -47,6 +47,7 @@ namespace ReadyPlayerMe.Core.Editor
 
             if (!modulesInstalled)
             {
+                Events.registeredPackages += OnRegisteredPackages;
                 EditorApplication.LockReloadAssemblies();
                 InstallModules();
                 CoreSettingsHandler.CreateCoreSettings();
@@ -65,6 +66,12 @@ namespace ReadyPlayerMe.Core.Editor
                 ValidateModules();
             }
 #endif
+            
+        }
+
+        private static void OnRegisteredPackages(PackageRegistrationEventArgs obj)
+        {
+            Debug.Log("Yo package added");
         }
 
         /// <summary>
