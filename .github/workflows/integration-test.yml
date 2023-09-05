@@ -1,0 +1,20 @@
+name: Run Tests
+
+on:
+  push:
+    branches:
+      - main
+      - develop
+      - release/*
+jobs:
+  runAllTests:
+    name: Integration tests
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - name: Branch name
+        run: echo running on branch ${GITHUB_REF##*/}
+      - name: Checkout Unity-SDK Repository
+        uses: readyplayerme/rpm-unity-empty-project/.github/actions/integration-test-runner@main
+        with:
+          targetBranch: ${GITHUB_REF##*/}
