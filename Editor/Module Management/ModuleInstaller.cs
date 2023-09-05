@@ -22,9 +22,10 @@ namespace ReadyPlayerMe.Core.Editor
 
         private const int THREAD_SLEEP_TIME = 100;
         private const string PROGRESS_BAR_TITLE = "Ready Player Me";
-        private const string READY_PLAYER_ME_SYMBOL = "READY_PLAYER_ME";
         private const string GLTFAST_SYMBOL = "GLTFAST";
+        private const string READY_PLAYER_ME_SYMBOL = "READY_PLAYER_ME";
         private const string CORE_MODULE_NAME = "com.readyplayerme.core";
+        private const string GLTFAST_NAME = "com.atteneder.gltfast";
 
         private const string MODULE_INSTALLATION_SUCCESS_MESSAGE =
             "All the modules are installed successfully. Ready Player Me avatar system is ready to use.";
@@ -34,7 +35,6 @@ namespace ReadyPlayerMe.Core.Editor
 
         private const float TIMEOUT_FOR_MODULE_INSTALLATION = 20f;
         private const string AVATAR_LOADER_SUBSTRING = "avatarloader";
-        private const string GLTFAST_NAME = "com.atteneder.gltfast";
 
         private static bool modulesInstalled;
 
@@ -43,12 +43,8 @@ namespace ReadyPlayerMe.Core.Editor
 # if RPM_DEVELOPMENT
             modulesInstalled = true;
 #endif
-            Debug.Log("Module Installer: core " + IsModuleInstalled("com.readyplayerme.core") + ", gltfast " + IsModuleInstalled(GLTFAST_NAME));
-
             if (!modulesInstalled)
             {
-                Events.registeredPackages += OnRegisteredPackages;
-                EditorApplication.LockReloadAssemblies();
                 InstallModules();
                 CoreSettingsHandler.CreateCoreSettings();
             }
@@ -56,22 +52,11 @@ namespace ReadyPlayerMe.Core.Editor
 #if !GLTFAST
             if (IsModuleInstalled(GLTFAST_NAME))
             {
-                Debug.Log("Add symbol");
                 AddGltfastSymbol();
-                EditorApplication.UnlockReloadAssemblies();
-                AssetDatabase.Refresh();
-                EditorUtility.RequestScriptReload();
-
-                Debug.Log("Validating modules");
-                ValidateModules();
+                AddScriptingDefineSymbolToAllBuildTargetGroups(READY_PLAYER_ME_SYMBOL);
             }
 #endif
             
-        }
-
-        private static void OnRegisteredPackages(PackageRegistrationEventArgs obj)
-        {
-            Debug.Log("Yo package added");
         }
 
         /// <summary>
