@@ -47,6 +47,7 @@ namespace ReadyPlayerMe.Core.Editor
 
             if (!modulesInstalled)
             {
+                EditorApplication.LockReloadAssemblies();
                 InstallModules();
                 CoreSettingsHandler.CreateCoreSettings();
             }
@@ -56,39 +57,14 @@ namespace ReadyPlayerMe.Core.Editor
             {
                 Debug.Log("Add symbol");
                 AddGltfastSymbol();
+                EditorApplication.UnlockReloadAssemblies();
+                AssetDatabase.Refresh();
+                EditorUtility.RequestScriptReload();
+
+                Debug.Log("Validating modules");
+                ValidateModules();
             }
 #endif
-
-            Events.registeredPackages += OnRegisteredPackages;
-
-        }
-
-        /// <summary>
-        ///     Called when a package is added, removed or changed.
-        /// </summary>
-        /// <param name="args">Describes the <c>PackageInfo</c> entries of packages that have just been registered.</param>
-        private static void OnRegisteredPackages(PackageRegistrationEventArgs args)
-        {
-            Debug.Log("OnRegisteredPackages");
-            Events.registeredPackages -= OnRegisteredPackages;
-#if RPM_DEVELOPMENT
-            return;
-#endif
-            // Core Module installed
-            if (args.added != null && args.added.Any(p => p.name == CORE_MODULE_NAME) && !modulesInstalled)
-            {
-                Debug.Log("Core installed.");
-                InstallModules();
-                CoreSettingsHandler.CreateCoreSettings();
-            }
-
-            if (args.added != null && args.added.Any(p => p.name == GLTFAST_NAME))
-            {
-                Debug.Log("GLTFAST installed.");
-                AddScriptingDefineSymbolToAllBuildTargetGroups(READY_PLAYER_ME_SYMBOL);
-                AddGltfastSymbol();
-            }
-            ValidateModules();
         }
 
         /// <summary>
