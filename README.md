@@ -1,8 +1,8 @@
 # Ready Player Me Unity SDK Core
 
-[![GitHub release (latest SemVer)](https://img.shields.io/github/v/release/readyplayerme/rpm-unity-sdk-core)](https://github.com/readyplayerme/rpm-unity-sdk-core/releases/latest) [![GitHub Discussions](https://img.shields.io/github/discussions/readyplayerme/rpm-unity-sdk-core)](https://github.com/readyplayerme/rpm-unity-sdk-core/discussions)
+[![GitHub release (latest SemVer)](https://img.shields.io/github/v/release/readyplayerme/rpm-unity-sdk-core)](https://github.com/readyplayerme/rpm-unity-sdk-core/releases/latest) [![GitHub Discussions](https://img.shields.io/github/discussions/readyplayerme/rpm-unity-sdk-core)](https://github.com/readyplayerme/rpm-unity-sdk-core/discussions) [![Run Integration Tests](https://github.com/readyplayerme/rpm-unity-sdk-core/actions/workflows/integration-test.yml/badge.svg)](https://github.com/readyplayerme/rpm-unity-sdk-core/actions/workflows/integration-test.yml)
 
-This is an open source Unity plugin that contains all the core functionality required for and manages all the plugin updates and dependencies including Ready Player Me Avatar Loader and glTFast. 
+This is an open source Unity plugin that contains all the core functionality required for a Ready Player Me avatar integration, and manages all the plugin updates and dependencies including Ready Player Me Avatar Loader and glTFast. 
 
 Please visit the online documentation and join our public `discord` community.
 
@@ -20,7 +20,7 @@ Please visit the online documentation and join our public `discord` community.
 
 **1.** To add the new Ready Player Me Unity SDK to your project you can use the Unity Package Manager to import the package directly from the Git URL. 
 
-**2.** With your Unity Project open open up the Package Manager window by going to `Window > Package Manager`.
+**2.** With your Unity Project open, open up the Package Manager window by going to `Window > Package Manager`.
 
 ![open-package-manager](https://user-images.githubusercontent.com/7085672/206432665-da233187-06ad-40b5-a25e-660c97d6726f.png)
 
