@@ -179,14 +179,18 @@ namespace ReadyPlayerMe.Core.Tests
         public IEnumerator AvatarLoader_Low_LOD_Smaller_than_High_LOD()
         {
             var failureType = FailureType.None;
-
+            
+            var avatarConfig = ScriptableObject.CreateInstance<AvatarConfig>();
+            avatarConfig.Lod = Lod.Low;
+            avatarConfig.TextureAtlas = TextureAtlas.Low;
+            avatarConfig.TextureChannel = Array.Empty<TextureChannel>();
+            
             var loader = new AvatarObjectLoader();
             loader.OnCompleted += (sender, args) =>
             {
                 avatar = args.Avatar;
             };
-            loader.AvatarConfig = ScriptableObject.CreateInstance<AvatarConfig>();
-            loader.AvatarConfig.Lod = Lod.Low;
+            loader.AvatarConfig = avatarConfig;
             loader.OnFailed += (sender, args) => { failureType = args.Type; };
             loader.LoadAvatar(TestAvatarData.DefaultAvatarUri.ModelUrl);
             yield return new WaitUntil(() => avatar != null || failureType != FailureType.None);
@@ -195,11 +199,13 @@ namespace ReadyPlayerMe.Core.Tests
 
             Object.DestroyImmediate(avatar);
             loader = new AvatarObjectLoader();
-            loader.AvatarConfig = ScriptableObject.CreateInstance<AvatarConfig>();
-            loader.AvatarConfig.Lod = Lod.High;
+            avatarConfig.Lod = Lod.High;
+            loader.AvatarConfig = avatarConfig;
+            
             loader.OnCompleted += (sender, args) =>
             {
                 avatar = args.Avatar;
+                Object.DestroyImmediate(avatarConfig);
             };
             loader.OnFailed += (sender, args) => { failureType = args.Type; };
             loader.LoadAvatar(TestAvatarData.DefaultAvatarUri.ModelUrl);

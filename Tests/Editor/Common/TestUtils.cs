@@ -1,5 +1,7 @@
 ﻿using System.IO;
+using UnityEditor;
 using UnityEngine;
+using UnityEngine.Assertions;
 
 namespace ReadyPlayerMe.Core.Tests
 {
@@ -27,6 +29,13 @@ namespace ReadyPlayerMe.Core.Tests
             {
                 Directory.Delete(path, recursive);
             }
+        }
+
+        public static void DeleteCachedAvatar(string avatarGuid)
+        {
+            var deleteAsset = AssetDatabase.DeleteAsset($"Assets/Ready Player Me/Avatars/{avatarGuid}");
+            Assert.IsTrue(deleteAsset);
+            AssetDatabase.Refresh();
         }
     }
 }
