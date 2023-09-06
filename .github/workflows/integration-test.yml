@@ -8,13 +8,50 @@ on:
       - release/*
 jobs:
   runAllTests:
-    name: Integration tests
+    name: ${{ matrix.unityVersion }} integration tests
     runs-on: ubuntu-latest
     timeout-minutes: 15
+    strategy:
+      fail-fast: false
+      matrix:
+        testMode:
+          - editmode
+        unityVersion:
+          - 2020.3.0f1
     steps:
-      - name: Branch name
-        run: echo running on branch ${GITHUB_REF##*/}
       - name: Checkout Unity-SDK Repository
-        uses: readyplayerme/rpm-unity-empty-project/.github/actions/integration-test-runner@main
+        uses: actions/checkout@v3
         with:
-          targetBranch: ${GITHUB_REF##*/}
+          repository: "readyplayerme/rpm-unity-empty-project"
+          fetch-depth: 0
+          ref: main
+          token: ${{ secrets.DEV_SDK_TOKEN }}
+      - name: Cache Project
+        uses: actions/cache@v3
+        with:
+          path: Library
+          key: Library-${{ hashFiles('Assets/**', 'Packages/**', 'ProjectSettings/**') }}
+          restore-keys: |
+            Library-
+      - name: Get npm
+        uses: actions/setup-node@v3
+        with:
+          node-version: 18
+      - name: Install openupm-cli
+        run: npm install -g openupm-cli
+      - run: pwd
+      - name: Add core as package
+        run: openupm add com.readyplayerme.core@https://github.com/readyplayerme/rpm-unity-sdk-core.git#${GITHUB_REF##*/}
+      - name: Run Tests
+        uses: game-ci/unity-test-runner@v2
+        env:
+          UNITY_EMAIL: ${{ secrets.UNITY_EMAIL }}
+          UNITY_PASSWORD: ${{ secrets.UNITY_PASSWORD }}
+          UNITY_SERIAL: ${{ secrets.UNITY_SERIAL }}
+        with:
+          unityVersion: ${{ matrix.unityVersion }}
+          testMode: ${{ matrix.testMode }}
+          projectPath: ${{ matrix.projectPath }}
+          checkName: ${{ matrix.unityVersion }} ${{ matrix.testMode }} tests result
+          githubToken: ${{ secrets.GITHUB_TOKEN }}
+          coverageOptions: "generateAdditionalMetrics;generateHtmlReport;generateBadgeReport;assemblyFilters:+my.assembly.*"
