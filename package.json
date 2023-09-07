@@ -58,6 +58,11 @@
       "displayName": "MultipleAvatarRender",
       "description": "Loads the multiple avatar render with different settings.",
       "path": "Samples~/MultipleAvatarRender"
+    },
+    {
+      "displayName": "WebGLExample",
+      "description": "Loads an example of WebGL with scene, that user can build in webgl and run",
+      "path": "Samples~/WebGLExample"
     }
   ]
 }

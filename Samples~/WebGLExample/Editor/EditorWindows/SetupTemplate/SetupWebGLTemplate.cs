@@ -18,18 +18,52 @@ namespace ReadyPlayerMe.Samples
         private const string CONFIRM_BUTTON = "ConfirmButton";
         private const string CANCEL_BUTTON = "CancelButton";
         [SerializeField] private VisualTreeAsset visualTreeAsset;
-        [SerializeField] private GameObject folder;
 
+        private VisualTreeAsset GetVisualTreeAsset()
+        {
+            MonoScript script = MonoScript.FromScriptableObject(this);
+
+            if (script != null)
+            {
+                string scriptPath = AssetDatabase.GetAssetPath(script);
+
+                if (!string.IsNullOrEmpty(scriptPath))
+                {
+                    string folderPath = System.IO.Path.GetDirectoryName(scriptPath);
+                    string visualTreeAssetPath = folderPath + "/" + script.name + ".uxml";
+
+                    VisualTreeAsset visualTreeAsset = AssetDatabase.LoadAssetAtPath<VisualTreeAsset>(visualTreeAssetPath);
+
+                    return visualTreeAsset;
+                }
+                else
+                {
+                    Debug.LogError("Script path is empty.");
+                }
+            }
+            else
+            {
+                Debug.LogError("MonoScript not found for this script.");
+            }
+            return null;
+        }
+        
         public static void ShowWindow()
         {
             var window = GetWindow<SetupWebGLTemplate>();
+            window.titleContent = new GUIContent(TITLE);
+            window.minSize = new Vector2(350, 120);
+            window.maxSize = new Vector2(350, 120);
         }
 
         private void CreateGUI()
         {
-            this.titleContent = new GUIContent(TITLE);
-            this.minSize = new Vector2(350, 120);
-            this.maxSize = new Vector2(350, 120);
+            visualTreeAsset = GetVisualTreeAsset();
+            if (!visualTreeAsset)
+            {
+                this.Close();
+                return;
+            }
             visualTreeAsset.CloneTree(rootVisualElement);
             var confirm = rootVisualElement.Q<Button>(CONFIRM_BUTTON);
             confirm.clicked += OnConfirm;
