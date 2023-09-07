@@ -7,7 +7,6 @@ namespace ReadyPlayerMe.Samples
     public static class ExampleSetup
     {
         private static readonly string RPM_WEBGL_SCREEN_SHOWN_KEY = "rpm-webgl-screen-shown";
-        private static bool HasShownScreen = false;
         [InitializeOnLoadMethod]
         private static void InitializeOnLoad()
         {
