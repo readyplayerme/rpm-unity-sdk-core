@@ -51,8 +51,14 @@ namespace ReadyPlayerMe.Core.Editor
         public void SetDefaultSubdomain()
         {
             partnerSubdomain = CoreSettings.DEFAULT_SUBDOMAIN;
-            subdomainField.SetValueWithoutNotify(partnerSubdomain);
+            subdomainField.value = partnerSubdomain;
             SaveSubdomain();
+        }
+
+        public void ClearSubdomain()
+        {
+            partnerSubdomain = "";
+            subdomainField.value = partnerSubdomain;
         }
 
         public void SetFieldEnabled(bool enabled)
@@ -74,7 +80,7 @@ namespace ReadyPlayerMe.Core.Editor
 
         private void OnSubdomainFocusOut(FocusOutEvent _)
         {
-            if (ValidateSubdomain())
+            if (IsValidSubdomain())
             {
                 SaveSubdomain();
             }
@@ -85,7 +91,8 @@ namespace ReadyPlayerMe.Core.Editor
             return changeEvent =>
             {
                 partnerSubdomain = ExtractSubdomain(changeEvent.newValue);
-                errorIcon.visible = !ValidateSubdomain();
+                errorIcon.visible = !IsValidSubdomain();
+                if (changeEvent.previousValue == partnerSubdomain) return;
                 subdomainField.SetValueWithoutNotify(partnerSubdomain);
                 OnSubdomainChanged?.Invoke(partnerSubdomain);
             };
@@ -105,7 +112,7 @@ namespace ReadyPlayerMe.Core.Editor
             return url;
         }
 
-        private bool ValidateSubdomain()
+        private bool IsValidSubdomain()
         {
             return !partnerSubdomain.All(char.IsWhiteSpace) && !partnerSubdomain.Contains('/') && !EditorUtilities.IsUrlShortcodeValid(partnerSubdomain);
         }
@@ -114,11 +121,8 @@ namespace ReadyPlayerMe.Core.Editor
         {
             EditorPrefs.SetString(WEB_VIEW_PARTNER_SAVE_KEY, partnerSubdomain);
             var subDomain = CoreSettingsHandler.CoreSettings.Subdomain;
-            if (subDomain != partnerSubdomain)
-            {
-                AnalyticsEditorLogger.EventLogger.LogUpdatePartnerURL(subDomain, partnerSubdomain);
-            }
-
+            if (subDomain == partnerSubdomain || !IsValidSubdomain()) return;
+            AnalyticsEditorLogger.EventLogger.LogUpdatePartnerURL(subDomain, partnerSubdomain);
             CoreSettingsHandler.SaveSubDomain(partnerSubdomain);
         }
     }

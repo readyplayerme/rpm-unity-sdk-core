@@ -61,7 +61,7 @@ namespace ReadyPlayerMe.Core.Editor
                 EditorGUILayout.LabelField(".readyplayer.me", textLabelStyle, GUILayout.Width(102), GUILayout.Height(20));
                 var button = new GUIContent(errorIcon, DOMAIN_VALIDATION_ERROR);
 
-                var isSubdomainValid = ValidateSubdomain();
+                var isSubdomainValid = IsValidSubdomain();
 
                 if (!isSubdomainValid)
                 {
@@ -109,7 +109,7 @@ namespace ReadyPlayerMe.Core.Editor
             errorButtonStyle.margin = new RectOffset(0, 0, 2, 2);
         }
 
-        private bool ValidateSubdomain()
+        private bool IsValidSubdomain()
         {
             return !partnerSubdomain.All(char.IsWhiteSpace) && !partnerSubdomain.Contains('/') && !EditorUtilities.IsUrlShortcodeValid(partnerSubdomain);
         }
@@ -139,11 +139,8 @@ namespace ReadyPlayerMe.Core.Editor
         {
             EditorPrefs.SetString(WEB_VIEW_PARTNER_SAVE_KEY, partnerSubdomain);
             var subDomain = CoreSettingsHandler.CoreSettings.Subdomain;
-            if (subDomain != partnerSubdomain)
-            {
-                AnalyticsEditorLogger.EventLogger.LogUpdatePartnerURL(subDomain, partnerSubdomain);
-            }
-
+            if (subDomain == partnerSubdomain || !IsValidSubdomain()) return;
+            AnalyticsEditorLogger.EventLogger.LogUpdatePartnerURL(subDomain, partnerSubdomain);
             CoreSettingsHandler.SaveSubDomain(partnerSubdomain);
         }
     }

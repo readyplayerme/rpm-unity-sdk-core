@@ -46,13 +46,12 @@ namespace ReadyPlayerMe.Core.Editor
         public void CreateGUI()
         {
             visualTreeAsset.CloneTree(rootVisualElement);
+            InitializeFooter();
             panel = new[]
             {
                 InitializeSubdomainPanel(),
                 InitializeAnalyticsPanel()
             };
-
-            InitializeFooter();
             StartStateMachine();
         }
 
@@ -74,18 +73,28 @@ namespace ReadyPlayerMe.Core.Editor
             {
                 nextButton.SetEnabled(!string.IsNullOrEmpty(subdomain));
             };
-
-            subdomainPanel.Q<Toggle>(USE_DEMO_SUBDOMAIN_TOGGLE).RegisterValueChangedCallback(x =>
+            if (!ProjectPrefs.GetBool(USE_DEMO_SUBDOMAIN_TOGGLE))
+            {
+                subdomainTemplate.ClearSubdomain();
+                nextButton.SetEnabled(false);
+            }
+            var demoSubdomainToggle = subdomainPanel.Q<Toggle>(USE_DEMO_SUBDOMAIN_TOGGLE);
+            demoSubdomainToggle.value = ProjectPrefs.GetBool(USE_DEMO_SUBDOMAIN_TOGGLE);
+            demoSubdomainToggle.RegisterValueChangedCallback(x =>
             {
                 if (x.newValue)
                 {
                     subdomainTemplate.SetDefaultSubdomain();
                     subdomainTemplate.SetFieldEnabled(false);
                     nextButton.SetEnabled(true);
+                    ProjectPrefs.SetBool(USE_DEMO_SUBDOMAIN_TOGGLE, true);
                 }
                 else
                 {
+                    subdomainTemplate.ClearSubdomain();
                     subdomainTemplate.SetFieldEnabled(true);
+                    nextButton.SetEnabled(false);
+                    ProjectPrefs.SetBool(USE_DEMO_SUBDOMAIN_TOGGLE, false);
                 }
             });
 
@@ -96,7 +105,6 @@ namespace ReadyPlayerMe.Core.Editor
         {
             var analyticsPanel = rootVisualElement.Q<VisualElement>(ANALYTICS_PANEL);
             analyticsPanel.style.display = new StyleEnum<DisplayStyle>(DisplayStyle.None);
-
             analyticsPanel.Q<Label>("PrivacyUrl").RegisterCallback<MouseUpEvent>(x =>
             {
                 Application.OpenURL(ANALYTICS_PRIVACY_URL);
@@ -123,7 +131,6 @@ namespace ReadyPlayerMe.Core.Editor
         {
             nextButton = rootVisualElement.Q<Button>(NEXT_BUTTON);
             nextButton.clicked += NextPanel;
-
             backButton = rootVisualElement.Q<Button>(BACK_BUTTON);
             backButton.clicked += PreviousPanel;
 
@@ -134,7 +141,6 @@ namespace ReadyPlayerMe.Core.Editor
                 IntegrationGuide.ShowWindow();
             };
         }
-
 
         private void PreviousPanel()
         {
@@ -168,7 +174,6 @@ namespace ReadyPlayerMe.Core.Editor
                     break;
             }
         }
-
 
         private void StartStateMachine()
         {
