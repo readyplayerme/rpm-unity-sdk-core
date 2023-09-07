@@ -2,5 +2,6 @@
 ## Changelog
 
 ### Fixed
-- issue of missing mesh references when prefabs were created by avatar loader window
+- an issue with module installer causing errors when importing on some Windows machines by @rYuuk in [#117](https://github.com/readyplayerme/rpm-unity-sdk-core/pull/117)
+
 
