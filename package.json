@@ -58,6 +58,11 @@
       "displayName": "MultipleAvatarRender",
       "description": "Loads the multiple avatar render with different settings.",
       "path": "Samples~/MultipleAvatarRender"
+    },
+    {
+      "displayName": "WebGLExample",
+      "description": "This sample includes a WebGL template and demonstrates how run the Ready Player Me Web avatar creator inside an iFrame for WebGL applications.",
+      "path": "Samples~/WebGLExample"
     }
   ]
 }
