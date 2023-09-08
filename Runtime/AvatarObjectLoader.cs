@@ -1,6 +1,5 @@
 using System;
 using System.Threading.Tasks;
-using GLTFast;
 using ReadyPlayerMe.Loader;
 using UnityEngine;
 using Object = UnityEngine.Object;

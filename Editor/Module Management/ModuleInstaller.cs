@@ -2,7 +2,6 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
-using Unity.CodeEditor;
 using UnityEditor;
 using UnityEditor.Compilation;
 using UnityEditor.PackageManager;
@@ -23,9 +22,10 @@ namespace ReadyPlayerMe.Core.Editor
 
         private const int THREAD_SLEEP_TIME = 100;
         private const string PROGRESS_BAR_TITLE = "Ready Player Me";
-        private const string READY_PLAYER_ME_SYMBOL = "READY_PLAYER_ME";
         private const string GLTFAST_SYMBOL = "GLTFAST";
+        private const string READY_PLAYER_ME_SYMBOL = "READY_PLAYER_ME";
         private const string CORE_MODULE_NAME = "com.readyplayerme.core";
+        private const string GLTFAST_NAME = "com.atteneder.gltfast";
 
         private const string MODULE_INSTALLATION_SUCCESS_MESSAGE =
             "All the modules are installed successfully. Ready Player Me avatar system is ready to use.";
@@ -36,51 +36,33 @@ namespace ReadyPlayerMe.Core.Editor
         private const float TIMEOUT_FOR_MODULE_INSTALLATION = 20f;
         private const string AVATAR_LOADER_SUBSTRING = "avatarloader";
 
+        private static bool modulesInstalled;
 
         static ModuleInstaller()
         {
-    #if !GLTFAST
-            AddGltfastSymbol();
-    #endif
-            Events.registeredPackages += OnRegisteredPackages;
-            Events.registeringPackages += OnRegisteringPackages;
-        }
-
-
-        /// <summary>
-        ///     Called when a package is added, removed or changed.
-        /// </summary>
-        /// <param name="args">Describes the <c>PackageInfo</c> entries of packages that have just been registered.</param>
-        private static void OnRegisteredPackages(PackageRegistrationEventArgs args)
-        {
-            Events.registeredPackages -= OnRegisteredPackages;
-#if RPM_DEVELOPMENT
-            return;
+# if RPM_DEVELOPMENT
+            modulesInstalled = true;
 #endif
-            // Core Module installed
-            if (args.added != null && args.added.Any(p => p.name == CORE_MODULE_NAME))
+            if (!modulesInstalled)
             {
                 InstallModules();
-                CoreSettingsHandler.CreateCoreSettings();
-                AddScriptingDefineSymbolToAllBuildTargetGroups(READY_PLAYER_ME_SYMBOL);
-                AddGltfastSymbol();
+                EditorApplication.delayCall += DelayCreateCoreSettings;
             }
-            ValidateModules();
+
+#if !GLTFAST
+            if (IsModuleInstalled(GLTFAST_NAME))
+            {
+                AddGltfastSymbol();
+                AddScriptingDefineSymbolToAllBuildTargetGroups(READY_PLAYER_ME_SYMBOL);
+            }
+#endif
+
         }
 
-        /// <summary>
-        ///     Called when a package is about to be added, removed or changed.
-        /// </summary>
-        /// <param name="args">Describes the <c>PackageInfo</c> entries of packages currently registering.</param>
-        private static void OnRegisteringPackages(PackageRegistrationEventArgs args)
+        private static void DelayCreateCoreSettings()
         {
-            // Core module uninstalled
-            if (args.removed != null && args.removed.Any(p => p.name == CORE_MODULE_NAME))
-            {
-                // Remove modules that depend on core here, or not?
-            }
-
-            Events.registeringPackages -= OnRegisteringPackages;
+            CoreSettingsHandler.CreateCoreSettings();
+            EditorApplication.delayCall -= DelayCreateCoreSettings;
         }
 
         /// <summary>
@@ -107,8 +89,8 @@ namespace ReadyPlayerMe.Core.Editor
                 EditorUtility.DisplayProgressBar(PROGRESS_BAR_TITLE, ALL_MODULES_ARE_INSTALLED, 1);
                 Thread.Sleep(THREAD_SLEEP_TIME);
             }
-
             EditorUtility.ClearProgressBar();
+            modulesInstalled = true;
         }
 
         /// <summary>
