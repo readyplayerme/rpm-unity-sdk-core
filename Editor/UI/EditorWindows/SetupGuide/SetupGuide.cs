@@ -1,4 +1,5 @@
 using ReadyPlayerMe.Core.Analytics;
+using ReadyPlayerMe.Core.Data;
 using UnityEditor;
 using UnityEditor.UIElements;
 using UnityEngine;
@@ -73,13 +74,14 @@ namespace ReadyPlayerMe.Core.Editor
             {
                 nextButton.SetEnabled(!string.IsNullOrEmpty(subdomain));
             };
-            if (!ProjectPrefs.GetBool(USE_DEMO_SUBDOMAIN_TOGGLE))
+            if (!ProjectPrefs.GetBool(USE_DEMO_SUBDOMAIN_TOGGLE) && CoreSettingsHandler.CoreSettings.Subdomain == CoreSettings.DEFAULT_SUBDOMAIN)
             {
                 subdomainTemplate.ClearSubdomain();
                 nextButton.SetEnabled(false);
             }
             var demoSubdomainToggle = subdomainPanel.Q<Toggle>(USE_DEMO_SUBDOMAIN_TOGGLE);
             demoSubdomainToggle.value = ProjectPrefs.GetBool(USE_DEMO_SUBDOMAIN_TOGGLE);
+            subdomainTemplate.SetFieldEnabled(!ProjectPrefs.GetBool(USE_DEMO_SUBDOMAIN_TOGGLE));
             demoSubdomainToggle.RegisterValueChangedCallback(x =>
             {
                 if (x.newValue)

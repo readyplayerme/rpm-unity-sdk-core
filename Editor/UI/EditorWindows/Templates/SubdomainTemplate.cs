@@ -42,8 +42,6 @@ namespace ReadyPlayerMe.Core.Editor
 
             this.Q<Button>("SubdomainHelpButton").clicked += OnSubdomainHelpClicked;
 
-            errorIcon.RegisterCallback<MouseUpEvent>(OnErrorIconClicked);
-
             subdomainField.RegisterValueChangedCallback(SubdomainChanged(errorIcon));
             subdomainField.RegisterCallback<FocusOutEvent>(OnSubdomainFocusOut);
         }
@@ -71,11 +69,6 @@ namespace ReadyPlayerMe.Core.Editor
         {
             AnalyticsEditorLogger.EventLogger.LogFindOutMore(HelpSubject.Subdomain);
             Application.OpenURL(Constants.Links.DOCS_PARTNERS_LINK);
-        }
-
-        private void OnErrorIconClicked(MouseUpEvent _)
-        {
-            Application.OpenURL(Constants.Links.DOCS_QUICKSTART_LINK);
         }
 
         private void OnSubdomainFocusOut(FocusOutEvent _)
