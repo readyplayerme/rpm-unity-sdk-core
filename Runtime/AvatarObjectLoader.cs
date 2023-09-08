@@ -73,7 +73,7 @@ namespace ReadyPlayerMe.Core
             avatarUrl = url;
             Load(url);
         }
-        
+
         /// <summary>
         /// Load avatar asynchronously from a URL and return the result as eventArgs.
         /// </summary>
@@ -92,12 +92,12 @@ namespace ReadyPlayerMe.Core
                 eventArgs = args;
                 isCompleted = true;
             };
-            
+
             startTime = Time.timeSinceLevelLoad;
             SDKLogger.Log(TAG, $"Started loading avatar with config {(AvatarConfig ? AvatarConfig.name : "None")} from URL {url}");
             avatarUrl = url;
             Load(url);
-            
+
             while (!isCompleted)
             {
                 await Task.Yield();

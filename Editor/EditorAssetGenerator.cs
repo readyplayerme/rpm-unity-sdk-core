@@ -11,10 +11,12 @@ namespace ReadyPlayerMe.Core.Editor
 
         static EditorAssetGenerator()
         {
-            if (!Resources.Load<AvatarLoaderSettings>(AvatarLoaderSettings.SETTINGS_PATH))
-            {
-                CreateSettingsAssets();
-            }
+            EditorApplication.delayCall += CreateSettingsAssets;
+        }
+
+        ~EditorAssetGenerator()
+        {
+            EditorApplication.delayCall -= CreateSettingsAssets;
         }
 
         private static void CreateSettingsAssets()

@@ -1,9 +1,11 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using NUnit.Framework;
 using UnityEngine;
 using UnityEngine.TestTools;
+using Object = UnityEngine.Object;
 
 namespace ReadyPlayerMe.Core.Tests
 {
@@ -16,12 +18,12 @@ namespace ReadyPlayerMe.Core.Tests
         private const int AVATAR_CONFIG_BLEND_SHAPE_COUNT_MED = 15;
 
         private readonly List<GameObject> avatars = new List<GameObject>();
- 
+
         private AvatarConfig avatarConfigHigh;
         private AvatarConfig avatarConfigLow;
         private AvatarConfig avatarConfigMed;
         private AvatarLoaderSettings settings;
-        
+
         [OneTimeSetUp]
         public void Init()
         {
@@ -31,13 +33,13 @@ namespace ReadyPlayerMe.Core.Tests
             settings = AvatarLoaderSettings.LoadSettings();
             settings.AvatarCachingEnabled = false;
         }
-        
+
         [OneTimeTearDown]
         public void Cleanup()
         {
             AvatarCache.Clear();
 
-            foreach (var avatar in avatars)
+            foreach (GameObject avatar in avatars)
             {
                 Object.DestroyImmediate(avatar);
             }
@@ -225,20 +227,111 @@ namespace ReadyPlayerMe.Core.Tests
         }
 
         [Test]
-        public async Task AvatarLoader_Avatar_API_MeshOptCompression()
+        public async Task AvatarLoader_Avatar_API_MeshOpt_SingleMesh()
         {
             var avatarConfig = ScriptableObject.CreateInstance<AvatarConfig>();
             avatarConfig.Lod = Lod.Low;
             avatarConfig.TextureAtlas = TextureAtlas.Low;
             avatarConfig.MorphTargets = new List<string> { "none" };
             avatarConfig.TextureChannel = new[] { TextureChannel.BaseColor };
+            byte[] normalBytes = null;
+            byte[] meshOptBytes = null;
 
             var downloader = new AvatarDownloader();
-            var normalBytes = await downloader.DownloadIntoMemory(AVATAR_API_AVATAR_URL, avatarConfig);
-            
+            try
+            {
+                normalBytes = await downloader.DownloadIntoMemory(AVATAR_API_AVATAR_URL, avatarConfig);
+            }
+            catch (Exception ex)
+            {
+                Assert.Fail($"Downloading normal bytes failed with exception: {ex}");
+                return;
+            }
+
             avatarConfig.UseMeshOptCompression = true;
-            var meshOptBytes = await downloader.DownloadIntoMemory(AVATAR_API_AVATAR_URL, avatarConfig);
-            
+            try
+            {
+                meshOptBytes = await downloader.DownloadIntoMemory(AVATAR_API_AVATAR_URL, avatarConfig);
+            }
+            catch (Exception ex)
+            {
+                Assert.Fail($"Downloading meshOpt bytes failed with exception: {ex}");
+                return;
+            }
+
+            Assert.Less(meshOptBytes.Length, normalBytes.Length);
+        }
+
+        [Test]
+        public async Task AvatarLoader_Avatar_API_MeshOpt_MultiMesh()
+        {
+            var avatarConfig = ScriptableObject.CreateInstance<AvatarConfig>();
+            avatarConfig.Lod = Lod.Low;
+            avatarConfig.TextureAtlas = TextureAtlas.None;
+            avatarConfig.MorphTargets = new List<string> { "none" };
+            avatarConfig.TextureChannel = new[] { TextureChannel.BaseColor };
+
+            byte[] normalBytes;
+            byte[] meshOptBytes;
+
+            var downloader = new AvatarDownloader();
+            try
+            {
+                normalBytes = await downloader.DownloadIntoMemory(AVATAR_API_AVATAR_URL, avatarConfig);
+            }
+            catch (Exception ex)
+            {
+                Assert.Fail($"Downloading normal bytes failed with exception: {ex}");
+                return;
+            }
+
+            avatarConfig.UseMeshOptCompression = true;
+            try
+            {
+                meshOptBytes = await downloader.DownloadIntoMemory(AVATAR_API_AVATAR_URL, avatarConfig);
+            }
+            catch (Exception ex)
+            {
+                Assert.Fail($"Downloading meshOpt bytes failed with exception: {ex}");
+                return;
+            }
+
+            Assert.Less(meshOptBytes.Length, normalBytes.Length);
+        }
+
+        [Test]
+        public async Task AvatarLoader_Avatar_API_DracoCompression()
+        {
+            var avatarConfig = ScriptableObject.CreateInstance<AvatarConfig>();
+            avatarConfig.Lod = Lod.Low;
+            avatarConfig.TextureAtlas = TextureAtlas.Low;
+            avatarConfig.MorphTargets = new List<string> { "none" };
+            avatarConfig.TextureChannel = new[] { TextureChannel.BaseColor };
+            byte[] normalBytes = null;
+            byte[] meshOptBytes = null;
+
+            var downloader = new AvatarDownloader();
+            try
+            {
+                normalBytes = await downloader.DownloadIntoMemory(AVATAR_API_AVATAR_URL, avatarConfig);
+            }
+            catch (Exception ex)
+            {
+                Assert.Fail($"Downloading normal avatar bytes failed with exception: {ex}");
+                return;
+            }
+
+            avatarConfig.UseDracoCompression = true;
+            try
+            {
+                meshOptBytes = await downloader.DownloadIntoMemory(AVATAR_API_AVATAR_URL, avatarConfig);
+            }
+            catch (Exception ex)
+            {
+                Assert.Fail($"Downloading draco compression avatar bytes failed with exception: {ex}");
+                return;
+            }
+
             Assert.Less(meshOptBytes.Length, normalBytes.Length);
         }
     }

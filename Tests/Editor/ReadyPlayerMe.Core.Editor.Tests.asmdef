@@ -2,7 +2,8 @@
     "name": "ReadyPlayerMe.Core.Editor.Tests",
     "rootNamespace": "",
     "references": [
-        "ReadyPlayerMe.Core"
+        "ReadyPlayerMe.Core",
+        "ReadyPlayerMe.Core.Editor"
     ],
     "includePlatforms": [
         "Editor"
