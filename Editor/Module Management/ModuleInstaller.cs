@@ -46,7 +46,7 @@ namespace ReadyPlayerMe.Core.Editor
             if (!modulesInstalled)
             {
                 InstallModules();
-                CoreSettingsHandler.CreateCoreSettings();
+                EditorApplication.delayCall += DelayCreateCoreSettings;
             }
 
 #if !GLTFAST
@@ -56,7 +56,13 @@ namespace ReadyPlayerMe.Core.Editor
                 AddScriptingDefineSymbolToAllBuildTargetGroups(READY_PLAYER_ME_SYMBOL);
             }
 #endif
-            
+
+        }
+
+        private static void DelayCreateCoreSettings()
+        {
+            CoreSettingsHandler.CreateCoreSettings();
+            EditorApplication.delayCall -= DelayCreateCoreSettings;
         }
 
         /// <summary>
