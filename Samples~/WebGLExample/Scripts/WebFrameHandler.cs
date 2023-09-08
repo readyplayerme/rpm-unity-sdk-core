@@ -1,5 +1,6 @@
 using System;
 using Newtonsoft.Json;
+using ReadyPlayerMe.Core;
 using UnityEngine;
 using ReadyPlayerMe.WebView;
 
@@ -14,6 +15,7 @@ namespace ReadyPlayerMe.Samples
 
     public class WebFrameHandler : MonoBehaviour
     {
+        private string TAG = nameof(WebFrameHandler);
         public Action<string> OnAvatarExport;
         public Action<string> OnUserSet;
         public Action<string> OnUserAuthorized;
@@ -54,16 +56,16 @@ namespace ReadyPlayerMe.Samples
             switch (webMessage.eventName)
             {
                 case WebViewEvents.AVATAR_EXPORT:
-                    Debug.Log(webMessage.eventName);
+                    SDKLogger.Log(TAG, webMessage.eventName);
                     OnAvatarExport?.Invoke(webMessage.GetAvatarUrl());
                     WebInterface.SetIFrameVisibility(false);
                     break;
                 case WebViewEvents.USER_SET:
-                    Debug.Log(webMessage.eventName);
+                    SDKLogger.Log(TAG, webMessage.eventName);
                     OnUserSet?.Invoke(webMessage.GetUserId());
                     break;
                 case WebViewEvents.USER_AUTHORIZED:
-                    Debug.Log(webMessage.eventName);
+                    SDKLogger.Log(TAG, webMessage.eventName);
                     OnUserAuthorized?.Invoke(webMessage.GetUserId());
                     break;
                 case WebViewEvents.ASSET_UNLOCK:

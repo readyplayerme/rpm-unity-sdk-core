@@ -43,12 +43,12 @@ namespace ReadyPlayerMe.Samples
 
         public void HandleUserSet(string userId)
         {
-            Debug.Log($"User set: {userId}");
+            SDKLogger.Log(TAG,$"User set: {userId}");
         }
 
         public void HandleUserAuthorized(string userId)
         {
-            Debug.Log($"User authorized: {userId}");
+            SDKLogger.Log(TAG,$"User authorized: {userId}");
         }
 
         public void LoadAvatarFromUrl(string newAvatarUrl)

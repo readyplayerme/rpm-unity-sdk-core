@@ -61,7 +61,7 @@
     },
     {
       "displayName": "WebGLExample",
-      "description": "Loads an example of WebGL with scene, that user can build in webgl and run",
+      "description": "This sample includes a WebGL template and demonstrates how run the Ready Player Me Web avatar creator inside an iFrame for WebGL applications.",
       "path": "Samples~/WebGLExample"
     }
   ]
