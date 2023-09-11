@@ -11,10 +11,7 @@ namespace ReadyPlayerMe.Core.Editor
         public static void OnPostprocessBuild(BuildTarget target, string pathToBuiltProject)
         {
             // create asset if it has been deleted
-            if (CoreSettingsHandler.CoreSettings == null)
-            {
-                CoreSettingsHandler.CreateCoreSettings();
-            }
+            CoreSettingsHandler.EnsureSettingsExist();
             AppData appData = ApplicationData.GetData();
             AnalyticsEditorLogger.EventLogger.LogBuildApplication(appData.BuildTarget, PlayerSettings.productName, !Debug.isDebugBuild);
         }

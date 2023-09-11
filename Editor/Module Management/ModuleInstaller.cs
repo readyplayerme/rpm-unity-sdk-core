@@ -61,8 +61,8 @@ namespace ReadyPlayerMe.Core.Editor
 
         private static void DelayCreateCoreSettings()
         {
-            CoreSettingsHandler.CreateCoreSettings();
             EditorApplication.delayCall -= DelayCreateCoreSettings;
+            CoreSettingsHandler.EnsureSettingsExist();
         }
 
         /// <summary>
