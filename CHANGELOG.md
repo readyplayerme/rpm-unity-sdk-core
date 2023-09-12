@@ -3,6 +3,10 @@
 All notable changes to this project will be documented in this file.
 This project adheres to [Semantic Versioning](http://semver.org/).
 
+## [3.2.3] - 2023.09.11
+### Fixed
+- an issue causing settings to be recreated when not needed @harrisonhough in [#123](https://github.com/readyplayerme/rpm-unity-sdk-core/pull/123)
+
 ## [3.2.2] - 2023.09.07
 
 ### Fixed

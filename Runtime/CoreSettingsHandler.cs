@@ -14,16 +14,14 @@ namespace ReadyPlayerMe.Core
         {
             get
             {
+                if (coreSettings != null) return coreSettings;
+                coreSettings = Resources.Load<CoreSettings>(RESOURCE_PATH);
+#if UNITY_EDITOR
                 if (coreSettings == null)
                 {
-                    coreSettings = Resources.Load<CoreSettings>(RESOURCE_PATH);
-#if UNITY_EDITOR
-                    if (coreSettings == null)
-                    {
-                        coreSettings = CreateCoreSettings();
-                    }
-#endif
+                    coreSettings = CreateSettings();
                 }
+#endif
                 return coreSettings;
             }
         }
@@ -50,7 +48,16 @@ namespace ReadyPlayerMe.Core
             AssetDatabase.SaveAssets();
         }
 
-        public static CoreSettings CreateCoreSettings()
+        public static void EnsureSettingsExist()
+        {
+            coreSettings = Resources.Load<CoreSettings>(RESOURCE_PATH);
+            if (coreSettings == null)
+            {
+                coreSettings = CreateSettings();
+            }
+        }
+
+        private static CoreSettings CreateSettings()
         {
             DirectoryUtility.ValidateDirectory($"{Application.dataPath}/{SETTINGS_SAVE_FOLDER}");
             var newSettings = ScriptableObject.CreateInstance<CoreSettings>();
