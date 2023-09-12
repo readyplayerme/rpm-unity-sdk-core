@@ -33,6 +33,7 @@ namespace ReadyPlayerMe.Core
 #if UNITY_EDITOR
         public static void SaveSubDomain(string subDomain)
         {
+            if (string.IsNullOrEmpty(subDomain) || coreSettings.Subdomain == subDomain) return;
             coreSettings.Subdomain = subDomain;
             Save();
         }
