@@ -113,7 +113,7 @@ namespace ReadyPlayerMe.Core.Editor
         {
             AnalyticsEditorLogger.EventLogger.LogSetLoggingEnabled(evt.newValue);
             SDKLogger.EnableLogging(evt.newValue);
-            CoreSettingsManager.SetEnableLogging(evt.newValue);
+            CoreSettingsUtil.SetEnableLogging(evt.newValue);
         }
 
         private void OnPrivacyPolicyClicked(MouseUpEvent evt)

@@ -60,7 +60,7 @@ namespace ReadyPlayerMe.Core.Editor
                 AnalyticsEditorLogger.EventLogger.LogUpdatePartnerURL(id, appIdField.value);
             }
 
-            CoreSettingsManager.SaveAppId(appIdField.value);
+            CoreSettingsUtil.SaveAppId(appIdField.value);
         }
     }
 }
