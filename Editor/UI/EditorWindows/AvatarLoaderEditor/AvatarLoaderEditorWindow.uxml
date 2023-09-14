@@ -1,6 +1,6 @@
 <ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" xsi="http://www.w3.org/2001/XMLSchema-instance" engine="UnityEngine.UIElements" editor="UnityEditor.UIElements" noNamespaceSchemaLocation="../../UIElementsSchema/UIElements.xsd" editor-extension-mode="False">
-    <ui:Template name="HeaderTemplate" src="/Assets/Ready Player Me/Core/Editor/UI/EditorWindows/Templates/HeaderTemplate.uxml" />
-    <Style src="/Assets/Ready Player Me/Core/Editor/UI/EditorWindows/CommonStyle.uss" />
+    <ui:Template name="HeaderTemplate" src="../Templates/HeaderTemplate.uxml" />
+    <Style src="../CommonStyle.uss" />
     <ui:VisualElement name="ContentWrapper" style="align-items: center; width: 500px; margin-left: auto; margin-right: auto; margin-top: 0; margin-bottom: auto;">
         <ui:Instance template="HeaderTemplate" name="HeaderTemplate" style="flex-shrink: 0;" />
         <ReadyPlayerMe.Core.Editor.AvatarUrlTemplate style="flex-shrink: 0; width: 500px;" />
