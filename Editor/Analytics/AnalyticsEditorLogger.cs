@@ -18,14 +18,14 @@ namespace ReadyPlayerMe.Core.Analytics
         {
             IsEnabled = true;
             EventLogger.Enable();
-            CoreSettingsUtil.SetEnableAnalytics(true);
+            CoreSettingsSetter.SetEnableAnalytics(true);
         }
 
         public static void Disable()
         {
             EventLogger.Disable();
             IsEnabled = false;
-            CoreSettingsUtil.SetEnableAnalytics(false);
+            CoreSettingsSetter.SetEnableAnalytics(false);
         }
     }
 }
