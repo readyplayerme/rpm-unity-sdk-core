@@ -2,7 +2,6 @@ using UnityEditor;
 
 namespace ReadyPlayerMe.Core.Editor
 {
-
     public static class CoreSettingsSetter
     {
         public static void SetEnableAnalytics(bool isEnabled)

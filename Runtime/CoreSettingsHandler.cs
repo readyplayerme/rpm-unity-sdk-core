@@ -5,12 +5,13 @@ namespace ReadyPlayerMe.Core
 {
     public static class CoreSettingsHandler
     {
+        private const string RESOURCE_PATH = "Settings/CoreSettings";
         public static CoreSettings CoreSettings
         {
             get
             {
                 if (coreSettings != null) return coreSettings;
-                coreSettings = CoreSettings.Load();
+                coreSettings = Load();
                 if (coreSettings == null)
                 {
                     Debug.LogError("CoreSettings could not be loaded.");
@@ -20,5 +21,10 @@ namespace ReadyPlayerMe.Core
         }
 
         private static CoreSettings coreSettings;
+
+        public static CoreSettings Load()
+        {
+            return Resources.Load<CoreSettings>(RESOURCE_PATH);
+        }
     }
 }
