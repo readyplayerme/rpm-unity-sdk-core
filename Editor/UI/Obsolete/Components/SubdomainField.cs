@@ -141,7 +141,7 @@ namespace ReadyPlayerMe.Core.Editor
             var subDomain = CoreSettingsHandler.CoreSettings.Subdomain;
             if (subDomain == partnerSubdomain || !IsValidSubdomain()) return;
             AnalyticsEditorLogger.EventLogger.LogUpdatePartnerURL(subDomain, partnerSubdomain);
-            CoreSettingsHandler.SaveSubDomain(partnerSubdomain);
+            CoreSettingsSetter.SaveSubDomain(partnerSubdomain);
         }
     }
 }
