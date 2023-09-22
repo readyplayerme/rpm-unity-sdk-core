@@ -1,7 +1,8 @@
 using UnityEngine;
 using NUnit.Framework;
+using ReadyPlayerMe.Core.WebView;
 
-namespace ReadyPlayerMe.Core.WebView.Tests
+namespace ReadyPlayerMe.Core.Tests
 {
     public class UrlConfigTests : MonoBehaviour
     {
@@ -64,7 +65,7 @@ namespace ReadyPlayerMe.Core.WebView.Tests
         [Test]
         public void Url_BodyType_Change_Fullbody()
         {
-            config.bodyType = BodyType.FullBody;
+            config.bodyTypeOption = BodyTypeOption.FullBody;
             var res = config.BuildUrl();
             Assert.AreEqual(URL_TYPE_FULLBODY, res);
         }
@@ -72,7 +73,7 @@ namespace ReadyPlayerMe.Core.WebView.Tests
         [Test]
         public void Url_BodyType_Change_Halfbody()
         {
-            config.bodyType = BodyType.HalfBody;
+            config.bodyTypeOption = BodyTypeOption.HalfBody;
             var res = config.BuildUrl();
             Assert.AreEqual(URL_TYPE_HALFBODY, res);
         }

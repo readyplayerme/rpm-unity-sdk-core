@@ -1,5 +1,6 @@
 ﻿using System.Text;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 namespace ReadyPlayerMe.Core.WebView
 {
@@ -28,8 +29,8 @@ namespace ReadyPlayerMe.Core.WebView
         [Tooltip("Skip gender selection and create avatars with selected gender. Ignored if Quick Start is checked.")]
         public Gender gender = Gender.None;
 
-        [Tooltip("Skip body type selection and create avatars with selected body type. Ignored if Quick Start is checked.")]
-        public BodyType bodyType = BodyType.Selectable;
+        [FormerlySerializedAs("bodyType"), Tooltip("Skip body type selection and create avatars with selected body type. Ignored if Quick Start is checked.")]
+        public BodyTypeOption bodyTypeOption = BodyTypeOption.Selectable;
 
         /// <summary>
         /// Builds RPM website URL for partner with given parameters.
@@ -53,7 +54,7 @@ namespace ReadyPlayerMe.Core.WebView
             else
             {
                 builder.Append(gender != Gender.None ? $"&gender={gender.GetValue()}" : string.Empty);
-                builder.Append(bodyType == BodyType.Selectable ? $"&{SELECT_BODY_PARAM}" : $"&bodyType={bodyType.GetValue()}");
+                builder.Append(bodyTypeOption == BodyTypeOption.Selectable ? $"&{SELECT_BODY_PARAM}" : $"&bodyType={bodyTypeOption.GetValue()}");
             }
 
             var url = builder.ToString();

@@ -27,7 +27,7 @@ namespace ReadyPlayerMe.Core.WebView
     /// <summary>
     /// Defines the options for the avatar body type.
     /// </summary>
-    public enum BodyType
+    public enum BodyTypeOption
     {
         Selectable,
         [StringValue("fullbody")] FullBody,
