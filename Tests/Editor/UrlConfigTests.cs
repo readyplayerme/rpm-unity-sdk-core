@@ -6,20 +6,21 @@ namespace ReadyPlayerMe.Core.Tests
 {
     public class UrlConfigTests : MonoBehaviour
     {
-        private const string URL_DEFAULT = "https://demo.readyplayer.me/avatar?frameApi&selectBodyType";
-        private const string URL_LANG_GERMAN = "https://demo.readyplayer.me/de/avatar?frameApi&selectBodyType";
-        private const string URL_LANG_BRAZIL = "https://demo.readyplayer.me/pt-BR/avatar?frameApi&selectBodyType";
+        private static readonly string URL_BASE = $"https://{CoreSettingsHandler.CoreSettings.Subdomain}.readyplayer.me";
+        private readonly string URL_DEFAULT = $"{URL_BASE}/avatar?frameApi&selectBodyType";
+        private readonly string URL_LANG_GERMAN = $"{URL_BASE}/de/avatar?frameApi&selectBodyType";
+        private readonly string URL_LANG_BRAZIL = $"{URL_BASE}/pt-BR/avatar?frameApi&selectBodyType";
 
-        private const string URL_GENDER_MALE = "https://demo.readyplayer.me/avatar?frameApi&gender=male&selectBodyType";
-        private const string URL_GENDER_NONE = "https://demo.readyplayer.me/avatar?frameApi&gender=male&selectBodyType";
+        private readonly string URL_GENDER_MALE = $"{URL_BASE}/avatar?frameApi&gender=male&selectBodyType";
+        private readonly string URL_GENDER_NONE = $"{URL_BASE}/avatar?frameApi&gender=male&selectBodyType";
 
-        private const string URL_TYPE_FULLBODY = "https://demo.readyplayer.me/avatar?frameApi&bodyType=fullbody";
-        private const string URL_TYPE_HALFBODY = "https://demo.readyplayer.me/avatar?frameApi&bodyType=halfbody";
+        private readonly string URL_TYPE_FULLBODY = $"{URL_BASE}/avatar?frameApi&bodyType=fullbody";
+        private readonly string URL_TYPE_HALFBODY = $"{URL_BASE}/avatar?frameApi&bodyType=halfbody";
 
-        private const string URL_CLEAR_CACHE = "https://demo.readyplayer.me/avatar?frameApi&clearCache&selectBodyType";
+        private readonly string URL_CLEAR_CACHE = $"{URL_BASE}/avatar?frameApi&clearCache&selectBodyType";
 
-        private const string URL_QUICK_START = "https://demo.readyplayer.me/avatar?frameApi&quickStart";
-        private const string URL_TOKEN = "https://demo.readyplayer.me/avatar?frameApi&token=TOKEN&selectBodyType";
+        private readonly string URL_QUICK_START = $"{URL_BASE}/avatar?frameApi&quickStart";
+        private readonly string URL_TOKEN = $"{URL_BASE}/avatar?frameApi&token=TOKEN&selectBodyType";
         private const string LOGIN_TOKEN = "TOKEN";
 
         public UrlConfig config;
