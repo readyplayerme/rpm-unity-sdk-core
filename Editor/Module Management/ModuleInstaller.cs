@@ -127,9 +127,12 @@ namespace ReadyPlayerMe.Core.Editor
         private static ModuleInfo[] GetMissingModuleNames()
         {
             PackageInfo[] installed = GetPackageList();
-            IEnumerable<ModuleInfo> missing = ModuleList.Modules.Where(m => installed.All(i => m.name != i.name));
-
-            return missing.ToArray();
+            var missingModules = ModuleList.Modules.Where(m => installed.All(i => m.name != i.name)).ToList();
+            if (ProjectPrefs.GetBool(ProjectPrefs.FIRST_TIME_SETUP_DONE))
+            {
+                missingModules = missingModules.Where(module => !module.name.Contains("webview")).ToList();
+            }
+            return missingModules.ToArray();
         }
 
         /// <summary>
