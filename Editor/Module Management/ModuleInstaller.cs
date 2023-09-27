@@ -23,9 +23,6 @@ namespace ReadyPlayerMe.Core.Editor
         private const int THREAD_SLEEP_TIME = 100;
         private const string PROGRESS_BAR_TITLE = "Ready Player Me";
         private const string GLTFAST_SYMBOL = "GLTFAST";
-        private const string READY_PLAYER_ME_SYMBOL = "READY_PLAYER_ME";
-        private const string CORE_MODULE_NAME = "com.readyplayerme.core";
-        private const string GLTFAST_NAME = "com.atteneder.gltfast";
 
         private const string MODULE_INSTALLATION_SUCCESS_MESSAGE =
             "All the modules are installed successfully. Ready Player Me avatar system is ready to use.";
@@ -34,7 +31,6 @@ namespace ReadyPlayerMe.Core.Editor
         private const string INSTALLING_MODULES = "Installing modules...";
 
         private const float TIMEOUT_FOR_MODULE_INSTALLATION = 20f;
-        private const string AVATAR_LOADER_SUBSTRING = "avatarloader";
 
         private static bool modulesInstalled;
 
@@ -101,12 +97,6 @@ namespace ReadyPlayerMe.Core.Editor
         {
             var startTime = Time.realtimeSinceStartup;
             AddRequest addRequest = Client.Add(identifier);
-
-            // reset first time setup flag to ensure setup guide window is displayed
-            if (identifier.Contains(AVATAR_LOADER_SUBSTRING))
-            {
-                ProjectPrefs.SetBool(ProjectPrefs.FIRST_TIME_SETUP_DONE, false);
-            }
             while (!addRequest.IsCompleted && Time.realtimeSinceStartup - startTime < TIMEOUT_FOR_MODULE_INSTALLATION)
                 Thread.Sleep(THREAD_SLEEP_TIME);
 
