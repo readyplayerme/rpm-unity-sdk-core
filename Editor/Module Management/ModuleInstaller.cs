@@ -121,7 +121,8 @@ namespace ReadyPlayerMe.Core.Editor
         {
             PackageInfo[] installed = GetPackageList();
             var missingModules = ModuleList.Modules.Where(m => installed.All(i => m.name != i.name)).ToList();
-            if (ProjectPrefs.GetBool(ProjectPrefs.FIRST_TIME_SETUP_DONE))
+            
+            if(!missingModules.Any(module => module.name.Contains(GLTFAST_NAME)))
             {
                 missingModules = missingModules.Where(module => !module.name.Contains(WEBVIEW_NAME)).ToList();
             }
