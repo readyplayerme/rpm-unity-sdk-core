@@ -23,6 +23,9 @@ namespace ReadyPlayerMe.Core.Editor
         private const int THREAD_SLEEP_TIME = 100;
         private const string PROGRESS_BAR_TITLE = "Ready Player Me";
         private const string GLTFAST_SYMBOL = "GLTFAST";
+        private const string READY_PLAYER_ME_SYMBOL = "READY_PLAYER_ME";
+        private const string GLTFAST_NAME = "com.atteneder.gltfast";
+        private const string WEBVIEW_NAME = "webview";
 
         private const string MODULE_INSTALLATION_SUCCESS_MESSAGE =
             "All the modules are installed successfully. Ready Player Me avatar system is ready to use.";
@@ -120,7 +123,7 @@ namespace ReadyPlayerMe.Core.Editor
             var missingModules = ModuleList.Modules.Where(m => installed.All(i => m.name != i.name)).ToList();
             if (ProjectPrefs.GetBool(ProjectPrefs.FIRST_TIME_SETUP_DONE))
             {
-                missingModules = missingModules.Where(module => !module.name.Contains("webview")).ToList();
+                missingModules = missingModules.Where(module => !module.name.Contains(WEBVIEW_NAME)).ToList();
             }
             return missingModules.ToArray();
         }
