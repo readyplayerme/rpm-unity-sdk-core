@@ -33,7 +33,7 @@ namespace ReadyPlayerMe.Core.Editor
             {
                 name = "com.readyplayerme.webview",
                 gitUrl = "https://github.com/readyplayerme/rpm-unity-sdk-webview.git",
-                branch = "",
+                branch = "feature/extract-shared-functionality",
                 version = "1.2.0"
             }
         };
