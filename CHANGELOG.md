@@ -8,6 +8,10 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 ### Added
 - moved core iframe and url logic from WebView package @harrisonhough in [#125](https://github.com/readyplayerme/rpm-unity-sdk-core/pull/125)
 
+## [3.2.4] - 2023.09.28
+### Fixed
+- an issue causing WebView to be auto imported if removed @harrisonhough in [#126](https://github.com/readyplayerme/rpm-unity-sdk-core/pull/126)
+
 ## [3.2.3] - 2023.09.11
 ### Fixed
 - an issue causing settings to be recreated when not needed @harrisonhough in [#123](https://github.com/readyplayerme/rpm-unity-sdk-core/pull/123)
