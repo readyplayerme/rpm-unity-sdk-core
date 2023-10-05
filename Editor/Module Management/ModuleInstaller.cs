@@ -102,7 +102,7 @@ namespace ReadyPlayerMe.Core.Editor
         /// <returns>An array of <c>ModuleInfo</c> for all the missing modules</returns>
         private static ModuleInfo[] GetMissingModuleNames()
         {
-            PackageInfo[] installed = GetPackageList();
+            var installed = PackageManagerHelper.GetPackageList();
             var missingModules = ModuleList.Modules.Where(m => installed.All(i => m.name != i.name)).ToList();
             
             if(!missingModules.Any(module => module.name.Contains(GLTFAST_NAME)))
