@@ -14,7 +14,7 @@ namespace ReadyPlayerMe.Core.Editor
             name = "com.readyplayerme.core",
             gitUrl = "https://github.com/readyplayerme/rpm-unity-sdk-core.git",
             branch = "",
-            version = "3.0.0"
+            version = "3.3.0"
         };
 
         /// <summary>
@@ -34,7 +34,7 @@ namespace ReadyPlayerMe.Core.Editor
                 name = "com.readyplayerme.webview",
                 gitUrl = "https://github.com/readyplayerme/rpm-unity-sdk-webview.git",
                 branch = "",
-                version = "1.2.0"
+                version = "2.0.0"
             }
         };
 

@@ -3,6 +3,15 @@
 All notable changes to this project will be documented in this file.
 This project adheres to [Semantic Versioning](http://semver.org/).
 
+## [3.3.0] - 2023.20.05
+
+### Added
+- moved core iframe and url logic from WebView package @harrisonhough in [#125](https://github.com/readyplayerme/rpm-unity-sdk-core/pull/125)
+
+### Updated
+- refactored core settings handler @harrisonhough in [#124](https://github.com/readyplayerme/rpm-unity-sdk-core/pull/124)
+- centred all editor window content @harrisonhough in [#122](https://github.com/readyplayerme/rpm-unity-sdk-core/pull/122)
+
 ## [3.2.4] - 2023.09.28
 ### Fixed
 - an issue causing WebView to be auto imported if removed @harrisonhough in [#126](https://github.com/readyplayerme/rpm-unity-sdk-core/pull/126)

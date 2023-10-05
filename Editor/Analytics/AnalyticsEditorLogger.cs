@@ -1,4 +1,6 @@
-﻿namespace ReadyPlayerMe.Core.Analytics
+﻿using ReadyPlayerMe.Core.Editor;
+
+namespace ReadyPlayerMe.Core.Analytics
 {
     public static class AnalyticsEditorLogger
     {
@@ -16,16 +18,14 @@
         {
             IsEnabled = true;
             EventLogger.Enable();
-            CoreSettingsHandler.CoreSettings.EnableAnalytics = true;
-            CoreSettingsHandler.Save();
+            CoreSettingsSetter.SetEnableAnalytics(true);
         }
 
         public static void Disable()
         {
             EventLogger.Disable();
             IsEnabled = false;
-            CoreSettingsHandler.CoreSettings.EnableAnalytics = false;
-            CoreSettingsHandler.Save();
+            CoreSettingsSetter.SetEnableAnalytics(false);
         }
     }
 }
