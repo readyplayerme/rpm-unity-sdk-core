@@ -40,7 +40,7 @@ jobs:
       - name: Install openupm-cli
         run: npm install -g openupm-cli
       - name: Add core with current branch as package
-        run: openupm add com.readyplayerme.core@https://github.com/readyplayerme/rpm-unity-sdk-core.git#${GITHUB_REF##*/}
+        run: openupm add com.readyplayerme.core@https://github.com/readyplayerme/rpm-unity-sdk-core.git#${{ github.ref_name }}
       - name: Run Tests
         uses: game-ci/unity-test-runner@v2
         env:
