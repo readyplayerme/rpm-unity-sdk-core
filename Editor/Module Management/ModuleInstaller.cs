@@ -4,10 +4,7 @@ using System.Linq;
 using System.Threading;
 using UnityEditor;
 using UnityEditor.Compilation;
-using UnityEditor.PackageManager;
-using UnityEditor.PackageManager.Requests;
 using UnityEngine;
-using PackageInfo = UnityEditor.PackageManager.PackageInfo;
 
 namespace ReadyPlayerMe.Core.Editor
 {
@@ -32,8 +29,6 @@ namespace ReadyPlayerMe.Core.Editor
         private const string MODULE_INSTALLATION_FAILURE_MESSAGE = "Something went wrong while installing modules.";
         private const string ALL_MODULES_ARE_INSTALLED = "All modules are installed.";
         private const string INSTALLING_MODULES = "Installing modules...";
-
-        private const float TIMEOUT_FOR_MODULE_INSTALLATION = 20f;
 
         private static bool modulesInstalled;
 
@@ -72,7 +67,7 @@ namespace ReadyPlayerMe.Core.Editor
             EditorUtility.DisplayProgressBar(PROGRESS_BAR_TITLE, INSTALLING_MODULES, 0);
             Thread.Sleep(THREAD_SLEEP_TIME);
 
-            ModuleInfo[] missingModules = GetMissingModuleNames();
+            var missingModules = GetMissingModuleNames();
 
             if (missingModules.Length > 0)
             {
@@ -98,19 +93,7 @@ namespace ReadyPlayerMe.Core.Editor
         /// <param name="identifier">The Unity package identifier of the module to be installed.</param>
         public static void AddModuleRequest(string identifier)
         {
-            var startTime = Time.realtimeSinceStartup;
-            AddRequest addRequest = Client.Add(identifier);
-            while (!addRequest.IsCompleted && Time.realtimeSinceStartup - startTime < TIMEOUT_FOR_MODULE_INSTALLATION)
-                Thread.Sleep(THREAD_SLEEP_TIME);
-
-            if (Time.realtimeSinceStartup - startTime >= TIMEOUT_FOR_MODULE_INSTALLATION)
-            {
-                Debug.LogError($"Package installation timed out for {identifier}. Please try again.");
-            }
-            if (addRequest.Error != null)
-            {
-                Debug.LogError("Error: " + addRequest.Error.message);
-            }
+            PackageManagerHelper.AddPackage(identifier);
         }
 
         /// <summary>
@@ -135,28 +118,7 @@ namespace ReadyPlayerMe.Core.Editor
         /// <param name="name">Name of the module.</param>
         /// <returns>A boolean <c>true</c> if the module is installed.</returns>
         public static bool IsModuleInstalled(string name)
-        {
-            return GetPackageList().Any(info => info.name == name);
-        }
-
-        /// <summary>
-        ///     Get the list of unity packages installed in the current project.
-        /// </summary>
-        /// <returns>An array of <c>PackageInfo</c>.</returns>
-        public static PackageInfo[] GetPackageList()
-        {
-            ListRequest listRequest = Client.List(true);
-            while (!listRequest.IsCompleted)
-                Thread.Sleep(THREAD_SLEEP_TIME);
-
-            if (listRequest.Error != null)
-            {
-                SDKLogger.Log(TAG, "Error: " + listRequest.Error.message);
-                return Array.Empty<PackageInfo>();
-            }
-
-            return listRequest.Result.ToArray();
-        }
+            => PackageManagerHelper.IsPackageInstalled(name);
 
         public static void AddGltfastSymbol()
         {
@@ -167,7 +129,7 @@ namespace ReadyPlayerMe.Core.Editor
         {
             foreach (BuildTarget target in Enum.GetValues(typeof(BuildTarget)))
             {
-                BuildTargetGroup group = BuildPipeline.GetBuildTargetGroup(target);
+                var group = BuildPipeline.GetBuildTargetGroup(target);
 
                 if (group == BuildTargetGroup.Unknown)
                 {
@@ -196,7 +158,7 @@ namespace ReadyPlayerMe.Core.Editor
         /// </summary>
         private static void ValidateModules()
         {
-            PackageInfo[] packageList = GetPackageList();
+            var packageList = PackageManagerHelper.GetPackageList();
             var allModuleInstalled = true;
             foreach (ModuleInfo module in ModuleList.Modules)
             {

@@ -9,7 +9,8 @@
   "changelogUrl": "https://docs.readyplayer.me/ready-player-me/integration-guides/unity-sdk/changelog",
   "licensesUrl": "https://github.com/readyplayerme/rpm-unity-sdk-core/blob/main/LICENSE.md",
   "dependencies": {
-    "com.unity.nuget.newtonsoft-json": "3.0.2"
+    "com.unity.nuget.newtonsoft-json": "3.0.2",
+    "com.unity.animation.rigging": "1.2.1"
   },
   "keywords": [
     "ready player me",

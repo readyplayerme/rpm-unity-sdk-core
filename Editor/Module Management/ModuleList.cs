@@ -1,6 +1,5 @@
 using System.Collections.Generic;
 using System.Linq;
-using UnityEditor.PackageManager;
 
 namespace ReadyPlayerMe.Core.Editor
 {
@@ -55,7 +54,7 @@ namespace ReadyPlayerMe.Core.Editor
         /// <returns>A <see cref="Dictionary"/> of installed Unity Module information in the format of <c>Dictionary&lt;string: name, string: version&gt;</c>. </returns>
         public static Dictionary<string, string> GetInstalledModuleVersionDictionary()
         {
-            PackageInfo[] packageList = ModuleInstaller.GetPackageList();
+            var packageList = PackageManagerHelper.GetPackageList();
 
             var installedModules = new Dictionary<string, string>();
             installedModules.Add(Core.name, Core.version);
