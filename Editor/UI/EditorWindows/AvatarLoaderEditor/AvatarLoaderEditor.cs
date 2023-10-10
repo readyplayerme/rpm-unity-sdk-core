@@ -25,7 +25,7 @@ namespace ReadyPlayerMe.Core.Editor
         private bool useEyeAnimations;
         private bool useVoiceToAnim;
 
-        [MenuItem("Ready Player Me/Avatar Loader", priority = 0)]
+        [MenuItem("Ready Player Me/Avatar Loader", priority = 1)]
         public static void ShowWindow()
         {
 #if !GLTFAST

@@ -43,7 +43,6 @@ namespace ReadyPlayerMe.Core.Editor
 
         private const string AVATAR_LOADER_PACKAGE = "com.readyplayerme.avatarloader";
 
-
         static ModuleUpdater()
         {
             EntryPoint.Startup += () => Check(true);
@@ -52,7 +51,7 @@ namespace ReadyPlayerMe.Core.Editor
         /// <summary>
         /// Check for Ready Player Me package updates.
         /// </summary>
-        [MenuItem("Ready Player Me/Check For Updates")]
+        [MenuItem("Ready Player Me/Check For Updates", priority = 23)]
         public static void CheckForUpdates()
         {
             AnalyticsEditorLogger.EventLogger.LogCheckForUpdates();
@@ -80,7 +79,6 @@ namespace ReadyPlayerMe.Core.Editor
                 var releasesUrl = repoUrl
                     .Split(new[] { ".git" }, StringSplitOptions.None)[0]
                     .Replace(GITHUB_WEBSITE, GITHUB_API_URL) + "/releases";
-
 
                 var packageUrl = repoUrl.Split('#')[0];
 
