@@ -21,7 +21,7 @@ namespace ReadyPlayerMe.Core.Editor
 
         [SerializeField] private VisualTreeAsset visualTreeAsset;
 
-        [MenuItem("Ready Player Me/Integration Guide")]
+        [MenuItem("Ready Player Me/Integration Guide", priority = 12)]
         public static void ShowWindow()
         {
             var window = GetWindow<IntegrationGuide>();
