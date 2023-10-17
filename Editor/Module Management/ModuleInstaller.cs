@@ -67,6 +67,7 @@ namespace ReadyPlayerMe.Core.Editor
             if (args.removed != null && args.removed.Any(p => p.name == ModuleList.Core.name))
             {
                 DefineSymbolHelper.RemoveSymbols();
+                ProjectPrefs.SetBool(ProjectPrefs.FIRST_TIME_SETUP_DONE, false);
             }
         }
 
