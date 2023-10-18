@@ -22,8 +22,6 @@ namespace ReadyPlayerMe.Core.Editor
 
         private const int THREAD_SLEEP_TIME = 100;
         private const string PROGRESS_BAR_TITLE = "Ready Player Me";
-        private const string GLTFAST_SYMBOL = "GLTFAST";
-        private const string READY_PLAYER_ME_SYMBOL = "READY_PLAYER_ME";
         private const string GLTFAST_NAME = "com.atteneder.gltfast";
         private const string WEBVIEW_NAME = "webview";
 
@@ -39,6 +37,8 @@ namespace ReadyPlayerMe.Core.Editor
 
         static ModuleInstaller()
         {
+            Events.registeringPackages -= OnRegisteringPackages;
+            Events.registeringPackages += OnRegisteringPackages;
 # if RPM_DEVELOPMENT
             modulesInstalled = true;
 #endif
@@ -47,15 +47,28 @@ namespace ReadyPlayerMe.Core.Editor
                 InstallModules();
                 EditorApplication.delayCall += DelayCreateCoreSettings;
             }
-
+            
 #if !GLTFAST
             if (IsModuleInstalled(GLTFAST_NAME))
             {
-                AddGltfastSymbol();
-                AddScriptingDefineSymbolToAllBuildTargetGroups(READY_PLAYER_ME_SYMBOL);
+                DefineSymbolHelper.AddSymbols();
             }
 #endif
 
+        }
+        
+        /// <summary>
+        ///     Called when a package is about to be added, removed or changed.
+        /// </summary>
+        /// <param name="args">Describes the <c>PackageInfo</c> entries of packages currently registering.</param>
+        private static void OnRegisteringPackages(PackageRegistrationEventArgs args)
+        {
+            // Core module uninstalled
+            if (args.removed != null && args.removed.Any(p => p.name == ModuleList.Core.name))
+            {
+                DefineSymbolHelper.RemoveSymbols();
+                ProjectPrefs.SetBool(ProjectPrefs.FIRST_TIME_SETUP_DONE, false);
+            }
         }
 
         private static void DelayCreateCoreSettings()
@@ -156,39 +169,6 @@ namespace ReadyPlayerMe.Core.Editor
             }
 
             return listRequest.Result.ToArray();
-        }
-
-        public static void AddGltfastSymbol()
-        {
-            AddScriptingDefineSymbolToAllBuildTargetGroups(GLTFAST_SYMBOL);
-        }
-
-        private static void AddScriptingDefineSymbolToAllBuildTargetGroups(string defineSymbol)
-        {
-            foreach (BuildTarget target in Enum.GetValues(typeof(BuildTarget)))
-            {
-                BuildTargetGroup group = BuildPipeline.GetBuildTargetGroup(target);
-
-                if (group == BuildTargetGroup.Unknown)
-                {
-                    continue;
-                }
-
-                List<string> defineSymbols = PlayerSettings.GetScriptingDefineSymbolsForGroup(group).Split(';').Select(d => d.Trim()).ToList();
-
-                if (defineSymbols.Contains(defineSymbol)) continue;
-                defineSymbols.Add(defineSymbol);
-                try
-                {
-                    PlayerSettings.SetScriptingDefineSymbolsForGroup(group, string.Join(";", defineSymbols.ToArray()));
-                }
-                catch (Exception e)
-                {
-                    Debug.LogWarning("Could not set RPM " + defineSymbol + " defines for build target: " + target + " group: " + group + " " + e);
-                }
-            }
-
-            CompilationPipeline.RequestScriptCompilation();
         }
 
         /// <summary>

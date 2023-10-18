@@ -29,7 +29,7 @@ namespace ReadyPlayerMe.Core.Editor
         public static void ShowWindow()
         {
 #if !GLTFAST
-            ModuleInstaller.AddGltfastSymbol();
+            DefineSymbolHelper.AddSymbols();
 #endif
             var window = GetWindow<AvatarLoaderEditor>();
             window.titleContent = new GUIContent(AVATAR_LOADER);
