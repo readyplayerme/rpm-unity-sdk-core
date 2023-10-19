@@ -63,6 +63,11 @@
       "displayName": "WebGLExample",
       "description": "This sample includes a WebGL template and demonstrates how run the Ready Player Me Web avatar creator inside an iFrame for WebGL applications.",
       "path": "Samples~/WebGLExample"
+    },
+    {
+      "displayName": "SampleCreator",
+      "description": "This sample demonstrates how to implement a Ready Player Me Avatar Creator using Unity's built in UI system without the need for an embedded Web Browser.",
+      "path": "Samples~/SampleCreator"
     }
   ]
 }
