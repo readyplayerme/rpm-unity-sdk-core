@@ -1,5 +1,5 @@
 {
-    "name": "SampleCreator",
+    "name": "ReadyPlayerMe.SampleCreator",
     "rootNamespace": "",
     "references": [
         "ReadyPlayerMe.AvatarCreator",

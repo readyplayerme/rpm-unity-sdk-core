@@ -1,10 +1,10 @@
 {
-    "name": "SampleCreator.Editor",
+    "name": "ReadyPlayerMe.SampleCreator.Editor",
     "rootNamespace": "",
     "references": [
         "ReadyPlayerMe.AvatarCreator",
         "ReadyPlayerMe.Core",
-        "SampleCreator"
+        "ReadyPlayerMe.SampleCreator"
     ],
     "includePlatforms": [
         "Editor"
