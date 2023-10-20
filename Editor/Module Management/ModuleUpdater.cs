@@ -116,7 +116,7 @@ namespace ReadyPlayerMe.Core.Editor
 
                 Version latestVersion = versions.Max();
 
-                if (latestVersion > currentVersion)
+                // if (latestVersion > currentVersion)
                 {
                     DisplayUpdateDialog(packageName, currentVersion, latestVersion, packageUrl);
                 }
@@ -147,8 +147,7 @@ namespace ReadyPlayerMe.Core.Editor
             {
                 // Update
                 case 0:
-                    packageUrl += "#v" + latestVersion;
-                    UpdateModule(packageName, packageUrl, currentVersion, latestVersion);
+                    CheckIfMajorRelease(packageName, currentVersion, latestVersion, packageUrl);
                     break;
                 // Cancel
                 case 1:
@@ -161,6 +160,25 @@ namespace ReadyPlayerMe.Core.Editor
             }
         }
 
+        private static void CheckIfMajorRelease(string packageName, Version currentVersion, Version latestVersion,
+            string packageUrl)
+        {
+            // if (latestVersion.Major > currentVersion.Major)
+                if (true)
+            {
+                if (EditorUtility.DisplayDialog("Warning",
+                        "This is a breaking change!", UPDATE_BUTTON_TEXT, CANCEL_BUTTON_TEXT))
+                {
+                    UpdateModule(packageName, packageUrl, currentVersion, latestVersion);
+                }
+
+            }
+            else
+            {
+                UpdateModule(packageName, packageUrl, currentVersion, latestVersion);
+            }
+        }
+
         /// <summary>
         ///     Update the specified module by removing the current version and then adding the specified version.
         /// </summary>
@@ -170,6 +188,7 @@ namespace ReadyPlayerMe.Core.Editor
         /// <param name="latest">The new version of the package.</param>
         private static void UpdateModule(string name, string url, Version current, Version latest)
         {
+            url += "#v" + latest;
             CleanRedundantAvatarLoader();
             RemoveRequest removeRequest = Client.Remove(name);
             while (!removeRequest.IsCompleted) Thread.Sleep(MILLISECONDS_TIMEOUT);
