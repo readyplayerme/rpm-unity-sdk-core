@@ -31,6 +31,7 @@ namespace ReadyPlayerMe.Core.Analytics
             public const string OPEN_ANIMATION_DOCUMENTATION = "open animation documentation";
             public const string OPEN_AVATAR_CREATOR_DOCUMENTATION = "open avatar creator documentation";
             public const string OPEN_OPTIMIZATION_DOCUMENTATION = "open optimization documentation";
+            public const string SAMPLE_CREATOR_IMPORTED = "Sample creator present imported";
         }
 
         public static class Properties
