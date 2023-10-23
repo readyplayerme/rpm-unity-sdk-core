@@ -26,8 +26,8 @@ namespace ReadyPlayerMe.Core.Editor
 
             var window = GetWindow<BreakingChangeDialog>();
             window.titleContent = new GUIContent(TITLE);
-            window.minSize = new Vector2(500, 125);
-            window.maxSize = new Vector2(500, 125);
+            window.minSize = new Vector2(500, 140);
+            window.maxSize = new Vector2(500, 140);
             window.ShowModalUtility();
         }
 
