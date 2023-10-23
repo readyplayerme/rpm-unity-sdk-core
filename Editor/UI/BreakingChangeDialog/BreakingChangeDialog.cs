@@ -14,12 +14,6 @@ namespace ReadyPlayerMe.Core.Editor
 
         private static Action updateClicked;
 
-        [MenuItem("Window/UI Toolkit/BreakingChangeDialog")]
-        public static void S()
-        {
-            ShowDialog(null);
-        }
-
         public static void ShowDialog(Action onUpdate)
         {
             updateClicked = onUpdate;
