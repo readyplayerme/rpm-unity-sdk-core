@@ -164,13 +164,12 @@ namespace ReadyPlayerMe.Core.Editor
             string packageUrl)
         {
             // if (latestVersion.Major > currentVersion.Major)
-                if (true)
+            if (true)
             {
-                if (EditorUtility.DisplayDialog("Warning",
-                        "This is a breaking change!", UPDATE_BUTTON_TEXT, CANCEL_BUTTON_TEXT))
+                BreakingChangeDialog.ShowDialog(() =>
                 {
                     UpdateModule(packageName, packageUrl, currentVersion, latestVersion);
-                }
+                });
 
             }
             else
