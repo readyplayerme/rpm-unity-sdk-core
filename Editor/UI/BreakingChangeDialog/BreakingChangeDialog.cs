@@ -8,7 +8,7 @@ namespace ReadyPlayerMe.Core.Editor
     public class BreakingChangeDialog : EditorWindow
     {
         private const string MIGRATION_GUIDE_URL = "https://docs.readyplayer.me/ready-player-me/integration-guides/unity/troubleshooting/updating-from-earlier-versions";
-        private const string TITLE = "Warning!";
+        private const string TITLE = "Update Packages";
 
         [SerializeField] private VisualTreeAsset visualTreeAsset;
 
