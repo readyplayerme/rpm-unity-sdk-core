@@ -116,7 +116,7 @@ namespace ReadyPlayerMe.Core.Editor
 
                 Version latestVersion = versions.Max();
 
-                // if (latestVersion > currentVersion)
+                if (latestVersion > currentVersion)
                 {
                     DisplayUpdateDialog(packageName, currentVersion, latestVersion, packageUrl);
                 }
@@ -163,8 +163,7 @@ namespace ReadyPlayerMe.Core.Editor
         private static void CheckIfMajorRelease(string packageName, Version currentVersion, Version latestVersion,
             string packageUrl)
         {
-            // if (latestVersion.Major > currentVersion.Major)
-            if (true)
+            if (latestVersion.Major > currentVersion.Major)
             {
                 BreakingChangeDialog.ShowDialog(() =>
                 {
