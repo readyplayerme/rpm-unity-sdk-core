@@ -3,7 +3,16 @@
 All notable changes to this project will be documented in this file.
 This project adheres to [Semantic Versioning](http://semver.org/).
 
-## [3.3.0] - 2023.20.05
+## [3.4.0] - 2023.10.24
+
+### Added
+- breaking change popup @ryuuk in [#136](https://github.com/readyplayerme/rpm-unity-sdk-core/pull/136)
+
+### Updated
+- disable use demo toggle in setup guide [#131](https://github.com/readyplayerme/rpm-unity-sdk-core/pull/131)
+- refactor define symbol add and remove logic [#133](https://github.com/readyplayerme/rpm-unity-sdk-core/pull/133)
+
+## [3.3.0] - 2023.10.05
 
 ### Added
 - moved core iframe and url logic from WebView package @harrisonhough in [#125](https://github.com/readyplayerme/rpm-unity-sdk-core/pull/125)
@@ -95,7 +104,7 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 - discussion link to README.md
 
 ### Updated
-- OpenUPM installation added to README.md
+- openUPM installation added to README.md
 
 ## [1.0.0] - 2023.02.20
 
@@ -104,7 +113,7 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 - don't ask again option for update check
 
 ### Updated
-- PartnerSubdomainSettings refactored to a CoreSettings scriptable object
+- partnerSubdomainSettings refactored to a CoreSettings scriptable object
 
 ### Fixed
 - core settings asset now automatically created if it is missing
@@ -116,10 +125,10 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 - optional sdk logging
 
 ### Updated
-- PartnerSubdomainSettings refactored to a CoreSettings scriptable object
+- partnerSubdomainSettings refactored to a CoreSettings scriptable object
 
 ### Fixed
-- Various bug fixes and improvements
+- various bug fixes and improvements
 
 ## [0.1.0] - 2023.01.22
 
@@ -134,7 +143,7 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 - module installer and updater for handling package installation
 
 ### Updated
-- A big refactor of code and classes
+- a big refactor of code and classes
 
 ### Fixed
-- Various bug fixes and improvements
+- various bug fixes and improvements
