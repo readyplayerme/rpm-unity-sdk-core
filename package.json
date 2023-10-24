@@ -1,12 +1,12 @@
 {
   "name": "com.readyplayerme.core",
-  "version": "3.3.0",
+  "version": "3.4.0",
   "displayName": "Ready Player Me Core",
   "description": "This Module contains all the core functionality required for using Ready Player Me avatars in Unity, including features such as: \n - Module management and automatic package setup logic\n - Avatar loading from .glb files\n - Avatar and 2D render requests\n - Optional Analytics\n - Custom editor windows\n - Sample scenes and assets",
   "unity": "2020.3",
   "unityRelease": "0f1",
   "documentationUrl": "https://docs.readyplayer.me/ready-player-me/integration-guides/unity-sdk",
-  "changelogUrl": "https://docs.readyplayer.me/ready-player-me/integration-guides/unity-sdk/changelog",
+  "changelogUrl": "https://github.com/readyplayerme/rpm-unity-sdk-core/blob/main/CHANGELOG.md",
   "licensesUrl": "https://github.com/readyplayerme/rpm-unity-sdk-core/blob/main/LICENSE.md",
   "dependencies": {
     "com.unity.nuget.newtonsoft-json": "3.0.2"

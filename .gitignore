@@ -58,5 +58,8 @@ sysinfo.txt
 # Crashlytics generated file
 crashlytics-build.properties
 
-
 .idea/
+
+# Samples meta files 
+**/Samples~.meta
+**/Samples.meta
