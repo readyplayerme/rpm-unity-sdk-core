@@ -1,11 +1,13 @@
 {
-    "name": "ReadyPlayerMe.Core.WebGLExample",
+    "name": "ReadyPlayerMe.Core.WebGLSample.Editor",
     "rootNamespace": "",
     "references": [
-        "GUID:96af4ea235d92d245a095007c6ca3701",
-        "GUID:292600d1b44837d4b8ce752a20ebe446"
+        "ReadyPlayerMe.Core",
+        "ReadyPlayerMe.Core.Editor"
     ],
-    "includePlatforms": [],
+    "includePlatforms": [
+        "Editor"
+    ],
     "excludePlatforms": [],
     "allowUnsafeCode": false,
     "overrideReferences": false,
