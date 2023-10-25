@@ -291,6 +291,7 @@ namespace ReadyPlayerMe
             }
 
             ProcessAvatar(avatar);
+            Destroy(currentAvatar);
             currentAvatar = avatar;
             LoadingManager.DisableLoading();
             SDKLogger.Log(TAG, $"Avatar updated in {Time.time - startTime:F2}s");
