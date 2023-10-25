@@ -227,6 +227,11 @@ namespace ReadyPlayerMe.Core.Analytics
             LogEvent(Constants.EventName.OPEN_OPTIMIZATION_DOCUMENTATION);
         }
 
+        public void LogSampleCreatorImported(string packageVersion)
+        {
+           LogEvent(Constants.EventName.SAMPLE_CREATOR_IMPORTED);
+        }
+        
         private void SetUserProperties()
         {
             var userProperties = new Dictionary<string, object>

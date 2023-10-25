@@ -3,7 +3,8 @@
     "rootNamespace": "",
     "references": [
         "ReadyPlayerMe.Core",
-        "ReadyPlayerMe.Core.Editor"
+        "ReadyPlayerMe.Core.Editor",
+        "ReadyPlayerMe.Core.AvatarCreator"
     ],
     "includePlatforms": [
         "Editor"
