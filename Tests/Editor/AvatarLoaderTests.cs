@@ -7,8 +7,10 @@ using UnityEngine;
 using UnityEngine.TestTools;
 using Object = UnityEngine.Object;
 
-namespace ReadyPlayerMe.Core.Tests {
-    public class AvatarLoaderTests {
+namespace ReadyPlayerMe.Core.Tests
+{
+    public class AvatarLoaderTests
+    {
         private GameObject avatar;
 
         [TearDown]
