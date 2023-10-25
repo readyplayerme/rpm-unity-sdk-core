@@ -1,8 +1,7 @@
 {
-    "name": "ReadyPlayerMe.SampleCreator",
+    "name": "ReadyPlayerMe.Core.AvatarCreator",
     "rootNamespace": "",
     "references": [
-        "ReadyPlayerMe.AvatarCreator",
         "ReadyPlayerMe.Core"
     ],
     "includePlatforms": [],

@@ -1,10 +1,14 @@
 {
-    "name": "ReadyPlayerMe.AvatarCreator",
+    "name": "ReadyPlayerMe.Core.AvatarCreatorSample.Editor",
     "rootNamespace": "",
     "references": [
-        "ReadyPlayerMe.Core"
+        "ReadyPlayerMe.Core.AvatarCreator",
+        "ReadyPlayerMe.Core",
+        "ReadyPlayerMe.Core.AvatarCreatorSample"
     ],
-    "includePlatforms": [],
+    "includePlatforms": [
+        "Editor"
+    ],
     "excludePlatforms": [],
     "allowUnsafeCode": false,
     "overrideReferences": false,
