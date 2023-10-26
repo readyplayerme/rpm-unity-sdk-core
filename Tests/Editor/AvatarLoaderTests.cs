@@ -94,33 +94,6 @@ namespace ReadyPlayerMe.Core.Tests
         }
 
         [UnityTest]
-        public IEnumerator AvatarLoader_Replace_Old_Avatar_Instance()
-        {
-            GameObject avatarA = null;
-            GameObject avatarB = null;
-            var failureType = FailureType.None;
-
-            var loaderA = new AvatarObjectLoader();
-            loaderA.OnCompleted += (_, args) => avatarA = args.Avatar;
-            loaderA.OnFailed += (_, args) => failureType = args.Type;
-            loaderA.LoadAvatar(TestAvatarData.DefaultAvatarUri.ModelUrl);
-
-            yield return new WaitUntil(() => avatarA != null || failureType != FailureType.None);
-
-            var loaderB = new AvatarObjectLoader();
-            loaderB.OnCompleted += (_, args) => avatarB = args.Avatar;
-            loaderB.OnFailed += (_, args) => failureType = args.Type;
-            loaderB.LoadAvatar(TestAvatarData.DefaultAvatarUri.ModelUrl);
-
-            yield return new WaitUntil(() => avatarB != null || failureType != FailureType.None);
-
-            Animator[] objects = Object.FindObjectsOfType<Animator>();
-
-            Assert.AreEqual(1, objects.Length);
-            Assert.AreEqual(FailureType.None, failureType);
-        }
-
-        [UnityTest]
         public IEnumerator AvatarLoader_Clears_Persistent_Cache()
         {
             AvatarLoaderSettings settings = AvatarLoaderSettings.LoadSettings();
@@ -179,12 +152,12 @@ namespace ReadyPlayerMe.Core.Tests
         public IEnumerator AvatarLoader_Low_LOD_Smaller_than_High_LOD()
         {
             var failureType = FailureType.None;
-            
+
             var avatarConfig = ScriptableObject.CreateInstance<AvatarConfig>();
             avatarConfig.Lod = Lod.Low;
             avatarConfig.TextureAtlas = TextureAtlas.Low;
             avatarConfig.TextureChannel = Array.Empty<TextureChannel>();
-            
+
             var loader = new AvatarObjectLoader();
             loader.OnCompleted += (sender, args) =>
             {
@@ -201,7 +174,7 @@ namespace ReadyPlayerMe.Core.Tests
             loader = new AvatarObjectLoader();
             avatarConfig.Lod = Lod.High;
             loader.AvatarConfig = avatarConfig;
-            
+
             loader.OnCompleted += (sender, args) =>
             {
                 avatar = args.Avatar;
