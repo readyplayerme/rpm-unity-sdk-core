@@ -30,34 +30,14 @@
       "path": "Samples~/QuickStart"
     },
     {
-      "displayName": "AvatarLoading",
-      "description": "Loads an avatar.",
-      "path": "Samples~/AvatarLoading"
+      "displayName": "AvatarLoadingSamples",
+      "description": "These samples showcase various ways to load an avatar into a scene.",
+      "path": "Samples~/AvatarLoadingSamples"
     },
     {
-      "displayName": "AvatarLod",
-      "description": "Demonstration of how to implement Avatar LOD's.",
-      "path": "Samples~/AvatarLod"
-    },
-    {
-      "displayName": "AvatarRender",
-      "description": "Creates a 2D render of an avatar using the Render API.",
-      "path": "Samples~/AvatarRender"
-    },
-    {
-      "displayName": "MultipleAvatarLoading",
-      "description": "Loads multiple avatars.",
-      "path": "Samples~/MultipleAvatarLoading"
-    },
-    {
-      "displayName": "MultipleQualityAvatarLoading",
-      "description": "Loads the same avatar multiple times with different quality settings.",
-      "path": "Samples~/MultipleQualityAvatarLoading"
-    },
-    {
-      "displayName": "MultipleAvatarRender",
-      "description": "Loads the multiple avatar render with different settings.",
-      "path": "Samples~/MultipleAvatarRender"
+      "displayName": "AvatarRenderSamples",
+      "description": "These samples showcase how to creates a 2D renders of an avatar using the Render API.",
+      "path": "Samples~/AvatarRenderSamples"
     },
     {
       "displayName": "WebGLSample",
