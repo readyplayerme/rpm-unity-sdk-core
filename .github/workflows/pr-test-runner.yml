@@ -56,5 +56,5 @@ jobs:
           githubToken: ${{ secrets.GITHUB_TOKEN }}
           customParameters: |
             assemblyNames "ReadyPlayerMe.Core.Editor.Tests;ReadyPlayerMe.Tests.Editor;ReadyPlayerMe.Tests.Runtime"
-            --testfilter "-Unity.Multiplayer.Tools.Common.Tests"
+            --testfilter "-Unity.Multiplayer.Tools.Common.Tests.dll;-Unity.Multiplayer.Tools.MetricTypes.Tests.Editor.dll;-Unity.Multiplayer.Tools.NetStats.Tests.Editor.dll;-Unity.Multiplayer.Tools.NetworkProfiler.Tests.Editor.dll;-Unity.Multiplayer.Tools.NetworkSolutionInterface.Tests.Editor.dll"
           coverageOptions: "generateAdditionalMetrics;generateHtmlReport;generateBadgeReport;assemblyFilters:+ReadyPlayerMe.*"
