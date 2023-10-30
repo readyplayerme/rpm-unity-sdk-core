@@ -7,6 +7,8 @@ namespace ReadyPlayerMe.Core.Editor
 {
     public class SampleLoader
     {
+        private Sample loadedSample;
+
         public bool Load(string packageName, string sampleName)
         {
             var sample = GetSampleFromPackage(packageName, sampleName);
@@ -15,8 +17,14 @@ namespace ReadyPlayerMe.Core.Editor
                 return false;
             }
 
-            ImportAndOpenSample(sample.Value);
+            loadedSample = sample.Value;
+            ImportAndOpenSample(loadedSample);
             return true;
+        }
+        
+        public void OpenScene(string scenePath)
+        {
+            EditorSceneManager.OpenScene($"{loadedSample.importPath}/{scenePath}.unity");
         }
         
         private Sample? GetSampleFromPackage(string packageName, string sampleName)
@@ -38,8 +46,7 @@ namespace ReadyPlayerMe.Core.Editor
                 while (!quickStartSample.isImported)
                     Thread.Sleep(1);
             }
-
-            EditorSceneManager.OpenScene($"{quickStartSample.importPath}/{quickStartSample.displayName}.unity");
         }
+    
     }
 }

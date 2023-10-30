@@ -21,6 +21,7 @@ namespace ReadyPlayerMe.Core.Editor
         private const string CORE_PACKAGE = "com.readyplayerme.core";
         private const string QUICKSTART_SAMPLE_NAME = "QuickStart";
         private const string AVATAR_CREATOR_SAMPLE_NAME = "AvatarCreatorSamples";
+        private const string AVATAR_CREATOR_SAMPLE_SCENE_NAME = "Scenes/AvatarCreatorSample";
 
         [SerializeField] private VisualTreeAsset visualTreeAsset;
 
@@ -48,7 +49,7 @@ namespace ReadyPlayerMe.Core.Editor
             rootVisualElement.Q<VisualElement>(QUICK_START).Q<Button>().clicked += () =>
             {
                 AnalyticsEditorLogger.EventLogger.LogLoadQuickStartScene();
-                OpenQuickStartButton();
+                LoadAndOpenSample(QUICKSTART_SAMPLE_NAME, QUICKSTART_SAMPLE_NAME);
             };
             
             rootVisualElement.Q<VisualElement>(LOAD_AVATARS).Q<Button>().clicked += () =>
@@ -72,7 +73,7 @@ namespace ReadyPlayerMe.Core.Editor
             rootVisualElement.Q<VisualElement>(INTEGRATE_AVATAR_CREATOR).Q<Button>("LoadSampleSceneButton").clicked += () =>
             {
                 AnalyticsEditorLogger.EventLogger.LogAvatarCreatorSampleImported();
-                OpenAvatarCreatorSample();
+                LoadAndOpenSample(AVATAR_CREATOR_SAMPLE_NAME, AVATAR_CREATOR_SAMPLE_SCENE_NAME);
             };
             
             rootVisualElement.Q<VisualElement>(OPTIMIZE_THE_PERFORMANCE).Q<Button>().clicked += () =>
@@ -82,24 +83,19 @@ namespace ReadyPlayerMe.Core.Editor
             };
         }
         
-        private void OpenQuickStartButton()
+        private void LoadAndOpenSample(string sampleName, string scenePath)
         {
             Close();
 
-            if (!new SampleLoader().Load(CORE_PACKAGE, QUICKSTART_SAMPLE_NAME))
-            {
-                EditorUtility.DisplayDialog(INTEGRATION_GUIDE, "No quick start sample found.", "OK");
-            }
-        }
+            var sampleLoader = new SampleLoader();
 
-        private void OpenAvatarCreatorSample()
-        {
-            Close();
-
-            if (!new SampleLoader().Load(CORE_PACKAGE, AVATAR_CREATOR_SAMPLE_NAME))
+            if (sampleLoader.Load(CORE_PACKAGE, sampleName))
             {
-                EditorUtility.DisplayDialog(INTEGRATION_GUIDE, "No avatar creator sample found.", "OK");
+                sampleLoader.OpenScene(scenePath);
+                return;
             }
+            
+            EditorUtility.DisplayDialog(INTEGRATION_GUIDE, $"No sample with name {sampleName} found.", "OK");
         }
 
         private void OpenDocumentation(string link)
