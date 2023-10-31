@@ -30,5 +30,6 @@ namespace ReadyPlayerMe.Core.Analytics
         void LogOpenAnimationDocumentation();
         void LogOpenAvatarCreatorDocumentation();
         void LogOpenOptimizationDocumentation();
+        void LogAvatarCreatorSampleImported();
     }
 }

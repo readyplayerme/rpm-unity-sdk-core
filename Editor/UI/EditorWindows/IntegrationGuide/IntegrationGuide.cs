@@ -18,6 +18,10 @@ namespace ReadyPlayerMe.Core.Editor
         private const string ADD_ANIMATIONS = "AddAnimations";
         private const string INTEGRATE_AVATAR_CREATOR = "IntegrateAvatarCreator";
         private const string OPTIMIZE_THE_PERFORMANCE = "OptimizeThePerformance";
+        private const string CORE_PACKAGE = "com.readyplayerme.core";
+        private const string QUICKSTART_SAMPLE_NAME = "QuickStart";
+        private const string AVATAR_CREATOR_SAMPLE_NAME = "AvatarCreatorSamples";
+        private const string AVATAR_CREATOR_SAMPLE_SCENE_NAME = "Scenes/AvatarCreatorSample";
 
         [SerializeField] private VisualTreeAsset visualTreeAsset;
 
@@ -37,46 +41,61 @@ namespace ReadyPlayerMe.Core.Editor
             var headerLabel = rootVisualElement.Q<Label>(HEADER_LABEL);
             headerLabel.text = INTEGRATION_GUIDE;
 
-            var quickStartButton = rootVisualElement.Q<VisualElement>(QUICK_START).Q<Button>();
-            quickStartButton.clicked += OnOpenQuickStartButton;
-            var loadAvatarsDocButton = rootVisualElement.Q<VisualElement>(LOAD_AVATARS).Q<Button>();
-            loadAvatarsDocButton.clicked += () =>
+            RegisterButtons();
+        }
+
+        private void RegisterButtons()
+        {
+            rootVisualElement.Q<VisualElement>(QUICK_START).Q<Button>().clicked += () =>
+            {
+                AnalyticsEditorLogger.EventLogger.LogLoadQuickStartScene();
+                LoadAndOpenSample(QUICKSTART_SAMPLE_NAME, QUICKSTART_SAMPLE_NAME);
+            };
+            
+            rootVisualElement.Q<VisualElement>(LOAD_AVATARS).Q<Button>().clicked += () =>
             {
                 AnalyticsEditorLogger.EventLogger.LogOpenAvatarDocumentation();
                 OpenDocumentation(LOAD_AVATARS_URL);
             };
 
-            var addAnimationDocButton = rootVisualElement.Q<VisualElement>(ADD_ANIMATIONS).Q<Button>();
-            addAnimationDocButton.clicked += () =>
+            rootVisualElement.Q<VisualElement>(ADD_ANIMATIONS).Q<Button>().clicked += () =>
             {
                 AnalyticsEditorLogger.EventLogger.LogOpenAnimationDocumentation();
                 OpenDocumentation(ADD_ANIMATION_URL);
             };
 
-            var integrateAvatarCreatorDocButton = rootVisualElement.Q<VisualElement>(INTEGRATE_AVATAR_CREATOR).Q<Button>();
-            integrateAvatarCreatorDocButton.clicked += () =>
+            rootVisualElement.Q<VisualElement>(INTEGRATE_AVATAR_CREATOR).Q<Button>("SeeDocsButton").clicked += () =>
             {
                 AnalyticsEditorLogger.EventLogger.LogOpenAvatarCreatorDocumentation();
                 OpenDocumentation(AVATAR_CREATOR_URL);
             };
 
-            var optimizePerformanceDocButton = rootVisualElement.Q<VisualElement>(OPTIMIZE_THE_PERFORMANCE).Q<Button>();
-            optimizePerformanceDocButton.clicked += () =>
+            rootVisualElement.Q<VisualElement>(INTEGRATE_AVATAR_CREATOR).Q<Button>("LoadSampleSceneButton").clicked += () =>
+            {
+                AnalyticsEditorLogger.EventLogger.LogAvatarCreatorSampleImported();
+                LoadAndOpenSample(AVATAR_CREATOR_SAMPLE_NAME, AVATAR_CREATOR_SAMPLE_SCENE_NAME);
+            };
+            
+            rootVisualElement.Q<VisualElement>(OPTIMIZE_THE_PERFORMANCE).Q<Button>().clicked += () =>
             {
                 AnalyticsEditorLogger.EventLogger.LogOpenOptimizationDocumentation();
                 OpenDocumentation(OPTIMIZE_PERFORMANCE_URL);
             };
         }
-
-        private void OnOpenQuickStartButton()
+        
+        private void LoadAndOpenSample(string sampleName, string scenePath)
         {
             Close();
 
-            if (!new QuickStartHelper().Open())
+            var sampleLoader = new SampleLoader();
+
+            if (sampleLoader.Load(CORE_PACKAGE, sampleName))
             {
-                EditorUtility.DisplayDialog(INTEGRATION_GUIDE, "No quick start sample found.", "OK");
+                sampleLoader.OpenScene(scenePath);
+                return;
             }
-            AnalyticsEditorLogger.EventLogger.LogLoadQuickStartScene();
+            
+            EditorUtility.DisplayDialog(INTEGRATION_GUIDE, $"No sample with name {sampleName} found.", "OK");
         }
 
         private void OpenDocumentation(string link)
