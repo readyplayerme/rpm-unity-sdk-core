@@ -37,8 +37,8 @@ namespace ReadyPlayerMe.Core.Editor
 
         private const string ANALYTICS_PRIVACY_URL = "https://docs.readyplayer.me/ready-player-me/integration-guides/unity/help-us-improve-the-unity-sdk";
 
-        private const string DOCS_URL = "https://bit.ly/UnitySDKDocs";
-        private const string FAQ_URL = "https://docs.readyplayer.me/overview/frequently-asked-questions/game-engine-faq";
+        private const string DOCS_URL = "https://docs.readyplayer.me/ready-player-me/integration-guides/unity";
+        private const string FAQ_URL = "https://docs.readyplayer.me/ready-player-me/integration-guides/unity/faq-for-unity";
         private const string DISCORD_URL = "https://bit.ly/UnitySDKDiscord";
         private const string PRIVACY_POLICY_LABEL = "PrivacyPolicyLabel";
 
