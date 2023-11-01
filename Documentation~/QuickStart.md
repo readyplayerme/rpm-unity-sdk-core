@@ -52,7 +52,7 @@ After the process is complete you project will have imported these packages:
 
 1. Open `Edit | Project Settings | Package Manager`
 2. Add a new Scoped Registry (or edit the existing OpenUPM entry)
-    - ```
+   - ```
      Name     package.openupm.com
      URL      https://package.openupm.com
      Scope(s) com.readyplayerme.core
@@ -67,7 +67,7 @@ After the process is complete you project will have imported these packages:
 ### OpenUPM (using manifest)
 
 1. Add this to manifest
-    - ```{
+   - ```{
      "scopedRegistries": [
         {
             "name": "package.openupm.com",
