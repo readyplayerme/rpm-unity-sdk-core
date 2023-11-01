@@ -12,21 +12,31 @@ Please visit the online documentation and join our public `discord` community.
 
 :octocat: **[GitHub Discussions]( https://github.com/readyplayerme/rpm-unity-sdk-core/discussions )**
 
-## Quick Start 
+## Quick Start
+The installation steps can be found [here.](Documentation~/QuickStart.md)
 
-### Requirements
-- Unity Version 2020.3 or higher
-- [Git](https://git-scm.com) needs to be installed to fetch the Unity package. [Download here](https://git-scm.com/downloads)
+## Avatar Creator
 
-**1.** To add the new Ready Player Me Unity SDK to your project you can use the Unity Package Manager to import the package directly from the Git URL. 
+### Supported Platforms
+- Windows/Mac/Linux Standalone
+- Android*
+- iOS*
 
-**2.** With your Unity Project open, open up the Package Manager window by going to `Window > Package Manager`.
+### Sample
+Steps for trying out avatar creator sample can be found [here.](Documentation~/AvatarCreatorSample.md).
 
-![open-package-manager](https://user-images.githubusercontent.com/7085672/206432665-da233187-06ad-40b5-a25e-660c97d6726f.png)
+### Structure
+- It provides APIs for creating, customizing and loading the avatar.
+- It also contains a sample which demonstrates the usage of the APIs and replicates RPM web avatar creator.
+- The documentation of provided sample can be found [here.](Documentation~/SampleStructure.md)
 
-**3.** In the **Package Manager** window click on the + icon in the top left corner and select Add Package From Git URL.
+### Customization Guide
+A guide for customizing avatar creator can be found [here.](Documentation~/CustomizationGuide.md)
 
-![add-package-from-ur;](https://user-images.githubusercontent.com/7085672/206432698-8ecde741-4259-486f-9c77-d63fbc9a6cde.png)
+### Note
+- [*]Camera support is only provided for Windows and WebGL, using Unity’s webcam native API.
+- Unity does not have a native file picker, so we have discontinued support for this feature.
+- To add support for file picker (for selfies) you have to implement it yourself
 
 **4.** Paste in this url 
 
