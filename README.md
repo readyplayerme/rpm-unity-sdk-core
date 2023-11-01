@@ -13,7 +13,7 @@ Please visit the online documentation and join our public `discord` community.
 :octocat: **[GitHub Discussions]( https://github.com/readyplayerme/rpm-unity-sdk-core/discussions )**
 
 ## Quick Start
-The installation steps can be found here.
+The installation steps can be found [here.](Documentation~/QuickStart.md)
 
 ## Avatar Creator
 
@@ -28,10 +28,10 @@ Steps for trying out avatar creator sample can be found here.
 ### Structure
 - It provides APIs for creating, customizing and loading the avatar.
 - It also contains a sample which demonstrates the usage of the APIs and replicates RPM web avatar creator.
-- The documentation of provided sample can be found here.
+- The documentation of provided sample can be found [here.](Documentation~/SampleStructure.md)
 
 ### Customization Guide
-A guide for customizing avatar creator can be found here.
+A guide for customizing avatar creator can be found [here.](Documentation~/CustomizationGuide.md)
 
 ### Note
 - [*]Camera support is only provided for Windows and WebGL, using Unity’s webcam native API.
