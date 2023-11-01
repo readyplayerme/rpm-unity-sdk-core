@@ -2,8 +2,9 @@
 ## Changelog
 
 ### Added
-- moved core iframe and url logic from WebView package @harrisonhough in [#125](https://github.com/readyplayerme/rpm-unity-sdk-core/pull/125)
+- show Avatar Creator sample button in guide by @ryuuk in [#141](https://github.com/readyplayerme/rpm-unity-sdk-core/pull/141)
+- Merge avatar creator into core by @ryuuk in [#135](https://github.com/readyplayerme/rpm-unity-sdk-core/pull/135)
 
 ### Updated
-- refactored core settings handler @harrisonhough in [#124](https://github.com/readyplayerme/rpm-unity-sdk-core/pull/124)
-- centred all editor window content @harrisonhough in [#122](https://github.com/readyplayerme/rpm-unity-sdk-core/pull/122)
+- merged related samples into single folders by @harrisonhough in [#139](https://github.com/readyplayerme/rpm-unity-sdk-core/pull/139)
+- AvatarProcessor no longer searches and replaces existing avatar by @rk132 in [#138](https://github.com/readyplayerme/rpm-unity-sdk-core/pull/138)
