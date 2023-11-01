@@ -36,7 +36,7 @@ namespace ReadyPlayerMe.Core.Editor
         private static void OnAppIdHelpClicked()
         {
             AnalyticsEditorLogger.EventLogger.LogFindOutMore(HelpSubject.Subdomain);
-            Application.OpenURL(Constants.Links.DOCS_PARTNERS_LINK);
+            Application.OpenURL(Constants.Links.APP_ID);
         }
 
         private void OnAppIdFocusOut(FocusOutEvent _)
