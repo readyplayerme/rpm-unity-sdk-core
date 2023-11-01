@@ -92,7 +92,7 @@ After the process is complete you project will have imported these packages:
         }
      ],
      "dependencies": {
-        "com.readyplayerme.core": "3.4.0"
+        "com.readyplayerme.core": "4.0.0"
        }
      }
      ```
