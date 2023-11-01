@@ -47,11 +47,6 @@ namespace ReadyPlayerMe.Core
         /// <returns>The <see cref="AvatarContext" />.</returns>
         private AvatarContext ProcessAvatarGameObject(AvatarContext context)
         {
-            GameObject oldInstance = GameObject.Find(context.AvatarUri.Guid);
-            if (oldInstance)
-            {
-                Object.DestroyImmediate(oldInstance);
-            }
 
             ((Object) context.Data).name = context.AvatarUri.Guid;
 

@@ -1,0 +1,17 @@
+{
+    "name": "ReadyPlayerMe.Core.WebGLSample",
+    "rootNamespace": "",
+    "references": [
+        "ReadyPlayerMe.Core",
+        "ReadyPlayerMe.WebView"
+    ],
+    "includePlatforms": [],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
+}

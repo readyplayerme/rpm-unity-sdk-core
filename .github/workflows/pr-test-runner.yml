@@ -54,5 +54,6 @@ jobs:
           projectPath: ${{ matrix.projectPath }}
           checkName: ${{ matrix.unityVersion }} ${{ matrix.testMode }} tests result
           githubToken: ${{ secrets.GITHUB_TOKEN }}
-          customParameters: assemblyNames "ReadyPlayerMe.Core.Editor.Tests;ReadyPlayerMe.Tests.Editor;ReadyPlayerMe.Tests.Runtime"
+          customParameters: |
+            assemblyNames "ReadyPlayerMe.Core.Editor.Tests;ReadyPlayerMe.Tests.Editor;ReadyPlayerMe.Tests.Runtime"
           coverageOptions: "generateAdditionalMetrics;generateHtmlReport;generateBadgeReport;assemblyFilters:+ReadyPlayerMe.*"

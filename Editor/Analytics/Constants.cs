@@ -31,6 +31,7 @@ namespace ReadyPlayerMe.Core.Analytics
             public const string OPEN_ANIMATION_DOCUMENTATION = "open animation documentation";
             public const string OPEN_AVATAR_CREATOR_DOCUMENTATION = "open avatar creator documentation";
             public const string OPEN_OPTIMIZATION_DOCUMENTATION = "open optimization documentation";
+            public const string AVATAR_CREATOR_SAMPLE_IMPORTED = "Avatar creator sample imported";
         }
 
         public static class Properties
@@ -67,6 +68,7 @@ namespace ReadyPlayerMe.Core.Analytics
             public const string DOCS_LOAD_AVATAR = "https://docs.readyplayer.me/ready-player-me/integration-guides/unity/load-avatars#save-avatars-as-npcs-in-your-project";
             public const string DOCS_AVATAR_CONFIG_LINK = "https://docs.readyplayer.me/ready-player-me/integration-guides/unity/optimize/avatar-configuration";
             public const string DOCS_AVATAR_CACHING = "https://docs.readyplayer.me/ready-player-me/integration-guides/unity/optimize/avatar-caching";
+            public const string APP_ID = "https://docs.readyplayer.me/ready-player-me/integration-guides/unity/avatar-creator/custom-avatar-creator#prerequisites";
         }
     }
 }

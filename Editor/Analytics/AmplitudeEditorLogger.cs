@@ -227,6 +227,11 @@ namespace ReadyPlayerMe.Core.Analytics
             LogEvent(Constants.EventName.OPEN_OPTIMIZATION_DOCUMENTATION);
         }
 
+        public void LogAvatarCreatorSampleImported()
+        {
+           LogEvent(Constants.EventName.AVATAR_CREATOR_SAMPLE_IMPORTED);
+        }
+        
         private void SetUserProperties()
         {
             var userProperties = new Dictionary<string, object>

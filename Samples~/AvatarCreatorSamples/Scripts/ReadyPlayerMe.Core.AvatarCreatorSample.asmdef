@@ -1,0 +1,17 @@
+{
+    "name": "ReadyPlayerMe.Core.AvatarCreatorSample",
+    "rootNamespace": "",
+    "references": [
+        "ReadyPlayerMe.Core.AvatarCreator",
+        "ReadyPlayerMe.Core"
+    ],
+    "includePlatforms": [],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
+}
