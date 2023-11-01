@@ -23,7 +23,7 @@ The installation steps can be found [here.](Documentation~/QuickStart.md)
 - iOS*
 
 ### Sample
-Steps for trying out avatar creator sample can be found here.
+Steps for trying out avatar creator sample can be found [here.](Documentation~/AvatarCreatorSample.md).
 
 ### Structure
 - It provides APIs for creating, customizing and loading the avatar.
