@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using UnityEditor;
 using UnityEditor.UIElements;
@@ -11,13 +12,13 @@ namespace ReadyPlayerMe.Core.Editor
     public class AvatarConfigNewEditor : UnityEditor.Editor
     {
         private const string DIALOG_TITLE = "Read Player Me";
-        private const string DIALOG_MESSAGE = "Do you want to install Draco Compression Unity Package: com.atteneder.draco ?";
+        private const string DIALOG_MESSAGE = "Do you want to install {0} Unity Package: {1} ?";
         private const string DIALOG_OK = "Ok";
         private const string DIALOG_CANCEL = "Cancel";
-        private const string USE_DRACO_COMPRESSION = "UseDracoCompression";
         private const string ADD_MORPH_TARGET = "Add Morph Target";
         private const string DELETE_MORPH_TARGET = "Delete Morph Target";
         private const string REMOVE_BUTTON_TEXT = "Remove";
+        private const string MESH_OPT_PACKAGE_NAME = "com.unity.meshopt.decompress";
 
         [SerializeField] private VisualTreeAsset visualTreeAsset;
 
@@ -28,31 +29,214 @@ namespace ReadyPlayerMe.Core.Editor
 
         private VisualElement selectedMorphTargets;
 
-        private SerializedProperty userDracoCompressionField;
+        private SerializedProperty useDracoCompressionField;
         private bool previousDracoCompressionValue;
+
+        private SerializedProperty useMeshOptCompressionField;
+        private bool previousMeshOptCompressionValue;
+
+        private VisualElement root;
 
         public override VisualElement CreateInspectorGUI()
         {
-            var root = new VisualElement();
+            root = new VisualElement();
             visualTreeAsset.CloneTree(root);
 
-            userDracoCompressionField = serializedObject.FindProperty(USE_DRACO_COMPRESSION);
-            userDracoCompressionField.boolValue = ModuleInstaller.IsModuleInstalled(ModuleList.DracoCompression.name);
-            serializedObject.ApplyModifiedProperties();
-
-            previousDracoCompressionValue = userDracoCompressionField.boolValue;
-
-            var defaultInspector = root.Q<IMGUIContainer>("DefaultInspector");
-            defaultInspector.onGUIHandler = () =>
-            {
-                DrawDefaultInspector();
-                InitializeDefaultInspector();
-            };
-
             avatarConfigTarget = (AvatarConfig) target;
+
+            SetupLod();
+            SetupPose();
+            SetupTextureAtlas();
+            SetupTextureSizeLimit();
+            SetupUseHands();
+            SetupUseDracoCompression();
+            SetupUseMeshOptCompression();
+            SetupTextureChannel();
+            SetupMorphTargets();
+
+            return root;
+        }
+
+        private void SetupLod()
+        {
+            var lod = root.Q<EnumField>("Lod");
+            lod.SetValueWithoutNotify(avatarConfigTarget.Lod);
+            lod.RegisterValueChangedCallback(x =>
+                {
+                    avatarConfigTarget.Lod = (Lod) x.newValue;
+                    serializedObject.ApplyModifiedProperties();
+                    Debug.Log("Lod changed:" + x.newValue);
+                }
+            );
+        }
+
+        private void SetupPose()
+        {
+            var pose = root.Q<EnumField>("Pose");
+            pose.SetValueWithoutNotify(avatarConfigTarget.Pose);
+            pose.RegisterValueChangedCallback(x =>
+                {
+                    avatarConfigTarget.Pose = (Pose) x.newValue;
+                    serializedObject.ApplyModifiedProperties();
+                }
+            );
+        }
+
+        private void SetupTextureAtlas()
+        {
+            var textureAtlas = root.Q<EnumField>("TextureAtlas");
+            textureAtlas.SetValueWithoutNotify(avatarConfigTarget.TextureAtlas);
+            textureAtlas.RegisterValueChangedCallback(x =>
+                {
+                    avatarConfigTarget.TextureAtlas = (TextureAtlas) x.newValue;
+                    serializedObject.ApplyModifiedProperties();
+                }
+            );
+        }
+
+        private void SetupTextureSizeLimit()
+        {
+            var textureSizeLimit = root.Q<SliderInt>("TextureSizeLimit");
+            textureSizeLimit.SetValueWithoutNotify(avatarConfigTarget.TextureSizeLimit);
+            textureSizeLimit.RegisterValueChangedCallback(x =>
+                {
+                    avatarConfigTarget.TextureSizeLimit = x.newValue;
+                    serializedObject.ApplyModifiedProperties();
+                }
+            );
+        }
+
+        private void SetupUseHands()
+        {
+            var useHands = root.Q<Toggle>("UseHands");
+            useHands.SetValueWithoutNotify(avatarConfigTarget.UseHands);
+            useHands.RegisterValueChangedCallback(x =>
+                {
+                    avatarConfigTarget.UseHands = x.newValue;
+                    serializedObject.ApplyModifiedProperties();
+                }
+            );
+        }
+
+        private void SetupUseDracoCompression()
+        {
+            var useDracoCompression = root.Q<Toggle>("UseDracoCompression");
+            useDracoCompression.SetValueWithoutNotify(ModuleInstaller.IsModuleInstalled(ModuleList.DracoCompression.name));
+            useDracoCompression.RegisterValueChangedCallback(x =>
+                {
+                    avatarConfigTarget.UseDracoCompression = x.newValue;
+                    if (ModuleInstaller.IsModuleInstalled(ModuleList.DracoCompression.name))
+                    {
+                        return;
+                    }
+
+                    if (EditorUtility.DisplayDialog(
+                            DIALOG_TITLE,
+                            string.Format(DIALOG_MESSAGE, "Draco compression", ModuleList.DracoCompression.name), 
+                            DIALOG_OK, 
+                            DIALOG_CANCEL))
+                    {
+                        ModuleInstaller.AddModuleRequest(ModuleList.DracoCompression.Identifier);
+                    }
+                    else
+                    {
+                        avatarConfigTarget.UseDracoCompression = false;
+                        useDracoCompression.SetValueWithoutNotify(false);
+                    }
+
+                    serializedObject.ApplyModifiedProperties();
+                }
+            );
+        }
+
+        private void SetupUseMeshOptCompression()
+        {
+            var useMeshOptCompression = root.Q<Toggle>("UseMeshOptCompression");
+            useMeshOptCompression.SetValueWithoutNotify(PackageManagerHelper.IsPackageInstalled(MESH_OPT_PACKAGE_NAME));
+            useMeshOptCompression.RegisterValueChangedCallback(x =>
+                {
+                    avatarConfigTarget.UseMeshOptCompression = x.newValue;
+                    if (PackageManagerHelper.IsPackageInstalled(MESH_OPT_PACKAGE_NAME))
+                    {
+                        return;
+                    }
+
+                    if (EditorUtility.DisplayDialog(
+                            DIALOG_TITLE,
+                            string.Format(DIALOG_MESSAGE, "Mesh opt compression", MESH_OPT_PACKAGE_NAME), 
+                            DIALOG_OK, 
+                            DIALOG_CANCEL))
+                    {
+                        PackageManagerHelper.AddPackage(MESH_OPT_PACKAGE_NAME);
+                    }
+                    else
+                    {
+                        avatarConfigTarget.UseMeshOptCompression = false;
+                        useMeshOptCompression.SetValueWithoutNotify(false);
+                    }
+
+                    serializedObject.ApplyModifiedProperties();
+                }
+            );
+        }
+
+        private void SetupTextureChannel()
+        {
+            var items = new List<string>();
+            foreach (TextureChannel textureChannel in Enum.GetValues(typeof(TextureChannel)))
+            {
+                items.Add(textureChannel.ToString());
+            }
+
+            VisualElement MakeItem()
+            {
+                var toggle = new Toggle();
+                toggle.style.alignItems = Align.Center;
+                return toggle;
+            }
+
+            void BindItem(VisualElement e, int i)
+            {
+                var toggle = (Toggle) e;
+                toggle.label = items[i];
+                if (avatarConfigTarget.TextureChannel.Contains((TextureChannel) i))
+                {
+                    toggle.SetValueWithoutNotify(true);
+                }
+
+                toggle.RegisterValueChangedCallback(x =>
+                {
+                    if (x.newValue)
+                    {
+                        var textureChannels = new List<TextureChannel>();
+                        textureChannels.Add((TextureChannel) i);
+                        avatarConfigTarget.TextureChannel = textureChannels.ToArray();
+                    }
+                    else
+                    {
+                        var textureChannels = avatarConfigTarget.TextureChannel.ToList();
+                        textureChannels.Remove((TextureChannel) i);
+                        avatarConfigTarget.TextureChannel = textureChannels.ToArray();
+                    }
+                    serializedObject.ApplyModifiedProperties();
+                });
+            }
+
+            var listView = root.Q<ListView>();
+            listView.style.height = 30 * Enum.GetValues(typeof(TextureChannel)).Length + 2;
+            listView.makeItem = MakeItem;
+            listView.bindItem = BindItem;
+            listView.itemsSource = items;
+            listView.selectionType = SelectionType.Multiple;
+
+            listView.onItemsChosen += Debug.Log;
+            listView.onSelectionChange += Debug.Log;
+        }
+
+        private void SetupMorphTargets()
+        {
             morphTargetLabels = AvatarMorphTarget.MorphTargetAvatarAPI.Select(x => new Label(x)).ToList();
             morphTargetsParentVisualElement = new Dictionary<VisualElement, string>();
-
             selectedMorphTargets = root.Q<VisualElement>("SelectedMorphTargets");
 
             for (var i = 0; i < avatarConfigTarget.MorphTargets.Count; i++)
@@ -63,29 +247,6 @@ namespace ReadyPlayerMe.Core.Editor
 
             var addButton = root.Q<Button>("AddButton");
             addButton.clicked += OnAddButtonClicked;
-
-            return root;
-        }
-
-        private void InitializeDefaultInspector()
-        {
-            if (!previousDracoCompressionValue && userDracoCompressionField.boolValue)
-            {
-                if (ModuleInstaller.IsModuleInstalled(ModuleList.DracoCompression.name))
-                {
-                    return;
-                }
-
-                if (EditorUtility.DisplayDialog(DIALOG_TITLE, DIALOG_MESSAGE, DIALOG_OK, DIALOG_CANCEL))
-                {
-                    ModuleInstaller.AddModuleRequest(ModuleList.DracoCompression.Identifier);
-                }
-                else
-                {
-                    userDracoCompressionField.boolValue = false;
-                    serializedObject.ApplyModifiedProperties();
-                }
-            }
         }
 
         private void OnAddButtonClicked()
