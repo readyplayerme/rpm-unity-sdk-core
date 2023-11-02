@@ -49,8 +49,7 @@ namespace ReadyPlayerMe.Core.Editor
             SetupTextureAtlas();
             SetupTextureSizeLimit();
             SetupUseHands();
-            SetupUseDracoCompression();
-            SetupUseMeshOptCompression();
+            SetupCompressionPackages();
             SetupTextureChannel();
             SetupMorphTargets();
 
@@ -118,10 +117,18 @@ namespace ReadyPlayerMe.Core.Editor
             );
         }
 
-        private void SetupUseDracoCompression()
+        private void SetupCompressionPackages()
         {
             var useDracoCompression = root.Q<Toggle>("UseDracoCompression");
-            useDracoCompression.SetValueWithoutNotify(ModuleInstaller.IsModuleInstalled(ModuleList.DracoCompression.name));
+            var useMeshOptCompression = root.Q<Toggle>("UseMeshOptCompression");
+
+            var optimizationPackages =root.Q<Foldout>("OptimizationPackages");
+            optimizationPackages.RegisterValueChangedCallback(x =>
+            {
+                useDracoCompression.SetValueWithoutNotify(ModuleInstaller.IsModuleInstalled(ModuleList.DracoCompression.name));
+                useMeshOptCompression.SetValueWithoutNotify(PackageManagerHelper.IsPackageInstalled(MESH_OPT_PACKAGE_NAME));
+            });
+            
             useDracoCompression.RegisterValueChangedCallback(x =>
                 {
                     avatarConfigTarget.UseDracoCompression = x.newValue;
@@ -147,12 +154,7 @@ namespace ReadyPlayerMe.Core.Editor
                     serializedObject.ApplyModifiedProperties();
                 }
             );
-        }
-
-        private void SetupUseMeshOptCompression()
-        {
-            var useMeshOptCompression = root.Q<Toggle>("UseMeshOptCompression");
-            useMeshOptCompression.SetValueWithoutNotify(PackageManagerHelper.IsPackageInstalled(MESH_OPT_PACKAGE_NAME));
+          
             useMeshOptCompression.RegisterValueChangedCallback(x =>
                 {
                     avatarConfigTarget.UseMeshOptCompression = x.newValue;
