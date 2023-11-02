@@ -9,7 +9,7 @@ using UnityEngine.UIElements;
 namespace ReadyPlayerMe.Core.Editor
 {
     [CustomEditor(typeof(AvatarConfig))]
-    public class AvatarConfigNewEditor : UnityEditor.Editor
+    public class AvatarConfigEditor : UnityEditor.Editor
     {
         private const string DIALOG_TITLE = "Read Player Me";
         private const string DIALOG_MESSAGE = "Do you want to install {0} Unity Package: {1} ?";
