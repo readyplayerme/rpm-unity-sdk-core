@@ -1,3 +1,4 @@
+using System;
 using ReadyPlayerMe.Core.Analytics;
 using UnityEngine;
 using UnityEngine.UIElements;
@@ -16,9 +17,10 @@ namespace ReadyPlayerMe.Core.Editor
         }
 
         private readonly TextField appIdField;
-
         private readonly string appId;
 
+        public event Action<string> OnAppIdChanged;
+        
         public AppIdTemplate()
         {
             var visualTree = Resources.Load<VisualTreeAsset>(XML_PATH);
@@ -31,6 +33,7 @@ namespace ReadyPlayerMe.Core.Editor
             this.Q<Button>("AppIdHelpButton").clicked += OnAppIdHelpClicked;
 
             appIdField.RegisterCallback<FocusOutEvent>(OnAppIdFocusOut);
+            appIdField.RegisterValueChangedCallback(OnAppIdValueChanged);
         }
 
         private static void OnAppIdHelpClicked()
@@ -45,6 +48,11 @@ namespace ReadyPlayerMe.Core.Editor
             {
                 SaveAppId();
             }
+        }
+
+        private void OnAppIdValueChanged(ChangeEvent<string> evt)
+        {
+            OnAppIdChanged?.Invoke(evt.newValue);
         }
 
         private bool ValidateAppId()
