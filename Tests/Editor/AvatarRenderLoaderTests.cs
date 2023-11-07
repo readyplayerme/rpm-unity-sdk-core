@@ -10,9 +10,8 @@ namespace ReadyPlayerMe.Core.Tests
     {
         private const RenderCamera RENDER_SCENE = RenderCamera.FullBody;
         private const string RENDER_BLENDSHAPE = "mouthSmile";
-        private const string RENDER_WRONG_BLENDSHAPE = "wrong_blendshape";
         private const float BLENDSHAPE_VALUE = 0.5f;
-        private const string RENDER_STRING = "?scene=fullbody-portrait-v1-transparent&blendShapes[Wolf3D_Head][mouthSmile]=0.5";
+        private const string RENDER_STRING = "?pose=relaxed&blendShapes[mouthSmile]=0.5&camera=portrait&size=800&background=255,255,255";
 
         [UnityTest]
         public IEnumerator RenderLoader_Load()
@@ -106,6 +105,7 @@ namespace ReadyPlayerMe.Core.Tests
 
             Assert.AreEqual(FailureType.None, failureType);
             Assert.IsNotNull(renderTexture);
+            
         }
 
         // create a render string test
@@ -114,12 +114,13 @@ namespace ReadyPlayerMe.Core.Tests
         {
             var renderSettings = new AvatarRenderSettings
             {
-                BlendShapes = new List<BlendShape>
-                    { new BlendShape(RENDER_BLENDSHAPE, BLENDSHAPE_VALUE) }
+                 BlendShapes = new List<BlendShape>
+                        { new BlendShape(RENDER_BLENDSHAPE, BLENDSHAPE_VALUE) }
             };
 
             var renderString = renderSettings.GetParametersAsString();
 
+            Debug.Log(renderString);
             Assert.AreEqual(RENDER_STRING, renderString);
         }
     }

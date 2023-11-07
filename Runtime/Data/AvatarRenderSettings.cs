@@ -41,11 +41,14 @@ namespace ReadyPlayerMe.Core
 
             queryBuilder.AddKeyValue(nameof(Pose).ToCamelCase(), RenderSettingsHelper.RenderPoseMap[Pose]);
 
-            foreach (var blendShape in BlendShapes)
+            if (BlendShapes != null)
             {
-                var key = $"{AvatarAPIParameters.RENDER_BLEND_SHAPES}[{blendShape.Name}]";
-                var value = blendShape.Value.ToString(CultureInfo.InvariantCulture);
-                queryBuilder.AddKeyValue(key, value);
+                foreach (var blendShape in BlendShapes)
+                {
+                    var key = $"{AvatarAPIParameters.RENDER_BLEND_SHAPES}[{blendShape.Name}]";
+                    var value = blendShape.Value.ToString(CultureInfo.InvariantCulture);
+                    queryBuilder.AddKeyValue(key, value);
+                }
             }
 
             queryBuilder.AddKeyValue(nameof(Camera).ToCamelCase(), Camera.ToString().ToLower());
@@ -53,7 +56,7 @@ namespace ReadyPlayerMe.Core
             // TODO Quality is only supported by jpg. Find better approach for this. 
             // if (Quality == 0)
             // {
-                // Quality = 100;
+            // Quality = 100;
             // }
             // queryBuilder.AddKeyValue(nameof(Quality).ToCamelCase(), Quality.ToString());
 
