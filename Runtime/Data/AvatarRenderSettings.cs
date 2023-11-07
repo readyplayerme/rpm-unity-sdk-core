@@ -50,12 +50,12 @@ namespace ReadyPlayerMe.Core
 
             queryBuilder.AddKeyValue(nameof(Camera).ToCamelCase(), Camera.ToString().ToLower());
 
-            if (Quality == 0)
-            {
-                Quality = 100;
-            }
-
-            queryBuilder.AddKeyValue(nameof(Quality).ToCamelCase(), Quality.ToString());
+            // TODO Quality is only supported by jpg. Find better approach for this. 
+            // if (Quality == 0)
+            // {
+                // Quality = 100;
+            // }
+            // queryBuilder.AddKeyValue(nameof(Quality).ToCamelCase(), Quality.ToString());
 
             if (Size == 0)
             {

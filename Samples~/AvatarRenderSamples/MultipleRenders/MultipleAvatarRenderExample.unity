@@ -631,6 +631,11 @@ PrefabInstance:
       propertyPath: renderSettings.Size
       value: 200
       objectReference: {fileID: 0}
+    - target: {fileID: 2616518480041139177, guid: 86b528853dfd4214a8140eee1b7ed309,
+        type: 3}
+      propertyPath: renderSettings.IsTransparent
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 86b528853dfd4214a8140eee1b7ed309, type: 3}
 --- !u!224 &1009515785 stripped
@@ -1524,6 +1529,11 @@ PrefabInstance:
         type: 3}
       propertyPath: url
       value: https://models.readyplayer.me/638f2c7775f8551b54c8db58.glb
+      objectReference: {fileID: 0}
+    - target: {fileID: 2616518480041139177, guid: 86b528853dfd4214a8140eee1b7ed309,
+        type: 3}
+      propertyPath: renderSettings.IsTransparent
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 2616518480041139177, guid: 86b528853dfd4214a8140eee1b7ed309,
         type: 3}
