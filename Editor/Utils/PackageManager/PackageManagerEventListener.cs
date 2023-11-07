@@ -3,6 +3,7 @@ using ReadyPlayerMe.Core.Analytics;
 using ReadyPlayerMe.Core.Editor.Models;
 using UnityEditor;
 using UnityEditor.PackageManager;
+using UnityEngine;
 
 namespace ReadyPlayerMe.Core.Editor
 {
@@ -16,12 +17,19 @@ namespace ReadyPlayerMe.Core.Editor
 
         static void OnPackagesInstalled(PackageRegistrationEventArgs packageRegistrationEventArgs)
         {
+            Debug.Log("here");
             packageRegistrationEventArgs.added
-                .Select(package => new PackageCoreInfo
+                .Select(package =>
                 {
-                    Id = package.packageId,
-                    Name = package.displayName,
-                    Url = package.repository.url
+
+                    Debug.Log(package.repository.url);
+
+                    return new PackageCoreInfo
+                    {
+                        Id = package.packageId,
+                        Name = package.displayName,
+                        Url = package.repository.url
+                    };
                 })
                 .ToList()
                 .ForEach(AnalyticsEditorLogger.EventLogger.LogPackageInstalled);
