@@ -236,7 +236,7 @@ namespace ReadyPlayerMe.Core.Analytics
 
         public void LogPackageInstalled(PackageCoreInfo packageInfo)
         {
-            LogEvent(EventName.INSTALL_PACKAGE, new Dictionary<string, object>
+            ForceLogEvent(EventName.INSTALL_PACKAGE, new Dictionary<string, object>
             {
                 { "packageId", packageInfo.Id },
                 { "packageName", packageInfo.Name },
@@ -289,9 +289,15 @@ namespace ReadyPlayerMe.Core.Analytics
             });
         }
 
+        private void ForceLogEvent(string eventName, Dictionary<string, object> eventProperties = null, Dictionary<string, object> userProperties = null)
+        {
+            AmplitudeEventLogger.LogEvent(eventName, eventProperties, userProperties);
+        }
+
         private void LogEvent(string eventName, Dictionary<string, object> eventProperties = null, Dictionary<string, object> userProperties = null)
         {
             if (!isEnabled) return;
+            
             AmplitudeEventLogger.LogEvent(eventName, eventProperties, userProperties);
         }
     }
