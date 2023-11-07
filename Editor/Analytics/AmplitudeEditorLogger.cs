@@ -71,7 +71,7 @@ namespace ReadyPlayerMe.Core.Analytics
 
         public void LogOpenDocumentation(string target)
         {
-            LogEvent( EventName.OPEN_DOCUMENTATION, new Dictionary<string, object>
+            LogEvent(EventName.OPEN_DOCUMENTATION, new Dictionary<string, object>
             {
                 { Properties.TARGET, target }
             });
@@ -122,7 +122,7 @@ namespace ReadyPlayerMe.Core.Analytics
                 { Properties.DIALOG, dialog }
             });
         }
-        
+
         public void LogBuildApplication(string target, string appName, bool productionBuild)
         {
             LogEvent(EventName.BUILD_APPLICATION, new Dictionary<string, object>
@@ -231,19 +231,19 @@ namespace ReadyPlayerMe.Core.Analytics
 
         public void LogAvatarCreatorSampleImported()
         {
-           LogEvent(EventName.AVATAR_CREATOR_SAMPLE_IMPORTED);
+            LogEvent(EventName.AVATAR_CREATOR_SAMPLE_IMPORTED);
         }
 
         public void LogPackageInstalled(PackageCoreInfo packageInfo)
         {
             LogEvent(EventName.INSTALL_PACKAGE, new Dictionary<string, object>
             {
-                {"packageId", packageInfo.Id },
-                {"packageName", packageInfo.Name },
-                {"url", packageInfo.Url },
+                { "packageId", packageInfo.Id },
+                { "packageName", packageInfo.Name },
+                { "url", packageInfo.Url },
             });
         }
-        
+
         private void SetUserProperties()
         {
             var userProperties = new Dictionary<string, object>
@@ -288,7 +288,7 @@ namespace ReadyPlayerMe.Core.Analytics
                 { Properties.ALLOW_ANALYTICS, allow }
             });
         }
-        
+
         private void LogEvent(string eventName, Dictionary<string, object> eventProperties = null, Dictionary<string, object> userProperties = null)
         {
             if (!isEnabled) return;
