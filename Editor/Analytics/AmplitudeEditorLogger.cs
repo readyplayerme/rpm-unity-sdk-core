@@ -233,10 +233,12 @@ namespace ReadyPlayerMe.Core.Analytics
            LogEvent(EventName.AVATAR_CREATOR_SAMPLE_IMPORTED);
         }
 
-        public void LogPackageInstalled(string url)
+        public void LogPackageInstalled(string packageId, string packageName, string url)
         {
             LogEvent(EventName.INSTALL_PACKAGE, new Dictionary<string, object>
             {
+                {"packageId", packageId },
+                {"packageName", packageName },
                 {"url", url },
             });
         }

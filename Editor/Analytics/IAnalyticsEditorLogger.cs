@@ -31,6 +31,6 @@ namespace ReadyPlayerMe.Core.Analytics
         void LogOpenAvatarCreatorDocumentation();
         void LogOpenOptimizationDocumentation();
         void LogAvatarCreatorSampleImported();
-        void LogPackageInstalled(string url);
+        void LogPackageInstalled(string packageId, string name, string url);
     }
 }

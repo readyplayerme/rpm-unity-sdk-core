@@ -1,6 +1,6 @@
-﻿using UnityEditor;
+﻿using ReadyPlayerMe.Core.Analytics;
+using UnityEditor;
 using UnityEditor.PackageManager;
-using UnityEngine;
 
 namespace ReadyPlayerMe.Core.Editor
 {
@@ -11,18 +11,16 @@ namespace ReadyPlayerMe.Core.Editor
         {
             Events.registeringPackages += OnPackagesInstalled;
         }
-        
+
         static void OnPackagesInstalled(PackageRegistrationEventArgs packageRegistrationEventArgs)
         {
             foreach (var addedPackage in packageRegistrationEventArgs.added)
             {
-                //AnalyticsEditorLogger.EventLogger.LogPackageInstalled(addedPackage.displayName);
-                Debug.Log($"Adding {addedPackage.displayName}");
-                Debug.Log($"Adding {addedPackage.version}");
-                Debug.Log($"Adding {addedPackage.repository.url}");
-                Debug.Log($"Adding {addedPackage.repository.path}");
-                Debug.Log($"Adding {addedPackage.packageId}");
-                Debug.Log($"Adding {addedPackage.changelogUrl}");
+                AnalyticsEditorLogger.EventLogger.LogPackageInstalled(
+                    addedPackage.packageId,
+                    addedPackage.displayName,
+                    addedPackage.repository.url
+                );
             }
         }
     }
