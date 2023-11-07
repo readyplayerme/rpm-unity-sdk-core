@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using ReadyPlayerMe.Core.Editor;
+using ReadyPlayerMe.Core.Editor.Models;
 using UnityEditor;
 using UnityEngine;
 using static ReadyPlayerMe.Core.Analytics.Constants;
@@ -233,13 +234,13 @@ namespace ReadyPlayerMe.Core.Analytics
            LogEvent(EventName.AVATAR_CREATOR_SAMPLE_IMPORTED);
         }
 
-        public void LogPackageInstalled(string packageId, string packageName, string url)
+        public void LogPackageInstalled(PackageCoreInfo packageInfo)
         {
             LogEvent(EventName.INSTALL_PACKAGE, new Dictionary<string, object>
             {
-                {"packageId", packageId },
-                {"packageName", packageName },
-                {"url", url },
+                {"packageId", packageInfo.Id },
+                {"packageName", packageInfo.Name },
+                {"url", packageInfo.Url },
             });
         }
         
