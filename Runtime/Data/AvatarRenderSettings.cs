@@ -4,30 +4,6 @@ using UnityEngine;
 
 namespace ReadyPlayerMe.Core
 {
-    public enum Expression
-    {
-        None,
-        Happy,
-        Lol,
-        Sad,
-        Scared,
-        Rage,
-    }
-
-    public enum RenderPose
-    {
-        Relaxed,
-        PowerStance,
-        Standing,
-        ThumbsUp,
-    }
-
-    public enum RenderCamera
-    {
-        Portrait,
-        FullBody
-    }
-
     [System.Serializable]
     public struct BlendShape
     {
@@ -63,7 +39,7 @@ namespace ReadyPlayerMe.Core
                 queryBuilder.AddKeyValue(nameof(Core.Expression).ToCamelCase(), Expression.ToString().ToCamelCase());
             }
 
-            queryBuilder.AddKeyValue(nameof(Pose).ToCamelCase(), RenderSceneHelper.RenderPoseMap[Pose]);
+            queryBuilder.AddKeyValue(nameof(Pose).ToCamelCase(), RenderSettingsHelper.RenderPoseMap[Pose]);
 
             foreach (var blendShape in BlendShapes)
             {
@@ -90,15 +66,11 @@ namespace ReadyPlayerMe.Core
 
             if (!IsTransparent)
             {
-                queryBuilder.AddKeyValue(nameof(Background).ToCamelCase(), FloatToRGB(Background));
+                queryBuilder.AddKeyValue(nameof(Background).ToCamelCase(), RenderSettingsHelper.FloatToRGBString(Background));
             }
 
             return queryBuilder.Query;
         }
-
-        public static string FloatToRGB(Color color)
-        {
-            return $"{(int) (color.r * 255)},{(int) (color.g * 255)},{(int) (color.b * 255)}";
-        }
+        
     }
 }
