@@ -32,15 +32,14 @@ namespace ReadyPlayerMe.Samples
         private GameObject loadingPanel;
 
         /// A collection of blendshape names and values to pose the face mesh into a smile using blendshapes
-        private readonly Dictionary<string, float> blendShapes = new Dictionary<string, float>
+        private readonly List<BlendShape> blendShapes = new List<BlendShape>()
         {
-            { "mouthSmile", 0.7f },
-            { "viseme_aa", 0.5f },
-            { "jawOpen", 0.3f }
+            new BlendShape("mouthSmile", 0.7f),
+            new BlendShape("viseme_aa", 0.5f),
+            new BlendShape("jawOpen", 0.3f),
         };
 
         private readonly string[] blendShapeMeshes = { "Wolf3D_Head", "Wolf3D_Teeth" };
-
 
         private async void Start()
         {
@@ -58,7 +57,10 @@ namespace ReadyPlayerMe.Samples
                     renderData.imageLoaded = true;
                 };
                 avatarRenderer.OnFailed = Fail;
-                avatarRenderer.LoadRender(renderData.url, renderData.avatarRenderScene, blendShapeMeshes, blendShapes);
+                avatarRenderer.LoadRender(renderData.url, new AvatarRenderSettings()
+                {
+                    BlendShapes =  blendShapes
+                });
             }
 
             while (dataList.Any(x => !x.imageLoaded))

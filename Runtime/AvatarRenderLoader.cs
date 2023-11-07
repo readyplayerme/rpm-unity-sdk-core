@@ -35,21 +35,10 @@ namespace ReadyPlayerMe.Core
         /// <param name="renderBlendShapes">A map of blendshape names and values that you want to set.</param>
         public async void LoadRender(
             string url,
-            AvatarRenderScene renderScene,
-            string[] blendShapeMeshes = null,
-            Dictionary<string, float> renderBlendShapes = null
-        )
+            AvatarRenderSettings renderSettings)
         {
-            var renderSettings = new AvatarRenderSettings
-            {
-                Model = url,
-                Scene = renderScene,
-                BlendShapeMeshes = blendShapeMeshes,
-                BlendShapes = renderBlendShapes
-            };
-
             var context = new AvatarContext();
-            context.Url = renderSettings.Model;
+            context.Url = url;
             context.RenderSettings = renderSettings;
 
             executor = new OperationExecutor<AvatarContext>(new IOperation<AvatarContext>[]

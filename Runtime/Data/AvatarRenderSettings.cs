@@ -1,34 +1,104 @@
 using System.Collections.Generic;
 using System.Globalization;
+using UnityEngine;
 
 namespace ReadyPlayerMe.Core
 {
+    public enum Expression
+    {
+        None,
+        Happy,
+        Lol,
+        Sad,
+        Scared,
+        Rage,
+    }
+
+    public enum RenderPose
+    {
+        Relaxed,
+        PowerStance,
+        Standing,
+        ThumbsUp,
+    }
+
+    public enum RenderCamera
+    {
+        Portrait,
+        FullBody
+    }
+
+    [System.Serializable]
+    public struct BlendShape
+    {
+        public string Name;
+        public float Value;
+        public BlendShape(string name, float value)
+        {
+            Name = name;
+            Value = value;
+        }
+    }
+
     /// <summary>
     /// This structure holds all the data required a request to the Avatar Render API.
     /// </summary>
-    public struct AvatarRenderSettings
+    [System.Serializable]
+    public class AvatarRenderSettings
     {
-        public string Model;
-        public AvatarRenderScene Scene;
-        public string[] BlendShapeMeshes;
-        public Dictionary<string, float> BlendShapes;
+        public Expression Expression = Expression.None;
+        public RenderPose Pose = RenderPose.Relaxed;
+        public RenderCamera Camera = RenderCamera.Portrait;
+        public int Quality = 100;
+        public int Size = 800;
+        public Color Background = Color.white;
+        public bool IsTransparent;
+        public List<BlendShape> BlendShapes;
 
         public string GetParametersAsString()
         {
-            BlendShapes ??= new Dictionary<string, float>();
             var queryBuilder = new QueryBuilder();
-            queryBuilder.AddKeyValue(AvatarAPIParameters.RENDER_SCENE, Scene.GetSceneNameAsString());
-            foreach (KeyValuePair<string, float> blendShape in BlendShapes)
+            if (Expression != Expression.None)
             {
-                foreach (var blendShapeMesh in BlendShapeMeshes)
-                {
-                    string key = $"{AvatarAPIParameters.RENDER_BLEND_SHAPES}[{blendShapeMesh}][{blendShape.Key}]";
-                    string value = blendShape.Value.ToString(CultureInfo.InvariantCulture);
-                    queryBuilder.AddKeyValue(key, value);
-                }
+                queryBuilder.AddKeyValue(nameof(Core.Expression).ToCamelCase(), Expression.ToString().ToCamelCase());
             }
-            
+
+            queryBuilder.AddKeyValue(nameof(Pose).ToCamelCase(), RenderSceneHelper.RenderPoseMap[Pose]);
+
+            foreach (var blendShape in BlendShapes)
+            {
+                var key = $"{AvatarAPIParameters.RENDER_BLEND_SHAPES}[{blendShape.Name}]";
+                var value = blendShape.Value.ToString(CultureInfo.InvariantCulture);
+                queryBuilder.AddKeyValue(key, value);
+            }
+
+            queryBuilder.AddKeyValue(nameof(Camera).ToCamelCase(), Camera.ToString().ToLower());
+
+            if (Quality == 0)
+            {
+                Quality = 100;
+            }
+
+            queryBuilder.AddKeyValue(nameof(Quality).ToCamelCase(), Quality.ToString());
+
+            if (Size == 0)
+            {
+                Size = 800;
+            }
+
+            queryBuilder.AddKeyValue(nameof(Size).ToCamelCase(), Size.ToString());
+
+            if (!IsTransparent)
+            {
+                queryBuilder.AddKeyValue(nameof(Background).ToCamelCase(), FloatToRGB(Background));
+            }
+
             return queryBuilder.Query;
+        }
+
+        public static string FloatToRGB(Color color)
+        {
+            return $"{(int) (color.r * 255)},{(int) (color.g * 255)},{(int) (color.b * 255)}";
         }
     }
 }

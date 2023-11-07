@@ -12,7 +12,7 @@ namespace ReadyPlayerMe.Samples
         private const string TAG = nameof(AvatarRenderExample);
 
         [SerializeField] [Tooltip("Set this to the URL or shortcode of the Ready Player Me Avatar you want to render.")]
-        private string url = "https://api.readyplayer.me/v1/avatars/638df70ed72bffc6fa179596.glb";
+        private string url = "https://models.readyplayer.me/638df70ed72bffc6fa179596.glb";
         [SerializeField] [Tooltip("The scene to use for the avatar render.")]
         private AvatarRenderScene scene = AvatarRenderScene.FullBodyPostureTransparent;
         [SerializeField]
@@ -23,11 +23,11 @@ namespace ReadyPlayerMe.Samples
         private readonly string[] blendShapeMeshes = { "Wolf3D_Head", "Wolf3D_Teeth" };
 
         /// A collection of blendshape names and values to pose the face mesh into a smile using blendshapes
-        private readonly Dictionary<string, float> blendShapes = new Dictionary<string, float>
+        private readonly List<BlendShape> blendShapes = new List<BlendShape>()
         {
-            { "mouthSmile", 0.7f },
-            { "viseme_aa", 0.5f },
-            { "jawOpen", 0.3f }
+            new BlendShape("mouthSmile", 0.7f),
+            new BlendShape("viseme_aa", 0.5f),
+            new BlendShape("jawOpen", 0.3f),
         };
 
         private void Start()
@@ -35,7 +35,10 @@ namespace ReadyPlayerMe.Samples
             var avatarRenderer = new AvatarRenderLoader();
             avatarRenderer.OnCompleted = UpdateSprite;
             avatarRenderer.OnFailed = Fail;
-            avatarRenderer.LoadRender(url, scene, blendShapeMeshes, blendShapes);
+            avatarRenderer.LoadRender(url, new AvatarRenderSettings()
+            {
+                BlendShapes = blendShapes
+            });
             loadingPanel.SetActive(true);
         }
 

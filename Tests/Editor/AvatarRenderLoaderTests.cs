@@ -8,9 +8,7 @@ namespace ReadyPlayerMe.Core.Tests
 {
     public class AvatarRenderLoaderTests
     {
-        private const AvatarRenderScene RENDER_SCENE = AvatarRenderScene.FullbodyPortraitTransparent;
-        private readonly string[] renderBlendshapeMeshes = { "Wolf3D_Head" };
-        private readonly string[] renderWrongBlendshapeMesh = { "wrong_blendshape_mesh" };
+        private const RenderCamera RENDER_SCENE = RenderCamera.FullBody;
         private const string RENDER_BLENDSHAPE = "mouthSmile";
         private const string RENDER_WRONG_BLENDSHAPE = "wrong_blendshape";
         private const float BLENDSHAPE_VALUE = 0.5f;
@@ -26,7 +24,10 @@ namespace ReadyPlayerMe.Core.Tests
             renderLoader.OnCompleted = data => renderTexture = data;
             renderLoader.OnFailed = (failType, message) => failureType = failType;
 
-            renderLoader.LoadRender(TestAvatarData.DefaultAvatarUri.ModelUrl, RENDER_SCENE);
+            renderLoader.LoadRender(TestAvatarData.DefaultAvatarUri.ModelUrl, new AvatarRenderSettings()
+            {
+                Camera = RENDER_SCENE
+            });
 
             yield return new WaitUntil(() => renderTexture != null || failureType != FailureType.None);
 
@@ -44,7 +45,10 @@ namespace ReadyPlayerMe.Core.Tests
             renderLoader.OnCompleted = data => renderTexture = data;
             renderLoader.OnFailed = (failType, message) => failureType = failType;
 
-            renderLoader.LoadRender(TestAvatarData.WrongUri.ModelUrl, RENDER_SCENE);
+            renderLoader.LoadRender(TestAvatarData.WrongUri.ModelUrl, new AvatarRenderSettings()
+            {
+                Camera = RENDER_SCENE
+            });
 
             yield return new WaitUntil(() => renderTexture != null || failureType != FailureType.None);
 
@@ -64,32 +68,12 @@ namespace ReadyPlayerMe.Core.Tests
 
             renderLoader.LoadRender(
                 TestAvatarData.DefaultAvatarUri.ModelUrl,
-                RENDER_SCENE,
-                renderBlendshapeMeshes,
-                new Dictionary<string, float> { { RENDER_BLENDSHAPE, BLENDSHAPE_VALUE } }
-            );
-
-            yield return new WaitUntil(() => renderTexture != null || failureType != FailureType.None);
-
-            Assert.AreEqual(FailureType.None, failureType);
-            Assert.IsNotNull(renderTexture);
-        }
-
-        [UnityTest]
-        public IEnumerator RenderLoader_Load_Incorrect_BlendShape_Mesh_Parameter()
-        {
-            Texture2D renderTexture = null;
-            var failureType = FailureType.None;
-
-            var renderLoader = new AvatarRenderLoader();
-            renderLoader.OnCompleted = data => renderTexture = data;
-            renderLoader.OnFailed = (failType, message) => failureType = failType;
-
-            renderLoader.LoadRender(
-                TestAvatarData.DefaultAvatarUri.ModelUrl,
-                RENDER_SCENE,
-                renderWrongBlendshapeMesh,
-                new Dictionary<string, float> { { RENDER_BLENDSHAPE, BLENDSHAPE_VALUE } }
+                new AvatarRenderSettings()
+                {
+                    Camera = RENDER_SCENE,
+                    BlendShapes = new List<BlendShape>
+                        { new BlendShape(RENDER_BLENDSHAPE, BLENDSHAPE_VALUE) }
+                }
             );
 
             yield return new WaitUntil(() => renderTexture != null || failureType != FailureType.None);
@@ -110,9 +94,12 @@ namespace ReadyPlayerMe.Core.Tests
 
             renderLoader.LoadRender(
                 TestAvatarData.DefaultAvatarUri.ModelUrl,
-                RENDER_SCENE,
-                renderBlendshapeMeshes,
-                new Dictionary<string, float> { { RENDER_WRONG_BLENDSHAPE, BLENDSHAPE_VALUE } }
+                new AvatarRenderSettings()
+                {
+                    Camera = RENDER_SCENE,
+                    BlendShapes = new List<BlendShape>
+                        { new BlendShape(RENDER_BLENDSHAPE, BLENDSHAPE_VALUE) }
+                }
             );
 
             yield return new WaitUntil(() => renderTexture != null || failureType != FailureType.None);
@@ -120,16 +107,15 @@ namespace ReadyPlayerMe.Core.Tests
             Assert.AreEqual(FailureType.None, failureType);
             Assert.IsNotNull(renderTexture);
         }
-        
+
         // create a render string test
         [Test]
         public void RenderLoader_CreateRenderString()
         {
             var renderSettings = new AvatarRenderSettings
             {
-                Scene = RENDER_SCENE,
-                BlendShapeMeshes = renderBlendshapeMeshes,
-                BlendShapes = new Dictionary<string, float> { { RENDER_BLENDSHAPE, BLENDSHAPE_VALUE } }
+                BlendShapes = new List<BlendShape>
+                    { new BlendShape(RENDER_BLENDSHAPE, BLENDSHAPE_VALUE) }
             };
 
             var renderString = renderSettings.GetParametersAsString();
