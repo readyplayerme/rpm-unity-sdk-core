@@ -37,7 +37,6 @@ If applicable, add screenshots to help explain your problem.
 
 **Desktop (please complete the following information):**
  - Ready Player Me Core version
- - Ready Player Me Avatar Loader version
  - Ready Player Me WebView version
  - glTFast version
  - Unity Editor version [e.g. 2021.2.1f1]
