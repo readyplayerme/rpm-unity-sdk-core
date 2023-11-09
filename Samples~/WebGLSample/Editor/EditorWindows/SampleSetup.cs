@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.IO;
 using ReadyPlayerMe.Core;
+using ReadyPlayerMe.Core.Editor;
 using UnityEditor;
 using UnityEngine;
 
@@ -107,7 +108,6 @@ namespace ReadyPlayerMe.Samples
             SDKLogger.Log(TAG, "Copied RPMTemplate to the WebGLTemplate folder in the root path of Assets");
             AssetDatabase.Refresh();
         }
-
 
         private static void SetWebGLTemplate()
         {
