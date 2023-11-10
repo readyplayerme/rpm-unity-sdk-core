@@ -49,7 +49,7 @@ namespace ReadyPlayerMe.AvatarCreator
         /// </summary>
         /// <param name="avatarProperties">Properties which describes avatar</param>
         /// <returns>Avatar gameObject</returns>
-        public async Task<GameObject> CreateAvatar(AvatarProperties avatarProperties)
+        public async Task<(GameObject, AvatarProperties)> CreateAvatar(AvatarProperties avatarProperties)
         {
             GameObject avatar = null;
             try
@@ -57,7 +57,7 @@ namespace ReadyPlayerMe.AvatarCreator
                 avatarProperties = await avatarAPIRequests.CreateNewAvatar(avatarProperties);
                 if (ctxSource.IsCancellationRequested)
                 {
-                    return null;
+                    return (null, avatarProperties);
                 }
 
                 avatarId = avatarProperties.Id;
@@ -66,10 +66,10 @@ namespace ReadyPlayerMe.AvatarCreator
             catch (Exception e)
             {
                 OnError?.Invoke(e.Message);
-                return avatar;
+                return (avatar, avatarProperties);
             }
 
-            return avatar;
+            return (avatar, avatarProperties);
         }
 
         /// <summary>
