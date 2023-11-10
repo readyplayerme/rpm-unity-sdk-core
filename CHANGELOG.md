@@ -3,6 +3,18 @@
 All notable changes to this project will be documented in this file.
 This project adheres to [Semantic Versioning](http://semver.org/).
 
+## [4.0.0] - 2023.11.01
+
+### Breaking Changes
+- Merge avatar creator into core by @ryuuk in [#135](https://github.com/readyplayerme/rpm-unity-sdk-core/pull/135). 
+- AvatarProcessor no longer searches and replaces existing avatar by @rk132 in [#138](https://github.com/readyplayerme/rpm-unity-sdk-core/pull/138)
+
+### Added
+- show Avatar Creator sample button in guide by @ryuuk in [#141](https://github.com/readyplayerme/rpm-unity-sdk-core/pull/141)
+
+### Updated
+- merged related samples into single folders by @harrisonhough in [#139](https://github.com/readyplayerme/rpm-unity-sdk-core/pull/139)
+
 ## [3.4.0] - 2023.10.24
 
 ### Added

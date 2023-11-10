@@ -227,9 +227,9 @@ namespace ReadyPlayerMe.Core.Analytics
             LogEvent(Constants.EventName.OPEN_OPTIMIZATION_DOCUMENTATION);
         }
 
-        public void LogSampleCreatorImported(string packageVersion)
+        public void LogAvatarCreatorSampleImported()
         {
-           LogEvent(Constants.EventName.SAMPLE_CREATOR_IMPORTED);
+           LogEvent(Constants.EventName.AVATAR_CREATOR_SAMPLE_IMPORTED);
         }
         
         private void SetUserProperties()

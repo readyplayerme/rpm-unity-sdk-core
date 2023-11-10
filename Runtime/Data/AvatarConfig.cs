@@ -33,7 +33,7 @@ namespace ReadyPlayerMe.Core
         public bool UseHands;
         [Tooltip("Enable if you want to use Draco compression. More effective on complex meshes.")]
         public bool UseDracoCompression;
-        [Tooltip("Enable if you want to use Mesh Otimization compression. More effective on meshes with morph targets.")]
+        [Tooltip("Enable if you want to use Mesh Optimization compression. More effective on meshes with morph targets.")]
         public bool UseMeshOptCompression;
         [HideInInspector]
         public List<string> MorphTargets = new List<string>();
