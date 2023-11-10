@@ -65,7 +65,6 @@ namespace ReadyPlayerMe
 
             avatarManager = new AvatarManager(
                 AvatarCreatorData.AvatarProperties.BodyType,
-                AvatarCreatorData.AvatarProperties.Gender,
                 inCreatorConfig,
                 ctxSource.Token);
             avatarManager.OnError += OnErrorCallback;
@@ -158,15 +157,14 @@ namespace ReadyPlayerMe
             if (string.IsNullOrEmpty(AvatarCreatorData.AvatarProperties.Id))
             {
                 AvatarCreatorData.AvatarProperties.Assets ??= GetDefaultAssets();
-                avatar = await avatarManager.CreateAvatar(AvatarCreatorData.AvatarProperties);
+                (avatar, _) = await avatarManager.CreateAvatar(AvatarCreatorData.AvatarProperties);
             }
             else
             {
                 if (!AvatarCreatorData.IsExistingAvatar)
                 {
                     (avatar, AvatarCreatorData.AvatarProperties) = await avatarManager.CreateAvatarFromTemplate(
-                        AvatarCreatorData.AvatarProperties.Id,
-                        AvatarCreatorData.AvatarProperties.Partner
+                        AvatarCreatorData.AvatarProperties.Id
                     );
                 }
                 else
