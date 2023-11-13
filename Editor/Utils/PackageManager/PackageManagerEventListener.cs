@@ -19,8 +19,8 @@ namespace ReadyPlayerMe.Core.Editor
             packageRegistrationEventArgs.added
                 .Select(package => new PackageCoreInfo
                 {
+                    Id = package.packageId,
                     Name = package.displayName,
-                    Url = package.packageId.TryParsePackageUrl()
                 })
                 .ToList()
                 .ForEach(info => AnalyticsEditorLogger.EventLogger.LogPackageInstalled(info));

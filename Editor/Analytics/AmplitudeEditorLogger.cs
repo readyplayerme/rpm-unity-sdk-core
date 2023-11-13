@@ -238,6 +238,7 @@ namespace ReadyPlayerMe.Core.Analytics
         {
             LogEvent(EventName.INSTALL_PACKAGE, new Dictionary<string, object>
             {
+                { "id", packageInfo.Id },
                 { "name", packageInfo.Name },
                 { "url", packageInfo.Url },
             }, force: force);

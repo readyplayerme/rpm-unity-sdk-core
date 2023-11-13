@@ -3,6 +3,7 @@ using ReadyPlayerMe.Core.Analytics;
 using ReadyPlayerMe.Core.Editor.PackageManager.Extensions;
 using ReadyPlayerMe.Core.Editor.Models;
 using UnityEditor;
+using UnityEditor.PackageManager;
 using PackageInfo = UnityEditor.PackageManager.PackageInfo;
 
 namespace ReadyPlayerMe.Core.Editor
@@ -26,6 +27,7 @@ namespace ReadyPlayerMe.Core.Editor
             
             AnalyticsEditorLogger.EventLogger.LogPackageInstalled(new PackageCoreInfo
                 {
+                    Id = packageInfo.packageId,
                     Name = packageInfo.name,
                     Url = packageInfo.packageId.TryParsePackageUrl()
                 },
