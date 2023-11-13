@@ -7,7 +7,7 @@ namespace ReadyPlayerMe.Core.Editor.PackageManager.Extensions
     {
         public static string TryParsePackageUrl(this string packageId)
         {
-            return packageId.Split(new char['@'], StringSplitOptions.RemoveEmptyEntries).LastOrDefault();
+            return packageId.Split(new [] {'@'}, StringSplitOptions.RemoveEmptyEntries).LastOrDefault();
         }
     }
 }
