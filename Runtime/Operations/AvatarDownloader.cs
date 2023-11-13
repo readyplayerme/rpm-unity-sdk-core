@@ -68,7 +68,7 @@ namespace ReadyPlayerMe.Core
                 AvatarCache.DeleteAvatarModel(context.AvatarUri.Guid, context.ParametersHash);
             }
 
-            if (downloadInMemory)
+            if (!context.AvatarCachingEnabled || downloadInMemory)
             {
                 context.Bytes = await DownloadIntoMemory(context.AvatarUri.ModelUrl, context.AvatarConfig, token);
                 return context;
