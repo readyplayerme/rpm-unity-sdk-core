@@ -1,5 +1,6 @@
 ﻿using System.Linq;
 using ReadyPlayerMe.Core.Analytics;
+using ReadyPlayerMe.Core.Editor.PackageManager.Extensions;
 using ReadyPlayerMe.Core.Editor.Models;
 using UnityEditor;
 using UnityEditor.PackageManager;
@@ -18,9 +19,8 @@ namespace ReadyPlayerMe.Core.Editor
             packageRegistrationEventArgs.added
                 .Select(package => new PackageCoreInfo
                 {
-                    Id = package.packageId,
                     Name = package.displayName,
-                    Url = package.repository.url
+                    Url = package.packageId.TryParsePackageUrl()
                 })
                 .ToList()
                 .ForEach(info => AnalyticsEditorLogger.EventLogger.LogPackageInstalled(info));
