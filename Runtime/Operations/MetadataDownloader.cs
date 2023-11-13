@@ -49,7 +49,7 @@ namespace ReadyPlayerMe.Core
             {
                 AvatarMetadata metadata = await Download(context.AvatarUri.MetadataUrl, token);
                 context = UpdateContext(context, metadata);
-                if (context.IsUpdateRequired)
+                if (context.IsUpdateRequired && context.AvatarCachingEnabled)
                 {
                     SaveMetadataToFile(context);
                 }
@@ -91,7 +91,7 @@ namespace ReadyPlayerMe.Core
             {
                 var message = error.Message;
                 var failureType = error.FailureType;
-                
+
                 if (failureType == FailureType.MetadataParseError)
                 {
                     failureType = error.FailureType;
