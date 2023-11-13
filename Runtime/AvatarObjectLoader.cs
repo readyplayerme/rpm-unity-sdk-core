@@ -45,9 +45,6 @@ namespace ReadyPlayerMe.Core
             }
         }
 
-        /// If true, saves the avatar in the Asset folder.
-        public bool SaveInProjectFolder { get; set; }
-
         /// Set the timeout for download requests
         public int Timeout { get; set; } = 20;
 

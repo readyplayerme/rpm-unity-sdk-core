@@ -83,7 +83,6 @@ namespace ReadyPlayerMe.Core.Editor
                 avatarLoaderSettings = AvatarLoaderSettings.LoadSettings();
             }
             var avatarLoader = new AvatarObjectLoader();
-            avatarLoader.SaveInProjectFolder = true;
             avatarLoader.OnFailed += Failed;
             avatarLoader.OnCompleted += Completed;
             avatarLoader.OperationCompleted += OnOperationCompleted;

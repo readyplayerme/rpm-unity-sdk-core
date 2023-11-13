@@ -53,6 +53,7 @@ namespace ReadyPlayerMe.Core
             {
                 throw new InvalidDataException($"Expected cast {typeof(string)} instead got ");
             }
+
             DirectoryUtility.ValidateAvatarSaveDirectory(context.AvatarUri.Guid, context.ParametersHash);
 
             if ((!context.IsUpdateRequired || Application.internetReachability == NetworkReachability.NotReachable)
