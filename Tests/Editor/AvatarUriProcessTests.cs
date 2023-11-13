@@ -6,28 +6,28 @@ namespace ReadyPlayerMe.Core.Tests
     public class AvatarUriProcessTests
     {
         private const string GUID = "633af24a573a46702919320f";
-        private const string GUID_URL = "https://api.readyplayer.me/v1/avatars/633af24a573a46702919320f.glb";
+        private const string GUID_URL = "https://models.readyplayer.me/633af24a573a46702919320f.glb";
 
         private const string SHORT_CODE = "DDBWOI";
-        private const string SHORT_CODE_URL = "https://api.readyplayer.me/v1/avatars/DDBWOI.glb";
+        private const string SHORT_CODE_URL = "https://models.readyplayer.me/DDBWOI.glb";
+
 
         private const string RANDOM_PARAM_HASH = "123456789";
-
         private readonly AvatarUri expectedShortcodeUri = new AvatarUri
         {
             Guid = SHORT_CODE,
-            ModelUrl = $"{TestUtils.API_URL_PREFIX}{SHORT_CODE}{TestUtils.GLB_SUFFIX}",
+            ModelUrl = $"{TestUtils.MODELS_URL_PREFIX}{SHORT_CODE}{TestUtils.GLB_SUFFIX}",
             LocalModelPath = $"{DirectoryUtility.GetAvatarSaveDirectory(SHORT_CODE, RANDOM_PARAM_HASH)}/{SHORT_CODE}{TestUtils.GLB_SUFFIX}",
-            MetadataUrl = $"{TestUtils.API_URL_PREFIX}{SHORT_CODE}{TestUtils.JSON_SUFFIX}",
+            MetadataUrl = $"{TestUtils.MODELS_URL_PREFIX}{SHORT_CODE}{TestUtils.JSON_SUFFIX}",
             LocalMetadataPath = $"{DirectoryUtility.GetAvatarSaveDirectory(SHORT_CODE)}{SHORT_CODE}{TestUtils.JSON_SUFFIX}"
         };
 
         private readonly AvatarUri expectedUri = new AvatarUri
         {
             Guid = GUID,
-            ModelUrl = $"{TestUtils.API_URL_PREFIX}{GUID}{TestUtils.GLB_SUFFIX}",
+            ModelUrl = $"{TestUtils.MODELS_URL_PREFIX}{GUID}{TestUtils.GLB_SUFFIX}",
             LocalModelPath = $"{DirectoryUtility.GetAvatarSaveDirectory(GUID, RANDOM_PARAM_HASH)}/{GUID}{TestUtils.GLB_SUFFIX}",
-            MetadataUrl = $"{TestUtils.API_URL_PREFIX}{GUID}{TestUtils.JSON_SUFFIX}",
+            MetadataUrl = $"{TestUtils.MODELS_URL_PREFIX}{GUID}{TestUtils.JSON_SUFFIX}",
             LocalMetadataPath = $"{DirectoryUtility.GetAvatarSaveDirectory(GUID)}{GUID}{TestUtils.JSON_SUFFIX}"
         };
 
