@@ -236,6 +236,8 @@ namespace ReadyPlayerMe.Core.Analytics
 
         public void LogPackageInstalled(PackageCoreInfo packageInfo, bool force = false)
         {
+            Debug.Log(force);
+            
             LogEvent(EventName.INSTALL_PACKAGE, new Dictionary<string, object>
             {
                 { "packageId", packageInfo.Id },
@@ -291,7 +293,12 @@ namespace ReadyPlayerMe.Core.Analytics
 
         private void LogEvent(string eventName, Dictionary<string, object> eventProperties = null, Dictionary<string, object> userProperties = null, bool force = false)
         {
+            Debug.Log(force);
+            Debug.Log("Here 6");
+            
             if (!isEnabled && !force) return;
+            
+            Debug.Log("Here 7");
             
             AmplitudeEventLogger.LogEvent(eventName, eventProperties, userProperties);
         }
