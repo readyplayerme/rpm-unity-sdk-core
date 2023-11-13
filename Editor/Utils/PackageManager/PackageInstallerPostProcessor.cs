@@ -2,6 +2,7 @@
 using ReadyPlayerMe.Core.Analytics;
 using ReadyPlayerMe.Core.Editor.Models;
 using UnityEditor;
+using UnityEngine;
 using PackageInfo = UnityEditor.PackageManager.PackageInfo;
 
 namespace ReadyPlayerMe.Core.Editor
@@ -16,8 +17,14 @@ namespace ReadyPlayerMe.Core.Editor
             string[] movedAssets,
             string[] movedFromAssetPaths)
         {
-            var readyPlayerMeCorePackage = importedAssets.FirstOrDefault(package => package == READY_PLAYER_ME_PACKAGE_PATH);
-
+            var readyPlayerMeCorePackage = importedAssets.FirstOrDefault(package =>
+            {
+                Debug.Log(package);
+                
+                return package == READY_PLAYER_ME_PACKAGE_PATH;
+            });
+            
+            
             if (readyPlayerMeCorePackage == null)
                 return;
 
