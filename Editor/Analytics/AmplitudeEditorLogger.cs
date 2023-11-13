@@ -234,14 +234,14 @@ namespace ReadyPlayerMe.Core.Analytics
             LogEvent(EventName.AVATAR_CREATOR_SAMPLE_IMPORTED);
         }
 
-        public void LogPackageInstalled(PackageCoreInfo packageInfo)
+        public void LogPackageInstalled(PackageCoreInfo packageInfo, bool force = false)
         {
-            ForceLogEvent(EventName.INSTALL_PACKAGE, new Dictionary<string, object>
+            LogEvent(EventName.INSTALL_PACKAGE, new Dictionary<string, object>
             {
                 { "packageId", packageInfo.Id },
                 { "packageName", packageInfo.Name },
                 { "url", packageInfo.Url },
-            });
+            }, force: force);
         }
 
         private void SetUserProperties()
@@ -289,14 +289,9 @@ namespace ReadyPlayerMe.Core.Analytics
             });
         }
 
-        private void ForceLogEvent(string eventName, Dictionary<string, object> eventProperties = null, Dictionary<string, object> userProperties = null)
+        private void LogEvent(string eventName, Dictionary<string, object> eventProperties = null, Dictionary<string, object> userProperties = null, bool force = false)
         {
-            AmplitudeEventLogger.LogEvent(eventName, eventProperties, userProperties);
-        }
-
-        private void LogEvent(string eventName, Dictionary<string, object> eventProperties = null, Dictionary<string, object> userProperties = null)
-        {
-            if (!isEnabled) return;
+            if (!isEnabled && !force) return;
             
             AmplitudeEventLogger.LogEvent(eventName, eventProperties, userProperties);
         }
