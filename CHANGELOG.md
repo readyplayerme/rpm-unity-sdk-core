@@ -3,6 +3,11 @@
 All notable changes to this project will be documented in this file.
 This project adheres to [Semantic Versioning](http://semver.org/).
 
+## [4.0.1] - 2023.11.13
+
+### Fixed
+- fixed an issue causing avatars to be stored locally even if caching was disabled by @harrisonhough in [#149](https://github.com/readyplayerme/rpm-unity-sdk-core/pull/149)
+
 ## [4.0.0] - 2023.11.01
 
 ### Breaking Changes
