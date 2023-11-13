@@ -7,6 +7,7 @@ namespace ReadyPlayerMe.Core.Editor
 {
     public class AvatarLoaderEditor : EditorWindow
     {
+        private const string TAG = nameof(AvatarLoaderEditor);
         private const string AVATAR_LOADER = "Avatar Loader";
         private const string LOAD_AVATAR_BUTTON = "LoadAvatarButton";
         private const string HEADER_LABEL = "HeaderLabel";
@@ -112,6 +113,8 @@ namespace ReadyPlayerMe.Core.Editor
 
         private void Completed(object sender, CompletionEventArgs args)
         {
+            AnalyticsEditorLogger.EventLogger.LogAvatarLoaded(EditorApplication.timeSinceStartup - startTime);
+
             if (avatarLoaderSettings == null)
             {
                 avatarLoaderSettings = AvatarLoaderSettings.LoadSettings();
@@ -120,7 +123,7 @@ namespace ReadyPlayerMe.Core.Editor
             var path = $"{DirectoryUtility.GetRelativeProjectPath(args.Avatar.name, paramHash)}/{args.Avatar.name}";
             if (!AvatarLoaderSettings.LoadSettings().AvatarCachingEnabled)
             {
-                Debug.LogWarning("Enable Avatar Caching to generate a prefab in the project folder.");
+                SDKLogger.LogWarning(TAG, "Enable Avatar Caching to generate a prefab in the project folder.");
                 return;
             }
             GameObject avatar = EditorUtilities.CreateAvatarPrefab(args.Metadata, path);
@@ -128,7 +131,6 @@ namespace ReadyPlayerMe.Core.Editor
             if (useVoiceToAnim) avatar.AddComponent<VoiceHandler>();
             DestroyImmediate(args.Avatar, true);
             Selection.activeObject = avatar;
-            AnalyticsEditorLogger.EventLogger.LogAvatarLoaded(EditorApplication.timeSinceStartup - startTime);
         }
     }
 }
