@@ -35,18 +35,6 @@ namespace ReadyPlayerMe.Core
     }
 
     /// <summary>
-    /// This enumeration describes the different render scene options.
-    /// </summary>
-    public enum AvatarRenderScene
-    {
-        [Description("Upper body render")] FullbodyPortrait,
-        [Description("Upper body render")] HalfbodyPortrait,
-        [Description("Upper body render with transparent background")] FullbodyPortraitTransparent,
-        [Description("Upper body render with transparent background")] HalfbodyPortraitTransparent,
-        [Description("Posed full body render with transparent background")] FullBodyPostureTransparent
-    }
-
-    /// <summary>
     /// This enumeration describes the pose options for the avatar skeleton.
     /// </summary>
     public enum Pose
@@ -110,6 +98,30 @@ namespace ReadyPlayerMe.Core
         AvatarProcessError,
         AvatarRenderError,
         OperationCancelled
+    }
+    
+    public enum Expression
+    {
+        None,
+        Happy,
+        Lol,
+        Sad,
+        Scared,
+        Rage,
+    }
+
+    public enum RenderPose
+    {
+        Relaxed,
+        PowerStance,
+        Standing,
+        ThumbsUp,
+    }
+
+    public enum RenderCamera
+    {
+        Portrait,
+        FullBody
     }
 
 }

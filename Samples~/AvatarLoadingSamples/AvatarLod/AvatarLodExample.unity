@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.44657815, g: 0.49641192, b: 0.57481617, a: 1}
+  m_IndirectSpecularColor: {r: 0.44657826, g: 0.49641263, b: 0.57481676, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -534,7 +534,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   lodExampleUI: {fileID: 217845738}
-  avatarUrl: https://api.readyplayer.me/v1/avatars/638df693d72bffc6fa17943c.glb
+  avatarUrl: https://models.readyplayer.me/638df693d72bffc6fa17943c.glb
   lodConfigs:
   - {fileID: 11400000, guid: 99552ccf737554f2fab58e864f9416e4, type: 2}
   - {fileID: 11400000, guid: 1d2a8b01037e24f54b99b6aa9a51f0db, type: 2}
@@ -1655,7 +1655,7 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 6930787863501114648}
   m_HandleRect: {fileID: 6930787863501114655}
   m_Direction: 2
-  m_Value: 1
+  m_Value: 0
   m_Size: 1
   m_NumberOfSteps: 0
   m_OnValueChanged:
