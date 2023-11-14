@@ -56,6 +56,9 @@ namespace ReadyPlayerMe.Core.Editor
             StartStateMachine();
         }
 
+        private string currentSubdomain;
+        private string currentAppId;
+        
         private VisualElement InitializeSubdomainPanel()
         {
             var headerLabel = rootVisualElement.Q<Label>(HEADER_LABEL);
@@ -72,8 +75,17 @@ namespace ReadyPlayerMe.Core.Editor
             var subdomainTemplate = subdomainPanel.Q<SubdomainTemplate>();
             subdomainTemplate.OnSubdomainChanged += subdomain =>
             {
-                nextButton.SetEnabled(!string.IsNullOrEmpty(subdomain));
+                currentSubdomain = subdomain;
+                ToggleNextButton();
             };
+
+            var appIdTemplate = subdomainPanel.Q<AppIdTemplate>();
+            appIdTemplate.OnAppIdChanged += appId =>
+            {
+                currentAppId = appId;
+                ToggleNextButton();
+            };
+            
             if (!ProjectPrefs.GetBool(USE_DEMO_SUBDOMAIN_TOGGLE) && CoreSettingsHandler.CoreSettings.Subdomain == CoreSettings.DEFAULT_SUBDOMAIN)
             {
                 subdomainTemplate.ClearSubdomain();
@@ -101,6 +113,18 @@ namespace ReadyPlayerMe.Core.Editor
             });
 
             return subdomainPanel;
+        }
+
+        private void ToggleNextButton()
+        {
+            if (!string.IsNullOrEmpty(currentAppId) && !string.IsNullOrEmpty(currentSubdomain))
+            {
+                nextButton.SetEnabled(true);
+            }
+            else
+            {
+                nextButton.SetEnabled(false);
+            }
         }
 
         private VisualElement InitializeAnalyticsPanel()

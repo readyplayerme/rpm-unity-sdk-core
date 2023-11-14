@@ -7,6 +7,7 @@ namespace ReadyPlayerMe.Core.Editor
 {
     public class AvatarLoaderEditor : EditorWindow
     {
+        private const string TAG = nameof(AvatarLoaderEditor);
         private const string AVATAR_LOADER = "Avatar Loader";
         private const string LOAD_AVATAR_BUTTON = "LoadAvatarButton";
         private const string HEADER_LABEL = "HeaderLabel";
@@ -83,7 +84,6 @@ namespace ReadyPlayerMe.Core.Editor
                 avatarLoaderSettings = AvatarLoaderSettings.LoadSettings();
             }
             var avatarLoader = new AvatarObjectLoader();
-            avatarLoader.SaveInProjectFolder = true;
             avatarLoader.OnFailed += Failed;
             avatarLoader.OnCompleted += Completed;
             avatarLoader.OperationCompleted += OnOperationCompleted;
@@ -113,18 +113,24 @@ namespace ReadyPlayerMe.Core.Editor
 
         private void Completed(object sender, CompletionEventArgs args)
         {
+            AnalyticsEditorLogger.EventLogger.LogAvatarLoaded(EditorApplication.timeSinceStartup - startTime);
+
             if (avatarLoaderSettings == null)
             {
                 avatarLoaderSettings = AvatarLoaderSettings.LoadSettings();
             }
             var paramHash = AvatarCache.GetAvatarConfigurationHash(avatarLoaderSettings.AvatarConfig);
             var path = $"{DirectoryUtility.GetRelativeProjectPath(args.Avatar.name, paramHash)}/{args.Avatar.name}";
+            if (!AvatarLoaderSettings.LoadSettings().AvatarCachingEnabled)
+            {
+                SDKLogger.LogWarning(TAG, "Enable Avatar Caching to generate a prefab in the project folder.");
+                return;
+            }
             GameObject avatar = EditorUtilities.CreateAvatarPrefab(args.Metadata, path);
             if (useEyeAnimations) avatar.AddComponent<EyeAnimationHandler>();
             if (useVoiceToAnim) avatar.AddComponent<VoiceHandler>();
             DestroyImmediate(args.Avatar, true);
             Selection.activeObject = avatar;
-            AnalyticsEditorLogger.EventLogger.LogAvatarLoaded(EditorApplication.timeSinceStartup - startTime);
         }
     }
 }

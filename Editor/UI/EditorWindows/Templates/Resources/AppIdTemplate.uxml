@@ -6,5 +6,6 @@
             <ui:Button text="?" display-tooltip-when-elided="true" name="AppIdHelpButton" class="button2" style="margin-left: 0; margin-right: 0; margin-top: 0; margin-bottom: 0; padding-left: 0; padding-right: 0; padding-top: 0; padding-bottom: 0; width: 20px; height: 20px; border-top-left-radius: 15px; border-bottom-left-radius: 15px; border-top-right-radius: 15px; border-bottom-right-radius: 15px; -unity-text-align: middle-center; white-space: nowrap;" />
         </ui:VisualElement>
         <ui:TextField picking-mode="Ignore" name="AppIdField" style="width: 165px; margin-left: 52px; margin-right: 0; margin-top: 0; margin-bottom: 0; height: 24px;" />
+        <ui:VisualElement name="ErrorIcon" focusable="false" style="flex-grow: 0; background-color: rgba(0, 0, 0, 0); background-image: resource(&apos;rpm_error_icon&apos;); width: 17px; height: 17px; margin-left: 5px; display: flex; visibility: hidden; flex-shrink: 0;" />
     </ui:VisualElement>
 </ui:UXML>

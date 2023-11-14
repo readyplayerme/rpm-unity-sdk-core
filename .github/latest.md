@@ -1,12 +1,5 @@
 
 ## Changelog
 
-### Breaking Changes
-- Merge avatar creator into core by @ryuuk in [#135](https://github.com/readyplayerme/rpm-unity-sdk-core/pull/135).
-- AvatarProcessor no longer searches and replaces existing avatar by @rk132 in [#138](https://github.com/readyplayerme/rpm-unity-sdk-core/pull/138)
-
-### Added
-- show Avatar Creator sample button in guide by @ryuuk in [#141](https://github.com/readyplayerme/rpm-unity-sdk-core/pull/141)
-
-### Updated
-- merged related samples into single folders by @harrisonhough in [#139](https://github.com/readyplayerme/rpm-unity-sdk-core/pull/139)
+### Updates
+- fixed an issue causing avatars to be stored locally even if caching was disabled by @harrisonhough in [#150](https://github.com/readyplayerme/rpm-unity-sdk-core/pull/150)
