@@ -11,7 +11,7 @@ namespace ReadyPlayerMe.Core.Editor
     public class SubdomainTemplate : VisualElement
     {
         private const string XML_PATH = "SubdomainTemplate";
-        private const string DOMAIN_VALIDATION_ERROR = "Please enter a valid partner subdomain (e.g. demo). Click here to read more about this issue.";
+        private const string DOMAIN_VALIDATION_ERROR = "Please enter a valid partner subdomain (e.g. demo). Read more about this issue.";
         private const string WEB_VIEW_PARTNER_SAVE_KEY = "WebViewPartnerSubdomainName";
 
         public new class UxmlFactory : UxmlFactory<SubdomainTemplate, UxmlTraits>
