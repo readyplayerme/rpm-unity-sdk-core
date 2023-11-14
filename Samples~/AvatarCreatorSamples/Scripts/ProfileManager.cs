@@ -1,4 +1,5 @@
-﻿using System.IO;
+﻿using System;
+using System.IO;
 using System.Text;
 using Newtonsoft.Json;
 using ReadyPlayerMe.AvatarCreator;
@@ -26,14 +27,11 @@ namespace ReadyPlayerMe
 
         private void OnEnable()
         {
-            profileUI.SignedOut += AuthManager.Logout;
             AuthManager.OnSignedOut += DeleteSession;
         }
 
-
         private void OnDisable()
         {
-            profileUI.SignedOut -= AuthManager.Logout;
             AuthManager.OnSignedOut -= DeleteSession;
         }
 
@@ -48,9 +46,10 @@ namespace ReadyPlayerMe
             var json = Encoding.UTF8.GetString(bytes);
             var userSession = JsonConvert.DeserializeObject<UserSession>(json);
             AuthManager.SetUser(userSession);
+
             SetProfileData(userSession);
 
-            SDKLogger.Log(TAG, $"Loaded session from {filePath}");    
+            SDKLogger.Log(TAG, $"Loaded session from {filePath}");
             return true;
         }
 
@@ -60,7 +59,7 @@ namespace ReadyPlayerMe
             DirectoryUtility.ValidateDirectory(directoryPath);
             File.WriteAllBytes(filePath, Encoding.UTF8.GetBytes(json));
             SetProfileData(userSession);
-            
+
             SDKLogger.Log(TAG, $"Saved session to {filePath}");
         }
 
@@ -71,7 +70,7 @@ namespace ReadyPlayerMe
                 char.ToUpperInvariant(userSession.Name[0]).ToString()
             );
         }
-        
+
         private void DeleteSession()
         {
             if (File.Exists(filePath))
@@ -79,7 +78,7 @@ namespace ReadyPlayerMe
                 File.Delete(filePath);
             }
             profileUI.ClearProfile();
-            
+
             SDKLogger.Log(TAG, $"Deleted session at {filePath}");
         }
     }

@@ -138,7 +138,7 @@ namespace ReadyPlayerMe.AvatarCreator
                 {
                     Url = AvatarEndpoints.GetCreateEndpoint(),
                     Method = HttpMethod.POST,
-                    Payload = avatarProperties.ToJson()
+                    Payload = avatarProperties.ToJson(true)
                 },
                 ctx: ctx
             );
@@ -154,7 +154,7 @@ namespace ReadyPlayerMe.AvatarCreator
             var response = await authorizedRequest.SendRequest<Response>(
                 new RequestData
                 {
-                    Url =AvatarEndpoints.GetAvatarModelEndpoint(avatarId, isPreview, parameters),
+                    Url = AvatarEndpoints.GetAvatarModelEndpoint(avatarId, isPreview, parameters),
                     Method = HttpMethod.GET
                 },
                 ctx: ctx);

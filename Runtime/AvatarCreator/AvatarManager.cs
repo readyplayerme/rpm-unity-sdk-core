@@ -14,25 +14,22 @@ namespace ReadyPlayerMe.AvatarCreator
     {
         private const string TAG = nameof(AvatarManager);
         private readonly BodyType bodyType;
-        private readonly OutfitGender gender;
         private readonly AvatarAPIRequests avatarAPIRequests;
         private readonly string avatarConfigParameters;
         private readonly InCreatorAvatarLoader inCreatorAvatarLoader;
         private readonly CancellationTokenSource ctxSource;
-
+        private OutfitGender gender;
         public Action<string> OnError { get; set; }
 
         public string AvatarId => avatarId;
         private string avatarId;
 
         /// <param name="bodyType">Body type of avatar</param>
-        /// <param name="gender">Gender of avatar</param>
         /// <param name="avatarConfig">Config for downloading preview avatar</param>
         /// <param name="token">Cancellation token</param>
-        public AvatarManager(BodyType bodyType, OutfitGender gender, AvatarConfig avatarConfig = null, CancellationToken token = default)
+        public AvatarManager(BodyType bodyType, AvatarConfig avatarConfig = null, CancellationToken token = default)
         {
             this.bodyType = bodyType;
-            this.gender = gender;
 
             if (avatarConfig != null)
             {
@@ -49,15 +46,16 @@ namespace ReadyPlayerMe.AvatarCreator
         /// </summary>
         /// <param name="avatarProperties">Properties which describes avatar</param>
         /// <returns>Avatar gameObject</returns>
-        public async Task<GameObject> CreateAvatar(AvatarProperties avatarProperties)
+        public async Task<(GameObject, AvatarProperties)> CreateAvatar(AvatarProperties avatarProperties)
         {
             GameObject avatar = null;
             try
             {
                 avatarProperties = await avatarAPIRequests.CreateNewAvatar(avatarProperties);
+                gender = avatarProperties.Gender;
                 if (ctxSource.IsCancellationRequested)
                 {
-                    return null;
+                    return (null, avatarProperties);
                 }
 
                 avatarId = avatarProperties.Id;
@@ -66,19 +64,18 @@ namespace ReadyPlayerMe.AvatarCreator
             catch (Exception e)
             {
                 OnError?.Invoke(e.Message);
-                return avatar;
+                return (avatar, avatarProperties);
             }
 
-            return avatar;
+            return (avatar, avatarProperties);
         }
 
         /// <summary>
         /// Create a new avatar from a provided template.
         /// </summary>
         /// <param name="id">Template id</param>
-        /// <param name="partner">Partner name</param>
         /// <returns>Avatar gameObject</returns>
-        public async Task<(GameObject, AvatarProperties)> CreateAvatarFromTemplate(string id, string partner)
+        public async Task<(GameObject, AvatarProperties)> CreateAvatarFromTemplate(string id)
         {
             GameObject avatar = null;
             var avatarProperties = new AvatarProperties();
@@ -86,9 +83,10 @@ namespace ReadyPlayerMe.AvatarCreator
             {
                 avatarProperties = await avatarAPIRequests.CreateFromTemplateAvatar(
                     id,
-                    partner,
+                    CoreSettingsHandler.CoreSettings.Subdomain,
                     bodyType
                 );
+                gender = avatarProperties.Gender;
                 if (ctxSource.IsCancellationRequested)
                 {
                     return (null, avatarProperties);
