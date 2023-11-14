@@ -23,7 +23,6 @@ public static class AvatarBoneHelper
         return avatarRoot.Find(ARMATURE_HIPS_LEFT_UP_LEG_BONE_NAME);
     }
 
-
     /// <summary>
     /// Searches the avatar transform hierarchy for the left eye bone
     /// </summary>

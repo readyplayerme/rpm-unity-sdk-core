@@ -1,17 +1,20 @@
 using UnityEditor;
 using UnityEngine;
 
-public static class ProjectPrefs
+namespace ReadyPlayerMe.Core.Editor
 {
-    public const string FIRST_TIME_SETUP_DONE = "first-time-setup-guide";
-
-    public static bool GetBool(string key)
+    public static class ProjectPrefs
     {
-        return EditorPrefs.GetBool($"{Application.dataPath}{key}");
-    }
+        public const string FIRST_TIME_SETUP_DONE = "first-time-setup-guide";
 
-    public static void SetBool(string key, bool value)
-    {
-        EditorPrefs.SetBool($"{Application.dataPath}{key}", value);
+        public static bool GetBool(string key)
+        {
+            return EditorPrefs.GetBool($"{Application.dataPath}{key}");
+        }
+
+        public static void SetBool(string key, bool value)
+        {
+            EditorPrefs.SetBool($"{Application.dataPath}{key}", value);
+        }
     }
 }
