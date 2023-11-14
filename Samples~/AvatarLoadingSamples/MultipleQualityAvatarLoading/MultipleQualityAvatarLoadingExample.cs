@@ -11,7 +11,7 @@ namespace ReadyPlayerMe.Samples
     {
 
         [SerializeField]
-        private string avatarUrl = "https://api.readyplayer.me/v1/avatars/638df75e5a7d322604bb3dcd.glb";
+        private string avatarUrl = "https://models.readyplayer.me/638df75e5a7d322604bb3dcd.glb";
         [SerializeField]
         private Transform qualityContainerPrefab;
         [SerializeField]

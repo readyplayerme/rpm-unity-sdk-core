@@ -11,7 +11,7 @@ namespace ReadyPlayerMe.Core
     {
         private const string TAG = nameof(UrlProcessor);
 
-        private const string SHORT_CODE_BASE_URL = "https://api.readyplayer.me/v1/avatars";
+        private const string SHORT_CODE_BASE_URL = "https://models.readyplayer.me";
         private const string GLB_EXTENSION = ".glb";
         private const string JSON_EXTENSION = ".json";
         private const string URL_STRING_IS_NULL = "Url string is null";
