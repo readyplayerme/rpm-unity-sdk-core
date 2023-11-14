@@ -14,10 +14,10 @@ namespace ReadyPlayerMe.Samples
         [SerializeField][Tooltip("Set this to the URL or shortcodes of the Ready Player Me Avatar you want to load.")]
         private string[] avatarUrls =
         {
-            "https://api.readyplayer.me/v1/avatars/638df5fc5a7d322604bb3a58.glb",
-            "https://api.readyplayer.me/v1/avatars/638df70ed72bffc6fa179596.glb",
-            "https://api.readyplayer.me/v1/avatars/638df75e5a7d322604bb3dcd.glb",
-            "https://api.readyplayer.me/v1/avatars/638df7d1d72bffc6fa179763.glb"
+            "https://models.readyplayer.me/638df5fc5a7d322604bb3a58.glb",
+            "https://models.readyplayer.me/638df70ed72bffc6fa179596.glb",
+            "https://models.readyplayer.me/638df75e5a7d322604bb3dcd.glb",
+            "https://models.readyplayer.me/638df7d1d72bffc6fa179763.glb"
         };
         private List<GameObject> avatarList;
 
@@ -69,7 +69,7 @@ namespace ReadyPlayerMe.Samples
                 yield return new WaitUntil(() => !loading);
             }
         }
-        
+
         /// This method is called after the avatar has been loadded and setup in the scene and is used to set the position of the <c>GameObject</c> in the scene.
         private void OnAvatarLoaded(GameObject avatar)
         {
