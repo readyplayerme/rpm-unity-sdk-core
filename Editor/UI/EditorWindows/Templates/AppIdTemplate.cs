@@ -8,7 +8,7 @@ namespace ReadyPlayerMe.Core.Editor
     public class AppIdTemplate : VisualElement
     {
         private const string XML_PATH = "AppIdTemplate";
-        private const string APPID_VALIDATION_ERROR = "Please enter a valid app id. Click here to read more about this issue.";
+        private const string APPID_VALIDATION_ERROR = "Please enter a valid app id. Read more about this issue.";
 
         public new class UxmlFactory : UxmlFactory<AppIdTemplate, UxmlTraits>
         {

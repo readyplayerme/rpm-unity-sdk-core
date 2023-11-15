@@ -28,7 +28,10 @@ namespace ReadyPlayerMe
             
             if (string.IsNullOrEmpty(CoreSettingsHandler.CoreSettings.AppId))
             {
-                Debug.LogError("App ID is missing. Please put your App-ID in Ready Player Me > Settings.");
+                Debug.LogError("App ID is missing. " +
+                               "Please put your App ID in Ready Player Me > Settings. " +
+                               "Ensure that the App ID and subdomain values you provide are from the same application you’ve created in Studio, otherwise some SDK method calls will fail. " +
+                               "You can find your App ID and Subdomain in your Studio account at https://studio.readyplayer.me");
                 return;
             }
 
