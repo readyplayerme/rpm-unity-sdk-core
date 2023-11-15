@@ -2,9 +2,11 @@ using System;
 using System.Collections.Generic;
 using ReadyPlayerMe.Core.Editor;
 using ReadyPlayerMe.Core.Editor.Models;
+using ReadyPlayerMe.Core.Editor.PackageManager.Extensions;
 using UnityEditor;
 using UnityEngine;
 using static ReadyPlayerMe.Core.Analytics.Constants;
+using PackageInfo = UnityEditor.PackageManager.PackageInfo;
 
 namespace ReadyPlayerMe.Core.Analytics
 {
@@ -234,20 +236,21 @@ namespace ReadyPlayerMe.Core.Analytics
             LogEvent(EventName.AVATAR_CREATOR_SAMPLE_IMPORTED);
         }
 
-        public void LogPackageInstalled(PackageCoreInfo packageInfo, bool force = false)
+        public void LogPackageInstalled(PackageCoreInfo packageInfo)
         {
             LogEvent(EventName.INSTALL_PACKAGE, new Dictionary<string, object>
             {
                 { "id", packageInfo.Id },
                 { "name", packageInfo.Name },
                 { "url", packageInfo.Url },
-            }, force: force);
+            });
         }
 
         private void SetUserProperties()
         {
             var userProperties = new Dictionary<string, object>
             {
+                { Properties.SDK_SOURCE_URL, PackageManagerHelper.GetSdkPackageSourceUrl() },
                 { Properties.ENGINE_VERSION, appData.UnityVersion },
                 { Properties.RENDER_PIPELINE, appData.RenderPipeline },
                 { Properties.SUBDOMAIN, appData.PartnerName },
@@ -289,9 +292,9 @@ namespace ReadyPlayerMe.Core.Analytics
             });
         }
 
-        private void LogEvent(string eventName, Dictionary<string, object> eventProperties = null, Dictionary<string, object> userProperties = null, bool force = false)
+        private void LogEvent(string eventName, Dictionary<string, object> eventProperties = null, Dictionary<string, object> userProperties = null)
         {
-            if (!isEnabled && !force) return;
+            if (!isEnabled) return;
 
             AmplitudeEventLogger.LogEvent(eventName, eventProperties, userProperties);
         }

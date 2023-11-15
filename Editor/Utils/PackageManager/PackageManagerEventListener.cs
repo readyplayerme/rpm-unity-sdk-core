@@ -1,6 +1,5 @@
 ﻿using System.Linq;
 using ReadyPlayerMe.Core.Analytics;
-using ReadyPlayerMe.Core.Editor.PackageManager.Extensions;
 using ReadyPlayerMe.Core.Editor.Models;
 using UnityEditor;
 using UnityEditor.PackageManager;
@@ -23,7 +22,7 @@ namespace ReadyPlayerMe.Core.Editor
                     Name = package.displayName,
                 })
                 .ToList()
-                .ForEach(info => AnalyticsEditorLogger.EventLogger.LogPackageInstalled(info));
+                .ForEach(AnalyticsEditorLogger.EventLogger.LogPackageInstalled);
         }
     }
 }

@@ -37,6 +37,7 @@ namespace ReadyPlayerMe.Core.Analytics
 
         public static class Properties
         {
+            public const string SDK_SOURCE_URL = "sdk source url";
             public const string ENGINE_VERSION = "engine version";
             public const string RENDER_PIPELINE = "render pipeline";
             public const string SUBDOMAIN = "subdomain";

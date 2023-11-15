@@ -33,6 +33,6 @@ namespace ReadyPlayerMe.Core.Analytics
         void LogOpenAvatarCreatorDocumentation();
         void LogOpenOptimizationDocumentation();
         void LogAvatarCreatorSampleImported();
-        void LogPackageInstalled(PackageCoreInfo packageInfo, bool force = false);
+        void LogPackageInstalled(PackageCoreInfo packageInfo);
     }
 }
