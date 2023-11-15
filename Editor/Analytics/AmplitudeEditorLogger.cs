@@ -2,11 +2,9 @@ using System;
 using System.Collections.Generic;
 using ReadyPlayerMe.Core.Editor;
 using ReadyPlayerMe.Core.Editor.Models;
-using ReadyPlayerMe.Core.Editor.PackageManager.Extensions;
 using UnityEditor;
 using UnityEngine;
 using static ReadyPlayerMe.Core.Analytics.Constants;
-using PackageInfo = UnityEditor.PackageManager.PackageInfo;
 
 namespace ReadyPlayerMe.Core.Analytics
 {
