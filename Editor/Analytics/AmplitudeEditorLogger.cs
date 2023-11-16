@@ -1,8 +1,10 @@
 using System;
 using System.Collections.Generic;
 using ReadyPlayerMe.Core.Editor;
+using ReadyPlayerMe.Core.Editor.Models;
 using UnityEditor;
 using UnityEngine;
+using static ReadyPlayerMe.Core.Analytics.Constants;
 
 namespace ReadyPlayerMe.Core.Analytics
 {
@@ -59,190 +61,201 @@ namespace ReadyPlayerMe.Core.Analytics
         {
             if (!isEnabled) return;
             GenerateSessionId();
-            AmplitudeEventLogger.LogEvent(Constants.EventName.OPEN_PROJECT);
+            AmplitudeEventLogger.LogEvent(EventName.OPEN_PROJECT);
         }
 
         public void LogCloseProject()
         {
-            LogEvent(Constants.EventName.CLOSE_PROJECT);
+            LogEvent(EventName.CLOSE_PROJECT);
         }
 
         public void LogOpenDocumentation(string target)
         {
-            LogEvent(Constants.EventName.OPEN_DOCUMENTATION, new Dictionary<string, object>
+            LogEvent(EventName.OPEN_DOCUMENTATION, new Dictionary<string, object>
             {
-                { Constants.Properties.TARGET, target }
+                { Properties.TARGET, target }
             });
         }
 
         public void LogOpenFaq(string target)
         {
-            LogEvent(Constants.EventName.OPEN_FAQ, new Dictionary<string, object>
+            LogEvent(EventName.OPEN_FAQ, new Dictionary<string, object>
             {
-                { Constants.Properties.TARGET, target }
+                { Properties.TARGET, target }
             });
         }
 
         public void LogOpenDiscord(string target)
         {
-            LogEvent(Constants.EventName.OPEN_DISCORD, new Dictionary<string, object>
+            LogEvent(EventName.OPEN_DISCORD, new Dictionary<string, object>
             {
-                { Constants.Properties.TARGET, target }
+                { Properties.TARGET, target }
             });
         }
 
         public void LogLoadAvatarFromDialog(string avatarUrl, bool eyeAnimation, bool voiceHandler)
         {
-            LogEvent(Constants.EventName.LOAD_AVATAR_FROM_DIALOG, new Dictionary<string, object>
+            LogEvent(EventName.LOAD_AVATAR_FROM_DIALOG, new Dictionary<string, object>
             {
-                { Constants.Properties.AVATAR_URL, avatarUrl },
-                { Constants.Properties.EYE_ANIMATION, eyeAnimation },
-                { Constants.Properties.VOICE_HANDLER, voiceHandler }
+                { Properties.AVATAR_URL, avatarUrl },
+                { Properties.EYE_ANIMATION, eyeAnimation },
+                { Properties.VOICE_HANDLER, voiceHandler }
             });
         }
 
         public void LogUpdatePartnerURL(string previousSubdomain, string newSubdomain)
         {
-            LogEvent(Constants.EventName.UPDATED_PARTNER_URL, new Dictionary<string, object>
+            LogEvent(EventName.UPDATED_PARTNER_URL, new Dictionary<string, object>
             {
-                { Constants.Properties.PREVIOUS_SUBDOMAIN, previousSubdomain },
-                { Constants.Properties.NEW_SUBDOMAIN, newSubdomain }
+                { Properties.PREVIOUS_SUBDOMAIN, previousSubdomain },
+                { Properties.NEW_SUBDOMAIN, newSubdomain }
             }, new Dictionary<string, object>
             {
-                { Constants.Properties.SUBDOMAIN, newSubdomain }
+                { Properties.SUBDOMAIN, newSubdomain }
             });
         }
 
         public void LogOpenDialog(string dialog)
         {
-            LogEvent(Constants.EventName.OPEN_DIALOG, new Dictionary<string, object>
+            LogEvent(EventName.OPEN_DIALOG, new Dictionary<string, object>
             {
-                { Constants.Properties.DIALOG, dialog }
+                { Properties.DIALOG, dialog }
             });
         }
-        
+
         public void LogBuildApplication(string target, string appName, bool productionBuild)
         {
-            LogEvent(Constants.EventName.BUILD_APPLICATION, new Dictionary<string, object>
+            LogEvent(EventName.BUILD_APPLICATION, new Dictionary<string, object>
             {
-                { Constants.Properties.TARGET, target },
-                { Constants.Properties.APP_NAME, appName },
-                { Constants.Properties.PRODUCTION_BUILD, productionBuild },
-                { Constants.Properties.APP_IDENTIFIER, Application.identifier }
+                { Properties.TARGET, target },
+                { Properties.APP_NAME, appName },
+                { Properties.PRODUCTION_BUILD, productionBuild },
+                { Properties.APP_IDENTIFIER, Application.identifier }
             });
         }
 
         public void LogMetadataDownloaded(double duration)
         {
-            LogEvent(Constants.EventName.METADATA_DOWNLOADED, new Dictionary<string, object>
+            LogEvent(EventName.METADATA_DOWNLOADED, new Dictionary<string, object>
             {
-                { Constants.Properties.DURATION, duration }
+                { Properties.DURATION, duration }
             });
         }
 
         public void LogAvatarLoaded(double duration)
         {
-            LogEvent(Constants.EventName.AVATAR_LOADED, new Dictionary<string, object>
+            LogEvent(EventName.AVATAR_LOADED, new Dictionary<string, object>
             {
-                { Constants.Properties.DURATION, duration }
+                { Properties.DURATION, duration }
             });
         }
 
         public void LogCheckForUpdates()
         {
-            LogEvent(Constants.EventName.CHECK_FOR_UPDATES);
+            LogEvent(EventName.CHECK_FOR_UPDATES);
         }
 
         public void LogSetLoggingEnabled(bool isLoggingEnabled)
         {
-            LogEvent(Constants.EventName.SET_LOGGING_ENABLED, new Dictionary<string, object>
+            LogEvent(EventName.SET_LOGGING_ENABLED, new Dictionary<string, object>
             {
-                { Constants.Properties.LOGGING_ENABLED, isLoggingEnabled }
+                { Properties.LOGGING_ENABLED, isLoggingEnabled }
             });
         }
 
         public void LogSetCachingEnabled(bool isCachingEnabled)
         {
-            LogEvent(Constants.EventName.SET_CACHING_ENABLED, new Dictionary<string, object>
+            LogEvent(EventName.SET_CACHING_ENABLED, new Dictionary<string, object>
             {
-                { Constants.Properties.CACHING_ENABLED, isCachingEnabled }
+                { Properties.CACHING_ENABLED, isCachingEnabled }
             });
         }
 
         public void LogClearLocalCache()
         {
-            LogEvent(Constants.EventName.CLEAR_LOCAL_CACHE);
+            LogEvent(EventName.CLEAR_LOCAL_CACHE);
         }
 
         public void LogViewPrivacyPolicy()
         {
-            LogEvent(Constants.EventName.PRIVACY_POLICY);
+            LogEvent(EventName.PRIVACY_POLICY);
         }
 
         public void LogShowInExplorer()
         {
-            LogEvent(Constants.EventName.SHOW_IN_EXPLORER);
+            LogEvent(EventName.SHOW_IN_EXPLORER);
         }
 
         public void LogFindOutMore(HelpSubject subject)
         {
-            LogEvent(Constants.EventName.FIND_OUT_MORE, new Dictionary<string, object>
+            LogEvent(EventName.FIND_OUT_MORE, new Dictionary<string, object>
             {
-                { Constants.Properties.CONTEXT, helpDataMap[subject] }
+                { Properties.CONTEXT, helpDataMap[subject] }
             });
         }
 
         public void LogOpenSetupGuide()
         {
-            LogEvent(Constants.EventName.OPEN_SETUP_GUIDE);
+            LogEvent(EventName.OPEN_SETUP_GUIDE);
         }
 
         public void LogOpenIntegrationGuide()
         {
-            LogEvent(Constants.EventName.OPEN_INTEGRATION_GUIDE);
+            LogEvent(EventName.OPEN_INTEGRATION_GUIDE);
         }
 
         public void LogLoadQuickStartScene()
         {
-            LogEvent(Constants.EventName.LOAD_QUICK_START_SCENE);
+            LogEvent(EventName.LOAD_QUICK_START_SCENE);
         }
 
         public void LogOpenAvatarDocumentation()
         {
-            LogEvent(Constants.EventName.OPEN_AVATAR_DOCUMENTATION);
+            LogEvent(EventName.OPEN_AVATAR_DOCUMENTATION);
         }
 
         public void LogOpenAnimationDocumentation()
         {
-            LogEvent(Constants.EventName.OPEN_ANIMATION_DOCUMENTATION);
+            LogEvent(EventName.OPEN_ANIMATION_DOCUMENTATION);
         }
 
         public void LogOpenAvatarCreatorDocumentation()
         {
-            LogEvent(Constants.EventName.OPEN_AVATAR_CREATOR_DOCUMENTATION);
+            LogEvent(EventName.OPEN_AVATAR_CREATOR_DOCUMENTATION);
         }
 
         public void LogOpenOptimizationDocumentation()
         {
-            LogEvent(Constants.EventName.OPEN_OPTIMIZATION_DOCUMENTATION);
+            LogEvent(EventName.OPEN_OPTIMIZATION_DOCUMENTATION);
         }
 
         public void LogAvatarCreatorSampleImported()
         {
-           LogEvent(Constants.EventName.AVATAR_CREATOR_SAMPLE_IMPORTED);
+            LogEvent(EventName.AVATAR_CREATOR_SAMPLE_IMPORTED);
         }
-        
+
+        public void LogPackageInstalled(PackageCoreInfo packageInfo)
+        {
+            LogEvent(EventName.INSTALL_PACKAGE, new Dictionary<string, object>
+            {
+                { "id", packageInfo.Id },
+                { "name", packageInfo.Name },
+                { "url", packageInfo.Url },
+            });
+        }
+
         private void SetUserProperties()
         {
             var userProperties = new Dictionary<string, object>
             {
-                { Constants.Properties.ENGINE_VERSION, appData.UnityVersion },
-                { Constants.Properties.RENDER_PIPELINE, appData.RenderPipeline },
-                { Constants.Properties.SUBDOMAIN, appData.PartnerName },
-                { Constants.Properties.APP_NAME, PlayerSettings.productName },
-                { Constants.Properties.SDK_TARGET, SDK_TARGET },
-                { Constants.Properties.APP_IDENTIFIER, Application.identifier },
-                { Constants.Properties.ALLOW_ANALYTICS, true }
+                { Properties.SDK_SOURCE_URL, PackageManagerHelper.GetSdkPackageSourceUrl() },
+                { Properties.ENGINE_VERSION, appData.UnityVersion },
+                { Properties.RENDER_PIPELINE, appData.RenderPipeline },
+                { Properties.SUBDOMAIN, appData.PartnerName },
+                { Properties.APP_NAME, PlayerSettings.productName },
+                { Properties.SDK_TARGET, SDK_TARGET },
+                { Properties.APP_IDENTIFIER, Application.identifier },
+                { Properties.ALLOW_ANALYTICS, true }
             };
 
             Dictionary<string, string> modules = ModuleList.GetInstalledModuleVersionDictionary();
@@ -252,7 +265,7 @@ namespace ReadyPlayerMe.Core.Analytics
                 userProperties.Add(module.Key, module.Value);
             }
 
-            LogEvent(Constants.EventName.SET_USER_PROPERTIES, null, userProperties);
+            LogEvent(EventName.SET_USER_PROPERTIES, null, userProperties);
         }
 
         private void GenerateSessionId()
@@ -262,24 +275,25 @@ namespace ReadyPlayerMe.Core.Analytics
 
         private void ToggleAnalytics(bool allow)
         {
-            LogEvent(Constants.EventName.ALLOW_ANALYTICS, new Dictionary<string, object>
+            LogEvent(EventName.ALLOW_ANALYTICS, new Dictionary<string, object>
             {
-                { Constants.Properties.ALLOW, allow }
+                { Properties.ALLOW, allow }
             }, new Dictionary<string, object>
             {
-                { Constants.Properties.ENGINE_VERSION, appData.UnityVersion },
-                { Constants.Properties.RENDER_PIPELINE, appData.RenderPipeline },
-                { Constants.Properties.SUBDOMAIN, appData.PartnerName },
-                { Constants.Properties.APP_NAME, PlayerSettings.productName },
-                { Constants.Properties.SDK_TARGET, "Unity" },
-                { Constants.Properties.APP_IDENTIFIER, Application.identifier },
-                { Constants.Properties.ALLOW_ANALYTICS, allow }
+                { Properties.ENGINE_VERSION, appData.UnityVersion },
+                { Properties.RENDER_PIPELINE, appData.RenderPipeline },
+                { Properties.SUBDOMAIN, appData.PartnerName },
+                { Properties.APP_NAME, PlayerSettings.productName },
+                { Properties.SDK_TARGET, "Unity" },
+                { Properties.APP_IDENTIFIER, Application.identifier },
+                { Properties.ALLOW_ANALYTICS, allow }
             });
         }
-        
+
         private void LogEvent(string eventName, Dictionary<string, object> eventProperties = null, Dictionary<string, object> userProperties = null)
         {
             if (!isEnabled) return;
+
             AmplitudeEventLogger.LogEvent(eventName, eventProperties, userProperties);
         }
     }

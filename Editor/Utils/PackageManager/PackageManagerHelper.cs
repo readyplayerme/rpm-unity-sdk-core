@@ -11,6 +11,7 @@ namespace ReadyPlayerMe.Core.Editor
         private const string TAG = nameof(PackageManagerHelper);
         private const int THREAD_SLEEP_TIME = 100;
         private const float TIMEOUT_FOR_PACKAGE_INSTALLATION = 20f;
+        private const string READY_PLAYER_ME_PACKAGE_PATH = "Packages/com.readyplayerme.core";
 
         public static bool IsPackageInstalled(string name)
         {
@@ -36,7 +37,16 @@ namespace ReadyPlayerMe.Core.Editor
             return Array.Empty<PackageInfo>();
 
         }
-        
+
+        public static string GetSdkPackageSourceUrl()
+        {
+            var sdkPackageInfo = PackageInfo.FindForAssetPath(READY_PLAYER_ME_PACKAGE_PATH);
+
+            return sdkPackageInfo?.packageId
+                .Split(new[] { '@' }, StringSplitOptions.RemoveEmptyEntries)
+                .LastOrDefault();
+        }
+
         public static void AddPackage(string identifier)
         {
             var startTime = Time.realtimeSinceStartup;
