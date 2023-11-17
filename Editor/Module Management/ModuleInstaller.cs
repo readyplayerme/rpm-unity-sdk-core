@@ -35,17 +35,15 @@ namespace ReadyPlayerMe.Core.Editor
 
         static ModuleInstaller()
         {
+
             Events.registeringPackages -= OnRegisteringPackages;
             Events.registeringPackages += OnRegisteringPackages;
-# if RPM_DEVELOPMENT
-            modulesInstalled = true;
+
+#if !READY_PLAYER_ME
+            InstallModules();
+            EditorApplication.delayCall += DelayCreateCoreSettings;
+            DefineSymbolHelper.AddSymbols();
 #endif
-            if (!modulesInstalled)
-            {
-                InstallModules();
-                EditorApplication.delayCall += DelayCreateCoreSettings;
-                DefineSymbolHelper.AddSymbols();
-            }
         }
 
         /// <summary>
@@ -66,6 +64,7 @@ namespace ReadyPlayerMe.Core.Editor
         {
             EditorApplication.delayCall -= DelayCreateCoreSettings;
             CoreSettingsLoader.EnsureSettingsExist();
+
         }
 
         /// <summary>
@@ -77,7 +76,6 @@ namespace ReadyPlayerMe.Core.Editor
             Thread.Sleep(THREAD_SLEEP_TIME);
 
             ModuleInfo[] missingModules = GetMissingModuleNames();
-
             if (missingModules.Length > 0)
             {
                 var installedModuleCount = 0f;
