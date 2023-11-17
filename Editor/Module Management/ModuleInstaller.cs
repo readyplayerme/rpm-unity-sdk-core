@@ -46,17 +46,10 @@ namespace ReadyPlayerMe.Core.Editor
             {
                 InstallModules();
                 EditorApplication.delayCall += DelayCreateCoreSettings;
-            }
-            
-#if !GLTFAST
-            if (IsModuleInstalled(GLTFAST_NAME))
-            {
                 DefineSymbolHelper.AddSymbols();
             }
-#endif
-
         }
-        
+
         /// <summary>
         ///     Called when a package is about to be added, removed or changed.
         /// </summary>
@@ -134,8 +127,8 @@ namespace ReadyPlayerMe.Core.Editor
         {
             PackageInfo[] installed = GetPackageList();
             var missingModules = ModuleList.Modules.Where(m => installed.All(i => m.name != i.name)).ToList();
-            
-            if(!missingModules.Any(module => module.name.Contains(GLTFAST_NAME)))
+
+            if (!missingModules.Any(module => module.name.Contains(GLTFAST_NAME)))
             {
                 missingModules = missingModules.Where(module => !module.name.Contains(WEBVIEW_NAME)).ToList();
             }

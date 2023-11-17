@@ -9,9 +9,8 @@ namespace ReadyPlayerMe.Core.Editor
 {
     public static class DefineSymbolHelper
     {
-        private const string GLTFAST_SYMBOL = "GLTFAST";
         private const string READY_PLAYER_ME_SYMBOL = "READY_PLAYER_ME";
-        
+
         private static void ModifyScriptingDefineSymbolInAllBuildTargetGroups(string defineSymbol, bool addSymbol)
         {
             foreach (BuildTarget target in Enum.GetValues(typeof(BuildTarget)))
@@ -54,19 +53,17 @@ namespace ReadyPlayerMe.Core.Editor
                 CompilationPipeline.RequestScriptCompilation();
             }
         }
-        
+
         public static void AddSymbols()
         {
-            ModifyScriptingDefineSymbolInAllBuildTargetGroups(GLTFAST_SYMBOL, true);
             ModifyScriptingDefineSymbolInAllBuildTargetGroups(READY_PLAYER_ME_SYMBOL, true);
             CompilationPipeline.RequestScriptCompilation();
         }
-        
+
         public static void RemoveSymbols()
         {
-            ModifyScriptingDefineSymbolInAllBuildTargetGroups(GLTFAST_SYMBOL, false);
             ModifyScriptingDefineSymbolInAllBuildTargetGroups(READY_PLAYER_ME_SYMBOL, false);
         }
-        
+
     }
 }
