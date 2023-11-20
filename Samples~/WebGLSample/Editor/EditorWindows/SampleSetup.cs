@@ -61,8 +61,8 @@ namespace ReadyPlayerMe.Samples
                 Debug.LogWarning("Failed to find WebGLSample. No changes were done to project");
                 return;
             }
-            CopyPath($"{samplesRootFolder}/{TEMPLATE_PATH}", $"{Application.dataPath}");
-            CopyPath($"{samplesRootFolder}/{WEBGL_HELPER_PATH}", $"{Application.dataPath}/{PLUGINS_FOLDER}");
+            CopyContents($"{samplesRootFolder}/{TEMPLATE_PATH}", $"{Application.dataPath}");
+            CopyContents($"{samplesRootFolder}/{WEBGL_HELPER_PATH}", $"{Application.dataPath}/{PLUGINS_FOLDER}");
             SetWebGLTemplate();
         }
 
@@ -77,34 +77,38 @@ namespace ReadyPlayerMe.Samples
             return rootSamplePath.TrimEnd('/');
         }
 
-        private static void CopyPath(string sourcePath, string destinationPath)
+        private static void CopyContents(string sourcePath, string destinationPath)
         {
-            foreach (var sourceFile in Directory.GetFiles(sourcePath, "*", SearchOption.AllDirectories))
+            // Check if the source directory exists
+            if (!Directory.Exists(sourcePath))
             {
-                if (sourceFile.EndsWith(".meta"))
-                {
-                    continue;
-                }
-
-                var sourceFilePath = sourceFile.Replace("\\", "/");
-
-                if (File.Exists(sourceFilePath))
-                {
-                    var destination = destinationPath + sourceFilePath.Substring(sourceFilePath.IndexOf(TEMPLATE_PATH)).Replace("\\", "/");
-
-                    if (!Directory.Exists(destination.Substring(0, destination.LastIndexOf("/"))))
-                    {
-                        Directory.CreateDirectory(destination.Substring(0, destination.LastIndexOf("/")));
-                    }
-
-                    File.Copy(sourceFilePath, destination, true);
-                }
-                else
-                {
-                    Debug.LogError("Source file does not exist: " + sourceFilePath);
-                }
+                throw new DirectoryNotFoundException("Source directory does not exist or could not be found: " + sourcePath);
             }
 
+            // Check if the destination directory exists, if not, create it
+            if (!Directory.Exists(destinationPath))
+            {
+                Directory.CreateDirectory(destinationPath);
+            }
+
+            // Get the files in the directory and copy them to the new location
+            var files = Directory.GetFiles(sourcePath);
+            foreach (var file in files)
+            {
+                var fileName = Path.GetFileName(file);
+                var destFile = Path.Combine(destinationPath, fileName);
+                File.Copy(file, destFile, true); // true to overwrite if file already exists
+            }
+
+            // If copying subdirectories, copy them and their contents to new location
+            var subdirectories = Directory.GetDirectories(sourcePath);
+            foreach (var subdirectory in subdirectories)
+            {
+                var subdirectoryName = Path.GetFileName(subdirectory);
+                var newDestinationPath = Path.Combine(destinationPath, subdirectoryName);
+                CopyContents(subdirectory, newDestinationPath); // Recursively copy subdirectories
+            }
+            
             SDKLogger.Log(TAG, "Copied RPMTemplate to the WebGLTemplate folder in the root path of Assets");
             AssetDatabase.Refresh();
         }
