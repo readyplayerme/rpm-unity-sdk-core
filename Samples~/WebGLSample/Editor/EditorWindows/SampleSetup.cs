@@ -18,6 +18,7 @@ namespace ReadyPlayerMe.Samples
         private const string CANCEL_BUTTON_TEXT = "Cancel";
 
         private const string RPM_WEBGL_SCREEN_SHOWN_KEY = "rpm-webgl-screen-shown";
+        private const string TEMPLATE_PATH = "WebGLTemplates";
         private const string FILE_NAME = "ReadyPlayerMe.Core.WebGLSample.asmdef";
         private const string PLUGINS_FOLDER = "Plugins";
         private const string WEBGL_HELPER_PATH = "WebGlHelper";
@@ -77,28 +78,30 @@ namespace ReadyPlayerMe.Samples
         }
 
         private static void MoveFolder(string sourcePath, string destinationPath)
-    	{
-        	// Extract the last part of the source path (e.g., "Plugin")
-        	string sourceDirectoryName = new DirectoryInfo(sourcePath).Name;
+        {
+            // Extract the last part of the source path (e.g., "Plugin")
+            var sourceDirectoryName = new DirectoryInfo(sourcePath).Name;
 
-        	// Append the source directory name to the destination path
-        	string newDestinationPath = Path.Combine(destinationPath, sourceDirectoryName);
+            // Append the source directory name to the destination path
+            var newDestinationPath = Path.Combine(destinationPath, sourceDirectoryName);
 
-        	// Check if the source directory exists
-        	if (!Directory.Exists(sourcePath))
-        	{
-            	throw new DirectoryNotFoundException("Source directory does not exist or could not be found: " + sourcePath);
-        	}
+            // Check if the source directory exists
+            if (!Directory.Exists(sourcePath))
+            {
+                throw new DirectoryNotFoundException("Source directory does not exist or could not be found: " + sourcePath);
+            }
 
-        	// If the destination directory doesn't exist, create it
-        	if (!Directory.Exists(destinationPath))
-        	{
-            	Directory.CreateDirectory(destinationPath);
-        	}
+            // If the destination directory doesn't exist, create it
+            if (!Directory.Exists(destinationPath))
+            {
+                Directory.CreateDirectory(destinationPath);
+            }
 
-        	// Move the entire source directory to the new destination
-        	Directory.Move(sourcePath, newDestinationPath);
-    	}
+            // Move the entire source directory to the new destination
+            Directory.Move(sourcePath, newDestinationPath);
+            SDKLogger.Log(TAG, $"Moved folder and contents from {sourcePath} to {newDestinationPath}");
+            AssetDatabase.Refresh();
+        }
 
         private static void SetWebGLTemplate()
         {
