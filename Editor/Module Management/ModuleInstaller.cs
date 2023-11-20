@@ -22,8 +22,6 @@ namespace ReadyPlayerMe.Core.Editor
 
         private const int THREAD_SLEEP_TIME = 100;
         private const string PROGRESS_BAR_TITLE = "Ready Player Me";
-        private const string GLTFAST_NAME = "com.atteneder.gltfast";
-        private const string WEBVIEW_NAME = "webview";
 
         private const string MODULE_INSTALLATION_SUCCESS_MESSAGE =
             "All the modules are installed successfully. Ready Player Me avatar system is ready to use.";
@@ -37,26 +35,17 @@ namespace ReadyPlayerMe.Core.Editor
 
         static ModuleInstaller()
         {
+
             Events.registeringPackages -= OnRegisteringPackages;
             Events.registeringPackages += OnRegisteringPackages;
-# if RPM_DEVELOPMENT
-            modulesInstalled = true;
-#endif
-            if (!modulesInstalled)
-            {
-                InstallModules();
-                EditorApplication.delayCall += DelayCreateCoreSettings;
-            }
-            
-#if !GLTFAST
-            if (IsModuleInstalled(GLTFAST_NAME))
-            {
-                DefineSymbolHelper.AddSymbols();
-            }
-#endif
 
+#if !READY_PLAYER_ME
+            InstallModules();
+            EditorApplication.delayCall += DelayCreateCoreSettings;
+            DefineSymbolHelper.AddSymbols();
+#endif
         }
-        
+
         /// <summary>
         ///     Called when a package is about to be added, removed or changed.
         /// </summary>
@@ -75,6 +64,7 @@ namespace ReadyPlayerMe.Core.Editor
         {
             EditorApplication.delayCall -= DelayCreateCoreSettings;
             CoreSettingsLoader.EnsureSettingsExist();
+
         }
 
         /// <summary>
@@ -86,7 +76,6 @@ namespace ReadyPlayerMe.Core.Editor
             Thread.Sleep(THREAD_SLEEP_TIME);
 
             ModuleInfo[] missingModules = GetMissingModuleNames();
-
             if (missingModules.Length > 0)
             {
                 var installedModuleCount = 0f;
@@ -134,11 +123,6 @@ namespace ReadyPlayerMe.Core.Editor
         {
             PackageInfo[] installed = GetPackageList();
             var missingModules = ModuleList.Modules.Where(m => installed.All(i => m.name != i.name)).ToList();
-            
-            if(!missingModules.Any(module => module.name.Contains(GLTFAST_NAME)))
-            {
-                missingModules = missingModules.Where(module => !module.name.Contains(WEBVIEW_NAME)).ToList();
-            }
             return missingModules.ToArray();
         }
 

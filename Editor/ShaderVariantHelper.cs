@@ -30,12 +30,10 @@ namespace ReadyPlayerMe.Core.Editor
         [InitializeOnLoadMethod]
         private static void InitializeOnLoad()
         {
-#if GLTFAST
             if (SessionState.GetBool(SHADER_SESSION_CHECK, false)) return;
             SessionState.SetBool(SHADER_SESSION_CHECK, true);
 
             EditorApplication.update += CheckAndUpdatePreloadShaders;
-#endif
         }
 
         private static void CheckAndUpdatePreloadShaders()
@@ -70,7 +68,6 @@ namespace ReadyPlayerMe.Core.Editor
                 if (!shadersMissing) return;
             }
 
-
             shaderPreloadArray.InsertArrayElementAtIndex(newArrayIndex);
             SerializedProperty shaderInArray = shaderPreloadArray.GetArrayElementAtIndex(newArrayIndex);
             shaderInArray.objectReferenceValue = shaderVariants;
@@ -78,7 +75,6 @@ namespace ReadyPlayerMe.Core.Editor
             serializedGraphicsObject.ApplyModifiedProperties();
             AssetDatabase.SaveAssets();
         }
-
 
         public static bool IsMissingVariants()
         {

@@ -9,6 +9,7 @@
   "changelogUrl": "https://github.com/readyplayerme/rpm-unity-sdk-core/blob/main/CHANGELOG.md",
   "licensesUrl": "https://github.com/readyplayerme/rpm-unity-sdk-core/blob/main/LICENSE.md",
   "dependencies": {
+    "com.unity.cloud.gltfast": "5.0.4",
     "com.unity.nuget.newtonsoft-json": "3.0.2"
   },
   "keywords": [
