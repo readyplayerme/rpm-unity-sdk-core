@@ -61,8 +61,8 @@ namespace ReadyPlayerMe.Samples
                 Debug.LogWarning("Failed to find WebGLSample. No changes were done to project");
                 return;
             }
-            CopyPath($"{samplesRootFolder}{TEMPLATE_PATH}", $"{Application.dataPath}");
-            CopyPath($"{samplesRootFolder}{WEBGL_HELPER_PATH}", $"{Application.dataPath}{PLUGINS_FOLDER}");
+            CopyPath($"{samplesRootFolder}/{TEMPLATE_PATH}", $"{Application.dataPath}");
+            CopyPath($"{samplesRootFolder}/{WEBGL_HELPER_PATH}", $"{Application.dataPath}/{PLUGINS_FOLDER}");
             SetWebGLTemplate();
         }
 
