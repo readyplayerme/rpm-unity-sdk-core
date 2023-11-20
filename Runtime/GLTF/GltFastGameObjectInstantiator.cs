@@ -24,8 +24,7 @@ namespace ReadyPlayerMe.Core
         public override void AddPrimitive(
             uint nodeIndex,
             string meshName,
-            Mesh mesh,
-            int[] materialIndices,
+            MeshResult meshResult,
             uint[] joints = null,
             uint? rootJoint = null,
             float[] morphTargetWeights = null,
@@ -42,8 +41,6 @@ namespace ReadyPlayerMe.Core
             {
                 // Use Node GameObject for first Primitive
                 meshGo = m_Nodes[nodeIndex];
-                // Ready Player Me - Parent mesh to Avatar root game object
-                meshGo.transform.SetParent(m_Parent.transform);
             }
             else
             {
@@ -54,18 +51,18 @@ namespace ReadyPlayerMe.Core
 
             Renderer renderer;
 
-            var hasMorphTargets = mesh.blendShapeCount > 0;
+            var hasMorphTargets = meshResult.mesh.blendShapeCount > 0;
             if (joints == null && !hasMorphTargets)
             {
-                var meshFilter = meshGo.AddComponent<MeshFilter>();
-                meshFilter.mesh = mesh;
-                var meshRenderer = meshGo.AddComponent<MeshRenderer>();
-                renderer = meshRenderer;
+                var mf = meshGo.AddComponent<MeshFilter>();
+                mf.mesh = meshResult.mesh;
+                var mr = meshGo.AddComponent<MeshRenderer>();
+                renderer = mr;
             }
             else
             {
-                var skinnedMeshRenderer = meshGo.AddComponent<SkinnedMeshRenderer>();
-                skinnedMeshRenderer.updateWhenOffscreen = m_Settings.SkinUpdateWhenOffscreen;
+                var smr = meshGo.AddComponent<SkinnedMeshRenderer>();
+                smr.updateWhenOffscreen = m_Settings.SkinUpdateWhenOffscreen;
                 if (joints != null)
                 {
                     var bones = new Transform[joints.Length];
@@ -74,28 +71,28 @@ namespace ReadyPlayerMe.Core
                         var jointIndex = joints[j];
                         bones[j] = m_Nodes[jointIndex].transform;
                     }
-                    skinnedMeshRenderer.bones = bones;
+                    smr.bones = bones;
                     if (rootJoint.HasValue)
                     {
-                        skinnedMeshRenderer.rootBone = m_Nodes[rootJoint.Value].transform;
+                        smr.rootBone = m_Nodes[rootJoint.Value].transform;
                     }
                 }
-                skinnedMeshRenderer.sharedMesh = mesh;
+                smr.sharedMesh = meshResult.mesh;
                 if (morphTargetWeights != null)
                 {
                     for (var i = 0; i < morphTargetWeights.Length; i++)
                     {
                         var weight = morphTargetWeights[i];
-                        skinnedMeshRenderer.SetBlendShapeWeight(i, weight);
+                        smr.SetBlendShapeWeight(i, weight);
                     }
                 }
-                renderer = skinnedMeshRenderer;
+                renderer = smr;
             }
 
-            var materials = new Material[materialIndices.Length];
+            var materials = new Material[meshResult.materialIndices.Length];
             for (var index = 0; index < materials.Length; index++)
             {
-                Material material = m_Gltf.GetMaterial(materialIndices[index]) ?? m_Gltf.GetDefaultMaterial();
+                var material = m_Gltf.GetMaterial(meshResult.materialIndices[index]) ?? m_Gltf.GetDefaultMaterial();
                 materials[index] = material;
             }
 
