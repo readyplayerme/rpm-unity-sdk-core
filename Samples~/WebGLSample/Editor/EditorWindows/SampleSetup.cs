@@ -18,7 +18,7 @@ namespace ReadyPlayerMe.Samples
         private const string CANCEL_BUTTON_TEXT = "Cancel";
 
         private const string RPM_WEBGL_SCREEN_SHOWN_KEY = "rpm-webgl-screen-shown";
-        private const string TEMPLATE_PATH = "WebGLTemplates/RPMTemplate";
+        private const string TEMPLATE_PATH = "WebGLTemplates";
         private const string FILE_NAME = "ReadyPlayerMe.Core.WebGLSample.asmdef";
         private const string PLUGINS_FOLDER = "Plugins";
         private const string WEBGL_HELPER_PATH = "WebGlHelper";
@@ -77,41 +77,44 @@ namespace ReadyPlayerMe.Samples
             return rootSamplePath.TrimEnd('/');
         }
 
-        private static void CopyContents(string sourcePath, string destinationPath)
-        {
-            // Check if the source directory exists
-            if (!Directory.Exists(sourcePath))
-            {
-                throw new DirectoryNotFoundException("Source directory does not exist or could not be found: " + sourcePath);
-            }
+        private static void CopyPath(string sourcePath, string destinationPath)
+    	{
+        	// Extract the last part of the source path (e.g., "Plugin")
+        	string sourceDirectoryName = new DirectoryInfo(sourcePath).Name;
 
-            // Check if the destination directory exists, if not, create it
-            if (!Directory.Exists(destinationPath))
-            {
-                Directory.CreateDirectory(destinationPath);
-            }
+        	// Append the source directory name to the destination path
+        	string newDestinationPath = Path.Combine(destinationPath, sourceDirectoryName);
 
-            // Get the files in the directory and copy them to the new location
-            var files = Directory.GetFiles(sourcePath);
-            foreach (var file in files)
-            {
-                var fileName = Path.GetFileName(file);
-                var destFile = Path.Combine(destinationPath, fileName);
-                File.Copy(file, destFile, true); // true to overwrite if file already exists
-            }
+        	// Check if the source directory exists
+        	if (!Directory.Exists(sourcePath))
+        	{
+            	throw new DirectoryNotFoundException("Source directory does not exist or could not be found: " + sourcePath);
+        	}
 
-            // If copying subdirectories, copy them and their contents to new location
-            var subdirectories = Directory.GetDirectories(sourcePath);
-            foreach (var subdirectory in subdirectories)
-            {
-                var subdirectoryName = Path.GetFileName(subdirectory);
-                var newDestinationPath = Path.Combine(destinationPath, subdirectoryName);
-                CopyContents(subdirectory, newDestinationPath); // Recursively copy subdirectories
-            }
-            
-            SDKLogger.Log(TAG, "Copied RPMTemplate to the WebGLTemplate folder in the root path of Assets");
-            AssetDatabase.Refresh();
-        }
+        	// Check if the new destination directory exists, if not, create it
+        	if (!Directory.Exists(newDestinationPath))
+        	{
+            	Directory.CreateDirectory(newDestinationPath);
+        	}
+
+        	// Get the files in the directory and copy them to the new location
+        	string[] files = Directory.GetFiles(sourcePath);
+        	foreach (string file in files)
+        	{
+            	string fileName = Path.GetFileName(file);
+            	string destFile = Path.Combine(newDestinationPath, fileName);
+            	File.Copy(file, destFile, true); // true to overwrite if file already exists
+        	}
+
+        	// If copying subdirectories, copy them and their contents to new location
+        	string[] subdirectories = Directory.GetDirectories(sourcePath);
+        	foreach (string subdirectory in subdirectories)
+        	{
+            	string subdirectoryName = Path.GetFileName(subdirectory);
+            	string finalDestinationPath = Path.Combine(newDestinationPath, subdirectoryName);
+            	CopyPath(subdirectory, finalDestinationPath); // Recursively copy subdirectories
+        	}
+    	}
 
         private static void SetWebGLTemplate()
         {
