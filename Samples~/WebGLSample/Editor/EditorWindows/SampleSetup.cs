@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.IO;
 using ReadyPlayerMe.Core;
 using ReadyPlayerMe.Core.Editor;
@@ -12,14 +13,15 @@ namespace ReadyPlayerMe.Samples
         private const string TAG = nameof(SampleSetup);
         private const string WINDOW_TITLE = "RPM WebGL Sample";
         private const string DESCRIPTION =
-            "This sample includes a WebGL template that can be used for WebGL builds. To use the template it needs to be moved inside WebGLTemplates folder and set in the player settings. Would you like to move it automatically?";
+            "This sample includes a WebGL template and a WebGLHelper library that is used for WebGL builds. For these to work they need to be moved into specific directories. Would you like to move them automatically now?";
         private const string CONFIRM_BUTTON_TEXT = "Ok";
         private const string CANCEL_BUTTON_TEXT = "Cancel";
 
         private const string RPM_WEBGL_SCREEN_SHOWN_KEY = "rpm-webgl-screen-shown";
-        private const string TEMPLATE_PATH = "/WebGLTemplates/RPMTemplate";
-        private const string FILE_NAME = "SampleSetup.cs";
-        private const string ROOT_PATH = "/Assets";
+        private const string TEMPLATE_PATH = "WebGLTemplates/RPMTemplate";
+        private const string FILE_NAME = "ReadyPlayerMe.Core.WebGLSample.asmdef";
+        private const string PLUGINS_FOLDER = "Plugins";
+        private const string WEBGL_HELPER_PATH = "WebGlHelper";
 
         [InitializeOnLoadMethod]
         private static void InitializeOnLoad()
@@ -53,33 +55,31 @@ namespace ReadyPlayerMe.Samples
 
         private static void OnConfirm()
         {
-            var templatePaths = GetTemplatePaths();
-
-            if (templatePaths == null)
+            var samplesRootFolder = GetSampleRootFolder();
+            if (string.IsNullOrEmpty(samplesRootFolder))
             {
-                Debug.LogWarning("Failed to set source and destination paths. No changes were done to project");
+                Debug.LogWarning("Failed to find WebGLSample. No changes were done to project");
                 return;
             }
-            Copy(templatePaths[0], templatePaths[1]);
+            CopyPath($"{samplesRootFolder}{TEMPLATE_PATH}", $"{Application.dataPath}");
+            CopyPath($"{samplesRootFolder}{WEBGL_HELPER_PATH}", $"{Application.dataPath}{PLUGINS_FOLDER}");
             SetWebGLTemplate();
         }
 
-        private static List<string> GetTemplatePaths()
+        private static string GetSampleRootFolder()
         {
-            var res = Directory.GetFiles(Application.dataPath, FILE_NAME, SearchOption.AllDirectories);
-            if (res.Length == 0)
+            var results = Directory.GetFiles(Application.dataPath, FILE_NAME, SearchOption.AllDirectories);
+            if (results.Length == 0)
             {
-                return null;
+                return String.Empty;
             }
-            var path = res[0].Replace(FILE_NAME, "").Replace("\\", "/");
-            var sourcePath = path.Substring(0, path.IndexOf("/Editor/")) + TEMPLATE_PATH;
-            var destinationPath = path.Substring(0, path.IndexOf(ROOT_PATH)) + ROOT_PATH;
-            return new List<string>() { sourcePath, destinationPath };
+            var rootSamplePath = results[0].Replace(FILE_NAME, "").Replace("\\", "/");
+            return rootSamplePath.TrimEnd('/');
         }
 
-        private static void Copy(string sourcePath, string destinationPath)
+        private static void CopyPath(string sourcePath, string destinationPath)
         {
-            foreach (string sourceFile in Directory.GetFiles(sourcePath, "*", SearchOption.AllDirectories))
+            foreach (var sourceFile in Directory.GetFiles(sourcePath, "*", SearchOption.AllDirectories))
             {
                 if (sourceFile.EndsWith(".meta"))
                 {
