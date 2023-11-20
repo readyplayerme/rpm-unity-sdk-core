@@ -24,13 +24,6 @@ namespace ReadyPlayerMe.Core.Editor
         {
             new ModuleInfo
             {
-                name = "com.atteneder.gltfast",
-                gitUrl = "https://github.com/atteneder/glTFast.git",
-                branch = "v5.0.0",
-                version = "5.0.0"
-            },
-            new ModuleInfo
-            {
                 name = "com.readyplayerme.webview",
                 gitUrl = "https://github.com/readyplayerme/rpm-unity-sdk-webview.git",
                 branch = "",

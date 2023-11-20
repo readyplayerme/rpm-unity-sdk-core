@@ -1,5 +1,4 @@
-﻿#if GLTFAST
-using GLTFast;
+﻿using GLTFast;
 using GLTFast.Logging;
 using UnityEngine;
 
@@ -100,4 +99,3 @@ namespace ReadyPlayerMe.Core
         }
     }
 }
-#endif
