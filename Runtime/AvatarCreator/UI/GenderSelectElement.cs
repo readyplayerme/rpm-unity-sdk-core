@@ -27,19 +27,34 @@ namespace ReadyPlayerMe.AvatarCreator
         {
             if (maleButton != null)
             {
-                maleButton.onClick.AddListener(() => OnGenderSelected?.Invoke(OutfitGender.Masculine));
+                maleButton.onClick.AddListener(MaleButtonClicked);
             }
-
             if (femaleButton != null)
             {
-                femaleButton.onClick.AddListener(() => OnGenderSelected?.Invoke(OutfitGender.Feminine));
+                femaleButton.onClick.AddListener(FemaleButtonClicked);
             }
         }
 
         private void OnDestroy()
         {
-            maleButton?.onClick.RemoveListener(() => OnGenderSelected?.Invoke(OutfitGender.Masculine));
-            femaleButton?.onClick.RemoveListener(() => OnGenderSelected?.Invoke(OutfitGender.Feminine));
+            if (maleButton != null)
+            {
+                maleButton.onClick.RemoveListener(MaleButtonClicked);
+            }
+            if (femaleButton != null)
+            {
+                femaleButton.onClick.RemoveListener(FemaleButtonClicked);
+            }
+        }
+
+        private void MaleButtonClicked()
+        {
+            OnGenderSelected?.Invoke(OutfitGender.Masculine);
+        }
+
+        private void FemaleButtonClicked()
+        {
+            OnGenderSelected?.Invoke(OutfitGender.Feminine);
         }
     }
 }
