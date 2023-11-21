@@ -40,6 +40,8 @@ namespace ReadyPlayerMe.Core
             {
                 // Use Node GameObject for first Primitive
                 meshGo = m_Nodes[nodeIndex];
+                // Ready Player Me - Parent mesh to Avatar root game object
+                meshGo.transform.SetParent(m_Parent.transform);
             }
             else
             {
