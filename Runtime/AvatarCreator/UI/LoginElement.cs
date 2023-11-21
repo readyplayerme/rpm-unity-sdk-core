@@ -19,12 +19,12 @@ namespace ReadyPlayerMe.AvatarCreator
 
         private void OnEnable()
         {
-            AuthManager.OnSignInError += OnSignInError;
+            AuthManager.OnSignInError += LoginFailed;
         }
 
         private void OnDisable()
         {
-            AuthManager.OnSignInError -= OnSignInError;
+            AuthManager.OnSignInError -= LoginFailed;
         }
 
         public void SendVerificationCode()
@@ -38,17 +38,22 @@ namespace ReadyPlayerMe.AvatarCreator
             {
                 if (await AuthManager.LoginWithCode(codeField.text))
                 {
-                    OnLoginSuccess?.Invoke();
-                    SDKLogger.Log(TAG, "Login with code successful");
+                    LoginSuccess();
                 }
             }
             catch (Exception e)
             {
-                OnSignInError(e.Message);
+                LoginFailed(e.Message);
             }
         }
 
-        private void OnSignInError(string error)
+        private void LoginSuccess()
+        {
+            OnLoginSuccess?.Invoke();
+            SDKLogger.Log(TAG, "Login with code successful");
+        }
+
+        private void LoginFailed(string error)
         {
             OnLoginFail?.Invoke(error);
             SDKLogger.Log(TAG, $"Login failed with error: {error}");
