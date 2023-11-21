@@ -29,7 +29,6 @@ namespace ReadyPlayerMe.Core.Editor
         [MenuItem("Ready Player Me/Avatar Loader", priority = 1)]
         public static void ShowWindow()
         {
-            DefineSymbolHelper.AddSymbols();
             var window = GetWindow<AvatarLoaderEditor>();
             window.titleContent = new GUIContent(AVATAR_LOADER);
             window.minSize = new Vector2(500, 300);
