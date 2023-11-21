@@ -11,7 +11,7 @@ namespace ReadyPlayerMe.Core.Editor
     {
         private const string SETUP_GUIDE = "Setup Guide";
         private const string HEADER_LABEL = "HeaderLabel";
-        private const string STUDIO_URL = "https://studio.readyplayer.me";
+        private const string STUDIO_URL = "https://studio.readyplayer.me?utm_source=unity-setup-guide";
         private const string ANALYTICS_PRIVACY_URL = "https://docs.readyplayer.me/ready-player-me/integration-guides/unity/help-us-improve-the-unity-sdk";
         private const string SUBDOMAIN_PANEL = "SubdomainPanel";
         private const string STUDIO_URL_LABEL = "StudioUrl";
@@ -58,7 +58,7 @@ namespace ReadyPlayerMe.Core.Editor
 
         private string currentSubdomain;
         private string currentAppId;
-        
+
         private VisualElement InitializeSubdomainPanel()
         {
             var headerLabel = rootVisualElement.Q<Label>(HEADER_LABEL);
@@ -85,7 +85,7 @@ namespace ReadyPlayerMe.Core.Editor
                 currentAppId = appId;
                 ToggleNextButton();
             };
-            
+
             if (!ProjectPrefs.GetBool(USE_DEMO_SUBDOMAIN_TOGGLE) && CoreSettingsHandler.CoreSettings.Subdomain == CoreSettings.DEFAULT_SUBDOMAIN)
             {
                 subdomainTemplate.ClearSubdomain();
