@@ -4,7 +4,7 @@ using UnityEngine.UI;
 
 namespace ReadyPlayerMe.AvatarCreator
 {
-    public class SimpleAssetButton : MonoBehaviour
+    public class ButtonElement : MonoBehaviour
     {
         public Button Button => button;
         public RawImage RawImage => rawImage;
@@ -20,6 +20,12 @@ namespace ReadyPlayerMe.AvatarCreator
         private void OnDestroy()
         {
             button.onClick.RemoveAllListeners();
+        }
+
+        public void SetIcon(Texture texture, bool sizeToParent = true)
+        {
+            rawImage.texture = texture;
+            if (sizeToParent) rawImage.SizeToParent();
         }
     }
 }
