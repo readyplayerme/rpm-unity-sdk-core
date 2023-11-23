@@ -7,38 +7,34 @@ namespace ReadyPlayerMe.AvatarCreator
 {
     public class TemplateFetcher
     {
-        private readonly CancellationToken ctx;
         private readonly AvatarAPIRequests avatarAPIRequests;
-        private readonly List<TemplateData> templates;
 
         public TemplateFetcher(CancellationToken ctx = default)
         {
-            this.ctx = ctx;
             avatarAPIRequests = new AvatarAPIRequests(ctx);
-            templates = new List<TemplateData>();
         }
 
         public async Task<List<TemplateData>> GetTemplates()
         {
-            var avatarTemplates = await avatarAPIRequests.GetTemplates();
-            await GetAllTemplateRenders(avatarTemplates);
+            return await avatarAPIRequests.GetTemplates();
+        }
+
+        public async Task<List<TemplateData>> GetTemplatesWithRenders()
+        {
+            var templates = await avatarAPIRequests.GetTemplates();
+            await FetchTemplateRendersParallel(templates);
             return templates;
         }
 
-        private async Task GetAllTemplateRenders(IEnumerable<TemplateData> templateAvatars)
+        public async Task FetchTemplateRendersParallel(List<TemplateData> templates)
         {
-            var downloadRenderTasks = templateAvatars.Select(GetAvatarRender).ToList();
-
-            while (!downloadRenderTasks.All(x => x.IsCompleted) && !ctx.IsCancellationRequested)
-            {
-                await Task.Yield();
-            }
+            var tasks = templates.Select(FetchTemplateRenderAsync);
+            await Task.WhenAll(tasks);
         }
 
-        private async Task GetAvatarRender(TemplateData templateData)
+        public async Task FetchTemplateRenderAsync(TemplateData templateData)
         {
             templateData.Texture = await avatarAPIRequests.GetTemplateAvatarImage(templateData.ImageUrl);
-            templates.Add(templateData);
         }
     }
 }

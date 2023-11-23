@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using UnityEngine.UI;
 
-namespace ReadyPlayerMe
+namespace ReadyPlayerMe.AvatarCreator
 {
     public static class RawImageExtensions
     {
