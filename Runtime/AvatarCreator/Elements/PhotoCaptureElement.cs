@@ -61,7 +61,6 @@ public class PhotoCaptureElement : MonoBehaviour
     {
         var size = cameraTextureTarget.rectTransform.sizeDelta;
         cameraTexture = new WebCamTexture(textureName, (int) size.x, (int) size.y);
-        cameraTextureTarget.color = Color.white;
         cameraTextureTarget.texture = cameraTexture;
     }
 
