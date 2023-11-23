@@ -120,7 +120,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 478533099485849275}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 2661869294509717807}
+        m_TargetAssemblyTypeName: PhotoCaptureElement, ReadyPlayerMe.Core.AvatarCreator
+        m_MethodName: TakePhoto
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!1 &478533099591268935
 GameObject:
   m_ObjectHideFlags: 0
@@ -264,7 +276,7 @@ RectTransform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2599385092859443039}
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
@@ -289,11 +301,22 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cbd28a49a9d475c44b6330b33b212b42, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  takePhotoButton: {fileID: 478533099485849252}
   cameraTextureTarget: {fileID: 478533101296809636}
   onPhotoCaptured:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 478533099591268935}
+        m_TargetAssemblyTypeName: UnityEngine.GameObject, UnityEngine
+        m_MethodName: SetActive
+        m_Mode: 6
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!1 &2772493456747415611
 GameObject:
   m_ObjectHideFlags: 0

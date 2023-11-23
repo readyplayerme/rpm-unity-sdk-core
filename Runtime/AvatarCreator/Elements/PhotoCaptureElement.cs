@@ -5,14 +5,11 @@ using UnityEngine.UI;
 
 public class PhotoCaptureElement : MonoBehaviour
 {
-    [Header("Photo Capture Buttons")]
-    [SerializeField, Tooltip("Button taking the photo")] public Button takePhotoButton;
-
-    [Header("Photo Capture Settings")]
+    [Header("Settings")]
     [SerializeField] private RawImage cameraTextureTarget;
 
     [Space(5)]
-    [Header("Photo Capture Events")]
+    [Header("Events")]
     public UnityEvent<Texture2D> onPhotoCaptured;
 
     private WebCamTexture cameraTexture;
@@ -20,12 +17,6 @@ public class PhotoCaptureElement : MonoBehaviour
     private void Awake()
     {
         InitializeCamera();
-        takePhotoButton.onClick.AddListener(TakePhoto);
-    }
-
-    private void OnDestroy()
-    {
-        takePhotoButton.onClick.RemoveListener(TakePhoto);
     }
     
     public void StartCamera()
@@ -43,6 +34,20 @@ public class PhotoCaptureElement : MonoBehaviour
             cameraTexture.Stop();
         }
     }
+    
+    public void TakePhoto()
+    {
+        if (cameraTexture == null || !cameraTexture.isPlaying)
+            return;
+
+        var texture = new Texture2D(cameraTextureTarget.texture.width, cameraTextureTarget.texture.height, TextureFormat.ARGB32, false);
+        texture.SetPixels(cameraTexture.GetPixels());
+        texture.Apply();
+
+        StopCamera();
+        
+        onPhotoCaptured?.Invoke(texture);
+    }
 
     private void InitializeCamera()
     {
@@ -58,20 +63,6 @@ public class PhotoCaptureElement : MonoBehaviour
         cameraTexture = new WebCamTexture(textureName, (int) size.x, (int) size.y);
         cameraTextureTarget.color = Color.white;
         cameraTextureTarget.texture = cameraTexture;
-    }
-
-    private void TakePhoto()
-    {
-        if (cameraTexture == null || !cameraTexture.isPlaying)
-            return;
-
-        var texture = new Texture2D(cameraTextureTarget.texture.width, cameraTextureTarget.texture.height, TextureFormat.ARGB32, false);
-        texture.SetPixels(cameraTexture.GetPixels());
-        texture.Apply();
-
-        StopCamera();
-        
-        onPhotoCaptured?.Invoke(texture);
     }
 
     private static WebCamDevice? GetWebCamDevice()
