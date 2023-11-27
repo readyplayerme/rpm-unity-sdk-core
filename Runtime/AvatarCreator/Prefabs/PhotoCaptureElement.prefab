@@ -362,7 +362,7 @@ GameObject:
   - component: {fileID: 3839650676573825916}
   - component: {fileID: 3070902759609564279}
   m_Layer: 5
-  m_Name: PhotoCaptureWithRetakeElement
+  m_Name: PhotoCaptureElement
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
