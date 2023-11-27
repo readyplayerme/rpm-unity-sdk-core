@@ -145,17 +145,13 @@ namespace ReadyPlayerMe
                 SelectButton(category, assetButton);
                 onClick?.Invoke(assetId, category);
             });
-            if (category == Category.EyeColor)
-            {
-                assetButton.SetEyeColorConfig();
-            }
             buttonsById.Add(assetId, assetButton);
         }
-        
+
         private void SelectButton(Category category, AssetButton assetButton)
         {
             ConfigureOutfitSelection(category);
-            
+
             if (selectedButtonsByCategory.ContainsKey(category))
             {
                 selectedButtonsByCategory[category].SetSelect(false);
@@ -188,12 +184,12 @@ namespace ReadyPlayerMe
                     {
                         topButton.SetSelect(false);
                     }
-                
+
                     if (selectedButtonsByCategory.TryGetValue(Category.Bottom, out AssetButton bottomButton))
                     {
                         bottomButton.SetSelect(false);
                     }
-                
+
                     if (selectedButtonsByCategory.TryGetValue(Category.Footwear, out AssetButton footwearButton))
                     {
                         footwearButton.SetSelect(false);
@@ -227,7 +223,6 @@ namespace ReadyPlayerMe
                    selectedAssetIdByCategory[category] as int? == 0 ||
                    string.IsNullOrEmpty(selectedAssetIdByCategory[category] as string);
         }
-
 
     }
 }

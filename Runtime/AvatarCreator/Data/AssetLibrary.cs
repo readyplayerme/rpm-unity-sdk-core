@@ -3,7 +3,7 @@ using ReadyPlayerMe.Core;
 
 namespace ReadyPlayerMe.AvatarCreator
 {
-    public struct AssetData
+    public struct AssetLibrary
     {
         public PartnerAsset[] Assets;
         public Pagination Pagination;
@@ -17,9 +17,7 @@ namespace ReadyPlayerMe.AvatarCreator
         [JsonConverter(typeof(GenderConverter))]
         public OutfitGender Gender;
         [JsonProperty("iconUrl")]
-        public string Icon;
-        [JsonProperty("maskUrl")]
-        public string Mask;
+        public string ImageUrl;
         [JsonProperty("lockedCategories")]
         public string[] LockedCategories;
     }

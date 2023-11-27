@@ -30,21 +30,21 @@ namespace ReadyPlayerMe.AvatarCreator
         public async Task<PartnerAsset[]> Get(BodyType bodyType, OutfitGender gender, CancellationToken ctx = new CancellationToken())
         {
             var assets = new HashSet<PartnerAsset>();
-            AssetData assetData;
+            AssetLibrary assetLibrary;
 
             try
             {
-                assetData = await GetRequest(LIMIT, 1, null, gender, bodyType, ctx: ctx);
-                assets.UnionWith(assetData.Assets);
+                assetLibrary = await GetRequest(LIMIT, 1, null, gender, bodyType, ctx: ctx);
+                assets.UnionWith(assetLibrary.Assets);
             }
             catch (Exception)
             {
                 return assets.ToArray();
             }
 
-            var assetRequests = new Task<AssetData>[assetData.Pagination.TotalPages - 1];
+            var assetRequests = new Task<AssetLibrary>[assetLibrary.Pagination.TotalPages - 1];
 
-            for (var i = 2; i <= assetData.Pagination.TotalPages; i++)
+            for (var i = 2; i <= assetLibrary.Pagination.TotalPages; i++)
             {
                 assetRequests[i - 2] = GetRequest(LIMIT, i, null, gender, bodyType, ctx: ctx);
             }
@@ -84,7 +84,7 @@ namespace ReadyPlayerMe.AvatarCreator
             return assets.ToArray();
         }
 
-        private async Task<AssetData> GetRequest(int limit, int pageNumber, Category? category, OutfitGender gender, BodyType bodyType, CancellationToken ctx = new CancellationToken())
+        private async Task<AssetLibrary> GetRequest(int limit, int pageNumber, Category? category, OutfitGender gender, BodyType bodyType, CancellationToken ctx = new CancellationToken())
         {
             var startTime = Time.time;
 
@@ -93,9 +93,9 @@ namespace ReadyPlayerMe.AvatarCreator
             {
                 type = CategoryHelper.PartnerCategoryMap.First(x => x.Value == category).Key;
             }
-            
+
             var url = AssetEndpoints.GetAssetEndpoint(type, limit, pageNumber, AuthManager.UserSession.Id, appId, gender == OutfitGender.Masculine ? "male" : "female");
-       
+
             var response = await authorizedRequest.SendRequest<Response>(new RequestData
             {
                 Url = url,
@@ -116,7 +116,7 @@ namespace ReadyPlayerMe.AvatarCreator
                 SDKLogger.Log(TAG, $"Asset with page {pageNumber} received: {Time.time - startTime}s");
             }
 
-            return new AssetData
+            return new AssetLibrary
             {
                 Assets = partnerAssets,
                 Pagination = pagination

@@ -29,7 +29,7 @@ namespace ReadyPlayerMe.AvatarCreator
             assetsByCategory = new Dictionary<Category, List<PartnerAsset>>();
         }
 
-        public async Task<Dictionary<Category,List<PartnerAsset>>> GetAssets(BodyType bodyType, OutfitGender gender, CancellationToken token = default)
+        public async Task<Dictionary<Category, List<PartnerAsset>>> GetAssets(BodyType bodyType, OutfitGender gender, CancellationToken token = default)
         {
             var startTime = Time.time;
 
@@ -96,7 +96,7 @@ namespace ReadyPlayerMe.AvatarCreator
 
             foreach (var asset in chunk)
             {
-                var url = asset.Category == Category.EyeColor ? asset.Mask + EYE_MASK_SIZE_SIZE : asset.Icon + ASSET_ICON_SIZE;
+                var url = $"{asset.ImageUrl}{ASSET_ICON_SIZE}";
                 var linkedTokenSource = CancellationTokenSource.CreateLinkedTokenSource(token);
                 var iconTask = partnerAssetsRequests.GetAssetIcon(url, icon =>
                     {
@@ -126,7 +126,7 @@ namespace ReadyPlayerMe.AvatarCreator
                 .Select(kvp => kvp.Key)
                 .ToArray();
 
-            var dictionary = categoriesFromMap.ToDictionary(category => category, category => 
+            var dictionary = categoriesFromMap.ToDictionary(category => category, category =>
                 GetAssetsByCategory(CategoryHelper.PartnerCategoryMap[category])
                     .Take(numberOfAssetsPerCategory)
                     .ToArray());
