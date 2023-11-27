@@ -486,10 +486,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8f457777c7050774eabede44ca3068b9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  buttonElementPrefab: {fileID: 0}
+  buttonElementPrefab: {fileID: 313019200304032556, guid: ce3fe0e72fd9a77428b183a9cd5e759d,
+    type: 3}
   buttonContainer: {fileID: 6589403854928128197}
   selectedIcon: {fileID: 5637435583784712115}
-  OnTemplateSelected:
+  onTemplateSelected:
     m_PersistentCalls:
       m_Calls: []
 --- !u!1 &6589403854928128218

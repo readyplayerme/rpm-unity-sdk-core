@@ -4,11 +4,9 @@ using UnityEngine.UI;
 
 namespace ReadyPlayerMe.AvatarCreator
 {
+    [RequireComponent(typeof(Button))]
     public class ButtonElement : MonoBehaviour
     {
-        public Button Button => button;
-        public RawImage RawImage => rawImage;
-
         [SerializeField] private Button button;
         [SerializeField] private RawImage rawImage;
 

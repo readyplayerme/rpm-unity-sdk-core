@@ -86,7 +86,7 @@ GameObject:
   - component: {fileID: 313019200304032559}
   - component: {fileID: 313019200304032556}
   m_Layer: 5
-  m_Name: TemplateAvatarButton
+  m_Name: ButtonElement
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -203,7 +203,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 313019200304032553}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 1c1ba67edca047046a7d7ccd37d39310, type: 3}
+  m_Script: {fileID: 11500000, guid: f2bb8ce1b8cb99c40b9103b9350c8105, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   button: {fileID: 313019200304032559}
