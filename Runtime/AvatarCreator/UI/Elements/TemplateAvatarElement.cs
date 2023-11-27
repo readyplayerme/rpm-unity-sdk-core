@@ -3,7 +3,6 @@ using System.Threading.Tasks;
 using ReadyPlayerMe.Core;
 using UnityEngine;
 using UnityEngine.Events;
-using UnityEngine.Serialization;
 
 namespace ReadyPlayerMe.AvatarCreator
 {
