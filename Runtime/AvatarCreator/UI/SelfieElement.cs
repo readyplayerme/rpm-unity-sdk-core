@@ -14,7 +14,9 @@ namespace ReadyPlayerMe.AvatarCreator
         [SerializeField] private BodyType bodyType;
         [SerializeField] private OutfitGender gender;
 
-        public UnityEvent<GameObject,AvatarProperties> OnAvatarCreated;
+        [Space(5)]
+        [Header("Events")]
+        public UnityEvent<GameObject,AvatarProperties> onAvatarCreated;
 
         private void OnEnable()
         {
@@ -41,14 +43,13 @@ namespace ReadyPlayerMe.AvatarCreator
             if (!AuthManager.IsSignedIn && !AuthManager.IsSignedInAnonymously)
             {
                 SDKLogger.Log(TAG, "Not signed in");
-                await AuthManager.LoginAsAnonymous();
-                // return;
+                return;
             }
             
             var avatarManager = new AvatarManager(bodyType);
             var avatar = await avatarManager.CreateAvatar(avatarProperties);
 
-            OnAvatarCreated?.Invoke(avatar.Item1, avatar.Item2);
+            onAvatarCreated?.Invoke(avatar.Item1, avatar.Item2);
         }
     }
 }
