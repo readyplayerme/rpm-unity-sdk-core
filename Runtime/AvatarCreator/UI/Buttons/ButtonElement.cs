@@ -22,11 +22,11 @@ namespace ReadyPlayerMe.AvatarCreator
             button.onClick.AddListener(action.Invoke);
         }
 
-        private void OnDestroy()
-        {
-            button.onClick.RemoveAllListeners();
-        }
-
+        /// <summary>
+        /// Sets the icon on the rawImage component
+        /// </summary>
+        /// <param name="texture">The texture to be assigned to the RawImage component</param>
+        /// <param name="sizeToParent">If true the icon will resize itself to fit inside the parent RectTransform</param>
         public void SetIcon(Texture texture, bool sizeToParent = true)
         {
             rawImage.texture = texture;
