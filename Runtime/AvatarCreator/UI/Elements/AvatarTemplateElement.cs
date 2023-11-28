@@ -10,9 +10,9 @@ namespace ReadyPlayerMe.AvatarCreator
     /// This class can be used as a self contained UI element that can fetch AvatarTemplates
     /// and create it's own buttons.
     /// </summary>
-    public class TemplateAvatarElement : MonoBehaviour
+    public class AvatarTemplateElement : MonoBehaviour
     {
-        private const string TAG = nameof(TemplateAvatarElement);
+        private const string TAG = nameof(AvatarTemplateElement);
 
         [Header("UI Elements")]
         [Space(5)]
@@ -22,15 +22,15 @@ namespace ReadyPlayerMe.AvatarCreator
 
         [Header("Events")]
         [Space(5)]
-        public UnityEvent<TemplateData> onTemplateSelected;
+        public UnityEvent<AvatarTemplateData> onTemplateSelected;
 
-        private List<TemplateData> avatarTemplateDataList;
+        private List<AvatarTemplateData> avatarTemplateDataList;
         private ButtonElement[] templateAvatarButtons;
-        private TemplateFetcher templateFetcher;
+        private AvatarTemplateFetcher avatarTemplateFetcher;
 
         private void Awake()
         {
-            templateFetcher = new TemplateFetcher();
+            avatarTemplateFetcher = new AvatarTemplateFetcher();
         }
 
         /// <summary>
@@ -47,7 +47,7 @@ namespace ReadyPlayerMe.AvatarCreator
         /// </summary>
         public async void LoadTemplateData()
         {
-            avatarTemplateDataList = await templateFetcher.GetTemplates();
+            avatarTemplateDataList = await avatarTemplateFetcher.GetTemplates();
             if (avatarTemplateDataList == null || avatarTemplateDataList.Count == 0)
             {
                 SDKLogger.LogWarning(TAG, "No templates found");
@@ -59,7 +59,7 @@ namespace ReadyPlayerMe.AvatarCreator
         /// </summary>
         public async Task LoadTemplateRenders()
         {
-            avatarTemplateDataList = await templateFetcher.GetTemplatesWithRenders();
+            avatarTemplateDataList = await avatarTemplateFetcher.GetTemplatesWithRenders();
         }
 
         /// <summary>
@@ -98,10 +98,10 @@ namespace ReadyPlayerMe.AvatarCreator
         /// This function is called when a template button is clicked.
         /// </summary>
         /// <param name="buttonTransform">The buttonTransform is used to position the selectedIcon to indicate which button was last selected</param>
-        /// <param name="templateData">This data is used passed in the onSelectedTemplate event</param>
-        private void TemplateSelected(Transform buttonTransform, TemplateData templateData)
+        /// <param name="avatarTemplateData">This data is used passed in the onSelectedTemplate event</param>
+        private void TemplateSelected(Transform buttonTransform, AvatarTemplateData avatarTemplateData)
         {
-            onTemplateSelected?.Invoke(templateData);
+            onTemplateSelected?.Invoke(avatarTemplateData);
             SetButtonSelected(buttonTransform);
         }
 

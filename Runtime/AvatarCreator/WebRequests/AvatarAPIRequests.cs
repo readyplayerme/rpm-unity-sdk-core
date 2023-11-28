@@ -44,7 +44,7 @@ namespace ReadyPlayerMe.AvatarCreator
             return data.ToDictionary(element => element[ID]!.ToString(), element => element[PARTNER]!.ToString());
         }
 
-        public async Task<List<TemplateData>> GetTemplates()
+        public async Task<List<AvatarTemplateData>> GetAvatarTemplates()
         {
             var response = await authorizedRequest.SendRequest<Response>(
                 new RequestData
@@ -58,10 +58,10 @@ namespace ReadyPlayerMe.AvatarCreator
 
             var json = JObject.Parse(response.Text);
             var data = json[DATA]!;
-            return JsonConvert.DeserializeObject<List<TemplateData>>(data.ToString());
+            return JsonConvert.DeserializeObject<List<AvatarTemplateData>>(data.ToString());
         }
 
-        public async Task<Texture> GetTemplateAvatarImage(string url)
+        public async Task<Texture> GetAvatarTemplateImage(string url)
         {
             var downloadHandler = new DownloadHandlerTexture();
             var webRequestDispatcher = new WebRequestDispatcher();
