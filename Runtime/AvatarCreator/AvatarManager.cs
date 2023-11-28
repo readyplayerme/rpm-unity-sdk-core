@@ -13,7 +13,6 @@ namespace ReadyPlayerMe.AvatarCreator
     public class AvatarManager : IDisposable
     {
         private const string TAG = nameof(AvatarManager);
-        private readonly BodyType bodyType;
         private readonly AvatarAPIRequests avatarAPIRequests;
         private readonly string avatarConfigParameters;
         private readonly InCreatorAvatarLoader inCreatorAvatarLoader;
@@ -24,13 +23,10 @@ namespace ReadyPlayerMe.AvatarCreator
         public string AvatarId => avatarId;
         private string avatarId;
 
-        /// <param name="bodyType">Body type of avatar</param>
         /// <param name="avatarConfig">Config for downloading preview avatar</param>
         /// <param name="token">Cancellation token</param>
-        public AvatarManager(BodyType bodyType, AvatarConfig avatarConfig = null, CancellationToken token = default)
+        public AvatarManager(AvatarConfig avatarConfig = null, CancellationToken token = default)
         {
-            this.bodyType = bodyType;
-
             if (avatarConfig != null)
             {
                 avatarConfigParameters = AvatarConfigProcessor.ProcessAvatarConfiguration(avatarConfig);
@@ -59,7 +55,7 @@ namespace ReadyPlayerMe.AvatarCreator
                 }
 
                 avatarId = avatarProperties.Id;
-                avatar = await GetAvatar(avatarId, true);
+                avatar = await GetAvatar(avatarId, avatarProperties.BodyType, true);
             }
             catch (Exception e)
             {
@@ -75,7 +71,7 @@ namespace ReadyPlayerMe.AvatarCreator
         /// </summary>
         /// <param name="id">Template id</param>
         /// <returns>Avatar gameObject</returns>
-        public async Task<(GameObject, AvatarProperties)> CreateAvatarFromTemplate(string id)
+        public async Task<(GameObject, AvatarProperties)> CreateAvatarFromTemplate(string id, BodyType bodyType)
         {
             GameObject avatar = null;
             var avatarProperties = new AvatarProperties();
@@ -93,7 +89,7 @@ namespace ReadyPlayerMe.AvatarCreator
                 }
 
                 avatarId = avatarProperties.Id;
-                avatar = await GetAvatar(avatarId, true);
+                avatar = await GetAvatar(avatarId, bodyType, true);
             }
             catch (Exception e)
             {
@@ -138,7 +134,7 @@ namespace ReadyPlayerMe.AvatarCreator
         /// <param name="id">Avatar id</param>
         /// <param name="isPreview">Whether its a preview avatar</param>
         /// <returns>Avatar gameObject</returns>
-        public async Task<GameObject> GetAvatar(string id, bool isPreview = false)
+        public async Task<GameObject> GetAvatar(string id, BodyType bodyType, bool isPreview = false)
         {
             avatarId = id;
             byte[] data;
@@ -166,7 +162,7 @@ namespace ReadyPlayerMe.AvatarCreator
         /// <param name="assetId"></param>
         /// <param name="category"></param>
         /// <returns>Avatar gameObject</returns>
-        public async Task<GameObject> UpdateAsset(Category category, object assetId)
+        public async Task<GameObject> UpdateAsset(Category category,BodyType bodyType, object assetId)
         {
             var payload = new AvatarProperties
             {

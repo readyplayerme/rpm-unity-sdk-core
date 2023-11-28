@@ -12,7 +12,8 @@ namespace ReadyPlayerMe.AvatarCreator
 
         [SerializeField] private BodyType bodyType;
         [SerializeField] private OutfitGender gender;
-
+        [SerializeField] private AvatarConfig avatarConfig;
+        
         [Space(5)]
         [Header("Events")]
         public UnityEvent<GameObject,AvatarProperties> onAvatarCreated;
@@ -35,7 +36,7 @@ namespace ReadyPlayerMe.AvatarCreator
                 return;
             }
             
-            var avatarManager = new AvatarManager(bodyType);
+            var avatarManager = new AvatarManager(avatarConfig);
             var avatar = await avatarManager.CreateAvatar(avatarProperties);
 
             onAvatarCreated?.Invoke(avatar.Item1, avatar.Item2);
