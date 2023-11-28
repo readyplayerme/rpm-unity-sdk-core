@@ -6,6 +6,10 @@ using UnityEngine.Events;
 
 namespace ReadyPlayerMe.AvatarCreator
 {
+    /// <summary>
+    /// This class can be used as a self contained UI element that can fetch AvatarTemplates
+    /// and create it's own buttons.
+    /// </summary>
     public class TemplateAvatarElement : MonoBehaviour
     {
         private const string TAG = nameof(TemplateAvatarElement);
@@ -29,13 +33,19 @@ namespace ReadyPlayerMe.AvatarCreator
             templateFetcher = new TemplateFetcher();
         }
 
+        /// <summary>
+        /// This function will automatically fetch the template data including the icon renders and create buttons.
+        /// </summary>
         public async void LoadAndCreateButtons()
         {
             await LoadTemplateRenders();
             CreateButtons();
         }
 
-        public async void FetchTemplateData()
+        /// <summary>
+        /// Loads avatar template data without fetching the icon renders.
+        /// </summary>
+        public async void LoadTemplateData()
         {
             avatarTemplateDataList = await templateFetcher.GetTemplates();
             if (avatarTemplateDataList == null || avatarTemplateDataList.Count == 0)
@@ -44,11 +54,17 @@ namespace ReadyPlayerMe.AvatarCreator
             }
         }
 
+        /// <summary>
+        /// Loads avatar template data and icon renders. This will wait for all the icons to be downloaded.
+        /// </summary>
         public async Task LoadTemplateRenders()
         {
             avatarTemplateDataList = await templateFetcher.GetTemplatesWithRenders();
         }
 
+        /// <summary>
+        /// Creates buttons from the loaded template data and sets the icon and button event. 
+        /// </summary>
         public void CreateButtons()
         {
             if (avatarTemplateDataList.Count == 0)
@@ -78,12 +94,21 @@ namespace ReadyPlayerMe.AvatarCreator
             templateAvatarButtons = null;
         }
 
+        /// <summary>
+        /// This function is called when a template button is clicked.
+        /// </summary>
+        /// <param name="buttonTransform">The buttonTransform is used to position the selectedIcon to indicate which button was last selected</param>
+        /// <param name="templateData">This data is used passed in the onSelectedTemplate event</param>
         private void TemplateSelected(Transform buttonTransform, TemplateData templateData)
         {
             onTemplateSelected?.Invoke(templateData);
             SetButtonSelected(buttonTransform);
         }
 
+        /// <summary>
+        /// Sets the position and parent of the SelectedIcon to indicate which button was last selected.
+        /// </summary>
+        /// <param name="buttonTransform"></param>
         private void SetButtonSelected(Transform buttonTransform)
         {
             selectedIcon.transform.SetParent(buttonTransform);

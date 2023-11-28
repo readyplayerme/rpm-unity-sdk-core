@@ -6,6 +6,10 @@ using UnityEngine.UI;
 
 namespace ReadyPlayerMe.AvatarCreator
 {
+    /// <summary>
+    /// This class provides all the functionality required to create a basic Login UI element
+    /// for building a Custom Avatar Creator.
+    /// </summary>
     public class LoginElement : MonoBehaviour
     {
         private const string TAG = nameof(LoginElement);
