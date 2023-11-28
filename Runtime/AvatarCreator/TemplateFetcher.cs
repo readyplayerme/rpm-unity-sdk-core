@@ -8,19 +8,19 @@ namespace ReadyPlayerMe.AvatarCreator
     public class TemplateFetcher
     {
         private readonly CancellationToken ctx;
-        private readonly AvatarAPIRequests avatarAPIRequests;
+        private readonly AvatarApi avatarApi;
         private readonly List<TemplateData> templates;
 
         public TemplateFetcher(CancellationToken ctx = default)
         {
             this.ctx = ctx;
-            avatarAPIRequests = new AvatarAPIRequests(ctx);
+            avatarApi = new AvatarApi(ctx);
             templates = new List<TemplateData>();
         }
 
         public async Task<List<TemplateData>> GetTemplates()
         {
-            var avatarTemplates = await avatarAPIRequests.GetTemplates();
+            var avatarTemplates = await avatarApi.GetTemplates();
             await GetAllTemplateRenders(avatarTemplates);
             return templates;
         }
@@ -37,7 +37,7 @@ namespace ReadyPlayerMe.AvatarCreator
 
         private async Task GetAvatarRender(TemplateData templateData)
         {
-            templateData.Texture = await avatarAPIRequests.GetTemplateAvatarImage(templateData.ImageUrl);
+            templateData.Texture = await ImageApi.DownloadImageAsync(templateData.ImageUrl, ctx: ctx);
             templates.Add(templateData);
         }
     }

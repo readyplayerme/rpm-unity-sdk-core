@@ -5,7 +5,7 @@ using ReadyPlayerMe.Core;
 
 namespace ReadyPlayerMe.AvatarCreator
 {
-    public class AuthenticationRequests
+    public class AuthApi
     {
         private readonly string domain;
         private readonly Dictionary<string, string> headers = new Dictionary<string, string>
@@ -15,7 +15,7 @@ namespace ReadyPlayerMe.AvatarCreator
 
         private readonly WebRequestDispatcher webRequestDispatcher;
 
-        public AuthenticationRequests(string domain)
+        public AuthApi(string domain)
         {
             this.domain = domain;
             webRequestDispatcher = new WebRequestDispatcher();

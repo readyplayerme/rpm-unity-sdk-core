@@ -11,7 +11,7 @@ namespace ReadyPlayerMe.AvatarCreator
     public static class AuthManager
     {
         private const string TAG = nameof(AuthManager);
-        private static readonly AuthenticationRequests AuthenticationRequests;
+        private static readonly AuthApi AuthApi;
         private static UserSession userSession;
         public static UserSession UserSession => userSession;
 
@@ -25,12 +25,12 @@ namespace ReadyPlayerMe.AvatarCreator
 
         static AuthManager()
         {
-            AuthenticationRequests = new AuthenticationRequests(CoreSettingsHandler.CoreSettings.Subdomain);
+            AuthApi = new AuthApi(CoreSettingsHandler.CoreSettings.Subdomain);
         }
 
         public static async Task LoginAsAnonymous()
         {
-            userSession = await AuthenticationRequests.LoginAsAnonymous();
+            userSession = await AuthApi.LoginAsAnonymous();
             IsSignedInAnonymously = true;
         }
 
@@ -43,14 +43,14 @@ namespace ReadyPlayerMe.AvatarCreator
 
         public static async void SendEmailCode(string email)
         {
-            await AuthenticationRequests.SendCodeToEmail(email, userSession.Id);
+            await AuthApi.SendCodeToEmail(email, userSession.Id);
         }
 
         public static async Task<bool> LoginWithCode(string otp)
         {
             try
             {
-                userSession = await AuthenticationRequests.LoginWithCode(otp);
+                userSession = await AuthApi.LoginWithCode(otp);
                 IsSignedIn = true;
                 OnSignedIn?.Invoke(userSession);
                 return true;
@@ -64,7 +64,7 @@ namespace ReadyPlayerMe.AvatarCreator
 
         public static async void Signup(string email)
         {
-            await AuthenticationRequests.Signup(email, userSession.Id);
+            await AuthApi.Signup(email, userSession.Id);
         }
 
         public static async Task RefreshToken()
@@ -72,7 +72,7 @@ namespace ReadyPlayerMe.AvatarCreator
             (string, string) newTokens;
             try
             {
-                newTokens = await AuthenticationRequests.RefreshToken(userSession.Token, userSession.RefreshToken);
+                newTokens = await AuthApi.RefreshToken(userSession.Token, userSession.RefreshToken);
             }
             catch (Exception e)
             {

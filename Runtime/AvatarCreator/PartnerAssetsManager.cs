@@ -18,14 +18,14 @@ namespace ReadyPlayerMe.AvatarCreator
         private const string EYE_MASK_SIZE_SIZE = "?w=256";
         private const string ASSET_ICON_SIZE = "?w=64";
 
-        private readonly PartnerAssetsRequests partnerAssetsRequests;
+        private readonly AssetsApi assetsApi;
 
         private Dictionary<Category, List<PartnerAsset>> assetsByCategory;
         public Action<string> OnError { get; set; }
 
         public PartnerAssetsManager()
         {
-            partnerAssetsRequests = new PartnerAssetsRequests(CoreSettingsHandler.CoreSettings.AppId);
+            assetsApi = new AssetsApi(CoreSettingsHandler.CoreSettings.AppId);
             assetsByCategory = new Dictionary<Category, List<PartnerAsset>>();
         }
 
@@ -33,7 +33,7 @@ namespace ReadyPlayerMe.AvatarCreator
         {
             var startTime = Time.time;
 
-            var assets = await partnerAssetsRequests.Get(bodyType, gender, token);
+            var assets = await assetsApi.Get(bodyType, gender, token);
 
             assetsByCategory = assets.GroupBy(asset => asset.Category).ToDictionary(
                 group => group.Key,
@@ -98,7 +98,7 @@ namespace ReadyPlayerMe.AvatarCreator
             {
                 var url = asset.Category == Category.EyeColor ? asset.Mask + EYE_MASK_SIZE_SIZE : asset.Icon + ASSET_ICON_SIZE;
                 var linkedTokenSource = CancellationTokenSource.CreateLinkedTokenSource(token);
-                var iconTask = partnerAssetsRequests.GetAssetIcon(url, icon =>
+                var iconTask = ImageApi.DownloadImageAsync(url, icon =>
                     {
                         onDownload?.Invoke(asset.Id, icon);
                     },

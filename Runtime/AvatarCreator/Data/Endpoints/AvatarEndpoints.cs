@@ -2,14 +2,9 @@
 {
     public abstract class AvatarEndpoints : Endpoints
     {
-        private const string AVATAR_API_V2_ENDPOINT = API_V2_ENDPOINT + "avatars";
+        private const string AVATAR_API_V2_ENDPOINT = API_V2_BASE_URL + "avatars";
         private const string AVATAR_API_V1_ENDPOINT = API_V1_ENDPOINT + "avatars";
         private const string MODELS_URL_PREFIX = "https://models.readyplayer.me";
-
-        public static string GetColorEndpoint(string avatarId)
-        {
-            return $"{AVATAR_API_V2_ENDPOINT}/{avatarId}/colors?type=skin,beard,hair,eyebrow";
-        }
 
         public static string GetAvatarPublicUrl(string avatarId)
         {
@@ -65,11 +60,6 @@
             }
 
             return $"{AVATAR_API_V2_ENDPOINT}/{avatarId}?responseType=glb&{parameters}";
-        }
-
-        public static string GetSaveAvatarEndpoint(string avatarId)
-        {
-            return $"{AVATAR_API_V2_ENDPOINT}/{avatarId}";
         }
 
         public static string GetDeleteAvatarEndpoint(string avatarId, bool isDraft)

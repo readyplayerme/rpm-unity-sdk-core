@@ -14,7 +14,7 @@ namespace ReadyPlayerMe.AvatarCreator
     {
         private const string TAG = nameof(AvatarManager);
         private readonly BodyType bodyType;
-        private readonly AvatarAPIRequests avatarAPIRequests;
+        private readonly AvatarApi avatarApi;
         private readonly string avatarConfigParameters;
         private readonly InCreatorAvatarLoader inCreatorAvatarLoader;
         private readonly CancellationTokenSource ctxSource;
@@ -38,7 +38,7 @@ namespace ReadyPlayerMe.AvatarCreator
 
             ctxSource = CancellationTokenSource.CreateLinkedTokenSource(token);
             inCreatorAvatarLoader = new InCreatorAvatarLoader();
-            avatarAPIRequests = new AvatarAPIRequests(ctxSource.Token);
+            avatarApi = new AvatarApi(ctxSource.Token);
         }
 
         /// <summary>
@@ -51,7 +51,7 @@ namespace ReadyPlayerMe.AvatarCreator
             GameObject avatar = null;
             try
             {
-                avatarProperties = await avatarAPIRequests.CreateNewAvatar(avatarProperties);
+                avatarProperties = await avatarApi.CreateNewAvatar(avatarProperties);
                 gender = avatarProperties.Gender;
                 if (ctxSource.IsCancellationRequested)
                 {
@@ -81,7 +81,7 @@ namespace ReadyPlayerMe.AvatarCreator
             var avatarProperties = new AvatarProperties();
             try
             {
-                avatarProperties = await avatarAPIRequests.CreateFromTemplateAvatar(
+                avatarProperties = await avatarApi.CreateFromTemplateAvatar(
                     id,
                     CoreSettingsHandler.CoreSettings.Subdomain,
                     bodyType
@@ -118,7 +118,7 @@ namespace ReadyPlayerMe.AvatarCreator
             }
             try
             {
-                await avatarAPIRequests.PrecompileAvatar(id, precompileData, avatarConfigParameters);
+                await avatarApi.PrecompileAvatar(id, precompileData, avatarConfigParameters);
             }
             catch (Exception e)
             {
@@ -144,7 +144,7 @@ namespace ReadyPlayerMe.AvatarCreator
             byte[] data;
             try
             {
-                data = await avatarAPIRequests.GetAvatar(avatarId, isPreview, avatarConfigParameters);
+                data = await avatarApi.GetAvatar(avatarId, isPreview, avatarConfigParameters);
             }
             catch (Exception e)
             {
@@ -183,7 +183,7 @@ namespace ReadyPlayerMe.AvatarCreator
             byte[] data;
             try
             {
-                data = await avatarAPIRequests.UpdateAvatar(avatarId, payload, avatarConfigParameters);
+                data = await avatarApi.UpdateAvatar(avatarId, payload, avatarConfigParameters);
             }
             catch (Exception e)
             {
@@ -204,7 +204,7 @@ namespace ReadyPlayerMe.AvatarCreator
             ColorPalette[] colors = null;
             try
             {
-                colors = await avatarAPIRequests.GetAllAvatarColors(avatarId);
+                colors = await avatarApi.GetAllAvatarColors(avatarId);
             }
             catch (Exception e)
             {
@@ -221,7 +221,7 @@ namespace ReadyPlayerMe.AvatarCreator
         {
             try
             {
-                await avatarAPIRequests.SaveAvatar(avatarId);
+                await avatarApi.SaveAvatar(avatarId);
             }
             catch (Exception e)
             {
@@ -239,7 +239,7 @@ namespace ReadyPlayerMe.AvatarCreator
         {
             try
             {
-                await avatarAPIRequests.DeleteAvatar(avatarId, isDraft);
+                await avatarApi.DeleteAvatar(avatarId, isDraft);
             }
             catch (Exception e)
             {

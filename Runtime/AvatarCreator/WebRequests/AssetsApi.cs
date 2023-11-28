@@ -7,27 +7,24 @@ using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using ReadyPlayerMe.Core;
 using UnityEngine;
-using UnityEngine.Networking;
 
 namespace ReadyPlayerMe.AvatarCreator
 {
-    public class PartnerAssetsRequests
+    public class AssetsApi
     {
-        private const string TAG = nameof(PartnerAssetsRequests);
+        private const string TAG = nameof(AssetsApi);
         private const int LIMIT = 100;
 
         private readonly AuthorizedRequest authorizedRequest;
         private readonly string appId;
-        private readonly Dictionary<string, Texture> icons;
 
-        public PartnerAssetsRequests(string appId)
+        public AssetsApi(string appId)
         {
             authorizedRequest = new AuthorizedRequest();
-            icons = new Dictionary<string, Texture>();
             this.appId = appId;
         }
 
-        public async Task<PartnerAsset[]> Get(BodyType bodyType, OutfitGender gender, CancellationToken ctx = new CancellationToken())
+        public async Task<PartnerAsset[]> Get(BodyType bodyType, OutfitGender gender, CancellationToken ctx = default)
         {
             var assets = new HashSet<PartnerAsset>();
             AssetData assetData;
@@ -121,34 +118,6 @@ namespace ReadyPlayerMe.AvatarCreator
                 Assets = partnerAssets,
                 Pagination = pagination
             };
-        }
-
-        public async Task<Texture> GetAssetIcon(string url, Action<Texture> completed, CancellationToken ctx = new CancellationToken())
-        {
-            if (icons.ContainsKey(url))
-            {
-                completed?.Invoke(icons[url]);
-                return icons[url];
-            }
-
-            var downloadHandler = new DownloadHandlerTexture();
-            var response = await authorizedRequest.SendRequest<ResponseTexture>(new RequestData
-            {
-                Url = url,
-                Method = HttpMethod.GET,
-                DownloadHandler = downloadHandler
-            }, ctx: ctx);
-
-            response.ThrowIfError();
-
-            // This check is needed because the same url can be requested multiple times
-            if (!icons.ContainsKey(url))
-            {
-                icons.Add(url, response.Texture);
-            }
-
-            completed?.Invoke(response.Texture);
-            return response.Texture;
         }
     }
 }
