@@ -6,9 +6,9 @@ using UnityEngine.Events;
 
 namespace ReadyPlayerMe.AvatarCreator
 {
-    public class SelfieElement : MonoBehaviour
+    public class SelfieToAvatarElement : MonoBehaviour
     {
-        private const string TAG = nameof(SelfieElement);
+        private const string TAG = nameof(SelfieToAvatarElement);
 
         [SerializeField] private BodyType bodyType;
         [SerializeField] private OutfitGender gender;
