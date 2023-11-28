@@ -10,10 +10,12 @@ namespace ReadyPlayerMe.AvatarCreator
     /// </summary>
     public class AvatarTemplateFetcher
     {
+        private readonly CancellationToken ctx;
         private readonly AvatarAPIRequests avatarAPIRequests;
 
         public AvatarTemplateFetcher(CancellationToken ctx = default)
         {
+            this.ctx = ctx;
             avatarAPIRequests = new AvatarAPIRequests(ctx);
         }
 
@@ -34,21 +36,26 @@ namespace ReadyPlayerMe.AvatarCreator
         public async Task<List<AvatarTemplateData>> GetTemplatesWithRenders()
         {
             var templates = await avatarAPIRequests.GetAvatarTemplates();
-            await FetchTemplateRenders(templates);
-            return templates;
+            return await FetchTemplateRenders(templates);
         }
 
         /// <summary>
         /// Fetches the renders for all the templates provided.
         /// </summary>
-        public async Task FetchTemplateRenders(List<AvatarTemplateData> templates)
+        public async Task<List<AvatarTemplateData>> FetchTemplateRenders(List<AvatarTemplateData> templates)
         {
             var tasks = templates.Select(async templateData =>
             {
                 templateData.Texture = await avatarAPIRequests.GetAvatarTemplateImage(templateData.ImageUrl);
-            });
+            }).ToList();
 
-            await Task.WhenAll(tasks);
+            while (!tasks.All(x => x.IsCompleted) &&
+                   !ctx.IsCancellationRequested)
+            {
+                await Task.Yield();
+            }
+
+            return templates;
         }
     }
 }
