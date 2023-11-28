@@ -350,10 +350,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 99bd9211dcb8ae24f90bc5a39139e834, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  imageConfirmationElement: {fileID: 899210464381544996}
   bodyType: 1
   gender: 1
-  OnAvatarCreated:
+  onAvatarCreated:
     m_PersistentCalls:
       m_Calls: []
 --- !u!1001 &8416722967489257732
@@ -372,6 +371,41 @@ PrefabInstance:
         type: 3}
       propertyPath: m_IsActive
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3070902759609564279, guid: 40dfe16256c5abc49836d4217815ea88,
+        type: 3}
+      propertyPath: onPhotoCaptured.m_PersistentCalls.m_Calls.Array.size
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 3070902759609564279, guid: 40dfe16256c5abc49836d4217815ea88,
+        type: 3}
+      propertyPath: onPhotoCaptured.m_PersistentCalls.m_Calls.Array.data[2].m_Target
+      value: 
+      objectReference: {fileID: 1361592108061403732}
+    - target: {fileID: 3070902759609564279, guid: 40dfe16256c5abc49836d4217815ea88,
+        type: 3}
+      propertyPath: onPhotoCaptured.m_PersistentCalls.m_Calls.Array.data[2].m_CallState
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 3070902759609564279, guid: 40dfe16256c5abc49836d4217815ea88,
+        type: 3}
+      propertyPath: onPhotoCaptured.m_PersistentCalls.m_Calls.Array.data[2].m_MethodName
+      value: OnPhotoCaptured
+      objectReference: {fileID: 0}
+    - target: {fileID: 3070902759609564279, guid: 40dfe16256c5abc49836d4217815ea88,
+        type: 3}
+      propertyPath: onPhotoCaptured.m_PersistentCalls.m_Calls.Array.data[2].m_TargetAssemblyTypeName
+      value: ReadyPlayerMe.AvatarCreator.SelfieElement, ReadyPlayerMe.Core.AvatarCreator
+      objectReference: {fileID: 0}
+    - target: {fileID: 3070902759609564279, guid: 40dfe16256c5abc49836d4217815ea88,
+        type: 3}
+      propertyPath: onPhotoCaptured.m_PersistentCalls.m_Calls.Array.data[2].m_Arguments.m_BoolArgument
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3070902759609564279, guid: 40dfe16256c5abc49836d4217815ea88,
+        type: 3}
+      propertyPath: onPhotoCaptured.m_PersistentCalls.m_Calls.Array.data[2].m_Arguments.m_ObjectArgumentAssemblyTypeName
+      value: UnityEngine.Object, UnityEngine
       objectReference: {fileID: 0}
     - target: {fileID: 3839650676573825916, guid: 40dfe16256c5abc49836d4217815ea88,
         type: 3}
@@ -492,15 +526,3 @@ RectTransform:
     type: 3}
   m_PrefabInstance: {fileID: 8416722967489257732}
   m_PrefabAsset: {fileID: 0}
---- !u!114 &899210464381544996 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 8697743729124379424, guid: 40dfe16256c5abc49836d4217815ea88,
-    type: 3}
-  m_PrefabInstance: {fileID: 8416722967489257732}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 696f4cf6c3c6d434b8ab068afc2a8758, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 

@@ -10,7 +10,6 @@ namespace ReadyPlayerMe.AvatarCreator
     {
         private const string TAG = nameof(SelfieElement);
 
-        [SerializeField] private ImageConfirmationElement imageConfirmationElement;
         [SerializeField] private BodyType bodyType;
         [SerializeField] private OutfitGender gender;
 
@@ -18,17 +17,7 @@ namespace ReadyPlayerMe.AvatarCreator
         [Header("Events")]
         public UnityEvent<GameObject,AvatarProperties> onAvatarCreated;
 
-        private void OnEnable()
-        {
-            imageConfirmationElement.onImageConfirmed.AddListener(OnPhotoCaptured);
-        }
-
-        private void OnDisable()
-        {
-            imageConfirmationElement.onImageConfirmed.RemoveListener(OnPhotoCaptured);
-        }
-
-        private async void OnPhotoCaptured(Texture2D texture)
+        public async void OnPhotoCaptured(Texture2D texture)
         {
             var bytes = texture.EncodeToPNG();
             var byteAsString = Convert.ToBase64String(bytes);
