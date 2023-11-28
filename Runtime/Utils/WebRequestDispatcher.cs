@@ -31,6 +31,7 @@ namespace ReadyPlayerMe.Core
             Dictionary<string, string> headers = null,
             string payload = null,
             DownloadHandler downloadHandler = default,
+            bool sendAppIdInHeader = true,
             CancellationToken ctx = new CancellationToken()) where T : IResponse, new()
         {
             using var request = new UnityWebRequest();
@@ -46,7 +47,10 @@ namespace ReadyPlayerMe.Core
                 }
             }
 
-            request.SetRequestHeader(APP_ID, CoreSettingsHandler.CoreSettings.AppId);
+            if (sendAppIdInHeader)
+            {
+                request.SetRequestHeader(APP_ID, CoreSettingsHandler.CoreSettings.AppId);
+            }
 
             downloadHandler ??= new DownloadHandlerBuffer();
 
