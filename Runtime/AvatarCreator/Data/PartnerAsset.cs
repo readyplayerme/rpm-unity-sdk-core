@@ -1,14 +1,8 @@
-﻿using Newtonsoft.Json;
+using Newtonsoft.Json;
 using ReadyPlayerMe.Core;
 
 namespace ReadyPlayerMe.AvatarCreator
 {
-    public struct AssetData
-    {
-        public PartnerAsset[] Assets;
-        public Pagination Pagination;
-    }
-
     public struct PartnerAsset
     {
         public string Id;
@@ -17,15 +11,8 @@ namespace ReadyPlayerMe.AvatarCreator
         [JsonConverter(typeof(GenderConverter))]
         public OutfitGender Gender;
         [JsonProperty("iconUrl")]
-        public string Icon;
-        [JsonProperty("maskUrl")]
-        public string Mask;
+        public string ImageUrl;
         [JsonProperty("lockedCategories")]
         public string[] LockedCategories;
-    }
-
-    public struct Pagination
-    {
-        public int TotalPages;
     }
 }

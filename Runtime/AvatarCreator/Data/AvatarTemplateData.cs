@@ -6,7 +6,7 @@ using UnityEngine;
 namespace ReadyPlayerMe.AvatarCreator
 {
     [Serializable]
-    public class TemplateData
+    public class AvatarTemplateData
     {
         public string ImageUrl;
         [JsonConverter(typeof(GenderConverter))]

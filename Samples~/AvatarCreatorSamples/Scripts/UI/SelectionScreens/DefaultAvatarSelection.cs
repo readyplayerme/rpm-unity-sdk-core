@@ -19,13 +19,13 @@ namespace ReadyPlayerMe
         public override StateType StateType => StateType.DefaultAvatarSelection;
         public override StateType NextState => StateType.Editor;
 
-        private Dictionary<TemplateData, GameObject> avatarRenderByTemplateData;
+        private Dictionary<AvatarTemplateData, GameObject> avatarRenderByTemplateData;
         private CancellationTokenSource ctxSource;
-        private TemplateFetcher templateFetcher;
+        private AvatarTemplateFetcher templateFetcher;
 
         private void Awake()
         {
-            avatarRenderByTemplateData = new Dictionary<TemplateData, GameObject>();
+            avatarRenderByTemplateData = new Dictionary<AvatarTemplateData, GameObject>();
         }
 
         private void OnDestroy()
@@ -69,19 +69,19 @@ namespace ReadyPlayerMe
         {
             var startTime = Time.time;
             ctxSource = new CancellationTokenSource();
-            templateFetcher = new TemplateFetcher(ctxSource.Token);
+            templateFetcher = new AvatarTemplateFetcher(ctxSource.Token);
 
-            var templates = await templateFetcher.GetTemplates();
+            var templates = await templateFetcher.GetTemplatesWithRenders();
             SDKLogger.Log(TAG, $"Fetched all avatar templates in {Time.time - startTime:F2}s ");
 
             foreach (var template in templates)
             {
-                var button = CreateAvatarRender(template.Id, template.Texture);
+                var button = CreateRenderButton(template.Id, template.Texture);
                 avatarRenderByTemplateData.Add(template, button);
             }
         }
 
-        private GameObject CreateAvatarRender(string id, Texture renderImage)
+        private GameObject CreateRenderButton(string id, Texture renderImage)
         {
             var button = Instantiate(buttonPrefab, parent);
             var rawImage = button.GetComponentInChildren<RawImage>();
@@ -96,7 +96,7 @@ namespace ReadyPlayerMe
             AvatarCreatorData.AvatarProperties.Id = avatarId;
             AvatarCreatorData.AvatarProperties.Base64Image = string.Empty;
             AvatarCreatorData.IsExistingAvatar = false;
-            
+
             StateMachine.SetState(StateType.Editor);
         }
     }

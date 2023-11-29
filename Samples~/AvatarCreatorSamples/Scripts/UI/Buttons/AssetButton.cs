@@ -6,14 +6,12 @@ namespace ReadyPlayerMe
 {
     public class AssetButton : MonoBehaviour
     {
-        private readonly Vector2 defaultEyeSize = new Vector2(210, 210);
-
         [SerializeField] private RawImage icon;
         [SerializeField] private GameObject selected;
         [SerializeField] private Button button;
         [SerializeField] private GameObject mask;
         [SerializeField] private GameObject loading;
-        
+
         public void AddListener(Action action)
         {
             button.onClick.AddListener(action.Invoke);
@@ -23,13 +21,6 @@ namespace ReadyPlayerMe
         {
             ColorUtility.TryParseHtmlString(colorHex, out var color);
             icon.color = color;
-        }
-
-        public void SetEyeColorConfig()
-        {
-            EnableMask();
-            icon.rectTransform.localPosition = Vector3.zero;
-            icon.rectTransform.sizeDelta = defaultEyeSize;
         }
 
         public void SetIcon(Texture texture)
