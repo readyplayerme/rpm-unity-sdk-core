@@ -42,7 +42,7 @@ namespace ReadyPlayerMe.AvatarCreator
         /// </summary>
         /// <param name="avatarProperties">Properties which describes avatar</param>
         /// <returns>Avatar gameObject</returns>
-        public async Task<(GameObject, AvatarProperties)> CreateAvatar(AvatarProperties avatarProperties)
+        public async Task<(GameObject avatarGameObject, AvatarProperties avatarProperties)> CreateAvatar(AvatarProperties avatarProperties)
         {
             GameObject avatar = null;
             try

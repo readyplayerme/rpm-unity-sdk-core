@@ -39,7 +39,7 @@ namespace ReadyPlayerMe.AvatarCreator
             var avatarManager = new AvatarManager(avatarConfig);
             var avatar = await avatarManager.CreateAvatar(avatarProperties);
 
-            onAvatarCreated?.Invoke(avatar.Item1, avatar.Item2);
+            onAvatarCreated?.Invoke(avatar.avatarGameObject, avatar.avatarProperties);
         }
     }
 }
