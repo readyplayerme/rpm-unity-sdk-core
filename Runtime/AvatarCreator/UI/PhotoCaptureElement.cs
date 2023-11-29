@@ -9,20 +9,35 @@ namespace ReadyPlayerMe.AvatarCreator
     {
         [Header("Settings")]
         [SerializeField] private RawImage cameraTextureTarget;
+        [SerializeField] private bool initializeOnEnable = true;
 
         [Space(5)]
         [Header("Events")]
         public UnityEvent<Texture2D> onPhotoCaptured;
-
+        
         private WebCamTexture cameraTexture;
+        private bool isInitialized;
 
-        private void Awake()
+        private void OnEnable()
         {
-            InitializeCamera();
+            if (initializeOnEnable)
+            {
+                StartCamera();
+            }
+        }
+
+        private void OnDisable()
+        {
+            StopCamera();
         }
 
         public void StartCamera()
         {
+            if (!isInitialized)
+            {
+                InitializeCamera();
+            }
+            
             if (cameraTexture != null && !cameraTexture.isPlaying)
             {
                 cameraTexture.Play();
@@ -52,9 +67,8 @@ namespace ReadyPlayerMe.AvatarCreator
         private void InitializeCamera()
         {
             var webCamDevice = GetWebCamDevice();
-
             SetupPhotoBoothTexture(webCamDevice?.name);
-            StartCamera();
+            isInitialized = true;
         }
 
         private void SetupPhotoBoothTexture(string textureName)
