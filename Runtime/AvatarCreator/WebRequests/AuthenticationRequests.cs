@@ -8,7 +8,7 @@ namespace ReadyPlayerMe.AvatarCreator
     public class AuthenticationRequests
     {
         private readonly string domain;
-        private readonly Dictionary<string, string> headers = CommonHeaders.GetHeadersWithAppId();
+        private readonly IDictionary<string, string> headers = CommonHeaders.GetHeadersWithAppId();
 
         private readonly WebRequestDispatcher webRequestDispatcher;
 

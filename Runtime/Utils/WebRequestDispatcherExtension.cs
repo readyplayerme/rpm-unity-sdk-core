@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using UnityEngine;
@@ -35,11 +36,13 @@ namespace ReadyPlayerMe.Core
                 throw new CustomException(FailureType.NoInternetConnection, NO_INTERNET_CONNECTION);
             }
 
-            var headers = new Dictionary<string, string>();
+            IDictionary<string, string> headers = new Dictionary<string, string>();
             if (!url.Contains(CLOUDFRONT_IDENTIFIER)) // Required to prevent CORS errors in WebGL
             {
-                headers = CommonHeaders.GetRequestHeaders();
+                headers = CommonHeaders.GetAnalyticsHeaders();
             }
+
+            headers.Add(CommonHeaders.GetAppIdHeader());
 
             webRequestDispatcher.Timeout = timeout;
             var response = await webRequestDispatcher.SendRequest<Response>(url, HttpMethod.GET, headers, ctx: token);
@@ -74,11 +77,13 @@ namespace ReadyPlayerMe.Core
             var downloadHandler = new DownloadHandlerFile(path);
             downloadHandler.removeFileOnAbort = true;
 
-            var headers = new Dictionary<string, string>();
+            IDictionary<string, string> headers = new Dictionary<string, string>();
             if (!url.Contains(CLOUDFRONT_IDENTIFIER)) // Required to prevent CORS errors in WebGL
             {
-                headers = CommonHeaders.GetRequestHeaders();
+                headers = CommonHeaders.GetAnalyticsHeaders();
             }
+
+            headers.Add(CommonHeaders.GetAppIdHeader());
 
             webRequestDispatcher.Timeout = timeout;
             var response = await webRequestDispatcher.SendRequest<ResponseFile>(url, HttpMethod.GET, headers, downloadHandler: downloadHandler,

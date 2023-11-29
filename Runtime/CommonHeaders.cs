@@ -14,16 +14,25 @@ namespace ReadyPlayerMe.Core
         private const string EDITMODE = "editmode";
         private const string SEPARATOR = "-";
 
-        public static Dictionary<string, string> GetHeadersWithAppId()
+        public static KeyValuePair<string, string> GeApplicationJsonHeader()
         {
-            return new Dictionary<string, string>
-            {
-                { "Content-Type", "application/json" },
-                { "X-APP-ID", CoreSettingsHandler.CoreSettings.AppId }
-            };
+            return new KeyValuePair<string, string>("Content-Type", "application/json");
         }
 
-        public static Dictionary<string, string> GetRequestHeaders()
+        public static KeyValuePair<string, string> GetAppIdHeader()
+        {
+            return new KeyValuePair<string, string>("X-APP-ID", CoreSettingsHandler.CoreSettings.AppId);
+        }
+
+        public static IDictionary<string, string> GetHeadersWithAppId()
+        {
+            IDictionary<string,string> dictionary = new Dictionary<string, string>();
+            dictionary.Add(GeApplicationJsonHeader());
+            dictionary.Add(GetAppIdHeader());
+            return dictionary;
+        }
+
+        public static Dictionary<string, string> GetAnalyticsHeaders()
         {
             var source = UNITY_PREFIX + SEPARATOR;
             if (Application.isEditor)
@@ -38,7 +47,6 @@ namespace ReadyPlayerMe.Core
             {
                 { RPM_SOURCE, source },
                 { RPM_SDK_VERSION, ApplicationData.GetData().SDKVersion },
-                { "X-APP-ID", CoreSettingsHandler.CoreSettings.AppId }
             };
         }
     }

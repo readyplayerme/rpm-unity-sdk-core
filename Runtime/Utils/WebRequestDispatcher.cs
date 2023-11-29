@@ -28,7 +28,7 @@ namespace ReadyPlayerMe.Core
         public async Task<T> SendRequest<T>(
             string url,
             HttpMethod httpMethod,
-            Dictionary<string, string> headers = null,
+            IDictionary<string, string> headers = null,
             string payload = null,
             DownloadHandler downloadHandler = default,
             CancellationToken ctx = new CancellationToken()) where T : IResponse, new()
