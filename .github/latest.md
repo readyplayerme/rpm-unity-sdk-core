@@ -1,5 +1,6 @@
 
 ## Changelog
 
-### Updates
-- fixed an issue causing avatars to be stored locally even if caching was disabled by @harrisonhough in [#150](https://github.com/readyplayerme/rpm-unity-sdk-core/pull/150)
+### Updated
+- replaced API URLs with model URLs for shortcodes by @rk132 in [#152](https://github.com/readyplayerme/rpm-unity-sdk-core/pull/152)
+- updated render api and samples @rYuuk in [#147](https://github.com/readyplayerme/rpm-unity-sdk-core/pull/147)
