@@ -80,13 +80,8 @@ namespace ReadyPlayerMe.Core.Analytics
                 throw new Exception(NO_INTERNET_CONNECTION);
             }
 
-            var headers = new Dictionary<string, string>
-            {
-                { "Content-Type", "application/json" }
-            };
-
             var webRequestDispatcher = new WebRequestDispatcher();
-            var response = await webRequestDispatcher.SendRequest<Response>(url, HttpMethod.POST, headers, payload);
+            var response = await webRequestDispatcher.SendRequest<Response>(url, HttpMethod.POST, CommonHeaders.GetHeadersWithAppId(), payload);
 
             if (!response.IsSuccess)
             {

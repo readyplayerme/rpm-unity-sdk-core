@@ -65,7 +65,7 @@ namespace ReadyPlayerMe.AvatarCreator
         {
             var downloadHandler = new DownloadHandlerTexture();
             var webRequestDispatcher = new WebRequestDispatcher();
-            var response = await webRequestDispatcher.SendRequest<ResponseTexture>(url, HttpMethod.GET, sendAppIdInHeader: false, downloadHandler: downloadHandler, ctx: ctx);
+            var response = await webRequestDispatcher.SendRequest<ResponseTexture>(url, HttpMethod.GET, downloadHandler: downloadHandler, ctx: ctx);
 
             response.ThrowIfError();
             return response.Texture;
