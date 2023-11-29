@@ -64,7 +64,6 @@ namespace ReadyPlayerMe
             ctxSource = new CancellationTokenSource();
 
             avatarManager = new AvatarManager(
-                AvatarCreatorData.AvatarProperties.BodyType,
                 inCreatorConfig,
                 ctxSource.Token);
             avatarManager.OnError += OnErrorCallback;
@@ -161,15 +160,15 @@ namespace ReadyPlayerMe
             }
             else
             {
+                var id = AvatarCreatorData.AvatarProperties.Id;
+                var bodyType = AvatarCreatorData.AvatarProperties.BodyType;
                 if (!AvatarCreatorData.IsExistingAvatar)
                 {
-                    (avatar, AvatarCreatorData.AvatarProperties) = await avatarManager.CreateAvatarFromTemplate(
-                        AvatarCreatorData.AvatarProperties.Id
-                    );
+                    (avatar, AvatarCreatorData.AvatarProperties) = await avatarManager.CreateAvatarFromTemplate(id, bodyType);
                 }
                 else
                 {
-                    avatar = await avatarManager.GetAvatar(AvatarCreatorData.AvatarProperties.Id);
+                    avatar = await avatarManager.GetAvatar(id, bodyType);
                 }
             }
 
@@ -282,7 +281,7 @@ namespace ReadyPlayerMe
             payload.Assets.Add(category, assetId);
             lastRotation = currentAvatar.transform.rotation;
             LoadingManager.EnableLoading(UPDATING_YOUR_AVATAR_LOADING_TEXT, LoadingManager.LoadingType.Popup);
-            var avatar = await avatarManager.UpdateAsset(category, assetId);
+            var avatar = await avatarManager.UpdateAsset(category, AvatarCreatorData.AvatarProperties.BodyType, assetId);
             if (avatar == null)
             {
                 return;
