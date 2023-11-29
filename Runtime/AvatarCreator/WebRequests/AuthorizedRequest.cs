@@ -40,11 +40,8 @@ namespace ReadyPlayerMe.AvatarCreator
 
         private async Task<T> Send<T>(RequestData requestData, CancellationToken ctx) where T : IResponse, new()
         {
-            var headers = new Dictionary<string, string>
-            {
-                { "Content-Type", "application/json" },
-                { "Authorization", $"Bearer {AuthManager.UserSession.Token}" }
-            };
+            var headers = CommonHeaders.GetHeadersWithAppId();
+            headers.Add("Authorization", $"Bearer {AuthManager.UserSession.Token}");
 
             var webRequestDispatcher = new WebRequestDispatcher();
             return await webRequestDispatcher.SendRequest<T>(

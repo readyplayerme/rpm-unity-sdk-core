@@ -132,12 +132,8 @@ namespace ReadyPlayerMe.AvatarCreator
             }
 
             var downloadHandler = new DownloadHandlerTexture();
-            var response = await authorizedRequest.SendRequest<ResponseTexture>(new RequestData
-            {
-                Url = url,
-                Method = HttpMethod.GET,
-                DownloadHandler = downloadHandler
-            }, ctx: ctx);
+            var webRequestDispatcher = new WebRequestDispatcher();
+            var response = await webRequestDispatcher.SendRequest<ResponseTexture>(url,HttpMethod.GET, downloadHandler: downloadHandler, ctx: ctx);
 
             response.ThrowIfError();
 
