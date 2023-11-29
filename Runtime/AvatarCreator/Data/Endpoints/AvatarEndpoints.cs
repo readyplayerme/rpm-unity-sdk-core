@@ -1,10 +1,10 @@
 ﻿namespace ReadyPlayerMe.AvatarCreator
 {
-    public abstract class AvatarEndpoints : Endpoints
+    public abstract class AvatarEndpoints
     {
-        private const string AVATAR_API_V2_ENDPOINT = API_V2_ENDPOINT + "avatars";
-        private const string AVATAR_API_V1_ENDPOINT = API_V1_ENDPOINT + "avatars";
-        private const string MODELS_URL_PREFIX = "https://models.readyplayer.me";
+        private static readonly string AVATAR_API_V2_ENDPOINT = Env.RPM_API_V2_URL + "avatars";
+        private static readonly string AVATAR_API_V1_ENDPOINT = Env.RPM_API_V1_URL + "avatars";
+        private static readonly string MODELS_URL_PREFIX = "https://models.readyplayer.me";
 
         public static string GetColorEndpoint(string avatarId)
         {
