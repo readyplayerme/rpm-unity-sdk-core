@@ -14,7 +14,7 @@ namespace ReadyPlayerMe.Core
         private const string EDITMODE = "editmode";
         private const string SEPARATOR = "-";
 
-        public static KeyValuePair<string, string> GeApplicationJsonHeader()
+        public static KeyValuePair<string, string> GetApplicationJsonHeader()
         {
             return new KeyValuePair<string, string>("Content-Type", "application/json");
         }
@@ -27,7 +27,7 @@ namespace ReadyPlayerMe.Core
         public static IDictionary<string, string> GetHeadersWithAppId()
         {
             IDictionary<string,string> dictionary = new Dictionary<string, string>();
-            dictionary.Add(GeApplicationJsonHeader());
+            dictionary.Add(GetApplicationJsonHeader());
             dictionary.Add(GetAppIdHeader());
             return dictionary;
         }
