@@ -1,27 +1,52 @@
+using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Events;
 
 namespace ReadyPlayerMe.AvatarCreator
 {
-    public class SelectionElement : MonoBehaviour
+    public interface IAssetData
+    {
+        public string Id { get; set; }
+        public Category Category { get; set; }
+    }
+    
+    public abstract class SelectionElement : MonoBehaviour
     {
         [Header("UI Elements")]
         [Space(5)]
         [SerializeField] private ButtonElement buttonElementPrefab;
         [SerializeField] private Transform buttonContainer;
         [SerializeField] private GameObject selectedIcon;
-
-        public ButtonElement CreateButton()
+        public UnityEvent<IAssetData> onAssetSelected;
+        private Dictionary<string, ButtonElement> buttonMap = new Dictionary<string, ButtonElement>();
+        
+        public ButtonElement CreateButton(string id)
         {
             var button = Instantiate(buttonElementPrefab, buttonContainer);
+            button.name = id;
+            buttonMap.Add(id, button);
             button.AddListener(() => SetButtonSelected(button.transform));
             return button;
         }
 
         public void ClearButtons()
         {
-            foreach (Transform child in buttonContainer)
+            foreach (var button in buttonMap)
             {
-                Destroy(child.gameObject);
+                Destroy(button.Value.gameObject);
+            }
+            buttonMap.Clear();
+        }
+        
+        public void UpdateButtonIcon(string id, Texture texture)
+        {
+            if (buttonMap.ContainsKey(id))
+            {
+                buttonMap[id].SetIcon(texture);
+            }
+            else
+            {
+                Debug.LogWarning($"No button found with id {id}");
             }
         }
 
@@ -34,6 +59,11 @@ namespace ReadyPlayerMe.AvatarCreator
             selectedIcon.transform.SetParent(button);
             selectedIcon.transform.localPosition = Vector3.zero;
             selectedIcon.SetActive(true);
+        }
+        
+        protected virtual void AssetSelected(IAssetData assetData)
+        {
+            onAssetSelected?.Invoke(assetData);
         }
     }
 }

@@ -2,16 +2,28 @@ using System;
 
 namespace ReadyPlayerMe.AvatarCreator
 {
+    
     [Serializable]
-    public struct ColorPalette
+    public struct ColorLibrary
     {
-        public Category category;
-        public string[] hexColors;
+        public AssetColor[] Skin;
+        public AssetColor[] Eyebrow;
+        public AssetColor[] Beard;
+        public AssetColor[] Hair;
+    }
 
-        public ColorPalette(Category category, string[] hexColors)
+    [Serializable]
+    public struct AssetColor : IAssetData
+    {
+        public string Id { get; set; }
+        public Category Category { get; set; }
+        public string HexColor;
+        
+        public AssetColor(string id, Category category, string hexColor)
         {
-            this.category = category;
-            this.hexColors = hexColors;
+            Id = id;
+            Category = category;
+            HexColor = hexColor;
         }
     }
 }

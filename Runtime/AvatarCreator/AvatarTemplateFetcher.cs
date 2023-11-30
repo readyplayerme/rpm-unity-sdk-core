@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
@@ -33,20 +34,21 @@ namespace ReadyPlayerMe.AvatarCreator
         /// This will wait for all the icons to be downloaded. 
         /// </summary>
         /// <returns></returns>
-        public async Task<List<AvatarTemplateData>> GetTemplatesWithRenders()
+        public async Task<List<AvatarTemplateData>> GetTemplatesWithRenders( Action<AvatarTemplateData> onIconDownloaded = null)
         {
             var templates = await avatarAPIRequests.GetAvatarTemplates();
-            return await FetchTemplateRenders(templates);
+            return await FetchTemplateRenders(templates, onIconDownloaded);
         }
 
         /// <summary>
         /// Fetches the renders for all the templates provided.
         /// </summary>
-        public async Task<List<AvatarTemplateData>> FetchTemplateRenders(List<AvatarTemplateData> templates)
+        public async Task<List<AvatarTemplateData>> FetchTemplateRenders(List<AvatarTemplateData> templates, Action<AvatarTemplateData> onIconDownloaded = null)
         {
             var tasks = templates.Select(async templateData =>
             {
                 templateData.Texture = await avatarAPIRequests.GetAvatarTemplateImage(templateData.ImageUrl);
+                onIconDownloaded?.Invoke(templateData);
             }).ToList();
 
             while (!tasks.All(x => x.IsCompleted) &&

@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using Newtonsoft.Json.Linq;
 
 namespace ReadyPlayerMe.AvatarCreator
@@ -14,21 +15,32 @@ namespace ReadyPlayerMe.AvatarCreator
             public string[] hair;
         }
 
-        public static ColorPalette[] GetColorsFromResponse(string response)
+        public static Dictionary<Category, AssetColor[]> GetColorsFromResponse(string response)
         {
             var responseData = JObject.Parse(response);
             ColorResponse colorResponse = ((JObject) responseData["data"])!.ToObject<ColorResponse>();
-            return ResponseToColorPalettes(colorResponse);
+            return ResponseToColorMap(colorResponse);
         }
 
-        private static ColorPalette[] ResponseToColorPalettes(ColorResponse colorResponse)
+        private static Dictionary<Category, AssetColor[]> ResponseToColorMap(ColorResponse colorResponse)
         {
-            var colorPalettes = new ColorPalette[4];
-            colorPalettes[0] = new ColorPalette(Category.SkinColor, colorResponse.skin);
-            colorPalettes[1] = new ColorPalette(Category.EyebrowColor, colorResponse.eyebrow);
-            colorPalettes[2] = new ColorPalette(Category.BeardColor, colorResponse.beard);
-            colorPalettes[3] = new ColorPalette(Category.HairColor, colorResponse.hair);
+            var colorPalettes = new Dictionary<Category, AssetColor[]>();
+            colorPalettes.Add(Category.SkinColor, ConvertToAssetColors(colorResponse.skin, Category.SkinColor));
+            colorPalettes.Add(Category.EyebrowColor, ConvertToAssetColors(colorResponse.eyebrow, Category.EyebrowColor));
+            colorPalettes.Add(Category.BeardColor, ConvertToAssetColors(colorResponse.beard, Category.BeardColor));
+            colorPalettes.Add(Category.HairColor, ConvertToAssetColors(colorResponse.hair, Category.HairColor));
             return colorPalettes;
+        }
+
+        
+        private static AssetColor[] ConvertToAssetColors(IReadOnlyList<string> hexColors, Category category)
+        {
+            AssetColor[] assetColors = new AssetColor[hexColors.Count];
+            for (int i = 0; i < hexColors.Count; i++)
+            {
+                assetColors[i] = new AssetColor(i.ToString(), category, hexColors[i]);
+            }
+            return assetColors;
         }
     }
 }

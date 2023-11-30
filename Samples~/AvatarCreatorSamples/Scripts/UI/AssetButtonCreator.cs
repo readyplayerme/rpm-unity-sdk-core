@@ -71,21 +71,21 @@ namespace ReadyPlayerMe
             SelectButton(category, buttonsById[assetId]);
         }
 
-        public void CreateColorUI(ColorPalette[] colorPalettes, Action<object, Category> onClick)
+        public void CreateColorUI(Dictionary<Category, AssetColor[]> colorLibrary, Action<object, Category> onClick)
         {
-            foreach (var colorPalette in colorPalettes)
+            foreach (var colorPalette in colorLibrary)
             {
-                var parent = PanelSwitcher.CategoryPanelMap[colorPalette.category];
+                var parent = PanelSwitcher.CategoryPanelMap[colorPalette.Key];
                 var assetIndex = 0;
-                foreach (var color in colorPalette.hexColors)
+                foreach (var assetColor in colorPalette.Value)
                 {
-                    var button = AddColorButton(assetIndex, parent.transform, colorPalette.category, onClick);
-                    button.SetColor(color);
+                    var button = AddColorButton(assetIndex, parent.transform, colorPalette.Key, onClick);
+                    button.SetColor(assetColor.HexColor);
 
                     // By default first color is applied on initial draft
                     if (assetIndex == 0)
                     {
-                        SelectButton(colorPalette.category, button);
+                        SelectButton(colorPalette.Key, button);
                     }
                     assetIndex++;
                 }

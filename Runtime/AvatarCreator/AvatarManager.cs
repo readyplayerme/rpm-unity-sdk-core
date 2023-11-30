@@ -195,9 +195,9 @@ namespace ReadyPlayerMe.AvatarCreator
             return await inCreatorAvatarLoader.Load(avatarId, bodyType, gender, data);
         }
 
-        public async Task<ColorPalette[]> LoadAvatarColors()
+        public async Task<Dictionary<Category, AssetColor[]>> LoadAvatarColors()
         {
-            ColorPalette[] colors = null;
+            var colors = new Dictionary<Category, AssetColor[]>();
             try
             {
                 colors = await avatarAPIRequests.GetAllAvatarColors(avatarId);

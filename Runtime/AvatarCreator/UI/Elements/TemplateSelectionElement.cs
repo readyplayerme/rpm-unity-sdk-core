@@ -1,8 +1,6 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using ReadyPlayerMe.Core;
-using UnityEngine;
-using UnityEngine.Events;
 
 namespace ReadyPlayerMe.AvatarCreator
 {
@@ -10,23 +8,16 @@ namespace ReadyPlayerMe.AvatarCreator
     /// This class can be used as a self contained UI element that can fetch AvatarTemplates
     /// and create it's own buttons.
     /// </summary>
-    [RequireComponent(typeof(SelectionElement))]
-    public class AvatarTemplateSelection : MonoBehaviour
+    public class TemplateSelectionElement : SelectionElement
     {
-        private const string TAG = nameof(AvatarTemplateSelection);
-
-        [Header("Events")]
-        [Space(5)]
-        public UnityEvent<AvatarTemplateData> onTemplateSelected;
+        private const string TAG = nameof(TemplateSelectionElement);
 
         private List<AvatarTemplateData> avatarTemplateDataList;
         private AvatarTemplateFetcher avatarTemplateFetcher;
-        private SelectionElement selectionElement;
-
+        
         private void Awake()
         {
             avatarTemplateFetcher = new AvatarTemplateFetcher();
-            selectionElement = GetComponent<SelectionElement>();
         }
 
         /// <summary>
@@ -34,14 +25,15 @@ namespace ReadyPlayerMe.AvatarCreator
         /// </summary>
         public async void LoadAndCreateButtons()
         {
-            await LoadTemplateRenders();
+            await LoadTemplateData();
             CreateButtons();
+            await LoadTemplateRenders();
         }
 
         /// <summary>
         /// Loads avatar template data without fetching the icon renders.
         /// </summary>
-        public async void LoadTemplateData()
+        public async Task LoadTemplateData()
         {
             avatarTemplateDataList = await avatarTemplateFetcher.GetTemplates();
             if (avatarTemplateDataList == null || avatarTemplateDataList.Count == 0)
@@ -55,7 +47,12 @@ namespace ReadyPlayerMe.AvatarCreator
         /// </summary>
         public async Task LoadTemplateRenders()
         {
-            avatarTemplateDataList = await avatarTemplateFetcher.GetTemplatesWithRenders();
+            avatarTemplateDataList = await avatarTemplateFetcher.GetTemplatesWithRenders(OnIconLoaded);
+        }
+
+        private void OnIconLoaded(AvatarTemplateData avatarTemplate)
+        {
+            UpdateButtonIcon(avatarTemplate.Id, avatarTemplate.Texture);
         }
 
         /// <summary>
@@ -70,21 +67,14 @@ namespace ReadyPlayerMe.AvatarCreator
             }
             for (var i = 0; i < avatarTemplateDataList.Count; i++)
             {
-                var button = selectionElement.CreateButton();
+                var button = CreateButton(avatarTemplateDataList[i].Id);
                 var templateData = avatarTemplateDataList[i];
-                button.SetIcon(templateData.Texture);
-                button.AddListener(() => TemplateSelected(templateData));
+                if (templateData.Texture != null)
+                {
+                    button.SetIcon(templateData.Texture);
+                }
+                button.AddListener(() => AssetSelected(templateData));
             }
-        }
-
-        /// <summary>
-        /// This function is called when a template button is clicked.
-        /// </summary>
-        /// <param name="buttonTransform">The buttonTransform is used to position the selectedIcon to indicate which button was last selected</param>
-        /// <param name="avatarTemplateData">This data is used passed in the onSelectedTemplate event</param>
-        private void TemplateSelected(AvatarTemplateData avatarTemplateData)
-        {
-            onTemplateSelected?.Invoke(avatarTemplateData);
         }
     }
 }

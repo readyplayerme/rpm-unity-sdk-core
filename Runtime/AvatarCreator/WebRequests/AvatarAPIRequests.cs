@@ -98,7 +98,7 @@ namespace ReadyPlayerMe.AvatarCreator
             return JsonConvert.DeserializeObject<AvatarProperties>(data);
         }
 
-        public async Task<ColorPalette[]> GetAllAvatarColors(string avatarId)
+        public async Task<Dictionary<Category, AssetColor[]>> GetAllAvatarColors(string avatarId)
         {
             var response = await authorizedRequest.SendRequest<Response>(
                 new RequestData
@@ -111,6 +111,26 @@ namespace ReadyPlayerMe.AvatarCreator
 
             response.ThrowIfError();
             return ColorResponseHandler.GetColorsFromResponse(response.Text);
+        }
+        
+        public async Task<AssetColor[]> GetColorsByCategory(string avatarId, Category category)
+        {
+            var response = await authorizedRequest.SendRequest<Response>(
+                new RequestData
+                {
+                    Url = AvatarEndpoints.GetColorEndpoint(avatarId),
+                    Method = HttpMethod.GET
+                },
+                ctx: ctx
+            );
+
+            response.ThrowIfError();
+            var colorMap = ColorResponseHandler.GetColorsFromResponse(response.Text);
+            if (colorMap.TryGetValue(category, out AssetColor[] categoryColors))
+            {
+                return categoryColors;
+            }
+            return null;
         }
 
         public async Task<AvatarProperties> GetAvatarMetadata(string avatarId)
