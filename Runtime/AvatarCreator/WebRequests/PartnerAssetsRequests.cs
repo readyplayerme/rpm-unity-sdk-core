@@ -69,6 +69,48 @@ namespace ReadyPlayerMe.AvatarCreator
             return assets.ToArray();
         }
 
+        public async Task<PartnerAsset[]> GetCategory(Category category, BodyType bodyType, OutfitGender gender, CancellationToken ctx = new CancellationToken())
+        {
+            var assets = new HashSet<PartnerAsset>();
+            AssetLibrary assetLibrary;
+
+            try
+            {
+                assetLibrary = await GetRequest(LIMIT, 1, category, gender, bodyType, ctx: ctx);
+                assets.UnionWith(assetLibrary.Assets);
+            }
+            catch (Exception)
+            {
+                return assets.ToArray();
+            }
+
+            var assetRequests = new Task<AssetLibrary>[assetLibrary.Pagination.TotalPages - 1];
+
+            for (var i = 2; i <= assetLibrary.Pagination.TotalPages; i++)
+            {
+                assetRequests[i - 2] = GetRequest(LIMIT, i, category, gender, bodyType, ctx: ctx);
+            }
+
+            while (!assetRequests.All(x => x.IsCompleted) && !ctx.IsCancellationRequested)
+            {
+                await Task.Yield();
+            }
+
+            foreach (var request in assetRequests.Where(request => request.IsCompleted))
+            {
+                try
+                {
+                    assets.UnionWith(request.Result.Assets);
+                }
+                catch (Exception)
+                {
+                    // ignored
+                }
+            }
+
+            return assets.ToArray();
+        }
+
         public async Task<PartnerAsset[]> Get(Category? category, BodyType bodyType, OutfitGender gender, CancellationToken ctx = new CancellationToken())
         {
             var assets = new HashSet<PartnerAsset>();
@@ -133,7 +175,7 @@ namespace ReadyPlayerMe.AvatarCreator
 
             var downloadHandler = new DownloadHandlerTexture();
             var webRequestDispatcher = new WebRequestDispatcher();
-            var response = await webRequestDispatcher.SendRequest<ResponseTexture>(url,HttpMethod.GET, downloadHandler: downloadHandler, ctx: ctx);
+            var response = await webRequestDispatcher.SendRequest<ResponseTexture>(url, HttpMethod.GET, downloadHandler: downloadHandler, ctx: ctx);
 
             response.ThrowIfError();
 

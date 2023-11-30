@@ -430,8 +430,8 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 6589403855323154307}
   m_HandleRect: {fileID: 6589403855323154304}
   m_Direction: 0
-  m_Value: 0
-  m_Size: 1
+  m_Value: 1
+  m_Size: 0.9999999
   m_NumberOfSteps: 0
   m_OnValueChanged:
     m_PersistentCalls:
@@ -445,6 +445,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 6589403854911528367}
+  - component: {fileID: 7347275528499765197}
   - component: {fileID: 6589403854911528366}
   m_Layer: 5
   m_Name: TemplateAvatarElement
@@ -474,6 +475,22 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 600, y: 600}
   m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &7347275528499765197
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6589403854911528364}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2cdd424d60e1849409c110d21a5e8797, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  buttonElementPrefab: {fileID: 313019200304032556, guid: ce3fe0e72fd9a77428b183a9cd5e759d,
+    type: 3}
+  buttonContainer: {fileID: 6589403854928128197}
+  selectedIcon: {fileID: 5637435583784712115}
 --- !u!114 &6589403854911528366
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -486,10 +503,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8f457777c7050774eabede44ca3068b9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  buttonElementPrefab: {fileID: 313019200304032556, guid: ce3fe0e72fd9a77428b183a9cd5e759d,
-    type: 3}
-  buttonContainer: {fileID: 6589403854928128197}
-  selectedIcon: {fileID: 5637435583784712115}
   onTemplateSelected:
     m_PersistentCalls:
       m_Calls: []

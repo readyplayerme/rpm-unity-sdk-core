@@ -10,27 +10,23 @@ namespace ReadyPlayerMe.AvatarCreator
     /// This class can be used as a self contained UI element that can fetch AvatarTemplates
     /// and create it's own buttons.
     /// </summary>
-    public class AvatarTemplateElement : MonoBehaviour
+    [RequireComponent(typeof(SelectionElement))]
+    public class AvatarTemplateSelection : MonoBehaviour
     {
-        private const string TAG = nameof(AvatarTemplateElement);
-
-        [Header("UI Elements")]
-        [Space(5)]
-        [SerializeField] private ButtonElement buttonElementPrefab;
-        [SerializeField] private Transform buttonContainer;
-        [SerializeField] private GameObject selectedIcon;
+        private const string TAG = nameof(AvatarTemplateSelection);
 
         [Header("Events")]
         [Space(5)]
         public UnityEvent<AvatarTemplateData> onTemplateSelected;
 
         private List<AvatarTemplateData> avatarTemplateDataList;
-        private ButtonElement[] templateAvatarButtons;
         private AvatarTemplateFetcher avatarTemplateFetcher;
+        private SelectionElement selectionElement;
 
         private void Awake()
         {
             avatarTemplateFetcher = new AvatarTemplateFetcher();
+            selectionElement = GetComponent<SelectionElement>();
         }
 
         /// <summary>
@@ -72,26 +68,13 @@ namespace ReadyPlayerMe.AvatarCreator
                 SDKLogger.LogWarning(TAG, "No templates found. You need to load fetch the template data first.");
                 return;
             }
-            templateAvatarButtons = new ButtonElement[avatarTemplateDataList.Count];
             for (var i = 0; i < avatarTemplateDataList.Count; i++)
             {
-                var button = Instantiate(buttonElementPrefab, buttonContainer);
+                var button = selectionElement.CreateButton();
                 var templateData = avatarTemplateDataList[i];
                 button.SetIcon(templateData.Texture);
-                button.AddListener(() => TemplateSelected(button.transform, templateData));
-                templateAvatarButtons[i] = button;
+                button.AddListener(() => TemplateSelected(templateData));
             }
-        }
-
-        private void ClearButtons()
-        {
-            if (templateAvatarButtons == null) return;
-
-            foreach (var button in templateAvatarButtons)
-            {
-                Destroy(button.gameObject);
-            }
-            templateAvatarButtons = null;
         }
 
         /// <summary>
@@ -99,21 +82,9 @@ namespace ReadyPlayerMe.AvatarCreator
         /// </summary>
         /// <param name="buttonTransform">The buttonTransform is used to position the selectedIcon to indicate which button was last selected</param>
         /// <param name="avatarTemplateData">This data is used passed in the onSelectedTemplate event</param>
-        private void TemplateSelected(Transform buttonTransform, AvatarTemplateData avatarTemplateData)
+        private void TemplateSelected(AvatarTemplateData avatarTemplateData)
         {
             onTemplateSelected?.Invoke(avatarTemplateData);
-            SetButtonSelected(buttonTransform);
-        }
-
-        /// <summary>
-        /// Sets the position and parent of the SelectedIcon to indicate which button was last selected.
-        /// </summary>
-        /// <param name="buttonTransform"></param>
-        private void SetButtonSelected(Transform buttonTransform)
-        {
-            selectedIcon.transform.SetParent(buttonTransform);
-            selectedIcon.transform.localPosition = Vector3.zero;
-            selectedIcon.SetActive(true);
         }
     }
 }

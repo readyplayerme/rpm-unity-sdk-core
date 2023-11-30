@@ -15,7 +15,6 @@ namespace ReadyPlayerMe.AvatarCreator
     public class PartnerAssetsManager : IDisposable
     {
         private const string TAG = nameof(PartnerAssetsManager);
-        private const string EYE_MASK_SIZE_SIZE = "?w=256";
         private const string ASSET_ICON_SIZE = "?w=64";
 
         private readonly PartnerAssetsRequests partnerAssetsRequests;

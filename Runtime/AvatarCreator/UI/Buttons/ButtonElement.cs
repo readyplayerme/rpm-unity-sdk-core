@@ -32,5 +32,10 @@ namespace ReadyPlayerMe.AvatarCreator
             rawImage.texture = texture;
             if (sizeToParent) rawImage.SizeToParent();
         }
+
+        public void SetColor(string hexColor)
+        {
+            rawImage.color = ColorUtility.TryParseHtmlString(hexColor, out var color) ? color : Color.white;
+        }
     }
 }
