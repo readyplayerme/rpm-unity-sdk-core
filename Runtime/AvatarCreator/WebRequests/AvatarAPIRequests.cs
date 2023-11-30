@@ -103,7 +103,7 @@ namespace ReadyPlayerMe.AvatarCreator
             var response = await authorizedRequest.SendRequest<Response>(
                 new RequestData
                 {
-                    Url = AvatarEndpoints.GetColorEndpoint(avatarId),
+                    Url = $"{Env.RPM_API_V2_BASE_URL}/{avatarId}/colors?type=skin,beard,hair,eyebrow",
                     Method = HttpMethod.GET
                 },
                 ctx: ctx

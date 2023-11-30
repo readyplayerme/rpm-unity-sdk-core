@@ -20,7 +20,7 @@ namespace ReadyPlayerMe.AvatarCreator
 
         public async Task<UserSession> LoginAsAnonymous()
         {
-            var url = AuthEndpoints.GetAuthAnonymousEndpoint(domain);
+            var url = string.Format(Env.RPM_SUBDOMAIN_BASE_URL, domain, "/users");
 
             var response = await webRequestDispatcher.SendRequest<Response>(url, HttpMethod.POST, headers);
             response.ThrowIfError();
@@ -31,7 +31,7 @@ namespace ReadyPlayerMe.AvatarCreator
 
         public async Task SendCodeToEmail(string email, string userId = "")
         {
-            var url = AuthEndpoints.GetAuthStartEndpoint(domain);
+            var url = string.Format(Env.RPM_SUBDOMAIN_BASE_URL, domain, "/auth/start");
             var data = new Dictionary<string, string>
             {
                 { AuthConstants.EMAIL, email },
@@ -51,7 +51,8 @@ namespace ReadyPlayerMe.AvatarCreator
 
         public async Task<UserSession> LoginWithCode(string code)
         {
-            var url = AuthEndpoints.GetConfirmCodeEndpoint(domain);
+            var url = string.Format(Env.RPM_SUBDOMAIN_BASE_URL, domain, "/auth/login");
+
             var payload = AuthDataConverter.CreatePayload(new Dictionary<string, string>
             {
                 { AuthConstants.AUTH_TYPE_CODE, code }
@@ -66,7 +67,8 @@ namespace ReadyPlayerMe.AvatarCreator
 
         public async Task Signup(string email, string userId)
         {
-            var url = AuthEndpoints.GetAuthStartEndpoint(domain);
+            var url = string.Format(Env.RPM_SUBDOMAIN_BASE_URL, domain, "/auth/start");
+
             var data = new Dictionary<string, string>
             {
                 { AuthConstants.EMAIL, email },
@@ -81,7 +83,8 @@ namespace ReadyPlayerMe.AvatarCreator
 
         public async Task<(string, string)> RefreshToken(string token, string refreshToken)
         {
-            var url = AuthEndpoints.GetTokenRefreshEndpoint(domain);
+            var url = string.Format(Env.RPM_SUBDOMAIN_BASE_URL, domain, "/auth/refresh");
+
             var payload = AuthDataConverter.CreatePayload(new Dictionary<string, string>
             {
                 { AuthConstants.TOKEN, token },
