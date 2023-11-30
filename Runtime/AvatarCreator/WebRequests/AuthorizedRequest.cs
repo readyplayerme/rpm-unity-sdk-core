@@ -1,6 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Threading;
+﻿using System.Threading;
 using System.Threading.Tasks;
 using ReadyPlayerMe.Core;
 using UnityEngine.Networking;
@@ -23,15 +21,8 @@ namespace ReadyPlayerMe.AvatarCreator
 
             if (response is { IsSuccess: false, ResponseCode: 401 })
             {
-                try
-                {
-                    await AuthManager.RefreshToken();
-                }
-                catch (Exception)
-                {
-                    throw;
-                }
-                
+                await AuthManager.RefreshToken();
+
                 response = await Send<T>(requestData, ctx);
             }
 

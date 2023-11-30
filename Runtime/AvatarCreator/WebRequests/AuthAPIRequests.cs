@@ -5,14 +5,14 @@ using ReadyPlayerMe.Core;
 
 namespace ReadyPlayerMe.AvatarCreator
 {
-    public class AuthenticationRequests
+    public class AuthAPIRequests
     {
         private readonly string domain;
         private readonly IDictionary<string, string> headers = CommonHeaders.GetHeadersWithAppId();
 
         private readonly WebRequestDispatcher webRequestDispatcher;
 
-        public AuthenticationRequests(string domain)
+        public AuthAPIRequests(string domain)
         {
             this.domain = domain;
             webRequestDispatcher = new WebRequestDispatcher();
