@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
 using ReadyPlayerMe.Core;
@@ -27,6 +26,8 @@ namespace ReadyPlayerMe.AvatarCreator
                 {
                     await AuthManager.RefreshToken();
                 }
+                // Despite this seeming redundant, it prevents an issue with any error within AuthManager.RefreshToken not being propagated without it.
+                // TODO: Figure out why this is needed and work out a way to clean it up.
                 catch (Exception)
                 {
                     throw;

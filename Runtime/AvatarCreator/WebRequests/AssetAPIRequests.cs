@@ -11,16 +11,16 @@ using UnityEngine.Networking;
 
 namespace ReadyPlayerMe.AvatarCreator
 {
-    public class PartnerAssetsRequests
+    public class AssetAPIRequests
     {
-        private const string TAG = nameof(PartnerAssetsRequests);
+        private const string TAG = nameof(AssetAPIRequests);
         private const int LIMIT = 100;
 
         private readonly AuthorizedRequest authorizedRequest;
         private readonly string appId;
         private readonly Dictionary<string, Texture> icons;
 
-        public PartnerAssetsRequests(string appId)
+        public AssetAPIRequests(string appId)
         {
             authorizedRequest = new AuthorizedRequest();
             icons = new Dictionary<string, Texture>();
