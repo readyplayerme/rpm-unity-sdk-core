@@ -1,4 +1,6 @@
+using System;
 using System.Collections.Generic;
+using ReadyPlayerMe.Core;
 using UnityEngine;
 using UnityEngine.Events;
 
@@ -12,6 +14,8 @@ namespace ReadyPlayerMe.AvatarCreator
     
     public abstract class SelectionElement : MonoBehaviour
     {
+        private const string TAG = nameof(SelectionElement);
+        
         [Header("UI Elements")]
         [Space(5)]
         [SerializeField] private ButtonElement buttonElementPrefab;
@@ -27,6 +31,23 @@ namespace ReadyPlayerMe.AvatarCreator
             buttonMap.Add(id, button);
             button.AddListener(() => SetButtonSelected(button.transform));
             return button;
+        }
+
+        public void CreateButtons<T>(T[] assets, Action<ButtonElement, T> onButtonCreated = default) where T : IAssetData
+        {
+            if (assets.Length == 0)
+            {
+                SDKLogger.LogWarning(TAG, "No assets provided.");
+                return;
+            }
+            
+            for (int i = 0; i < assets.Length; i++)
+            {
+                var button = CreateButton(assets[i].Id);
+                button.AddListener(() => AssetSelected(assets[i]));
+                onButtonCreated?.Invoke(button, assets[i]);
+                Debug.Log($"Create button {assets[i].Id}");
+            }
         }
 
         public void ClearButtons()

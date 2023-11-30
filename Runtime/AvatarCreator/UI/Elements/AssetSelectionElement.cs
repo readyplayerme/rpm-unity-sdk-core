@@ -40,41 +40,18 @@ namespace ReadyPlayerMe.AvatarCreator
         public async void LoadAndCreateButtons()
         {
             await LoadTemplateData();
-            CreateButtons();
-            await LoadIcons();
-        }
-
-        public void CreateButtons()
-        {
-            if (partnerAssets.Length == 0)
-            {
-                SDKLogger.LogWarning(TAG, "No templates found. You need to load fetch the template data first.");
-                return;
-            }
-            foreach (var partnerAsset in partnerAssets)
-            {
-                var button = CreateButton(partnerAsset.Id);
-                var partnerAssetData = partnerAsset;
-                button.AddListener(() => AssetSelected(partnerAssetData));
-            }
-        }
-
-        public async Task LoadIcons()
-        {
-            foreach (var partnerAsset in partnerAssets)
+            
+            CreateButtons(partnerAssets,
+                async (button, asset) =>
             {
                 var downloadHandler = new DownloadHandlerTexture();
                 var webRequestDispatcher = new WebRequestDispatcher();
-                var url = $"{partnerAsset.ImageUrl}?w=64";
+                var url = $"{asset.ImageUrl}?w=64";
                 var response = await webRequestDispatcher.SendRequest<ResponseTexture>(url, HttpMethod.GET, downloadHandler: downloadHandler);
                 response.ThrowIfError();
-                OnIconLoaded(partnerAsset, response.Texture);
-            }
-        }
-        
-        private void OnIconLoaded(PartnerAsset partnerAsset, Texture texture)
-        {
-            UpdateButtonIcon(partnerAsset.Id, texture);
+                
+                UpdateButtonIcon(asset.Id, response.Texture);
+            });
         }
     }
 }

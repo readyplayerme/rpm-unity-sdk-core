@@ -1,6 +1,5 @@
-using System.Threading;
 using System.Threading.Tasks;
-using ReadyPlayerMe.Core;
+
 using UnityEngine;
 
 namespace ReadyPlayerMe.AvatarCreator
@@ -21,24 +20,11 @@ namespace ReadyPlayerMe.AvatarCreator
         public async void LoadAndCreateButtons(AvatarProperties avatarProperties)
         {
             await LoadColorPalette(avatarProperties);
-            CreateButtons();
-        }
-
-        public void CreateButtons()
-        {
-            if (colorAssets.Length == 0)
+            
+            CreateButtons(colorAssets, (button, asset) =>
             {
-                SDKLogger.LogWarning(TAG, "No templates found. You need to load fetch the template data first.");
-                return;
-            }
-            for (int i = 0; i < colorAssets.Length; i++)
-            {
-                var colorAsset = colorAssets[i];
-                var button = CreateButton(colorAsset.Id);
-                button.SetColor(colorAsset.HexColor);
-                button.AddListener(() => AssetSelected(colorAsset));
-                Debug.Log($"Create button {colorAsset.Id}");
-            }
+                button.SetColor(asset.HexColor);
+            });
         }
     }
 }

@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using ReadyPlayerMe.Core;
+using UnityEngine.Networking;
 
 namespace ReadyPlayerMe.AvatarCreator
 {
@@ -12,7 +13,7 @@ namespace ReadyPlayerMe.AvatarCreator
     {
         private const string TAG = nameof(TemplateSelectionElement);
 
-        private List<AvatarTemplateData> avatarTemplateDataList;
+        private List<AvatarTemplateData> avatarTemplates;
         private AvatarTemplateFetcher avatarTemplateFetcher;
         
         private void Awake()
@@ -26,8 +27,14 @@ namespace ReadyPlayerMe.AvatarCreator
         public async void LoadAndCreateButtons()
         {
             await LoadTemplateData();
-            CreateButtons();
-            await LoadTemplateRenders();
+            CreateButtons(avatarTemplates.ToArray(), async (button, asset) =>
+            {
+                var downloadHandler = new DownloadHandlerTexture();
+                var webRequestDispatcher = new WebRequestDispatcher();
+                var url = $"{asset.ImageUrl}?w=64";
+                var response = await webRequestDispatcher.SendRequest<ResponseTexture>(url, HttpMethod.GET, downloadHandler: downloadHandler);
+                button.SetIcon(response.Texture);
+            });
         }
 
         /// <summary>
@@ -35,45 +42,11 @@ namespace ReadyPlayerMe.AvatarCreator
         /// </summary>
         public async Task LoadTemplateData()
         {
-            avatarTemplateDataList = await avatarTemplateFetcher.GetTemplates();
-            if (avatarTemplateDataList == null || avatarTemplateDataList.Count == 0)
+            avatarTemplates = await avatarTemplateFetcher.GetTemplates();
+            
+            if (avatarTemplates == null || avatarTemplates.Count == 0)
             {
                 SDKLogger.LogWarning(TAG, "No templates found");
-            }
-        }
-
-        /// <summary>
-        /// Loads avatar template data and icon renders. This will wait for all the icons to be downloaded.
-        /// </summary>
-        public async Task LoadTemplateRenders()
-        {
-            avatarTemplateDataList = await avatarTemplateFetcher.GetTemplatesWithRenders(OnIconLoaded);
-        }
-
-        private void OnIconLoaded(AvatarTemplateData avatarTemplate)
-        {
-            UpdateButtonIcon(avatarTemplate.Id, avatarTemplate.Texture);
-        }
-
-        /// <summary>
-        /// Creates buttons from the loaded template data and sets the icon and button event. 
-        /// </summary>
-        public void CreateButtons()
-        {
-            if (avatarTemplateDataList.Count == 0)
-            {
-                SDKLogger.LogWarning(TAG, "No templates found. You need to load fetch the template data first.");
-                return;
-            }
-            for (var i = 0; i < avatarTemplateDataList.Count; i++)
-            {
-                var button = CreateButton(avatarTemplateDataList[i].Id);
-                var templateData = avatarTemplateDataList[i];
-                if (templateData.Texture != null)
-                {
-                    button.SetIcon(templateData.Texture);
-                }
-                button.AddListener(() => AssetSelected(templateData));
             }
         }
     }
