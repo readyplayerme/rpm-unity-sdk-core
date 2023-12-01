@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
@@ -13,6 +13,8 @@ namespace ReadyPlayerMe.AvatarCreator
 {
     public class AssetAPIRequests
     {
+        private const string RPM_ASSET_V2_BASE_URL = Env.RPM_API_V2_BASE_URL + "assets";
+        
         private const string TAG = nameof(AssetAPIRequests);
         private const int LIMIT = 100;
 
@@ -149,7 +151,7 @@ namespace ReadyPlayerMe.AvatarCreator
         
         private static string BuildAssetListUrl(string type, int limit, int page, string userId, string appId, string gender)
         {
-            const string url = Env.RPM_API_V1_BASE_URL + "assets?limit={0}&page={1}&filter=viewable-by-user-and-app&filterUserId={2}&filterApplicationId={3}&gender=neutral&gender={4}";
+            const string url = RPM_ASSET_V2_BASE_URL + "?limit={0}&page={1}&filter=viewable-by-user-and-app&filterUserId={2}&filterApplicationId={3}&gender=neutral&gender={4}";
             
             if (string.IsNullOrEmpty(type))
             {

@@ -9,6 +9,7 @@ namespace ReadyPlayerMe.AvatarCreator
     {
         private readonly string domain;
         private readonly IDictionary<string, string> headers = CommonHeaders.GetHeadersWithAppId();
+        private readonly string rpmAvatarV1BaseUrl;
 
         private readonly WebRequestDispatcher webRequestDispatcher;
 
@@ -16,13 +17,13 @@ namespace ReadyPlayerMe.AvatarCreator
         {
             this.domain = domain;
             webRequestDispatcher = new WebRequestDispatcher();
+            
+            rpmAvatarV1BaseUrl = string.Format(Env.RPM_SUBDOMAIN_BASE_URL, domain);
         }
 
         public async Task<UserSession> LoginAsAnonymous()
         {
-            var url = string.Format(Env.RPM_SUBDOMAIN_BASE_URL, domain, "/users");
-
-            var response = await webRequestDispatcher.SendRequest<Response>(url, HttpMethod.POST, headers);
+            var response = await webRequestDispatcher.SendRequest<Response>($"{rpmAvatarV1BaseUrl}/users", HttpMethod.POST, headers);
             response.ThrowIfError();
 
             var data = AuthDataConverter.ParseResponse(response.Text);
@@ -31,7 +32,6 @@ namespace ReadyPlayerMe.AvatarCreator
 
         public async Task SendCodeToEmail(string email, string userId = "")
         {
-            var url = string.Format(Env.RPM_SUBDOMAIN_BASE_URL, domain, "/auth/start");
             var data = new Dictionary<string, string>
             {
                 { AuthConstants.EMAIL, email },
@@ -45,7 +45,7 @@ namespace ReadyPlayerMe.AvatarCreator
 
             var payload = AuthDataConverter.CreatePayload(data);
 
-            var response = await webRequestDispatcher.SendRequest<Response>(url, HttpMethod.POST, headers, payload);
+            var response = await webRequestDispatcher.SendRequest<Response>($"{rpmAvatarV1BaseUrl}/auth/start", HttpMethod.POST, headers, payload);
             response.ThrowIfError();
         }
 
@@ -67,8 +67,6 @@ namespace ReadyPlayerMe.AvatarCreator
 
         public async Task Signup(string email, string userId)
         {
-            var url = string.Format(Env.RPM_SUBDOMAIN_BASE_URL, domain, "/auth/start");
-
             var data = new Dictionary<string, string>
             {
                 { AuthConstants.EMAIL, email },
@@ -77,13 +75,13 @@ namespace ReadyPlayerMe.AvatarCreator
             };
 
             var payload = AuthDataConverter.CreatePayload(data);
-            var response = await webRequestDispatcher.SendRequest<Response>(url, HttpMethod.POST, headers, payload);
+            var response = await webRequestDispatcher.SendRequest<Response>($"{rpmAvatarV1BaseUrl}/auth/start", HttpMethod.POST, headers, payload);
             response.ThrowIfError();
         }
 
         public async Task<(string, string)> RefreshToken(string token, string refreshToken)
         {
-            var url = string.Format(Env.RPM_SUBDOMAIN_BASE_URL, domain, "/auth/refresh");
+            var url = $"{rpmAvatarV1BaseUrl}/auth/refresh";
 
             var payload = AuthDataConverter.CreatePayload(new Dictionary<string, string>
             {

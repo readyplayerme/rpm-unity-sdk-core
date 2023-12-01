@@ -1,4 +1,4 @@
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
@@ -12,6 +12,9 @@ namespace ReadyPlayerMe.AvatarCreator
 {
     public class AvatarAPIRequests
     {
+        private const string RPM_AVATAR_V1_BASE_URL = Env.RPM_API_V1_BASE_URL + "avatars";
+        private const string RPM_AVATAR_V2_BASE_URL = Env.RPM_API_V2_BASE_URL + "avatars";
+        
         private const string FULL_BODY = "fullbody";
         private const string HALF_BODY = "halfbody";
         private const string PARTNER = "partner";
@@ -32,7 +35,7 @@ namespace ReadyPlayerMe.AvatarCreator
             var response = await authorizedRequest.SendRequest<Response>(
                 new RequestData
                 {
-                    Url = $"{Env.RPM_API_V1_BASE_URL}/avatars/?select=id,partner&userId={userId}",
+                    Url = $"{RPM_AVATAR_V1_BASE_URL}/?select=id,partner&userId={userId}",
                     Method = HttpMethod.GET
                 },
                 ctx: ctx
@@ -49,7 +52,7 @@ namespace ReadyPlayerMe.AvatarCreator
             var response = await authorizedRequest.SendRequest<Response>(
                 new RequestData
                 {
-                    Url = $"{Env.RPM_API_V2_BASE_URL}avatars/templates",
+                    Url = $"{RPM_AVATAR_V2_BASE_URL}/templates",
                     Method = HttpMethod.GET
                 },
                 ctx: ctx
@@ -84,7 +87,7 @@ namespace ReadyPlayerMe.AvatarCreator
             var response = await authorizedRequest.SendRequest<Response>(
                 new RequestData
                 {
-                    Url = $"{Env.RPM_API_V2_BASE_URL}avatars/templates/{templateId}",
+                    Url = $"{RPM_AVATAR_V2_BASE_URL}/templates/{templateId}",
                     Method = HttpMethod.POST,
                     Payload = payload
                 },
@@ -103,7 +106,7 @@ namespace ReadyPlayerMe.AvatarCreator
             var response = await authorizedRequest.SendRequest<Response>(
                 new RequestData
                 {
-                    Url = $"{Env.RPM_API_V2_BASE_URL}avatars/{avatarId}/colors?type=skin,beard,hair,eyebrow",
+                    Url = $"{RPM_AVATAR_V2_BASE_URL}/{avatarId}/colors?type=skin,beard,hair,eyebrow",
                     Method = HttpMethod.GET
                 },
                 ctx: ctx
@@ -118,7 +121,7 @@ namespace ReadyPlayerMe.AvatarCreator
             var response = await authorizedRequest.SendRequest<Response>(
                 new RequestData
                 {
-                    Url = $"{Env.RPM_API_V2_BASE_URL}avatars/{avatarId}.json",
+                    Url = $"{RPM_AVATAR_V2_BASE_URL}/{avatarId}.json",
                     Method = HttpMethod.GET
                 },
                 ctx: ctx
@@ -136,7 +139,7 @@ namespace ReadyPlayerMe.AvatarCreator
             var response = await authorizedRequest.SendRequest<Response>(
                 new RequestData
                 {
-                    Url = $"{Env.RPM_API_V2_BASE_URL}/avatars",
+                    Url = RPM_AVATAR_V2_BASE_URL,
                     Method = HttpMethod.POST,
                     Payload = avatarProperties.ToJson(true)
                 },
@@ -151,7 +154,7 @@ namespace ReadyPlayerMe.AvatarCreator
 
         public async Task<byte[]> GetAvatar(string avatarId, bool isPreview = false, string parameters = null)
         {
-            var url = $"{Env.RPM_API_V2_BASE_URL}avatars/{avatarId}.glb?";
+            var url = $"{RPM_AVATAR_V2_BASE_URL}/{avatarId}.glb?";
             
             if (!string.IsNullOrEmpty(parameters))
                 url += parameters?.Substring(1) + "&";
@@ -173,7 +176,7 @@ namespace ReadyPlayerMe.AvatarCreator
 
         public async Task<byte[]> UpdateAvatar(string avatarId, AvatarProperties avatarProperties, string parameters = null)
         {
-            var url = $"{Env.RPM_API_V2_BASE_URL}/{avatarId}?responseType=glb&{parameters}";
+            var url = $"{RPM_AVATAR_V2_BASE_URL}/{avatarId}?responseType=glb&{parameters}";
             
             if (!string.IsNullOrEmpty(parameters))
                 url += parameters?.Substring(1);
@@ -197,7 +200,7 @@ namespace ReadyPlayerMe.AvatarCreator
             var response = await authorizedRequest.SendRequest<Response>(
                 new RequestData
                 {
-                    Url = $"{Env.RPM_API_V2_BASE_URL}/{avatarId}/precompile{parameters ?? string.Empty}",
+                    Url = $"{RPM_AVATAR_V2_BASE_URL}/{avatarId}/precompile{parameters ?? string.Empty}",
                     Method = HttpMethod.POST,
                     Payload = json
                 },
@@ -211,7 +214,7 @@ namespace ReadyPlayerMe.AvatarCreator
             var response = await authorizedRequest.SendRequest<Response>(
                 new RequestData
                 {
-                    Url = $"{Env.RPM_API_V2_BASE_URL}/{avatarId}",
+                    Url = $"{RPM_AVATAR_V2_BASE_URL}/{avatarId}",
                     Method = HttpMethod.PUT
                 },
                 ctx: ctx);
@@ -222,7 +225,7 @@ namespace ReadyPlayerMe.AvatarCreator
 
         public async Task DeleteAvatar(string avatarId, bool isDraft = false)
         {
-            var url = $"{Env.RPM_API_V2_BASE_URL}/{avatarId}/";
+            var url = $"{RPM_AVATAR_V2_BASE_URL}/{avatarId}/";
 
             if (isDraft)
                 url += "draft";
