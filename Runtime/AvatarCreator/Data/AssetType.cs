@@ -23,6 +23,7 @@
         BeardColor,
         Bottom,
         Top,
-        Footwear
+        Footwear,
+        AvatarTemplate
     }
 }

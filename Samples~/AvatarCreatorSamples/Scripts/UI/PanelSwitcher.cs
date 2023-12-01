@@ -6,55 +6,55 @@ namespace ReadyPlayerMe
 {
     public static class PanelSwitcher
     {
-        public static Dictionary<Category, GameObject> CategoryPanelMap { get; private set; }
+        public static Dictionary<AssetType, GameObject> CategoryPanelMap { get; private set; }
         public static GameObject OutfitCategoryPanel;
         public static GameObject FaceCategoryPanel;
 
-        public static void AddPanel(Category category, GameObject widget)
+        public static void AddPanel(AssetType category, GameObject widget)
         {
-            CategoryPanelMap ??= new Dictionary<Category, GameObject>();
+            CategoryPanelMap ??= new Dictionary<AssetType, GameObject>();
             CategoryPanelMap.Add(category, widget);
         }
 
-        public static void Switch(Category category)
+        public static void Switch(AssetType category)
         {
             DisableAllPanels();
 
             switch (category)
             {
-                case Category.FaceShape:
+                case AssetType.FaceShape:
                     FaceCategoryPanel.SetActive(true);
                     SetActivePanel(category, true);
-                    SetActivePanel(Category.SkinColor, true);
+                    SetActivePanel(AssetType.SkinColor, true);
                     break;
-                case Category.EyebrowStyle:
+                case AssetType.EyebrowStyle:
                     FaceCategoryPanel.SetActive(true);
                     SetActivePanel(category, true);
-                    SetActivePanel(Category.EyebrowColor, true);
+                    SetActivePanel(AssetType.EyebrowColor, true);
                     break;
-                case Category.BeardStyle:
+                case AssetType.BeardStyle:
                     FaceCategoryPanel.SetActive(true);
                     SetActivePanel(category, true);
-                    SetActivePanel(Category.BeardColor, true);
+                    SetActivePanel(AssetType.BeardColor, true);
                     break;
-                case Category.HairStyle:
+                case AssetType.HairStyle:
                     SetActivePanel(category, true);
-                    SetActivePanel(Category.HairColor, true);
+                    SetActivePanel(AssetType.HairColor, true);
                     break;
-                case Category.NoseShape:
-                case Category.LipShape:
+                case AssetType.NoseShape:
+                case AssetType.LipShape:
                     FaceCategoryPanel.SetActive(true);
                     SetActivePanel(category, true);
                     break;
-                case Category.EyeShape:
+                case AssetType.EyeShape:
                     FaceCategoryPanel.SetActive(true);
                     SetActivePanel(category, true);
-                    SetActivePanel(Category.EyeColor, true);
+                    SetActivePanel(AssetType.EyeColor, true);
                     break;
-                case Category.Top:
-                case Category.Bottom:
-                case Category.Footwear:
-                case Category.Outfit:
+                case AssetType.Top:
+                case AssetType.Bottom:
+                case AssetType.Footwear:
+                case AssetType.Outfit:
                     OutfitCategoryPanel.SetActive(true);
                     SetActivePanel(category, true);
                     break;
@@ -70,12 +70,12 @@ namespace ReadyPlayerMe
             {
                 panels.Value.SetActive(false);
             }
-            
+
             FaceCategoryPanel.SetActive(false);
             OutfitCategoryPanel.SetActive(false);
         }
 
-        private static void SetActivePanel(Category category, bool enable)
+        private static void SetActivePanel(AssetType category, bool enable)
         {
             if (CategoryPanelMap.TryGetValue(category, out GameObject panel))
             {

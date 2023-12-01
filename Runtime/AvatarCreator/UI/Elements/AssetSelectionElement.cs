@@ -2,7 +2,6 @@ using System.Threading.Tasks;
 using ReadyPlayerMe.Core;
 using UnityEngine;
 using UnityEngine.Networking;
-using UnityEngine.Serialization;
 
 namespace ReadyPlayerMe.AvatarCreator
 {
@@ -14,9 +13,10 @@ namespace ReadyPlayerMe.AvatarCreator
         [Space(5)]
         [SerializeField] private BodyType bodyType;
         [SerializeField] private OutfitGender gender;
-        [FormerlySerializedAs("category"), SerializeField] private AssetType assetType;
+        [SerializeField] private AssetType assetType;
         private PartnerAsset[] partnerAssets;
         private PartnerAssetsRequests partnerAssetsRequests;
+        private readonly IconFetcher iconFetcher = new IconFetcher();
 
         private void Awake()
         {
@@ -47,7 +47,7 @@ namespace ReadyPlayerMe.AvatarCreator
 
         public void CreateButtons()
         {
-            if (partnerAssets.Length == 0)
+            if (partnerAssets == null || partnerAssets.Length == 0)
             {
                 SDKLogger.LogWarning(TAG, "No templates found. You need to load fetch the template data first.");
                 return;
@@ -62,14 +62,16 @@ namespace ReadyPlayerMe.AvatarCreator
 
         public async Task LoadIcons()
         {
+            if (partnerAssets == null || partnerAssets.Length == 0)
+            {
+                SDKLogger.LogWarning(TAG, "No templates found. You need to load fetch the template data first.");
+                return;
+            }
+
             foreach (var partnerAsset in partnerAssets)
             {
-                var downloadHandler = new DownloadHandlerTexture();
-                var webRequestDispatcher = new WebRequestDispatcher();
-                var url = $"{partnerAsset.ImageUrl}?w=64";
-                var response = await webRequestDispatcher.SendRequest<ResponseTexture>(url, HttpMethod.GET, downloadHandler: downloadHandler);
-                response.ThrowIfError();
-                OnIconLoaded(partnerAsset, response.Texture);
+                var texture = await iconFetcher.GetIcon(partnerAsset.ImageUrl);
+                OnIconLoaded(partnerAsset, texture);
             }
         }
 

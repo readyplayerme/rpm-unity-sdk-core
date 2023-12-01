@@ -1,8 +1,6 @@
-using System.Threading;
 using System.Threading.Tasks;
 using ReadyPlayerMe.Core;
 using UnityEngine;
-using UnityEngine.Serialization;
 
 namespace ReadyPlayerMe.AvatarCreator
 {
@@ -22,6 +20,7 @@ namespace ReadyPlayerMe.AvatarCreator
         public async void LoadAndCreateButtons(AvatarProperties avatarProperties)
         {
             await LoadColorPalette(avatarProperties);
+            ClearButtons();
             CreateButtons();
         }
 

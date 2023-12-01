@@ -13,11 +13,13 @@ namespace ReadyPlayerMe.AvatarCreator
     {
         private readonly CancellationToken ctx;
         private readonly AvatarAPIRequests avatarAPIRequests;
+        private readonly IconFetcher iconFetcher;
 
         public AvatarTemplateFetcher(CancellationToken ctx = default)
         {
             this.ctx = ctx;
             avatarAPIRequests = new AvatarAPIRequests(ctx);
+            iconFetcher = new IconFetcher(ctx: ctx);
         }
 
         /// <summary>
@@ -34,10 +36,9 @@ namespace ReadyPlayerMe.AvatarCreator
         /// This will wait for all the icons to be downloaded. 
         /// </summary>
         /// <returns></returns>
-        public async Task<List<AvatarTemplateData>> GetTemplatesWithRenders( Action<AvatarTemplateData> onIconDownloaded = null)
+        public async Task<List<AvatarTemplateData>> GetTemplatesWithRenders(Action<AvatarTemplateData> onIconDownloaded = null)
         {
-            var templates = await avatarAPIRequests.GetAvatarTemplates();
-            return await FetchTemplateRenders(templates, onIconDownloaded);
+            return await FetchTemplateRenders(await avatarAPIRequests.GetAvatarTemplates(), onIconDownloaded);
         }
 
         /// <summary>
@@ -47,7 +48,7 @@ namespace ReadyPlayerMe.AvatarCreator
         {
             var tasks = templates.Select(async templateData =>
             {
-                templateData.Texture = await avatarAPIRequests.GetAvatarTemplateImage(templateData.ImageUrl);
+                templateData.Texture = await iconFetcher.GetIcon(templateData.ImageUrl);
                 onIconDownloaded?.Invoke(templateData);
             }).ToList();
 

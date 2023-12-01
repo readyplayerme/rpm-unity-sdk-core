@@ -62,16 +62,6 @@ namespace ReadyPlayerMe.AvatarCreator
             return JsonConvert.DeserializeObject<List<AvatarTemplateData>>(data.ToString());
         }
 
-        public async Task<Texture> GetAvatarTemplateImage(string url)
-        {
-            var downloadHandler = new DownloadHandlerTexture();
-            var webRequestDispatcher = new WebRequestDispatcher();
-            var response = await webRequestDispatcher.SendRequest<ResponseTexture>(url, HttpMethod.GET, downloadHandler: downloadHandler, ctx: ctx);
-
-            response.ThrowIfError();
-            return response.Texture;
-        }
-
         public async Task<AvatarProperties> CreateFromTemplateAvatar(string templateId, string partner, BodyType bodyType)
         {
             var payloadData = new Dictionary<string, string>
