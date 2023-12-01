@@ -13,6 +13,7 @@ namespace ReadyPlayerMe.AvatarCreator
     {
         private const string TAG = nameof(TemplateSelectionElement);
 
+        [Header("Properties")]
         [SerializeField] private AssetType assetType;
 
         private List<AvatarTemplateData> avatarTemplates;

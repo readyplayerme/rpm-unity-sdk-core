@@ -6,12 +6,6 @@ using UnityEngine.Events;
 
 namespace ReadyPlayerMe.AvatarCreator
 {
-    public interface IAssetData
-    {
-        public string Id { get; set; }
-        public AssetType AssetType { get; set; }
-    }
-
     public abstract class SelectionElement : MonoBehaviour
     {
         private const string TAG = nameof(TemplateSelectionElement);

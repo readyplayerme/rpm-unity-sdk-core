@@ -2,22 +2,19 @@ using System.Linq;
 using System.Threading.Tasks;
 using ReadyPlayerMe.Core;
 using UnityEngine;
-using UnityEngine.Networking;
 
 namespace ReadyPlayerMe.AvatarCreator
 {
     public class AssetSelectionElement : SelectionElement
     {
-        private const string TAG = nameof(AssetSelectionElement);
-
-        [Header("Events")]
-        [Space(5)]
+        [Header("Properties")]
         [SerializeField] private BodyType bodyType;
         [SerializeField] private OutfitGender gender;
         [SerializeField] private AssetType assetType;
+        [SerializeField] private int iconSize = 64;
+
         private PartnerAsset[] partnerAssets;
         private PartnerAssetsRequests partnerAssetsRequests;
-        [SerializeField] private int iconSize = 64;
 
         private void Awake()
         {
