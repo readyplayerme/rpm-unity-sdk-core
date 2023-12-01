@@ -2,6 +2,7 @@ using System.Threading.Tasks;
 using ReadyPlayerMe.Core;
 using UnityEngine;
 using UnityEngine.Networking;
+using UnityEngine.Serialization;
 
 namespace ReadyPlayerMe.AvatarCreator
 {
@@ -13,7 +14,7 @@ namespace ReadyPlayerMe.AvatarCreator
         [Space(5)]
         [SerializeField] private BodyType bodyType;
         [SerializeField] private OutfitGender gender;
-        [SerializeField] private Category category;
+        [FormerlySerializedAs("category"), SerializeField] private AssetType assetType;
         private PartnerAsset[] partnerAssets;
         private PartnerAssetsRequests partnerAssetsRequests;
 
@@ -34,7 +35,7 @@ namespace ReadyPlayerMe.AvatarCreator
 
         public async Task LoadTemplateData()
         {
-            partnerAssets = await partnerAssetsRequests.Get(category, bodyType, gender);
+            partnerAssets = await partnerAssetsRequests.Get(assetType, bodyType, gender);
         }
 
         public async void LoadAndCreateButtons()
@@ -71,7 +72,7 @@ namespace ReadyPlayerMe.AvatarCreator
                 OnIconLoaded(partnerAsset, response.Texture);
             }
         }
-        
+
         private void OnIconLoaded(PartnerAsset partnerAsset, Texture texture)
         {
             UpdateButtonIcon(partnerAsset.Id, texture);

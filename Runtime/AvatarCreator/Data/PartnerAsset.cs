@@ -6,8 +6,10 @@ namespace ReadyPlayerMe.AvatarCreator
     public struct PartnerAsset : IAssetData
     {
         public string Id { get; set; }
+
         [JsonProperty("type"), JsonConverter(typeof(CategoryConverter))]
-        public Category Category { get; set; }
+        public AssetType AssetType { get; set; }
+
         [JsonConverter(typeof(GenderConverter))]
         public OutfitGender Gender;
         [JsonProperty("iconUrl")]

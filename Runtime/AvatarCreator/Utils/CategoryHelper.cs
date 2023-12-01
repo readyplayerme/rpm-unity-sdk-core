@@ -6,7 +6,7 @@ namespace ReadyPlayerMe.AvatarCreator
 {
     public static class CategoryHelper
     {
-        public static IEnumerable<Category> GetCategories(BodyType bodyType)
+        public static IEnumerable<AssetType> GetCategories(BodyType bodyType)
         {
             return PartnerCategoryMap
                 .Select(a => a.Value)
@@ -14,97 +14,97 @@ namespace ReadyPlayerMe.AvatarCreator
                 .ToList();
         }
 
-        public static readonly Dictionary<string, Category> PartnerCategoryMap = new Dictionary<string, Category>
+        public static readonly Dictionary<string, AssetType> PartnerCategoryMap = new Dictionary<string, AssetType>
         {
-            { "faceshape", Category.FaceShape },
-            { "eyeshape", Category.EyeShape },
-            { "eye", Category.EyeColor },
-            { "eyebrows", Category.EyebrowStyle },
-            { "noseshape", Category.NoseShape },
-            { "lipshape", Category.LipShape },
-            { "beard", Category.BeardStyle },
-            { "hair", Category.HairStyle },
-            { "outfit", Category.Outfit },
-            { "shirt", Category.Shirt },
-            { "glasses", Category.Glasses },
-            { "facemask", Category.FaceMask },
-            { "facewear", Category.Facewear },
-            { "headwear", Category.Headwear },
-            { "hairColor", Category.HairColor },
-            { "eyebrowColor", Category.EyebrowColor },
-            { "beardColor", Category.BeardColor },
-            { "bottom", Category.Bottom },
-            { "top", Category.Top },
-            { "footwear", Category.Footwear }
+            { "faceshape", AssetType.FaceShape },
+            { "eyeshape", AssetType.EyeShape },
+            { "eye", AssetType.EyeColor },
+            { "eyebrows", AssetType.EyebrowStyle },
+            { "noseshape", AssetType.NoseShape },
+            { "lipshape", AssetType.LipShape },
+            { "beard", AssetType.BeardStyle },
+            { "hair", AssetType.HairStyle },
+            { "outfit", AssetType.Outfit },
+            { "shirt", AssetType.Shirt },
+            { "glasses", AssetType.Glasses },
+            { "facemask", AssetType.FaceMask },
+            { "facewear", AssetType.Facewear },
+            { "headwear", AssetType.Headwear },
+            { "hairColor", AssetType.HairColor },
+            { "eyebrowColor", AssetType.EyebrowColor },
+            { "beardColor", AssetType.BeardColor },
+            { "bottom", AssetType.Bottom },
+            { "top", AssetType.Top },
+            { "footwear", AssetType.Footwear }
         };
 
-        public static bool IsOutfitAsset(this Category category)
+        public static bool IsOutfitAsset(this AssetType assetType)
         {
-            switch (category)
+            switch (assetType)
             {
-                case Category.Outfit:
-                case Category.Shirt:
-                case Category.Bottom:
-                case Category.Top:
-                case Category.Footwear:
+                case AssetType.Outfit:
+                case AssetType.Shirt:
+                case AssetType.Bottom:
+                case AssetType.Top:
+                case AssetType.Footwear:
                     return true;
                 default:
                     return false;
             }
         }
-        
-        public static bool IsFaceAsset(this Category category)
+
+        public static bool IsFaceAsset(this AssetType assetType)
         {
-            switch (category)
+            switch (assetType)
             {
-                case Category.FaceShape:
-                case Category.EyeShape:
-                case Category.EyeColor:
-                case Category.EyebrowStyle:
-                case Category.NoseShape:
-                case Category.LipShape:
-                case Category.BeardStyle:
+                case AssetType.FaceShape:
+                case AssetType.EyeShape:
+                case AssetType.EyeColor:
+                case AssetType.EyebrowStyle:
+                case AssetType.NoseShape:
+                case AssetType.LipShape:
+                case AssetType.BeardStyle:
                     return true;
                 default:
                     return false;
             }
         }
-        
-        private static bool IsCompatibleCategory(this Category category, BodyType bodyType)
+
+        private static bool IsCompatibleCategory(this AssetType assetType, BodyType bodyType)
         {
             // Filter asset type based on body type.
             if (bodyType == BodyType.FullBody)
             {
-                return category != Category.Shirt;
+                return assetType != AssetType.Shirt;
             }
-            return category != Category.Outfit;
+            return assetType != AssetType.Outfit;
         }
-        
-        public static bool IsOptionalAsset(this Category category)
+
+        public static bool IsOptionalAsset(this AssetType assetType)
         {
-            switch (category)
+            switch (assetType)
             {
-                case Category.Top:
-                case Category.Bottom:
-                case Category.Footwear:
-                case Category.Outfit:
-                case Category.Shirt:
-                case Category.EyebrowStyle:
+                case AssetType.Top:
+                case AssetType.Bottom:
+                case AssetType.Footwear:
+                case AssetType.Outfit:
+                case AssetType.Shirt:
+                case AssetType.EyebrowStyle:
                     return false;
                 default:
-                    return !category.IsColorAsset();
+                    return !assetType.IsColorAsset();
             }
         }
-        
-        public static bool IsColorAsset(this Category category)
+
+        public static bool IsColorAsset(this AssetType assetType)
         {
-            switch (category)
+            switch (assetType)
             {
-                case Category.EyeColor:
-                case Category.BeardColor:
-                case Category.EyebrowColor:
-                case Category.HairColor:
-                case Category.SkinColor:
+                case AssetType.EyeColor:
+                case AssetType.BeardColor:
+                case AssetType.EyebrowColor:
+                case AssetType.HairColor:
+                case AssetType.SkinColor:
                     return true;
                 default:
                     return false;

@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
@@ -98,7 +99,7 @@ namespace ReadyPlayerMe.AvatarCreator
             return JsonConvert.DeserializeObject<AvatarProperties>(data);
         }
 
-        public async Task<Dictionary<Category, AssetColor[]>> GetAllAvatarColors(string avatarId)
+        public async Task<Dictionary<AssetType, AssetColor[]>> GetAllAvatarColors(string avatarId)
         {
             var response = await authorizedRequest.SendRequest<Response>(
                 new RequestData
@@ -112,8 +113,8 @@ namespace ReadyPlayerMe.AvatarCreator
             response.ThrowIfError();
             return ColorResponseHandler.GetColorsFromResponse(response.Text);
         }
-        
-        public async Task<AssetColor[]> GetColorsByCategory(string avatarId, Category category)
+
+        public async Task<AssetColor[]> GetColorsByCategory(string avatarId, AssetType assetType)
         {
             var response = await authorizedRequest.SendRequest<Response>(
                 new RequestData
@@ -126,7 +127,7 @@ namespace ReadyPlayerMe.AvatarCreator
 
             response.ThrowIfError();
             var colorMap = ColorResponseHandler.GetColorsFromResponse(response.Text);
-            if (colorMap.TryGetValue(category, out AssetColor[] categoryColors))
+            if (colorMap.TryGetValue(assetType, out AssetColor[] categoryColors))
             {
                 return categoryColors;
             }

@@ -2,20 +2,21 @@ using System.Threading;
 using System.Threading.Tasks;
 using ReadyPlayerMe.Core;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 namespace ReadyPlayerMe.AvatarCreator
 {
     public class ColorSelectionElement : SelectionElement
     {
         private const string TAG = nameof(AssetSelectionElement);
-        
-        [SerializeField] private Category category;
+
+        [SerializeField] private AssetType assetType;
         private AssetColor[] colorAssets;
         private readonly AvatarAPIRequests avatarAPIRequests = new AvatarAPIRequests();
 
         public async Task LoadColorPalette(AvatarProperties avatarProperties)
         {
-            colorAssets = await avatarAPIRequests.GetColorsByCategory(avatarProperties.Id, category);
+            colorAssets = await avatarAPIRequests.GetColorsByCategory(avatarProperties.Id, assetType);
         }
 
         public async void LoadAndCreateButtons(AvatarProperties avatarProperties)

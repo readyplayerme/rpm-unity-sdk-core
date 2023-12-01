@@ -7,9 +7,9 @@ namespace ReadyPlayerMe.AvatarCreator
     public interface IAssetData
     {
         public string Id { get; set; }
-        public Category Category { get; set; }
+        public AssetType AssetType { get; set; }
     }
-    
+
     public abstract class SelectionElement : MonoBehaviour
     {
         [Header("UI Elements")]
@@ -19,7 +19,7 @@ namespace ReadyPlayerMe.AvatarCreator
         [SerializeField] private GameObject selectedIcon;
         public UnityEvent<IAssetData> onAssetSelected;
         private Dictionary<string, ButtonElement> buttonMap = new Dictionary<string, ButtonElement>();
-        
+
         public ButtonElement CreateButton(string id)
         {
             var button = Instantiate(buttonElementPrefab, buttonContainer);
@@ -37,7 +37,7 @@ namespace ReadyPlayerMe.AvatarCreator
             }
             buttonMap.Clear();
         }
-        
+
         public void UpdateButtonIcon(string id, Texture texture)
         {
             if (buttonMap.ContainsKey(id))
@@ -60,7 +60,7 @@ namespace ReadyPlayerMe.AvatarCreator
             selectedIcon.transform.localPosition = Vector3.zero;
             selectedIcon.SetActive(true);
         }
-        
+
         protected virtual void AssetSelected(IAssetData assetData)
         {
             onAssetSelected?.Invoke(assetData);

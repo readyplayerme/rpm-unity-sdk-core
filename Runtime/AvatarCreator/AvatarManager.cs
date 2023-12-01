@@ -160,21 +160,21 @@ namespace ReadyPlayerMe.AvatarCreator
         /// Update an asset of the avatar.
         /// </summary>
         /// <param name="assetId"></param>
-        /// <param name="category"></param>
+        /// <param name="assetType"></param>
         /// <returns>Avatar gameObject</returns>
-        public async Task<GameObject> UpdateAsset(Category category, BodyType bodyType, object assetId)
+        public async Task<GameObject> UpdateAsset(AssetType assetType, BodyType bodyType, object assetId)
         {
             var payload = new AvatarProperties
             {
-                Assets = new Dictionary<Category, object>()
+                Assets = new Dictionary<AssetType, object>()
             };
 
-            if (category == Category.Top || category == Category.Bottom || category == Category.Footwear)
+            if (assetType == AssetType.Top || assetType == AssetType.Bottom || assetType == AssetType.Footwear)
             {
-                payload.Assets.Add(Category.Outfit, string.Empty);
+                payload.Assets.Add(AssetType.Outfit, string.Empty);
             }
 
-            payload.Assets.Add(category, assetId);
+            payload.Assets.Add(assetType, assetId);
 
             byte[] data;
             try
@@ -195,9 +195,9 @@ namespace ReadyPlayerMe.AvatarCreator
             return await inCreatorAvatarLoader.Load(avatarId, bodyType, gender, data);
         }
 
-        public async Task<Dictionary<Category, AssetColor[]>> LoadAvatarColors()
+        public async Task<Dictionary<AssetType, AssetColor[]>> LoadAvatarColors()
         {
-            var colors = new Dictionary<Category, AssetColor[]>();
+            var colors = new Dictionary<AssetType, AssetColor[]>();
             try
             {
                 colors = await avatarAPIRequests.GetAllAvatarColors(avatarId);

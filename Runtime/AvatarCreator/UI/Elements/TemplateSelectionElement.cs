@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using ReadyPlayerMe.Core;
+using UnityEngine;
 
 namespace ReadyPlayerMe.AvatarCreator
 {
@@ -11,10 +12,10 @@ namespace ReadyPlayerMe.AvatarCreator
     public class TemplateSelectionElement : SelectionElement
     {
         private const string TAG = nameof(TemplateSelectionElement);
-
+        [SerializeField] private AssetType assetType;
         private List<AvatarTemplateData> avatarTemplateDataList;
         private AvatarTemplateFetcher avatarTemplateFetcher;
-        
+
         private void Awake()
         {
             avatarTemplateFetcher = new AvatarTemplateFetcher();
@@ -73,6 +74,7 @@ namespace ReadyPlayerMe.AvatarCreator
                 {
                     button.SetIcon(templateData.Texture);
                 }
+                templateData.AssetType = assetType;
                 button.AddListener(() => AssetSelected(templateData));
             }
         }

@@ -2,7 +2,7 @@ using System;
 
 namespace ReadyPlayerMe.AvatarCreator
 {
-    
+
     [Serializable]
     public struct ColorLibrary
     {
@@ -16,13 +16,13 @@ namespace ReadyPlayerMe.AvatarCreator
     public struct AssetColor : IAssetData
     {
         public string Id { get; set; }
-        public Category Category { get; set; }
+        public AssetType AssetType { get; set; }
         public string HexColor;
-        
-        public AssetColor(string id, Category category, string hexColor)
+
+        public AssetColor(string id, AssetType assetType, string hexColor)
         {
             Id = id;
-            Category = category;
+            AssetType = assetType;
             HexColor = hexColor;
         }
     }

@@ -13,10 +13,10 @@ namespace ReadyPlayerMe.AvatarCreator
         [SerializeField] private BodyType bodyType;
         [SerializeField] private OutfitGender gender;
         [SerializeField] private AvatarConfig avatarConfig;
-        
+
         [Space(5)]
         [Header("Events")]
-        public UnityEvent<GameObject,AvatarProperties> onAvatarCreated;
+        public UnityEvent<GameObject, AvatarProperties> onAvatarCreated;
 
         public async void OnPhotoCaptured(Texture2D texture)
         {
@@ -28,14 +28,14 @@ namespace ReadyPlayerMe.AvatarCreator
             avatarProperties.Base64Image = byteAsString;
             avatarProperties.BodyType = bodyType;
             avatarProperties.Gender = gender;
-            avatarProperties.Assets = new Dictionary<Category, object>();
+            avatarProperties.Assets = new Dictionary<AssetType, object>();
 
             if (!AuthManager.IsSignedIn && !AuthManager.IsSignedInAnonymously)
             {
                 SDKLogger.Log(TAG, "Not signed in");
                 return;
             }
-            
+
             var avatarManager = new AvatarManager(avatarConfig);
             var avatar = await avatarManager.CreateAvatar(avatarProperties);
 
