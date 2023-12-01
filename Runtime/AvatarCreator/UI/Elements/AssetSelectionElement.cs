@@ -1,3 +1,4 @@
+using System.Linq;
 using System.Threading.Tasks;
 using ReadyPlayerMe.Core;
 using UnityEngine;
@@ -41,45 +42,13 @@ namespace ReadyPlayerMe.AvatarCreator
         public async void LoadAndCreateButtons()
         {
             await LoadTemplateData();
-            CreateButtons();
-            await LoadIcons();
-        }
-
-        public void CreateButtons()
-        {
-            if (partnerAssets == null || partnerAssets.Length == 0)
+            CreateButtons(partnerAssets.ToArray(), async (button, asset) =>
             {
-                SDKLogger.LogWarning(TAG, "No templates found. You need to load fetch the template data first.");
-                return;
-            }
-            foreach (var partnerAsset in partnerAssets)
-            {
-                var button = CreateButton(partnerAsset.Id);
-                var partnerAssetData = partnerAsset;
-                button.AddListener(() => AssetSelected(partnerAssetData));
-            }
-        }
-
-        public async Task LoadIcons()
-        {
-            if (partnerAssets == null || partnerAssets.Length == 0)
-            {
-                SDKLogger.LogWarning(TAG, "No templates found. You need to load fetch the template data first.");
-                return;
-            }
-
-            foreach (var partnerAsset in partnerAssets)
-            {
-                var url = $"{partnerAsset.ImageUrl}?w={iconSize}";
-                var requestDispatcher = new WebRequestDispatcher();
-                var texture = await requestDispatcher.DownloadTexture(url);
-                OnIconLoaded(partnerAsset, texture);
-            }
-        }
-
-        private void OnIconLoaded(PartnerAsset partnerAsset, Texture texture)
-        {
-            UpdateButtonIcon(partnerAsset.Id, texture);
+                var webRequestDispatcher = new WebRequestDispatcher();
+                var url = iconSize > 0 ? $"{asset.ImageUrl}?w={iconSize}" : asset.ImageUrl;
+                var texture = await webRequestDispatcher.DownloadTexture(url);
+                button.SetIcon(texture);
+            });
         }
     }
 }

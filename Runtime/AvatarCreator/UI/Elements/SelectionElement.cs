@@ -1,4 +1,6 @@
+using System;
 using System.Collections.Generic;
+using ReadyPlayerMe.Core;
 using UnityEngine;
 using UnityEngine.Events;
 
@@ -12,13 +14,32 @@ namespace ReadyPlayerMe.AvatarCreator
 
     public abstract class SelectionElement : MonoBehaviour
     {
+        private const string TAG = nameof(TemplateSelectionElement);
         [Header("UI Elements")]
         [Space(5)]
         [SerializeField] private ButtonElement buttonElementPrefab;
         [SerializeField] private Transform buttonContainer;
         [SerializeField] private GameObject selectedIcon;
+
         public UnityEvent<IAssetData> onAssetSelected;
-        private Dictionary<string, ButtonElement> buttonMap = new Dictionary<string, ButtonElement>();
+        private readonly Dictionary<string, ButtonElement> buttonMap = new Dictionary<string, ButtonElement>();
+
+        public void CreateButtons<T>(T[] assets, Action<ButtonElement, T> onButtonCreated = default) where T : IAssetData
+        {
+            if (assets.Length == 0)
+            {
+                SDKLogger.LogWarning(TAG, "No assets provided.");
+                return;
+            }
+
+            for (int i = 0; i < assets.Length; i++)
+            {
+                var button = CreateButton(assets[i].Id);
+                var asset = assets[i];
+                button.AddListener(() => AssetSelected(asset));
+                onButtonCreated?.Invoke(button, asset);
+            }
+        }
 
         public ButtonElement CreateButton(string id)
         {
@@ -38,16 +59,14 @@ namespace ReadyPlayerMe.AvatarCreator
             buttonMap.Clear();
         }
 
-        public void UpdateButtonIcon(string id, Texture texture)
+        public ButtonElement GetButton(string id)
         {
-            if (buttonMap.ContainsKey(id))
+            if (buttonMap.TryGetValue(id, out ButtonElement value))
             {
-                buttonMap[id].SetIcon(texture);
+                return value;
             }
-            else
-            {
-                Debug.LogWarning($"No button found with id {id}");
-            }
+            Debug.LogWarning($"No button found with id {id}");
+            return null;
         }
 
         /// <summary>
