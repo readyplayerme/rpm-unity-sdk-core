@@ -7,20 +7,26 @@ namespace ReadyPlayerMe.Core.Editor
 {
     public abstract class PackageManagerEventListener
     {
+        private const string REQUIRED_KEYWORD = "readyplayerme";
+        
         [InitializeOnLoadMethod]
         static void Initialize()
         {
             Events.registeringPackages += OnPackagesInstalled;
         }
+        
+        ~PackageManagerEventListener()
+        {
+            Events.registeringPackages -= OnPackagesInstalled;
+        }
 
         static void OnPackagesInstalled(PackageRegistrationEventArgs packageRegistrationEventArgs)
         {
             packageRegistrationEventArgs.added
+                .Where(packageInfo => packageInfo.packageId.Contains(REQUIRED_KEYWORD))
                 .ToList()
-                .ForEach(x =>
-                {
-                    AnalyticsEditorLogger.EventLogger.LogPackageInstalled(x.name, x.packageId);
-                });
+                .ForEach(packageInfo => 
+                    AnalyticsEditorLogger.EventLogger.LogPackageInstalled(packageInfo.name, packageInfo.packageId));
         }
     }
 }
