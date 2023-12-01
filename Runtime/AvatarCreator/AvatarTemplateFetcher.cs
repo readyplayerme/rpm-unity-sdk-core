@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
+using ReadyPlayerMe.Core;
 
 namespace ReadyPlayerMe.AvatarCreator
 {
@@ -13,13 +14,11 @@ namespace ReadyPlayerMe.AvatarCreator
     {
         private readonly CancellationToken ctx;
         private readonly AvatarAPIRequests avatarAPIRequests;
-        private readonly IconFetcher iconFetcher;
 
         public AvatarTemplateFetcher(CancellationToken ctx = default)
         {
             this.ctx = ctx;
             avatarAPIRequests = new AvatarAPIRequests(ctx);
-            iconFetcher = new IconFetcher(ctx: ctx);
         }
 
         /// <summary>
@@ -48,7 +47,8 @@ namespace ReadyPlayerMe.AvatarCreator
         {
             var tasks = templates.Select(async templateData =>
             {
-                templateData.Texture = await iconFetcher.GetIcon(templateData.ImageUrl);
+                var requestDispatcher = new WebRequestDispatcher();
+                templateData.Texture = await requestDispatcher.DownloadTexture(templateData.ImageUrl, ctx);
                 onIconDownloaded?.Invoke(templateData);
             }).ToList();
 

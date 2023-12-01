@@ -16,7 +16,7 @@ namespace ReadyPlayerMe.AvatarCreator
         [SerializeField] private AssetType assetType;
         private PartnerAsset[] partnerAssets;
         private PartnerAssetsRequests partnerAssetsRequests;
-        private readonly IconFetcher iconFetcher = new IconFetcher();
+        [SerializeField] private int iconSize = 64;
 
         private void Awake()
         {
@@ -70,7 +70,9 @@ namespace ReadyPlayerMe.AvatarCreator
 
             foreach (var partnerAsset in partnerAssets)
             {
-                var texture = await iconFetcher.GetIcon(partnerAsset.ImageUrl);
+                var url = $"{partnerAsset.ImageUrl}?w={iconSize}";
+                var requestDispatcher = new WebRequestDispatcher();
+                var texture = await requestDispatcher.DownloadTexture(url);
                 OnIconLoaded(partnerAsset, texture);
             }
         }
