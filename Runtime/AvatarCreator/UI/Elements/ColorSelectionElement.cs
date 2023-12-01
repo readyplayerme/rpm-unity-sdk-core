@@ -3,6 +3,11 @@ using UnityEngine;
 
 namespace ReadyPlayerMe.AvatarCreator
 {
+    /// <summary>
+    /// This class is responsible for fetching color data based on avatar properties,
+    /// and creating buttons for each color.
+    /// It extends the functionality of SelectionElement to handle color-specific interactions.
+    /// </summary>
     public class ColorSelectionElement : SelectionElement
     {
         [Header("Properties")]

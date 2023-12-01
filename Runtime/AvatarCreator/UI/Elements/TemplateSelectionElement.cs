@@ -6,8 +6,10 @@ using UnityEngine;
 namespace ReadyPlayerMe.AvatarCreator
 {
     /// <summary>
-    /// This class can be used as a self contained UI element that can fetch AvatarTemplates
-    /// and create it's own buttons.
+    /// This class is responsible for fetching avatar template data,
+    /// including icons, and creating buttons for each template.
+    /// It serves as a self-contained UI element for avatar template selection.
+    /// It extends the functionality of SelectionElement to handle AvatarTemplate-specific interactions.
     /// </summary>
     public class TemplateSelectionElement : SelectionElement
     {
@@ -25,7 +27,8 @@ namespace ReadyPlayerMe.AvatarCreator
         }
 
         /// <summary>
-        /// This function will automatically fetch the template data including the icon renders and create buttons.
+        /// Asynchronously loads avatar template data and creates button elements for each template.
+        /// Each button is created with an icon fetched from the template's image URL.
         /// </summary>
         public async void LoadAndCreateButtons()
         {
@@ -41,8 +44,10 @@ namespace ReadyPlayerMe.AvatarCreator
         }
 
         /// <summary>
-        /// Loads avatar template data without fetching the icon renders.
+        /// Loads avatar template data asynchronously.
+        /// This method fetches data but does not handle icon rendering.
         /// </summary>
+        /// <returns>A Task representing the asynchronous operation of loading avatar template data.</returns>
         public async Task LoadTemplateData()
         {
             avatarTemplates = await avatarTemplateFetcher.GetTemplates();
