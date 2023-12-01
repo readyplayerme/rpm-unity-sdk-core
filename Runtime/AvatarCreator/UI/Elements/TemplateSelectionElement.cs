@@ -14,10 +14,6 @@ namespace ReadyPlayerMe.AvatarCreator
     public class TemplateSelectionElement : SelectionElement
     {
         private const string TAG = nameof(TemplateSelectionElement);
-
-        [Header("Properties")]
-        [SerializeField] private AssetType assetType;
-
         private List<AvatarTemplateData> avatarTemplates;
         private AvatarTemplateFetcher avatarTemplateFetcher;
 
@@ -36,7 +32,6 @@ namespace ReadyPlayerMe.AvatarCreator
             CreateButtons(avatarTemplates.ToArray(), async (button, asset) =>
             {
                 var webRequestDispatcher = new WebRequestDispatcher();
-                asset.AssetType = assetType;
                 var url = $"{asset.ImageUrl}";
                 var texture = await webRequestDispatcher.DownloadTexture(url);
                 button.SetIcon(texture);

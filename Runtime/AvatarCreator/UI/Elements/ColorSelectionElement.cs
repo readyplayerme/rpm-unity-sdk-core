@@ -23,7 +23,6 @@ namespace ReadyPlayerMe.AvatarCreator
         public async void LoadAndCreateButtons(AvatarProperties avatarProperties)
         {
             await LoadColorPalette(avatarProperties);
-            ClearButtons();
             CreateButtons(colorAssets, (button, asset) =>
             {
                 button.SetColor(asset.HexColor);

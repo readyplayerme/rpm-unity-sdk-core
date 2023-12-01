@@ -37,7 +37,7 @@ namespace ReadyPlayerMe.AvatarCreator
                 SDKLogger.LogWarning(TAG, "No assets provided.");
                 return;
             }
-
+            ClearButtons();
             for (int i = 0; i < assets.Length; i++)
             {
                 var button = CreateButton(assets[i].Id);
