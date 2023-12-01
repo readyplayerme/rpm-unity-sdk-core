@@ -9,7 +9,7 @@ namespace ReadyPlayerMe.AvatarCreator
     {
         private readonly string domain;
         private readonly IDictionary<string, string> headers = CommonHeaders.GetHeadersWithAppId();
-        private readonly string rpmAvatarV1BaseUrl;
+        private readonly string rpmAuthBaseUrl;
 
         private readonly WebRequestDispatcher webRequestDispatcher;
 
@@ -18,12 +18,12 @@ namespace ReadyPlayerMe.AvatarCreator
             this.domain = domain;
             webRequestDispatcher = new WebRequestDispatcher();
             
-            rpmAvatarV1BaseUrl = string.Format(Env.RPM_SUBDOMAIN_BASE_URL, domain);
+            rpmAuthBaseUrl = string.Format(Env.RPM_SUBDOMAIN_BASE_URL, domain);
         }
 
         public async Task<UserSession> LoginAsAnonymous()
         {
-            var response = await webRequestDispatcher.SendRequest<Response>($"{rpmAvatarV1BaseUrl}/users", HttpMethod.POST, headers);
+            var response = await webRequestDispatcher.SendRequest<Response>($"{rpmAuthBaseUrl}/users", HttpMethod.POST, headers);
             response.ThrowIfError();
 
             var data = AuthDataConverter.ParseResponse(response.Text);
@@ -45,7 +45,7 @@ namespace ReadyPlayerMe.AvatarCreator
 
             var payload = AuthDataConverter.CreatePayload(data);
 
-            var response = await webRequestDispatcher.SendRequest<Response>($"{rpmAvatarV1BaseUrl}/auth/start", HttpMethod.POST, headers, payload);
+            var response = await webRequestDispatcher.SendRequest<Response>($"{rpmAuthBaseUrl}/auth/start", HttpMethod.POST, headers, payload);
             response.ThrowIfError();
         }
 
@@ -75,13 +75,13 @@ namespace ReadyPlayerMe.AvatarCreator
             };
 
             var payload = AuthDataConverter.CreatePayload(data);
-            var response = await webRequestDispatcher.SendRequest<Response>($"{rpmAvatarV1BaseUrl}/auth/start", HttpMethod.POST, headers, payload);
+            var response = await webRequestDispatcher.SendRequest<Response>($"{rpmAuthBaseUrl}/auth/start", HttpMethod.POST, headers, payload);
             response.ThrowIfError();
         }
 
         public async Task<(string, string)> RefreshToken(string token, string refreshToken)
         {
-            var url = $"{rpmAvatarV1BaseUrl}/auth/refresh";
+            var url = $"{rpmAuthBaseUrl}/auth/refresh";
 
             var payload = AuthDataConverter.CreatePayload(new Dictionary<string, string>
             {
