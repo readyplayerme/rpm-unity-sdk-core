@@ -1,11 +1,11 @@
 ﻿using System.Linq;
 using ReadyPlayerMe.Core.Analytics;
-using ReadyPlayerMe.Core.Editor.Models;
 using UnityEditor;
 using UnityEditor.PackageManager;
+
 namespace ReadyPlayerMe.Core.Editor
 {
-    public class PackageManagerEventListener
+    public abstract class PackageManagerEventListener
     {
         [InitializeOnLoadMethod]
         static void Initialize()
@@ -16,13 +16,11 @@ namespace ReadyPlayerMe.Core.Editor
         static void OnPackagesInstalled(PackageRegistrationEventArgs packageRegistrationEventArgs)
         {
             packageRegistrationEventArgs.added
-                .Select(package => new PackageCoreInfo
-                {
-                    Id = package.packageId,
-                    Name = package.displayName,
-                })
                 .ToList()
-                .ForEach(AnalyticsEditorLogger.EventLogger.LogPackageInstalled);
+                .ForEach(x =>
+                {
+                    AnalyticsEditorLogger.EventLogger.LogPackageInstalled(x.name, x.packageId);
+                });
         }
     }
 }
