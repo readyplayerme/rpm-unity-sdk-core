@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
@@ -13,6 +13,8 @@ namespace ReadyPlayerMe.AvatarCreator
 {
     public class AssetAPIRequests
     {
+        private const string RPM_ASSET_V1_BASE_URL = Env.RPM_API_V1_BASE_URL + "assets";
+        
         private const string TAG = nameof(AssetAPIRequests);
         private const int LIMIT = 100;
 
@@ -94,7 +96,7 @@ namespace ReadyPlayerMe.AvatarCreator
                 type = CategoryHelper.PartnerCategoryMap.First(x => x.Value == category).Key;
             }
 
-            var url = AssetEndpoints.GetAssetEndpoint(type, limit, pageNumber, AuthManager.UserSession.Id, appId, gender == OutfitGender.Masculine ? "male" : "female");
+            var url = BuildAssetListUrl(type, limit, pageNumber, AuthManager.UserSession.Id, appId, gender == OutfitGender.Masculine ? "male" : "female");
 
             var response = await authorizedRequest.SendRequest<Response>(new RequestData
             {
@@ -145,6 +147,16 @@ namespace ReadyPlayerMe.AvatarCreator
 
             completed?.Invoke(response.Texture);
             return response.Texture;
+        }
+        
+        private static string BuildAssetListUrl(string type, int limit, int page, string userId, string appId, string gender)
+        {
+            const string url = RPM_ASSET_V1_BASE_URL + "?limit={0}&page={1}&filter=viewable-by-user-and-app&filterUserId={2}&filterApplicationId={3}&gender=neutral&gender={4}";
+            
+            if (string.IsNullOrEmpty(type))
+                return string.Format(url, limit, page, userId, appId, gender);
+            
+            return string.Format(url, limit, page, userId, appId, gender) + "&type=" + type;
         }
     }
 }
