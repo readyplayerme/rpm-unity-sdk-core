@@ -1,28 +1,35 @@
-﻿using System.Linq;
+﻿using System;
+using System.Linq;
 using ReadyPlayerMe.Core.Analytics;
-using ReadyPlayerMe.Core.Editor.Models;
 using UnityEditor;
 using UnityEditor.PackageManager;
+
 namespace ReadyPlayerMe.Core.Editor
 {
-    public class PackageManagerEventListener
+    public abstract class PackageManagerEventListener
     {
+        public static event Action<string> OnPackageImported;
+
         [InitializeOnLoadMethod]
         static void Initialize()
         {
-            Events.registeringPackages += OnPackagesInstalled;
+            Events.registeredPackages += OnPackagesInstalled;
+        }
+        
+        ~PackageManagerEventListener()
+        {
+            Events.registeredPackages -= OnPackagesInstalled;
         }
 
         static void OnPackagesInstalled(PackageRegistrationEventArgs packageRegistrationEventArgs)
         {
             packageRegistrationEventArgs.added
-                .Select(package => new PackageCoreInfo
-                {
-                    Id = package.packageId,
-                    Name = package.displayName,
-                })
                 .ToList()
-                .ForEach(AnalyticsEditorLogger.EventLogger.LogPackageInstalled);
+                .ForEach(packageInfo =>
+                {
+                    OnPackageImported?.Invoke(packageInfo.name);
+                    AnalyticsEditorLogger.EventLogger.LogPackageInstalled(packageInfo.name, packageInfo.packageId);
+                });
         }
     }
 }
