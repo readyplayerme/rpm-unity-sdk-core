@@ -14,6 +14,7 @@ namespace ReadyPlayerMe.AvatarCreator
     public class AssetSelectionElement : SelectionElement
     {
         [Header("Properties")]
+        [SerializeField] private BodyType bodyType = BodyType.FullBody;
         [SerializeField] private AssetType assetType;
         [SerializeField] private int iconSize = 64;
 
@@ -25,6 +26,11 @@ namespace ReadyPlayerMe.AvatarCreator
             partnerAssetsRequests = new PartnerAssetsRequests(CoreSettingsHandler.CoreSettings.AppId);
         }
 
+        public void SetBodyType(BodyType bodyType)
+        {
+            this.bodyType = bodyType;
+        }
+
         /// <summary>
         /// Asynchronously loads partner asset data based on the specified asset type, body type, and gender.
         /// This method updates the internal partnerAssets collection with the fetched data.
@@ -32,7 +38,7 @@ namespace ReadyPlayerMe.AvatarCreator
         /// <param name="bodyType">The body type to filter the assets and determine the type of avatar to load.</param>
         /// <param name="gender">The gender to filter the assets and determine which skeleton will be loaded.</param>
         /// <returns>A Task representing the asynchronous operation of fetching and loading the partner asset data.</returns>
-        public async Task LoadTemplateData(OutfitGender gender, BodyType bodyType = BodyType.FullBody)
+        public async Task LoadTemplateData(OutfitGender gender)
         {
             partnerAssets = await partnerAssetsRequests.Get(assetType, bodyType, gender);
         }
@@ -41,9 +47,9 @@ namespace ReadyPlayerMe.AvatarCreator
         /// Asynchronously loads the template data and creates button elements for each asset. 
         /// Buttons are created with icons fetched based on the asset's image URL and icon size.
         /// </summary>
-        public async void LoadAndCreateButtons(OutfitGender gender, BodyType bodyType = BodyType.FullBody)
+        public async void LoadAndCreateButtons(OutfitGender gender)
         {
-            await LoadTemplateData(gender, bodyType);
+            await LoadTemplateData(gender);
             CreateButtons(partnerAssets.ToArray(), async (button, asset) =>
             {
                 var webRequestDispatcher = new WebRequestDispatcher();
