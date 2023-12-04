@@ -1,18 +1,17 @@
-using System;
 using UnityEngine;
+using UnityEngine.Events;
 using UnityEngine.UI;
 
-namespace ReadyPlayerMe
+namespace ReadyPlayerMe.AvatarCreator
 {
-    public class AccountCreationPopup : MonoBehaviour
+    public class AccountCreationElement : MonoBehaviour
     {
         [SerializeField] private InputField emailField;
         [SerializeField] private Button sendEmailButton;
         [SerializeField] private Button continueWithoutSignupButton;
-        [SerializeField] private Button closeButton;
 
-        public event Action<string> OnSendEmail;
-        public event Action OnContinueWithoutSignup;
+        public UnityEvent<string> onSendEmail;
+        public UnityEvent onContinueWithoutSignup;
 
         private void Update()
         {
@@ -24,27 +23,24 @@ namespace ReadyPlayerMe
         {
             sendEmailButton.onClick.AddListener(OnSendEmailButton);
             continueWithoutSignupButton.onClick.AddListener(OnContinueWithoutSignupButton);
-            closeButton.onClick.AddListener(OnContinueWithoutSignupButton);
         }
 
         private void OnDisable()
         {
             sendEmailButton.onClick.RemoveListener(OnSendEmailButton);
             continueWithoutSignupButton.onClick.RemoveListener(OnContinueWithoutSignupButton);
-            closeButton.onClick.RemoveListener(OnContinueWithoutSignupButton);
         }
-
 
         private void OnSendEmailButton()
         {
             var email = emailField.text;
-            OnSendEmail?.Invoke(email);
+            onSendEmail?.Invoke(email);
             gameObject.SetActive(false);
         }
 
         private void OnContinueWithoutSignupButton()
         {
-            OnContinueWithoutSignup?.Invoke();
+            onContinueWithoutSignup?.Invoke();
             gameObject.SetActive(false);
         }
     }
