@@ -13,6 +13,9 @@ namespace ReadyPlayerMe.AvatarCreator
 {
     public class AvatarAPIRequests
     {
+        private const string RPM_AVATAR_V1_BASE_URL = Env.RPM_API_V1_BASE_URL + "avatars";
+        private const string RPM_AVATAR_V2_BASE_URL = Env.RPM_API_V2_BASE_URL + "avatars";
+        
         private const string FULL_BODY = "fullbody";
         private const string HALF_BODY = "halfbody";
         private const string PARTNER = "partner";
@@ -33,7 +36,7 @@ namespace ReadyPlayerMe.AvatarCreator
             var response = await authorizedRequest.SendRequest<Response>(
                 new RequestData
                 {
-                    Url = AvatarEndpoints.GetUserAvatarsEndpoint(userId),
+                    Url = $"{RPM_AVATAR_V1_BASE_URL}/?select=id,partner&userId={userId}",
                     Method = HttpMethod.GET
                 },
                 ctx: ctx
@@ -50,7 +53,7 @@ namespace ReadyPlayerMe.AvatarCreator
             var response = await authorizedRequest.SendRequest<Response>(
                 new RequestData
                 {
-                    Url = AvatarEndpoints.GetAllAvatarTemplatesEndpoint(),
+                    Url = $"{RPM_AVATAR_V2_BASE_URL}/templates",
                     Method = HttpMethod.GET
                 },
                 ctx: ctx
@@ -75,7 +78,7 @@ namespace ReadyPlayerMe.AvatarCreator
             var response = await authorizedRequest.SendRequest<Response>(
                 new RequestData
                 {
-                    Url = AvatarEndpoints.GetAvatarTemplatesEndpoint(templateId),
+                    Url = $"{RPM_AVATAR_V2_BASE_URL}/templates/{templateId}",
                     Method = HttpMethod.POST,
                     Payload = payload
                 },
@@ -94,7 +97,7 @@ namespace ReadyPlayerMe.AvatarCreator
             var response = await authorizedRequest.SendRequest<Response>(
                 new RequestData
                 {
-                    Url = AvatarEndpoints.GetColorEndpoint(avatarId),
+                    Url = $"{RPM_AVATAR_V2_BASE_URL}/{avatarId}/colors?type=skin,beard,hair,eyebrow",
                     Method = HttpMethod.GET
                 },
                 ctx: ctx
@@ -129,7 +132,7 @@ namespace ReadyPlayerMe.AvatarCreator
             var response = await authorizedRequest.SendRequest<Response>(
                 new RequestData
                 {
-                    Url = AvatarEndpoints.GetAvatarMetadataEndpoint(avatarId),
+                    Url = $"{RPM_AVATAR_V2_BASE_URL}/{avatarId}.json",
                     Method = HttpMethod.GET
                 },
                 ctx: ctx
@@ -147,7 +150,7 @@ namespace ReadyPlayerMe.AvatarCreator
             var response = await authorizedRequest.SendRequest<Response>(
                 new RequestData
                 {
-                    Url = AvatarEndpoints.GetCreateEndpoint(),
+                    Url = RPM_AVATAR_V2_BASE_URL,
                     Method = HttpMethod.POST,
                     Payload = avatarProperties.ToJson(true)
                 },
@@ -162,10 +165,18 @@ namespace ReadyPlayerMe.AvatarCreator
 
         public async Task<byte[]> GetAvatar(string avatarId, bool isPreview = false, string parameters = null)
         {
+            var url = $"{RPM_AVATAR_V2_BASE_URL}/{avatarId}.glb?";
+            
+            if (!string.IsNullOrEmpty(parameters))
+                url += parameters?.Substring(1) + "&";
+
+            if (isPreview)
+                url += "preview=true";
+            
             var response = await authorizedRequest.SendRequest<Response>(
                 new RequestData
                 {
-                    Url = AvatarEndpoints.GetAvatarModelEndpoint(avatarId, isPreview, parameters),
+                    Url = url,
                     Method = HttpMethod.GET
                 },
                 ctx: ctx);
@@ -176,10 +187,15 @@ namespace ReadyPlayerMe.AvatarCreator
 
         public async Task<byte[]> UpdateAvatar(string avatarId, AvatarProperties avatarProperties, string parameters = null)
         {
+            var url = $"{RPM_AVATAR_V2_BASE_URL}/{avatarId}?responseType=glb&{parameters}";
+            
+            if (!string.IsNullOrEmpty(parameters))
+                url += parameters?.Substring(1);
+
             var response = await authorizedRequest.SendRequest<Response>(
                 new RequestData
                 {
-                    Url = AvatarEndpoints.GetUpdateAvatarEndpoint(avatarId, parameters),
+                    Url = url,
                     Method = HttpMethod.PATCH,
                     Payload = avatarProperties.ToJson(true)
                 },
@@ -195,7 +211,7 @@ namespace ReadyPlayerMe.AvatarCreator
             var response = await authorizedRequest.SendRequest<Response>(
                 new RequestData
                 {
-                    Url = AvatarEndpoints.GetPrecompileEndpoint(avatarId, parameters),
+                    Url = $"{RPM_AVATAR_V2_BASE_URL}/{avatarId}/precompile{parameters ?? string.Empty}",
                     Method = HttpMethod.POST,
                     Payload = json
                 },
@@ -209,7 +225,7 @@ namespace ReadyPlayerMe.AvatarCreator
             var response = await authorizedRequest.SendRequest<Response>(
                 new RequestData
                 {
-                    Url = AvatarEndpoints.GetSaveAvatarEndpoint(avatarId),
+                    Url = $"{RPM_AVATAR_V2_BASE_URL}/{avatarId}",
                     Method = HttpMethod.PUT
                 },
                 ctx: ctx);
@@ -220,10 +236,15 @@ namespace ReadyPlayerMe.AvatarCreator
 
         public async Task DeleteAvatar(string avatarId, bool isDraft = false)
         {
+            var url = $"{RPM_AVATAR_V2_BASE_URL}/{avatarId}/";
+
+            if (isDraft)
+                url += "draft";
+            
             var response = await authorizedRequest.SendRequest<Response>(
                 new RequestData
                 {
-                    Url = AvatarEndpoints.GetDeleteAvatarEndpoint(avatarId, isDraft),
+                    Url = url,
                     Method = HttpMethod.DELETE
                 },
                 ctx: ctx);

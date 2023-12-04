@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
@@ -16,22 +16,22 @@ namespace ReadyPlayerMe.AvatarCreator
         private const string TAG = nameof(PartnerAssetsManager);
         private const string ASSET_ICON_SIZE = "?w=64";
 
-        private readonly PartnerAssetsRequests partnerAssetsRequests;
+        private readonly AssetAPIRequests assetAPIRequests;
 
         private Dictionary<AssetType, List<PartnerAsset>> assetsByCategory;
         public Action<string> OnError { get; set; }
 
         public PartnerAssetsManager()
         {
-            partnerAssetsRequests = new PartnerAssetsRequests(CoreSettingsHandler.CoreSettings.AppId);
-            assetsByCategory = new Dictionary<AssetType, List<PartnerAsset>>();
+            assetAPIRequests = new AssetAPIRequests(CoreSettingsHandler.CoreSettings.AppId);
+            assetsByCategory = new Dictionary<Category, List<PartnerAsset>>();
         }
 
         public async Task<Dictionary<AssetType, List<PartnerAsset>>> GetAssets(BodyType bodyType, OutfitGender gender, CancellationToken token = default)
         {
             var startTime = Time.time;
 
-            var assets = await partnerAssetsRequests.Get(bodyType, gender, token);
+            var assets = await assetAPIRequests.Get(bodyType, gender, token);
 
             assetsByCategory = assets.GroupBy(asset => asset.AssetType).ToDictionary(
                 group => group.Key,
@@ -96,7 +96,7 @@ namespace ReadyPlayerMe.AvatarCreator
             {
                 var url = $"{asset.ImageUrl}{ASSET_ICON_SIZE}";
                 var linkedTokenSource = CancellationTokenSource.CreateLinkedTokenSource(token);
-                var iconTask = partnerAssetsRequests.GetAssetIcon(url, icon =>
+                var iconTask = assetAPIRequests.GetAssetIcon(url, icon =>
                     {
                         onDownload?.Invoke(asset.Id, icon);
                     },
