@@ -51,14 +51,12 @@ namespace ReadyPlayerMe.AvatarCreator
 
         public async Task<UserSession> LoginWithCode(string code)
         {
-            var url = string.Format(Env.RPM_SUBDOMAIN_BASE_URL, domain, "/auth/login");
-
             var payload = AuthDataConverter.CreatePayload(new Dictionary<string, string>
             {
                 { AuthConstants.AUTH_TYPE_CODE, code }
             });
 
-            var response = await webRequestDispatcher.SendRequest<Response>(url, HttpMethod.POST, headers, payload);
+            var response = await webRequestDispatcher.SendRequest<Response>( $"{rpmAuthBaseUrl}/auth/login", HttpMethod.POST, headers, payload);
             response.ThrowIfError();
 
             var data = AuthDataConverter.ParseResponse(response.Text);
