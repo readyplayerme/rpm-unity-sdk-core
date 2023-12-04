@@ -1,4 +1,4 @@
-using ReadyPlayerMe.Core.Editor.Models;
+using ReadyPlayerMe.Core.Editor;
 
 namespace ReadyPlayerMe.Core.Analytics
 {
@@ -33,6 +33,6 @@ namespace ReadyPlayerMe.Core.Analytics
         void LogOpenAvatarCreatorDocumentation();
         void LogOpenOptimizationDocumentation();
         void LogAvatarCreatorSampleImported();
-        void LogPackageInstalled(PackageCoreInfo packageInfo);
+        void LogPackageInstalled(string id, string name);
     }
 }
