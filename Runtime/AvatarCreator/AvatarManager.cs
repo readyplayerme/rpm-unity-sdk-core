@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using ReadyPlayerMe.Core;
@@ -197,17 +198,20 @@ namespace ReadyPlayerMe.AvatarCreator
 
         public async Task<Dictionary<AssetType, AssetColor[]>> LoadAvatarColors()
         {
-            var colors = new Dictionary<AssetType, AssetColor[]>();
+            var assetColorsByAssetType = new Dictionary<AssetType, AssetColor[]>();
             try
             {
-                colors = await avatarAPIRequests.GetAllAvatarColors(avatarId);
+                var assetColors = await avatarAPIRequests.GetAvatarColors(avatarId);
+                assetColorsByAssetType = assetColors
+                    .GroupBy(color => color.AssetType)
+                    .ToDictionary(group => group.Key, group => group.ToArray());
             }
             catch (Exception e)
             {
                 OnError?.Invoke(e.Message);
             }
 
-            return colors;
+            return assetColorsByAssetType;
         }
 
         /// <summary>

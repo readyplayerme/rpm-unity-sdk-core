@@ -24,7 +24,7 @@ namespace ReadyPlayerMe.AvatarCreator
         public PartnerAssetsManager()
         {
             assetAPIRequests = new AssetAPIRequests(CoreSettingsHandler.CoreSettings.AppId);
-            assetsByCategory = new Dictionary<Category, List<PartnerAsset>>();
+            assetsByCategory = new Dictionary<AssetType, List<PartnerAsset>>();
         }
 
         public async Task<Dictionary<AssetType, List<PartnerAsset>>> GetAssets(BodyType bodyType, OutfitGender gender, CancellationToken token = default)

@@ -19,11 +19,11 @@ namespace ReadyPlayerMe.AvatarCreator
         [SerializeField] private int iconSize = 64;
 
         private PartnerAsset[] partnerAssets;
-        private PartnerAssetsRequests partnerAssetsRequests;
+        private AssetAPIRequests partnerAssetsRequests;
 
         private void Awake()
         {
-            partnerAssetsRequests = new PartnerAssetsRequests(CoreSettingsHandler.CoreSettings.AppId);
+            partnerAssetsRequests = new AssetAPIRequests(CoreSettingsHandler.CoreSettings.AppId);
         }
 
         public void SetBodyType(BodyType bodyType)

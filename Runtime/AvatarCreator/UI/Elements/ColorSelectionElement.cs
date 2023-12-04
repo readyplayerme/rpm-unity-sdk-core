@@ -17,7 +17,7 @@ namespace ReadyPlayerMe.AvatarCreator
 
         public async Task LoadColorPalette(AvatarProperties avatarProperties)
         {
-            colorAssets = await avatarAPIRequests.GetColorsByCategory(avatarProperties.Id, assetType);
+            colorAssets = await avatarAPIRequests.GetAvatarColors(avatarProperties.Id, assetType);
         }
 
         public async void LoadAndCreateButtons(AvatarProperties avatarProperties)

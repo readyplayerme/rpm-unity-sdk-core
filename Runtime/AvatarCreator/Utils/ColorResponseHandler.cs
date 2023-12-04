@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using Newtonsoft.Json.Linq;
 
 namespace ReadyPlayerMe.AvatarCreator
@@ -15,31 +16,31 @@ namespace ReadyPlayerMe.AvatarCreator
             public string[] hair;
         }
 
-        public static Dictionary<AssetType, AssetColor[]> GetColorsFromResponse(string response)
+        public static AssetColor[] GetColorsFromResponse(string response)
         {
             var responseData = JObject.Parse(response);
             ColorResponse colorResponse = ((JObject) responseData["data"])!.ToObject<ColorResponse>();
-            return ResponseToColorMap(colorResponse);
+            return ResponseToAssetColors(colorResponse);
         }
 
-        private static Dictionary<AssetType, AssetColor[]> ResponseToColorMap(ColorResponse colorResponse)
+        private static AssetColor[] ResponseToAssetColors(ColorResponse colorResponse)
         {
-            var colorPalettes = new Dictionary<AssetType, AssetColor[]>();
-            colorPalettes.Add(AssetType.SkinColor, ConvertToAssetColors(colorResponse.skin, AssetType.SkinColor));
-            colorPalettes.Add(AssetType.EyebrowColor, ConvertToAssetColors(colorResponse.eyebrow, AssetType.EyebrowColor));
-            colorPalettes.Add(AssetType.BeardColor, ConvertToAssetColors(colorResponse.beard, AssetType.BeardColor));
-            colorPalettes.Add(AssetType.HairColor, ConvertToAssetColors(colorResponse.hair, AssetType.HairColor));
-            return colorPalettes;
+            var skinColors = colorResponse.skin != null ? ConvertToAssetColors(colorResponse.skin, AssetType.SkinColor) : Array.Empty<AssetColor>();
+            var eyebrowColors = colorResponse.eyebrow != null ? ConvertToAssetColors(colorResponse.eyebrow, AssetType.EyebrowColor) : Array.Empty<AssetColor>();
+            var beardColors = colorResponse.beard != null ? ConvertToAssetColors(colorResponse.beard, AssetType.BeardColor) : Array.Empty<AssetColor>();
+            var hairColors = colorResponse.hair != null ? ConvertToAssetColors(colorResponse.hair, AssetType.HairColor) : Array.Empty<AssetColor>();
+
+            return skinColors.Concat(eyebrowColors).Concat(beardColors).Concat(hairColors).ToArray();
         }
 
-        private static AssetColor[] ConvertToAssetColors(IReadOnlyList<string> hexColors, AssetType assetType)
+        private static AssetColor[] ConvertToAssetColors(IReadOnlyCollection<string> hexColors, AssetType assetType)
         {
-            AssetColor[] assetColors = new AssetColor[hexColors.Count];
-            for (int i = 0; i < hexColors.Count; i++)
+            if (hexColors == null || hexColors.Count == 0)
             {
-                assetColors[i] = new AssetColor(i.ToString(), assetType, hexColors[i]);
+                return Array.Empty<AssetColor>();
             }
-            return assetColors;
+
+            return hexColors.Select((color, index) => new AssetColor(index.ToString(), assetType, color)).ToArray();
         }
     }
 }
