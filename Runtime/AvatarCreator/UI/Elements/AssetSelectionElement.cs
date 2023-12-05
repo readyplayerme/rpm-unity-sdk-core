@@ -18,12 +18,12 @@ namespace ReadyPlayerMe.AvatarCreator
         [SerializeField] private AssetType assetType;
         [SerializeField] private int iconSize = 64;
 
-        private PartnerAsset[] partnerAssets;
-        private AssetAPIRequests partnerAssetsRequests;
+        private PartnerAsset[] assets;
+        private AssetAPIRequests assetsRequests;
 
         private void Awake()
         {
-            partnerAssetsRequests = new AssetAPIRequests(CoreSettingsHandler.CoreSettings.AppId);
+            assetsRequests = new AssetAPIRequests(CoreSettingsHandler.CoreSettings.AppId);
         }
 
         public void SetBodyType(BodyType bodyType)
@@ -32,15 +32,15 @@ namespace ReadyPlayerMe.AvatarCreator
         }
 
         /// <summary>
-        /// Asynchronously loads partner asset data based on the specified asset type, body type, and gender.
+        /// Asynchronously loads asset data based on the specified asset type, body type, and gender.
         /// This method updates the internal partnerAssets collection with the fetched data.
         /// </summary>
         /// <param name="bodyType">The body type to filter the assets and determine the type of avatar to load.</param>
         /// <param name="gender">The gender to filter the assets and determine which skeleton will be loaded.</param>
         /// <returns>A Task representing the asynchronous operation of fetching and loading the partner asset data.</returns>
-        public async Task LoadTemplateData(OutfitGender gender)
+        public async Task LoadAssetData(OutfitGender gender)
         {
-            partnerAssets = await partnerAssetsRequests.Get(assetType, bodyType, gender);
+            assets = await assetsRequests.Get(assetType, bodyType, gender);
         }
 
         /// <summary>
@@ -49,8 +49,8 @@ namespace ReadyPlayerMe.AvatarCreator
         /// </summary>
         public async void LoadAndCreateButtons(OutfitGender gender)
         {
-            await LoadTemplateData(gender);
-            CreateButtons(partnerAssets.ToArray(), async (button, asset) =>
+            await LoadAssetData(gender);
+            CreateButtons(assets.ToArray(), async (button, asset) =>
             {
                 var webRequestDispatcher = new WebRequestDispatcher();
                 var url = iconSize > 0 ? $"{asset.ImageUrl}?w={iconSize}" : asset.ImageUrl;
