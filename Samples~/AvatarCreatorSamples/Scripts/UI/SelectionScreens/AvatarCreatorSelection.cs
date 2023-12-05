@@ -301,8 +301,9 @@ namespace ReadyPlayerMe
                 avatar.GetComponent<Animator>().runtimeAnimatorController = animator;
             }
             avatar.transform.rotation = lastRotation;
-            avatar.AddComponent<MouseInput>();
-            avatar.AddComponent<AvatarRotator>();
+            avatar.AddComponent<MouseRotationHandler>();
+            var rotator = avatar.AddComponent<AvatarRotator>();
+            rotator.SetAvatar(avatar);
         }
 
         public void Dispose()

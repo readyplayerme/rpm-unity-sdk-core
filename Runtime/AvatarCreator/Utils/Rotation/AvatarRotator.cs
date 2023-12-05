@@ -1,9 +1,12 @@
-﻿using UnityEngine;
+﻿using ReadyPlayerMe.Core;
+using UnityEngine;
 
 namespace ReadyPlayerMe.AvatarCreator
 {
     public class AvatarRotator : MonoBehaviour
     {
+        private const string TAG = nameof(AvatarRotator);
+        
         [SerializeField] private GameObject avatar;
         [SerializeField] private float speed = 50;
         [SerializeField] private bool rememberLastRotation = true;
@@ -14,6 +17,10 @@ namespace ReadyPlayerMe.AvatarCreator
         private void Awake()
         {
             avatarRotatorInput = GetComponent<IAvatarRotatorInput>();
+            if (avatar == null)
+            {
+                SDKLogger.LogWarning(TAG, $"Avatar object not set for {gameObject.name}.");
+            }
         }
 
         public void SetAvatar(GameObject newAvatar)
