@@ -21,7 +21,7 @@ namespace ReadyPlayerMe
         [SerializeField] private Button saveButton;
         [SerializeField] private AvatarConfig inCreatorConfig;
         [SerializeField] private RuntimeAnimatorController animator;
-        [SerializeField] private AccountCreationPopup accountCreationPopup;
+        [SerializeField] private AccountCreationElement accountCreationElement;
 
         private PartnerAssetsManager partnerAssetManager;
         private AvatarManager avatarManager;
@@ -43,8 +43,8 @@ namespace ReadyPlayerMe
         public override void ActivateState()
         {
             saveButton.onClick.AddListener(OnSaveButton);
-            accountCreationPopup.OnSendEmail += OnSendEmail;
-            accountCreationPopup.OnContinueWithoutSignup += Save;
+            accountCreationElement.onSendEmail.AddListener(OnSendEmail);
+            accountCreationElement.onContinueWithoutSignup.AddListener(Save);
             categoryUICreator.OnCategorySelected += OnCategorySelected;
             Setup();
         }
@@ -52,8 +52,8 @@ namespace ReadyPlayerMe
         public override void DeactivateState()
         {
             saveButton.onClick.RemoveListener(OnSaveButton);
-            accountCreationPopup.OnSendEmail -= OnSendEmail;
-            accountCreationPopup.OnContinueWithoutSignup -= Save;
+            accountCreationElement.onSendEmail.RemoveListener(OnSendEmail);
+            accountCreationElement.onContinueWithoutSignup.RemoveListener(Save);
             categoryUICreator.OnCategorySelected -= OnCategorySelected;
             Cleanup();
         }
@@ -236,7 +236,7 @@ namespace ReadyPlayerMe
             }
             else
             {
-                accountCreationPopup.gameObject.SetActive(true);
+                accountCreationElement.gameObject.SetActive(true);
             }
         }
 
