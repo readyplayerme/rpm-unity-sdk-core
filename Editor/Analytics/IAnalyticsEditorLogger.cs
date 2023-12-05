@@ -1,3 +1,5 @@
+using ReadyPlayerMe.Core.Editor;
+
 namespace ReadyPlayerMe.Core.Analytics
 {
     public interface IAnalyticsEditorLogger
@@ -31,5 +33,6 @@ namespace ReadyPlayerMe.Core.Analytics
         void LogOpenAvatarCreatorDocumentation();
         void LogOpenOptimizationDocumentation();
         void LogAvatarCreatorSampleImported();
+        void LogPackageInstalled(string id, string name);
     }
 }

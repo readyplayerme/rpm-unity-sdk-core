@@ -11,7 +11,7 @@ namespace ReadyPlayerMe.Core.Tests
 {
     public class AvatarAPITests
     {
-        private const string AVATAR_API_AVATAR_URL = "https://api.readyplayer.me/v1/avatars/638df693d72bffc6fa17943c.glb";
+        private const string AVATAR_API_AVATAR_URL = "https://models.readyplayer.me/638df693d72bffc6fa17943c.glb";
         private const int TEXTURE_SIZE_LOW = 256;
         private const int TEXTURE_SIZE_MED = 512;
         private const int TEXTURE_SIZE_HIGH = 1024;

@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.4465782, g: 0.49641186, b: 0.5748162, a: 1}
+  m_IndirectSpecularColor: {r: 0.44657832, g: 0.49641258, b: 0.57481676, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -1874,7 +1874,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5ec678a30bb724ed9999a22a9e41d8af, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  avatarUrl: https://api.readyplayer.me/v1/avatars/638df693d72bffc6fa17943c.glb
+  avatarUrl: https://models.readyplayer.me/638df693d72bffc6fa17943c.glb
 --- !u!114 &2024074594
 MonoBehaviour:
   m_ObjectHideFlags: 0

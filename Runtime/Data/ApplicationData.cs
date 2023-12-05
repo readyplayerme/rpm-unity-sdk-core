@@ -6,7 +6,7 @@ namespace ReadyPlayerMe.Core
 {
     public static class ApplicationData
     {
-        private const string SDK_VERSION = "v4.0.1";
+        private const string SDK_VERSION = "v4.1.0";
         private const string TAG = "ApplicationData";
         private const string DEFAULT_RENDER_PIPELINE = "Built-In Render Pipeline";
         private static readonly AppData Data;

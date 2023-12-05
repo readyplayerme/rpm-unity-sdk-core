@@ -32,10 +32,12 @@ namespace ReadyPlayerMe.Core.Analytics
             public const string OPEN_AVATAR_CREATOR_DOCUMENTATION = "open avatar creator documentation";
             public const string OPEN_OPTIMIZATION_DOCUMENTATION = "open optimization documentation";
             public const string AVATAR_CREATOR_SAMPLE_IMPORTED = "Avatar creator sample imported";
+            public const string INSTALL_PACKAGE = "install unity package";
         }
 
         public static class Properties
         {
+            public const string SDK_SOURCE_URL = "sdk source url";
             public const string ENGINE_VERSION = "engine version";
             public const string RENDER_PIPELINE = "render pipeline";
             public const string SUBDOMAIN = "subdomain";
