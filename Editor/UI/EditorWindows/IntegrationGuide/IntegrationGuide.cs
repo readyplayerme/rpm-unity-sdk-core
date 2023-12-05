@@ -51,7 +51,7 @@ namespace ReadyPlayerMe.Core.Editor
                 AnalyticsEditorLogger.EventLogger.LogLoadQuickStartScene();
                 LoadAndOpenSample(QUICKSTART_SAMPLE_NAME, QUICKSTART_SAMPLE_NAME);
             };
-            
+
             rootVisualElement.Q<VisualElement>(LOAD_AVATARS).Q<Button>().clicked += () =>
             {
                 AnalyticsEditorLogger.EventLogger.LogOpenAvatarDocumentation();
@@ -75,18 +75,16 @@ namespace ReadyPlayerMe.Core.Editor
                 AnalyticsEditorLogger.EventLogger.LogAvatarCreatorSampleImported();
                 LoadAndOpenSample(AVATAR_CREATOR_SAMPLE_NAME, AVATAR_CREATOR_SAMPLE_SCENE_NAME);
             };
-            
+
             rootVisualElement.Q<VisualElement>(OPTIMIZE_THE_PERFORMANCE).Q<Button>().clicked += () =>
             {
                 AnalyticsEditorLogger.EventLogger.LogOpenOptimizationDocumentation();
                 OpenDocumentation(OPTIMIZE_PERFORMANCE_URL);
             };
         }
-        
+
         private void LoadAndOpenSample(string sampleName, string scenePath)
         {
-            Close();
-
             var sampleLoader = new SampleLoader();
 
             if (sampleLoader.Load(CORE_PACKAGE, sampleName))
@@ -94,7 +92,7 @@ namespace ReadyPlayerMe.Core.Editor
                 sampleLoader.OpenScene(scenePath);
                 return;
             }
-            
+
             EditorUtility.DisplayDialog(INTEGRATION_GUIDE, $"No sample with name {sampleName} found.", "OK");
         }
 
