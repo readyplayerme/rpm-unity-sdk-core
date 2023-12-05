@@ -12,7 +12,7 @@ namespace ReadyPlayerMe
         [Serializable]
         private class CategoryIcon
         {
-            public Category category;
+            public AssetType category;
             public GameObject panelParent;
         }
 
@@ -23,8 +23,8 @@ namespace ReadyPlayerMe
         [SerializeField] private List<CategoryButton> categoryButtons;
         [SerializeField] private List<CategoryIcon> categoryPanels;
 
-        private Dictionary<Category, CategoryButton> categoryButtonsMap;
-        public Action<Category> OnCategorySelected;
+        private Dictionary<AssetType, CategoryButton> categoryButtonsMap;
+        public Action<AssetType> OnCategorySelected;
         private CategoryButton selectedCategoryButton;
 
         private CameraZoom cameraZoom;
@@ -50,7 +50,7 @@ namespace ReadyPlayerMe
 
         private void Initialize()
         {
-            categoryButtonsMap = new Dictionary<Category, CategoryButton>();
+            categoryButtonsMap = new Dictionary<AssetType, CategoryButton>();
             PanelSwitcher.FaceCategoryPanel = faceCategoryPanel;
             PanelSwitcher.OutfitCategoryPanel = outfitCategoryPanel;
 
@@ -64,20 +64,20 @@ namespace ReadyPlayerMe
                 PanelSwitcher.AddPanel(category.category, category.panelParent);
             }
         }
-        
+
         public void Setup(BodyType bodyType)
-        { 
+        {
             this.bodyType = bodyType;
             DefaultZoom();
 
             if (this.bodyType == BodyType.HalfBody)
             {
                 outfitCategoryButton.gameObject.SetActive(false);
-                categoryButtons.First(x => x.Category == Category.Shirt).gameObject.SetActive(true);
+                categoryButtons.First(x => x.Category == AssetType.Shirt).gameObject.SetActive(true);
             }
             else
             {
-                categoryButtons.First(x => x.Category == Category.Shirt).gameObject.SetActive(false);
+                categoryButtons.First(x => x.Category == AssetType.Shirt).gameObject.SetActive(false);
                 outfitCategoryButton.gameObject.SetActive(true);
             }
 
@@ -89,7 +89,7 @@ namespace ReadyPlayerMe
             SelectFaceShapeCategory();
         }
 
-        public void SetDefaultSelection(Category category)
+        public void SetDefaultSelection(AssetType category)
         {
             SwitchZoomByCategory(category);
             categoryButtonsMap[category].SetSelect(true);
@@ -105,7 +105,7 @@ namespace ReadyPlayerMe
             faceCategoryButton.SetInteractable(enable);
             foreach (var categoryButton in categoryButtonsMap)
             {
-                if (categoryButton.Key != Category.Outfit)
+                if (categoryButton.Key != AssetType.Outfit)
                 {
                     categoryButton.Value.SetInteractable(enable);
                 }
@@ -122,7 +122,7 @@ namespace ReadyPlayerMe
             }
         }
 
-        private void ConfigureCategoryButton(Category category, CategoryButton categoryButton)
+        private void ConfigureCategoryButton(AssetType category, CategoryButton categoryButton)
         {
             categoryButton.AddListener(() =>
             {
@@ -132,18 +132,18 @@ namespace ReadyPlayerMe
 
             categoryButtonsMap.Add(category, categoryButton);
         }
-        
+
         private void SelectFaceShapeCategory()
         {
-            SelectCategoryGroup(Category.FaceShape);
+            SelectCategoryGroup(AssetType.FaceShape);
         }
-        
+
         private void SelectOutfitTopCategory()
         {
-            SelectCategoryGroup(Category.Top);
+            SelectCategoryGroup(AssetType.Top);
         }
-        
-        private void SelectCategoryGroup(Category category)
+
+        private void SelectCategoryGroup(AssetType category)
         {
             if (selectedCategoryButton != null)
             {
@@ -151,7 +151,7 @@ namespace ReadyPlayerMe
             }
 
             var isOutfit = category.IsOutfitAsset();
-            
+
             outfitCategoryButton.SetSelect(isOutfit);
             faceCategoryButton.SetSelect(!isOutfit);
             var button = categoryButtons.First(x => x.Category == category);
@@ -174,7 +174,7 @@ namespace ReadyPlayerMe
             }
         }
 
-        private void SwitchZoomByCategory(Category category)
+        private void SwitchZoomByCategory(AssetType category)
         {
             if (bodyType != BodyType.HalfBody)
             {

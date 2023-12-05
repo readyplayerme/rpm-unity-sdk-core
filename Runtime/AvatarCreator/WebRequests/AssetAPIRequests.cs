@@ -71,7 +71,7 @@ namespace ReadyPlayerMe.AvatarCreator
             return assets.ToArray();
         }
 
-        public async Task<PartnerAsset[]> Get(Category? category, BodyType bodyType, OutfitGender gender, CancellationToken ctx = new CancellationToken())
+        public async Task<PartnerAsset[]> Get(AssetType? category, BodyType bodyType, OutfitGender gender, CancellationToken ctx = new CancellationToken())
         {
             var assets = new HashSet<PartnerAsset>();
             var assetData = await GetRequest(LIMIT, 1, category, gender, bodyType, ctx: ctx);
@@ -86,7 +86,7 @@ namespace ReadyPlayerMe.AvatarCreator
             return assets.ToArray();
         }
 
-        private async Task<AssetLibrary> GetRequest(int limit, int pageNumber, Category? category, OutfitGender gender, BodyType bodyType, CancellationToken ctx = new CancellationToken())
+        private async Task<AssetLibrary> GetRequest(int limit, int pageNumber, AssetType? category, OutfitGender gender, BodyType bodyType, CancellationToken ctx = new CancellationToken())
         {
             var startTime = Time.time;
 
@@ -135,7 +135,7 @@ namespace ReadyPlayerMe.AvatarCreator
 
             var downloadHandler = new DownloadHandlerTexture();
             var webRequestDispatcher = new WebRequestDispatcher();
-            var response = await webRequestDispatcher.SendRequest<ResponseTexture>(url,HttpMethod.GET, downloadHandler: downloadHandler, ctx: ctx);
+            var response = await webRequestDispatcher.SendRequest<ResponseTexture>(url, HttpMethod.GET, downloadHandler: downloadHandler, ctx: ctx);
 
             response.ThrowIfError();
 

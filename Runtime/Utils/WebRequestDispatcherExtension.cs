@@ -107,7 +107,7 @@ namespace ReadyPlayerMe.Core
         /// <param name="token">Can be used to cancel the operation.</param>
         /// <param name="timeout">Used to set how long to wait before the request will time out</param>
         /// <returns>The response data as a <see cref="Texture2D" /> if successful otherwise it will throw an exception.</returns>
-        public static async Task<Texture2D> DownloadTexture(this WebRequestDispatcher webRequestDispatcher, string url, CancellationToken token,
+        public static async Task<Texture2D> DownloadTexture(this WebRequestDispatcher webRequestDispatcher, string url, CancellationToken token = default,
             int timeout = TIMEOUT)
         {
             if (!HasInternetConnection)

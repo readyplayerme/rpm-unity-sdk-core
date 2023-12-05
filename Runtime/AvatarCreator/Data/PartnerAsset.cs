@@ -3,11 +3,13 @@ using ReadyPlayerMe.Core;
 
 namespace ReadyPlayerMe.AvatarCreator
 {
-    public struct PartnerAsset
+    public struct PartnerAsset : IAssetData
     {
-        public string Id;
+        public string Id { get; set; }
+
         [JsonProperty("type"), JsonConverter(typeof(CategoryConverter))]
-        public Category Category;
+        public AssetType AssetType { get; set; }
+
         [JsonConverter(typeof(GenderConverter))]
         public OutfitGender Gender;
         [JsonProperty("iconUrl")]

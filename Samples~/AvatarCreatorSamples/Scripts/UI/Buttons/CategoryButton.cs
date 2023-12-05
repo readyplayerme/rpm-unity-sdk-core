@@ -11,9 +11,9 @@ namespace ReadyPlayerMe
         [SerializeField] private Button button;
         [SerializeField] private Color selectedColor;
         [SerializeField] private Color defaultColor;
-        [SerializeField] private Category category;
+        [SerializeField] private AssetType category;
 
-        public Category Category => category;
+        public AssetType Category => category;
 
         private Action onClickAction;
 
@@ -27,7 +27,7 @@ namespace ReadyPlayerMe
         {
             button.onClick.RemoveListener(onClickAction.Invoke);
         }
-        
+
         public void SetIcon(Sprite sprite)
         {
             icon.sprite = sprite;

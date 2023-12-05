@@ -30,7 +30,7 @@ namespace ReadyPlayerMe
         private Quaternion lastRotation;
 
         private CancellationTokenSource ctxSource;
-        public List<Category> categoriesAssetsLoaded;
+        public List<AssetType> categoriesAssetsLoaded;
 
         public override StateType StateType => StateType.Editor;
         public override StateType NextState => StateType.End;
@@ -85,15 +85,15 @@ namespace ReadyPlayerMe
         private void ToggleCategoryButtons()
         {
             var assets = AvatarCreatorData.AvatarProperties.Assets;
-            if (!assets.TryGetValue(Category.Outfit, out var outfitId))
+            if (!assets.TryGetValue(AssetType.Outfit, out var outfitId))
             {
                 return;
             }
 
-            if (partnerAssetManager.IsLockedAssetCategories(Category.Outfit, outfitId.ToString()))
+            if (partnerAssetManager.IsLockedAssetCategories(AssetType.Outfit, outfitId.ToString()))
             {
                 categoryUICreator.SetActiveCategoryButtons(false);
-                categoryUICreator.SetDefaultSelection(Category.Outfit);
+                categoryUICreator.SetDefaultSelection(AssetType.Outfit);
             }
             else
             {
@@ -133,15 +133,15 @@ namespace ReadyPlayerMe
             var startTime = Time.time;
 
             partnerAssetManager.OnError += OnErrorCallback;
-            categoriesAssetsLoaded = new List<Category>();
+            categoriesAssetsLoaded = new List<AssetType>();
 
             await partnerAssetManager.GetAssets(AvatarCreatorData.AvatarProperties.BodyType, AvatarCreatorData.AvatarProperties.Gender, ctxSource.Token);
-            await CreateAssetsByCategory(Category.FaceShape);
+            await CreateAssetsByCategory(AssetType.FaceShape);
 
             SDKLogger.Log(TAG, $"Loaded all partner assets {Time.time - startTime:F2}s");
         }
 
-        private async void OnCategorySelected(Category category)
+        private async void OnCategorySelected(AssetType category)
         {
             await CreateAssetsByCategory(category);
             avatarManager.PrecompileAvatar(AvatarCreatorData.AvatarProperties.Id, partnerAssetManager.GetPrecompileData(new[] { category }, NUMBER_OF_ASSETS_TO_PRECOMPILE));
@@ -199,7 +199,7 @@ namespace ReadyPlayerMe
             saveButton.gameObject.SetActive(true);
         }
 
-        private async Task CreateAssetsByCategory(Category category)
+        private async Task CreateAssetsByCategory(AssetType category)
         {
             if (categoriesAssetsLoaded.Contains(category))
             {
@@ -216,13 +216,13 @@ namespace ReadyPlayerMe
             assetButtonCreator.CreateAssetButtons(assets, category, OnAssetButtonClicked);
             await partnerAssetManager.DownloadIconsByCategory(category, assetButtonCreator.SetAssetIcon, ctxSource.Token);
 
-            if (category == Category.EyeShape)
+            if (category == AssetType.EyeShape)
             {
-                await CreateAssetsByCategory(Category.EyeColor);
+                await CreateAssetsByCategory(AssetType.EyeColor);
             }
         }
 
-        private void OnAssetButtonClicked(string id, Category category)
+        private void OnAssetButtonClicked(string id, AssetType category)
         {
             categoryUICreator.SetActiveCategoryButtons(!partnerAssetManager.IsLockedAssetCategories(category, id));
             UpdateAvatar(id, category);
@@ -257,7 +257,7 @@ namespace ReadyPlayerMe
             SDKLogger.Log(TAG, $"Avatar saved in {Time.time - startTime:F2}s");
         }
 
-        private Dictionary<Category, object> GetDefaultAssets()
+        private Dictionary<AssetType, object> GetDefaultAssets()
         {
             if (string.IsNullOrEmpty(AvatarCreatorData.AvatarProperties.Base64Image))
             {
@@ -266,16 +266,16 @@ namespace ReadyPlayerMe
                     : AvatarPropertiesConstants.MaleDefaultAssets;
             }
 
-            return new Dictionary<Category, object>();
+            return new Dictionary<AssetType, object>();
         }
 
-        private async void UpdateAvatar(object assetId, Category category)
+        private async void UpdateAvatar(object assetId, AssetType category)
         {
             var startTime = Time.time;
 
             var payload = new AvatarProperties
             {
-                Assets = new Dictionary<Category, object>()
+                Assets = new Dictionary<AssetType, object>()
             };
 
             payload.Assets.Add(category, assetId);

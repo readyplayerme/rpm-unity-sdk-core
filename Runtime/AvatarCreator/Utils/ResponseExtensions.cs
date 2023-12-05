@@ -4,7 +4,7 @@ using ReadyPlayerMe.Core;
 
 namespace ReadyPlayerMe.AvatarCreator
 {
-    public static class ResponseExtension
+    public static class ResponseExtensions
     {
         public static void ThrowIfError(this IResponse response)
         {
@@ -13,7 +13,7 @@ namespace ReadyPlayerMe.AvatarCreator
                 throw new Exception(response.Error);
             }
         }
-        
+
         public static void ThrowIfError(this Response response)
         {
             if (!response.IsSuccess)

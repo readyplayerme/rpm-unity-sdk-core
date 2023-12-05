@@ -13,23 +13,23 @@ namespace ReadyPlayerMe
         [SerializeField] private GameObject colorAssetButtonPrefab;
 
         private Dictionary<object, AssetButton> buttonsById;
-        private Dictionary<Category, AssetButton> selectedButtonsByCategory;
-        private Dictionary<Category, object> selectedAssetIdByCategory;
-        private Dictionary<Category, AssetButton> clearButtonByCategory;
+        private Dictionary<AssetType, AssetButton> selectedButtonsByCategory;
+        private Dictionary<AssetType, object> selectedAssetIdByCategory;
+        private Dictionary<AssetType, AssetButton> clearButtonByCategory;
 
         private void Start()
         {
             buttonsById = new Dictionary<object, AssetButton>();
-            selectedButtonsByCategory = new Dictionary<Category, AssetButton>();
-            clearButtonByCategory = new Dictionary<Category, AssetButton>();
+            selectedButtonsByCategory = new Dictionary<AssetType, AssetButton>();
+            clearButtonByCategory = new Dictionary<AssetType, AssetButton>();
         }
 
-        public void SetSelectedAssets(Dictionary<Category, object> assets)
+        public void SetSelectedAssets(Dictionary<AssetType, object> assets)
         {
             selectedAssetIdByCategory = assets;
         }
 
-        public void CreateAssetButtons(IEnumerable<string> assets, Category category, Action<string, Category> onClick)
+        public void CreateAssetButtons(IEnumerable<string> assets, AssetType category, Action<string, AssetType> onClick)
         {
             buttonsById ??= new Dictionary<object, AssetButton>();
 
@@ -44,7 +44,7 @@ namespace ReadyPlayerMe
             }
         }
 
-        public void CreateClearButton(Action<string, Category> onClick)
+        public void CreateClearButton(Action<string, AssetType> onClick)
         {
             foreach (var categoryPanelMap in PanelSwitcher.CategoryPanelMap)
             {
@@ -57,9 +57,9 @@ namespace ReadyPlayerMe
             }
         }
 
-        private void SetSelectedIcon(string assetId, Category category)
+        private void SetSelectedIcon(string assetId, AssetType category)
         {
-            if (category.IsColorAsset() && category != Category.EyeColor)
+            if (category.IsColorAsset() && category != AssetType.EyeColor)
             {
                 assetId = $"{category}_{assetId}";
             }
@@ -71,21 +71,21 @@ namespace ReadyPlayerMe
             SelectButton(category, buttonsById[assetId]);
         }
 
-        public void CreateColorUI(ColorPalette[] colorPalettes, Action<object, Category> onClick)
+        public void CreateColorUI(Dictionary<AssetType, AssetColor[]> colorLibrary, Action<object, AssetType> onClick)
         {
-            foreach (var colorPalette in colorPalettes)
+            foreach (var colorPalette in colorLibrary)
             {
-                var parent = PanelSwitcher.CategoryPanelMap[colorPalette.category];
+                var parent = PanelSwitcher.CategoryPanelMap[colorPalette.Key];
                 var assetIndex = 0;
-                foreach (var color in colorPalette.hexColors)
+                foreach (var assetColor in colorPalette.Value)
                 {
-                    var button = AddColorButton(assetIndex, parent.transform, colorPalette.category, onClick);
-                    button.SetColor(color);
+                    var button = AddColorButton(assetIndex, parent.transform, colorPalette.Key, onClick);
+                    button.SetColor(assetColor.HexColor);
 
                     // By default first color is applied on initial draft
                     if (assetIndex == 0)
                     {
-                        SelectButton(colorPalette.category, button);
+                        SelectButton(colorPalette.Key, button);
                     }
                     assetIndex++;
                 }
@@ -118,7 +118,7 @@ namespace ReadyPlayerMe
             clearButtonByCategory.Clear();
         }
 
-        private AssetButton AddColorButton(int index, Transform parent, Category category, Action<object, Category> onClick)
+        private AssetButton AddColorButton(int index, Transform parent, AssetType category, Action<object, AssetType> onClick)
         {
             var assetButtonGameObject = Instantiate(colorAssetButtonPrefab, parent.GetComponent<ScrollRect>().content);
             var buttonName = $"{category}_{index}";
@@ -133,7 +133,7 @@ namespace ReadyPlayerMe
             return assetButton;
         }
 
-        private void AddAssetButton(string assetId, Transform parent, Category category, Action<string, Category> onClick)
+        private void AddAssetButton(string assetId, Transform parent, AssetType category, Action<string, AssetType> onClick)
         {
             if (buttonsById.ContainsKey(assetId)) return;
 
@@ -148,7 +148,7 @@ namespace ReadyPlayerMe
             buttonsById.Add(assetId, assetButton);
         }
 
-        private void SelectButton(Category category, AssetButton assetButton)
+        private void SelectButton(AssetType category, AssetButton assetButton)
         {
             ConfigureOutfitSelection(category);
 
@@ -164,33 +164,33 @@ namespace ReadyPlayerMe
             assetButton.SetSelect(true);
         }
 
-        private void ConfigureOutfitSelection(Category category)
+        private void ConfigureOutfitSelection(AssetType category)
         {
             switch (category)
             {
-                case Category.Top:
-                case Category.Bottom:
-                case Category.Footwear:
+                case AssetType.Top:
+                case AssetType.Bottom:
+                case AssetType.Footwear:
                 {
-                    if (selectedButtonsByCategory.TryGetValue(Category.Outfit, out AssetButton outfitButton))
+                    if (selectedButtonsByCategory.TryGetValue(AssetType.Outfit, out AssetButton outfitButton))
                     {
                         outfitButton.SetSelect(false);
                     }
                     break;
                 }
-                case Category.Outfit:
+                case AssetType.Outfit:
                 {
-                    if (selectedButtonsByCategory.TryGetValue(Category.Top, out AssetButton topButton))
+                    if (selectedButtonsByCategory.TryGetValue(AssetType.Top, out AssetButton topButton))
                     {
                         topButton.SetSelect(false);
                     }
 
-                    if (selectedButtonsByCategory.TryGetValue(Category.Bottom, out AssetButton bottomButton))
+                    if (selectedButtonsByCategory.TryGetValue(AssetType.Bottom, out AssetButton bottomButton))
                     {
                         bottomButton.SetSelect(false);
                     }
 
-                    if (selectedButtonsByCategory.TryGetValue(Category.Footwear, out AssetButton footwearButton))
+                    if (selectedButtonsByCategory.TryGetValue(AssetType.Footwear, out AssetButton footwearButton))
                     {
                         footwearButton.SetSelect(false);
                     }
@@ -199,7 +199,7 @@ namespace ReadyPlayerMe
             }
         }
 
-        private void AddClearSelectionButton(Transform parent, Category category, Action<string, Category> onClick)
+        private void AddClearSelectionButton(Transform parent, AssetType category, Action<string, AssetType> onClick)
         {
             var assetButtonGameObject = Instantiate(clearAssetSelectionButton, parent.GetComponent<ScrollRect>().content);
             assetButtonGameObject.transform.SetAsFirstSibling();
@@ -217,7 +217,7 @@ namespace ReadyPlayerMe
             clearButtonByCategory.Add(category, assetButton);
         }
 
-        private bool IsSelectedAssetNotPresentForCategory(Category category)
+        private bool IsSelectedAssetNotPresentForCategory(AssetType category)
         {
             return !selectedAssetIdByCategory.ContainsKey(category) ||
                    selectedAssetIdByCategory[category] as int? == 0 ||

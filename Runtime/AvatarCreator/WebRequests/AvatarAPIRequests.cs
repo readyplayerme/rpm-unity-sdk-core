@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
@@ -14,7 +15,8 @@ namespace ReadyPlayerMe.AvatarCreator
     {
         private const string RPM_AVATAR_V1_BASE_URL = Env.RPM_API_V1_BASE_URL + "avatars";
         private const string RPM_AVATAR_V2_BASE_URL = Env.RPM_API_V2_BASE_URL + "avatars";
-        
+
+        private const string COLOR_PARAMETERS = "colors?type=skin,beard,hair,eyebrow";
         private const string FULL_BODY = "fullbody";
         private const string HALF_BODY = "halfbody";
         private const string PARTNER = "partner";
@@ -64,16 +66,6 @@ namespace ReadyPlayerMe.AvatarCreator
             return JsonConvert.DeserializeObject<List<AvatarTemplateData>>(data.ToString());
         }
 
-        public async Task<Texture> GetAvatarTemplateImage(string url)
-        {
-            var downloadHandler = new DownloadHandlerTexture();
-            var webRequestDispatcher = new WebRequestDispatcher();
-            var response = await webRequestDispatcher.SendRequest<ResponseTexture>(url, HttpMethod.GET, downloadHandler: downloadHandler, ctx: ctx);
-
-            response.ThrowIfError();
-            return response.Texture;
-        }
-
         public async Task<AvatarProperties> CreateFromTemplateAvatar(string templateId, string partner, BodyType bodyType)
         {
             var payloadData = new Dictionary<string, string>
@@ -101,12 +93,18 @@ namespace ReadyPlayerMe.AvatarCreator
             return JsonConvert.DeserializeObject<AvatarProperties>(data);
         }
 
-        public async Task<ColorPalette[]> GetAllAvatarColors(string avatarId)
+        public async Task<AssetColor[]> GetAvatarColors(string avatarId, AssetType assetType = AssetType.None)
         {
+            var colorParameters = assetType.GetColorProperty();
+            if (string.IsNullOrEmpty(colorParameters))
+            {
+                colorParameters = "skin,beard,hair,eyebrow";
+            }
+
             var response = await authorizedRequest.SendRequest<Response>(
                 new RequestData
                 {
-                    Url = $"{RPM_AVATAR_V2_BASE_URL}/{avatarId}/colors?type=skin,beard,hair,eyebrow",
+                    Url = $"{RPM_AVATAR_V2_BASE_URL}/{avatarId}/colors?type={colorParameters}",
                     Method = HttpMethod.GET
                 },
                 ctx: ctx
@@ -155,13 +153,13 @@ namespace ReadyPlayerMe.AvatarCreator
         public async Task<byte[]> GetAvatar(string avatarId, bool isPreview = false, string parameters = null)
         {
             var url = $"{RPM_AVATAR_V2_BASE_URL}/{avatarId}.glb?";
-            
+
             if (!string.IsNullOrEmpty(parameters))
                 url += parameters?.Substring(1) + "&";
 
             if (isPreview)
                 url += "preview=true";
-            
+
             var response = await authorizedRequest.SendRequest<Response>(
                 new RequestData
                 {
@@ -177,7 +175,7 @@ namespace ReadyPlayerMe.AvatarCreator
         public async Task<byte[]> UpdateAvatar(string avatarId, AvatarProperties avatarProperties, string parameters = null)
         {
             var url = $"{RPM_AVATAR_V2_BASE_URL}/{avatarId}?responseType=glb&{parameters}";
-            
+
             if (!string.IsNullOrEmpty(parameters))
                 url += parameters?.Substring(1);
 
@@ -229,7 +227,7 @@ namespace ReadyPlayerMe.AvatarCreator
 
             if (isDraft)
                 url += "draft";
-            
+
             var response = await authorizedRequest.SendRequest<Response>(
                 new RequestData
                 {

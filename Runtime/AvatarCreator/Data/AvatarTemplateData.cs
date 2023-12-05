@@ -6,12 +6,13 @@ using UnityEngine;
 namespace ReadyPlayerMe.AvatarCreator
 {
     [Serializable]
-    public class AvatarTemplateData
+    public class AvatarTemplateData : IAssetData
     {
+        public string Id { get; set; }
+        public AssetType AssetType { get; set; } = AssetType.AvatarTemplate;
         public string ImageUrl;
         [JsonConverter(typeof(GenderConverter))]
         public OutfitGender Gender;
-        public string Id;
         public Texture Texture;
     }
 }

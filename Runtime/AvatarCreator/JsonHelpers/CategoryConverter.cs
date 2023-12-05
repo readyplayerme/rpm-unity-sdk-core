@@ -8,7 +8,7 @@ namespace ReadyPlayerMe.AvatarCreator
     {
         public override bool CanConvert(Type objectType)
         {
-            return objectType == typeof(Category);
+            return objectType == typeof(AssetType);
         }
 
         public override void WriteJson(JsonWriter writer, object value, JsonSerializer serializer)
@@ -23,12 +23,12 @@ namespace ReadyPlayerMe.AvatarCreator
             {
                 throw new JsonSerializationException("Expected string value");
             }
-            
+
             if (!CategoryHelper.PartnerCategoryMap.ContainsKey(token.ToString()))
             {
-                return Category.None;
+                return AssetType.None;
             }
-                
+
             return CategoryHelper.PartnerCategoryMap[token.ToString()];
         }
     }
