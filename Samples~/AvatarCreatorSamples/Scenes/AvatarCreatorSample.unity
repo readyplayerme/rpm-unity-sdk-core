@@ -16668,6 +16668,11 @@ PrefabInstance:
       propertyPath: accountCreationPopup
       value: 
       objectReference: {fileID: 1181375370}
+    - target: {fileID: 57378948363611735, guid: 94e6adc5c795ff348bce129db0368b1f,
+        type: 3}
+      propertyPath: accountCreationElement
+      value: 
+      objectReference: {fileID: 1181375370}
     - target: {fileID: 426946072540919372, guid: 94e6adc5c795ff348bce129db0368b1f,
         type: 3}
       propertyPath: m_AnchorMax.y
