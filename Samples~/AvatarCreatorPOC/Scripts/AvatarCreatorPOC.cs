@@ -4,98 +4,102 @@ using ReadyPlayerMe.AvatarCreator;
 using ReadyPlayerMe.Core;
 using UnityEngine;
 
-public class AvatarCreatorPOC : MonoBehaviour
+namespace ReadyPlayerMe
 {
-    [SerializeField] private List<AssetSelectionElement> assetSelectionElements;
-    [SerializeField] private List<ColorSelectionElement> colorSelectionElements;
-    [SerializeField] private RuntimeAnimatorController animationController;
-    [SerializeField] private GameObject loading;
-    private AvatarManager avatarManager;
-
-    private BodyType bodyType = BodyType.FullBody;
-    private OutfitGender gender = OutfitGender.Masculine;
-    private GameObject avatar;
-
-    private async void Start()
+    public class AvatarCreatorPOC : MonoBehaviour
     {
-        await AuthManager.LoginAsAnonymous();
-        avatarManager = new AvatarManager();
+        [SerializeField] private List<AssetSelectionElement> assetSelectionElements;
+        [SerializeField] private List<ColorSelectionElement> colorSelectionElements;
+        [SerializeField] private RuntimeAnimatorController animationController;
+        [SerializeField] private GameObject loading;
+      
+        private readonly BodyType bodyType = BodyType.FullBody;
+        private readonly OutfitGender gender = OutfitGender.Masculine;
 
-        loading.SetActive(true);
-        GetAssets();
-        var avatarProperties = await GetAvatar();
-        GetColors(avatarProperties);
-        loading.SetActive(false);
-    }
+        private AvatarManager avatarManager;
+        private GameObject avatar;
 
-    private void OnEnable()
-    {
-        foreach (var element in assetSelectionElements)
+        private async void Start()
         {
-            element.onAssetSelected.AddListener(OnAssetSelection);
+            await AuthManager.LoginAsAnonymous();
+            avatarManager = new AvatarManager();
+
+            loading.SetActive(true);
+            GetAssets();
+            var avatarProperties = await GetAvatar();
+            GetColors(avatarProperties);
+            loading.SetActive(false);
         }
 
-        foreach (var element in colorSelectionElements)
+        private void OnEnable()
         {
-            element.onAssetSelected.AddListener(OnAssetSelection);
-        }
-    }
+            foreach (var element in assetSelectionElements)
+            {
+                element.onAssetSelected.AddListener(OnAssetSelection);
+            }
 
-    private void OnDisable()
-    {
-        foreach (var element in assetSelectionElements)
+            foreach (var element in colorSelectionElements)
+            {
+                element.onAssetSelected.AddListener(OnAssetSelection);
+            }
+        }
+
+        private void OnDisable()
         {
-            element.onAssetSelected.RemoveListener(OnAssetSelection);
+            foreach (var element in assetSelectionElements)
+            {
+                element.onAssetSelected.RemoveListener(OnAssetSelection);
+            }
+
+            foreach (var element in colorSelectionElements)
+            {
+                element.onAssetSelected.RemoveListener(OnAssetSelection);
+            }
         }
 
-        foreach (var element in colorSelectionElements)
+        private async void OnAssetSelection(IAssetData assetData)
         {
-            element.onAssetSelected.RemoveListener(OnAssetSelection);
+            loading.SetActive(true);
+            var newAvatar = await avatarManager.UpdateAsset(assetData.AssetType, bodyType, assetData.Id);
+            Destroy(avatar);
+            avatar = newAvatar;
+            SetElements();
+            loading.SetActive(false);
         }
-    }
 
-    private async void OnAssetSelection(IAssetData assetData)
-    {
-        loading.SetActive(true);
-        var newAvatar = await avatarManager.UpdateAsset(assetData.AssetType, bodyType, assetData.Id);
-        Destroy(avatar);
-        avatar = newAvatar;
-        SetElements();
-        loading.SetActive(false);
-    }
-
-    private async void GetAssets()
-    {
-        foreach (var element in assetSelectionElements)
+        private async void GetAssets()
         {
-            element.LoadAndCreateButtons(gender);
+            foreach (var element in assetSelectionElements)
+            {
+                element.LoadAndCreateButtons(gender);
+            }
         }
-    }
 
-    private void GetColors(AvatarProperties avatarProperties)
-    {
-        foreach (var element in colorSelectionElements)
+        private void GetColors(AvatarProperties avatarProperties)
         {
-            element.LoadAndCreateButtons(avatarProperties);
+            foreach (var element in colorSelectionElements)
+            {
+                element.LoadAndCreateButtons(avatarProperties);
+            }
         }
-    }
 
-    private async Task<AvatarProperties> GetAvatar()
-    {
-        var avatarTemplateFetcher = new AvatarTemplateFetcher();
-        var templates = await avatarTemplateFetcher.GetTemplates();
-        var avatarTemplate = templates[1];
+        private async Task<AvatarProperties> GetAvatar()
+        {
+            var avatarTemplateFetcher = new AvatarTemplateFetcher();
+            var templates = await avatarTemplateFetcher.GetTemplates();
+            var avatarTemplate = templates[1];
 
-        var templateAvatarProps = await avatarManager.CreateAvatarFromTemplate(avatarTemplate.Id, bodyType);
-        avatar = templateAvatarProps.Item1;
-        SetElements();
-        return templateAvatarProps.Item2;
-    }
+            var templateAvatarProps = await avatarManager.CreateAvatarFromTemplate(avatarTemplate.Id, bodyType);
+            avatar = templateAvatarProps.Item1;
+            SetElements();
+            return templateAvatarProps.Item2;
+        }
 
-    private void SetElements()
-    {
-        avatar.AddComponent<MouseInput>();
-        avatar.AddComponent<AvatarMouseRotation>();
-        avatar.GetComponent<Animator>().runtimeAnimatorController = animationController;
+        private void SetElements()
+        {
+            avatar.AddComponent<MouseInput>();
+            avatar.AddComponent<AvatarMouseRotation>();
+            avatar.GetComponent<Animator>().runtimeAnimatorController = animationController;
+        }
     }
 }
