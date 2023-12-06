@@ -1,4 +1,3 @@
-using System;
 using ReadyPlayerMe.Core;
 using UnityEngine;
 
@@ -7,7 +6,7 @@ namespace ReadyPlayerMe.AvatarCreator
     public class CameraFocuser : MonoBehaviour
     {
         private const string TAG = nameof(CameraFocuser);
-        
+
         [SerializeField] private Transform cameraTransform;
         [SerializeField] private Vector3 faceViewPoint = new Vector3(0f, 1.66f, 0.85f);
         [SerializeField] private Vector3 bodyViewPoint = new Vector3(0f, 1.4f, 2.6f);
