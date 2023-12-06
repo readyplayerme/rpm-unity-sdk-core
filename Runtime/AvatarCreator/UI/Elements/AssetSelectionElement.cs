@@ -47,16 +47,18 @@ namespace ReadyPlayerMe.AvatarCreator
         /// Asynchronously loads the template data and creates button elements for each asset. 
         /// Buttons are created with icons fetched based on the asset's image URL and icon size.
         /// </summary>
-        public async void LoadAndCreateButtons(OutfitGender gender)
+        public async Task LoadAndCreateButtons(OutfitGender gender)
         {
             await LoadAssetData(gender);
-            CreateButtons(assets.ToArray(), async (button, asset) =>
-            {
-                var webRequestDispatcher = new WebRequestDispatcher();
-                var url = iconSize > 0 ? $"{asset.ImageUrl}?w={iconSize}" : asset.ImageUrl;
-                var texture = await webRequestDispatcher.DownloadTexture(url);
-                button.SetIcon(texture);
-            });
+            CreateButtons(assets.ToArray(), OnButtonCreated);
+        }
+
+        private async void OnButtonCreated(ButtonElement button, PartnerAsset asset)
+        {
+            var webRequestDispatcher = new WebRequestDispatcher();
+            var url = iconSize > 0 ? $"{asset.ImageUrl}?w={iconSize}" : asset.ImageUrl;
+            var texture = await webRequestDispatcher.DownloadTexture(url);
+            button.SetIcon(texture);
         }
     }
 }

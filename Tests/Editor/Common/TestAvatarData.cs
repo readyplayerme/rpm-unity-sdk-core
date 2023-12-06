@@ -21,9 +21,9 @@ namespace ReadyPlayerMe.Core.Tests
         public static readonly AvatarUri DefaultAvatarUri = new AvatarUri
         {
             Guid = FULLBODY_MASCULINE,
-            ModelUrl = $"{TestUtils.API_URL_PREFIX}{FULLBODY_MASCULINE}{TestUtils.GLB_SUFFIX}",
+            ModelUrl = $"{TestUtils.MODELS_URL_PREFIX}{FULLBODY_MASCULINE}{TestUtils.GLB_SUFFIX}",
             LocalModelPath = $"{TestUtils.TestAvatarDirectory}/{FULLBODY_MASCULINE}/{FULLBODY_MASCULINE}{TestUtils.GLB_SUFFIX}",
-            MetadataUrl = $"{TestUtils.API_URL_PREFIX}{FULLBODY_MASCULINE}{TestUtils.JSON_SUFFIX}",
+            MetadataUrl = $"{TestUtils.MODELS_URL_PREFIX}{FULLBODY_MASCULINE}{TestUtils.JSON_SUFFIX}",
             LocalMetadataPath = $"{TestUtils.TestAvatarDirectory}/{FULLBODY_MASCULINE}/{FULLBODY_MASCULINE}{TestUtils.JSON_SUFFIX}"
         };
 
