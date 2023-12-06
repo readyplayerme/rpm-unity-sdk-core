@@ -1,7 +1,6 @@
 using ReadyPlayerMe.Core;
 using UnityEngine;
 using UnityEngine.Events;
-using UnityEngine.Serialization;
 using UnityEngine.UI;
 
 namespace ReadyPlayerMe.AvatarCreator
@@ -18,33 +17,16 @@ namespace ReadyPlayerMe.AvatarCreator
         [Space(5), Header("Events"), Tooltip("The event will be called when a body type is selected.")]
         public UnityEvent<BodyType> OnBodyTypeSelected;
 
-        private void Awake()
+        private void OnEnable()
         {
-            InitializeButtons();
+            fullbodyButton.onClick.AddListener(FullbodyButtonClicked);
+            halfbodyButton.onClick.AddListener(HalfbodyButtonClicked);
         }
 
-        private void InitializeButtons()
+        private void OnDisable()
         {
-            if (fullbodyButton != null)
-            {
-                fullbodyButton.onClick.AddListener(FullbodyButtonClicked);
-            }
-            if (halfbodyButton != null)
-            {
-                halfbodyButton.onClick.AddListener(HalfbodyButtonClicked);
-            }
-        }
-
-        private void OnDestroy()
-        {
-            if (fullbodyButton != null)
-            {
-                fullbodyButton.onClick.RemoveListener(FullbodyButtonClicked);
-            }
-            if (halfbodyButton != null)
-            {
-                halfbodyButton.onClick.RemoveListener(HalfbodyButtonClicked);
-            }
+            fullbodyButton.onClick.RemoveListener(FullbodyButtonClicked);
+            halfbodyButton.onClick.RemoveListener(HalfbodyButtonClicked);
         }
 
         private void FullbodyButtonClicked()
