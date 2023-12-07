@@ -2,7 +2,7 @@
 
 namespace ReadyPlayerMe.Core.Editor
 {
-    public class Postprocessor : AssetPostprocessor
+    public class ModelAssetProcessor : AssetPostprocessor
     {
         private const string ANIMATION_ASSET_PATH = "Assets/Ready Player Me/Animations";
 

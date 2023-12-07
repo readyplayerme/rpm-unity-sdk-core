@@ -53,7 +53,7 @@ namespace ReadyPlayerMe.AvatarCreator
             CreateButtons(assets.ToArray(), OnButtonCreated);
         }
 
-        private async void OnButtonCreated(ButtonElement button, PartnerAsset asset)
+        private async void OnButtonCreated(SelectionButton button, PartnerAsset asset)
         {
             var webRequestDispatcher = new WebRequestDispatcher();
             var url = iconSize > 0 ? $"{asset.ImageUrl}?w={iconSize}" : asset.ImageUrl;

@@ -24,12 +24,12 @@ namespace ReadyPlayerMe.AvatarCreator
                 throw new JsonSerializationException("Expected string value");
             }
 
-            if (!CategoryHelper.PartnerCategoryMap.ContainsKey(token.ToString()))
+            if (!CategoryHelper.AssetTypeByValue.ContainsKey(token.ToString()))
             {
                 return AssetType.None;
             }
 
-            return CategoryHelper.PartnerCategoryMap[token.ToString()];
+            return CategoryHelper.AssetTypeByValue[token.ToString()];
         }
     }
 }

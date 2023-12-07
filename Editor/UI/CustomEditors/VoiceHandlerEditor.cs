@@ -1,11 +1,10 @@
-﻿using ReadyPlayerMe.Core;
-using UnityEditor;
+﻿using UnityEditor;
 using UnityEngine;
 
-namespace ReadyPlayerMe
+namespace ReadyPlayerMe.Core.Editor
 {
     [CustomEditor(typeof(VoiceHandler))]
-    public class VoiceHandlerEditor : Editor
+    public class VoiceHandlerEditor : UnityEditor.Editor
     {
         private const string AUDIO_CLIP = "AudioClip";
         private const string PROPERTY_PATH = "AudioSource";

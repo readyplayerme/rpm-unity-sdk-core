@@ -119,13 +119,13 @@ namespace ReadyPlayerMe.AvatarCreator
 
         public PrecompileData GetPrecompileData(AssetType[] categories, int numberOfAssetsPerCategory)
         {
-            var categoriesFromMap = CategoryHelper.PartnerCategoryMap
+            var categoriesFromMap = CategoryHelper.AssetTypeByValue
                 .Where(kvp => categories.Contains(kvp.Value))
                 .Select(kvp => kvp.Key)
                 .ToArray();
 
             var dictionary = categoriesFromMap.ToDictionary(category => category, category =>
-                GetAssetsByCategory(CategoryHelper.PartnerCategoryMap[category])
+                GetAssetsByCategory(CategoryHelper.AssetTypeByValue[category])
                     .Take(numberOfAssetsPerCategory)
                     .ToArray());
 

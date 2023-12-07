@@ -15,12 +15,12 @@ namespace ReadyPlayerMe.AvatarCreator
         private const string TAG = nameof(TemplateSelectionElement);
         [Header("UI Elements")]
         [Space(5)]
-        [SerializeField] private ButtonElement buttonElementPrefab;
+        [SerializeField] private SelectionButton buttonElementPrefab;
         [SerializeField] private Transform buttonContainer;
         [SerializeField] private GameObject selectedIcon;
 
         public UnityEvent<IAssetData> onAssetSelected;
-        private readonly Dictionary<string, ButtonElement> buttonElementById = new Dictionary<string, ButtonElement>();
+        private readonly Dictionary<string, SelectionButton> buttonElementById = new Dictionary<string, SelectionButton>();
 
         /// <summary>
         /// Creates button elements for each asset in the provided array.
@@ -30,7 +30,7 @@ namespace ReadyPlayerMe.AvatarCreator
         /// <param name="onButtonCreated">An optional callback action that is invoked for each button created, passing the created ButtonElement and the corresponding asset as arguments.
         /// This can be used for additional setup or customization of the buttons.</param>
         /// <typeparam name="T">A generic type of the asset data. Must implement the IAssetData interface.</typeparam>
-        public void CreateButtons<T>(T[] assets, Action<ButtonElement, T> onButtonCreated = default) where T : IAssetData
+        public void CreateButtons<T>(T[] assets, Action<SelectionButton, T> onButtonCreated = default) where T : IAssetData
         {
             if (assets.Length == 0)
             {
@@ -52,7 +52,7 @@ namespace ReadyPlayerMe.AvatarCreator
         /// </summary>
         /// <param name="id">The unique identifier for the button.</param>
         /// <returns>The created ButtonElement instance.</returns>
-        public ButtonElement CreateButton(string id)
+        public SelectionButton CreateButton(string id)
         {
             var button = Instantiate(buttonElementPrefab, buttonContainer);
             button.name = id;
@@ -78,9 +78,9 @@ namespace ReadyPlayerMe.AvatarCreator
         /// </summary>
         /// <param name="id">The unique ID associated with the button.</param>
         /// <returns>A ButtonElement with the specified ID if found; otherwise, null.</returns>
-        public ButtonElement GetButton(string id)
+        public SelectionButton GetButton(string id)
         {
-            if (buttonElementById.TryGetValue(id, out ButtonElement value))
+            if (buttonElementById.TryGetValue(id, out SelectionButton value))
             {
                 return value;
             }

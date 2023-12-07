@@ -93,7 +93,7 @@ namespace ReadyPlayerMe.AvatarCreator
             var type = string.Empty;
             if (category != null)
             {
-                type = CategoryHelper.PartnerCategoryMap.First(x => x.Value == category).Key;
+                type = CategoryHelper.AssetTypeByValue.First(x => x.Value == category).Key;
             }
 
             var url = BuildAssetListUrl(type, limit, pageNumber, AuthManager.UserSession.Id, appId, gender == OutfitGender.Masculine ? "male" : "female");

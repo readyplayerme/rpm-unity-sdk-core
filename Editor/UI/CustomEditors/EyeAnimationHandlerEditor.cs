@@ -1,11 +1,10 @@
-﻿using ReadyPlayerMe.Core;
-using UnityEditor;
+﻿using UnityEditor;
 using UnityEngine;
 
-namespace ReadyPlayerMe
+namespace ReadyPlayerMe.Core.Editor
 {
     [CustomEditor(typeof(EyeAnimationHandler))]
-    public class EyeAnimationHandlerEditor : Editor
+    public class EyeAnimationHandlerEditor : UnityEditor.Editor
     {
         private const string BLINK_DURATION = "blinkDuration";
         private const string BLINK_INTERVAL = "blinkInterval";

@@ -108,7 +108,7 @@ namespace ReadyPlayerMe.Core.Editor
 
         private bool IsValidSubdomain()
         {
-            return !partnerSubdomain.All(char.IsWhiteSpace) && !partnerSubdomain.Contains('/') && !EditorUtilities.IsUrlShortcodeValid(partnerSubdomain);
+            return !partnerSubdomain.All(char.IsWhiteSpace) && !partnerSubdomain.Contains('/') && !partnerSubdomain.IsUrlShortcodeValid();
         }
 
         private void SaveSubdomain()

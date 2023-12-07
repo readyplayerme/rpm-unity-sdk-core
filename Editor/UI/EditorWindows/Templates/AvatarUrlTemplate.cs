@@ -37,7 +37,7 @@ namespace ReadyPlayerMe.Core.Editor
             urlField.RegisterValueChangedCallback(OnValueChanged);
 
             errorLabel = this.Q<Label>(ERROR_LABEL);
-            errorLabel.visible = !EditorUtilities.IsUrlShortcodeValid(url);
+            errorLabel.visible = !url.IsUrlShortcodeValid();
             errorLabel.RegisterCallback<MouseDownEvent>(_ =>
             {
                 AnalyticsEditorLogger.EventLogger.LogFindOutMore(HelpSubject.LoadingAvatars);
@@ -54,7 +54,7 @@ namespace ReadyPlayerMe.Core.Editor
 
         private void OnValueChanged(ChangeEvent<string> evt)
         {
-            errorLabel.visible = !(!string.IsNullOrEmpty(evt.newValue) && EditorUtilities.IsUrlShortcodeValid(evt.newValue));
+            errorLabel.visible = !(!string.IsNullOrEmpty(evt.newValue) && evt.newValue.IsUrlShortcodeValid());
             EditorPrefs.SetString(URL_SAVE_KEY, evt.newValue);
         }
 

@@ -123,7 +123,7 @@ namespace ReadyPlayerMe.Core.Editor
                 SDKLogger.LogWarning(TAG, "Enable Avatar Caching to generate a prefab in the project folder.");
                 return;
             }
-            GameObject avatar = EditorUtilities.CreateAvatarPrefab(args.Metadata, path);
+            var avatar = PrefabHelper.CreateAvatarPrefab(args.Metadata, path);
             if (useEyeAnimations) avatar.AddComponent<EyeAnimationHandler>();
             if (useVoiceToAnim) avatar.AddComponent<VoiceHandler>();
             DestroyImmediate(args.Avatar, true);

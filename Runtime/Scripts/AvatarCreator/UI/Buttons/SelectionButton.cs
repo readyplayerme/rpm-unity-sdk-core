@@ -8,7 +8,7 @@ namespace ReadyPlayerMe.AvatarCreator
     /// A basic button element with an icon and functionality to bind an action to the
     /// buttons onClick event.
     /// </summary>
-    public class ButtonElement : MonoBehaviour
+    public class SelectionButton : MonoBehaviour
     {
         [SerializeField] private Button button;
         [SerializeField] private RawImage rawImage;
