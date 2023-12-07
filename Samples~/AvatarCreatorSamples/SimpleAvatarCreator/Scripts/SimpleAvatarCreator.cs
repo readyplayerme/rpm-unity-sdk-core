@@ -97,8 +97,8 @@ namespace ReadyPlayerMe
 
         private void SetElements()
         {
-            avatar.AddComponent<MouseInput>();
-            avatar.AddComponent<AvatarMouseRotation>();
+            avatar.AddComponent<MouseRotationHandler>();
+            avatar.AddComponent<AvatarRotator>();
             avatar.GetComponent<Animator>().runtimeAnimatorController = animationController;
         }
     }
