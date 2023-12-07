@@ -1,11 +1,14 @@
 {
-    "name": "POC",
+    "name": "ReadyPlayerMe.Core.LegacyAvatarCreator.Editor",
     "rootNamespace": "",
     "references": [
-        "GUID:17748b800004d56448cf421c62fb675b",
-        "GUID:96af4ea235d92d245a095007c6ca3701"
+        "ReadyPlayerMe.Core.AvatarCreator",
+        "ReadyPlayerMe.Core",
+        "ReadyPlayerMe.Core.LegacyAvatarCreator"
     ],
-    "includePlatforms": [],
+    "includePlatforms": [
+        "Editor"
+    ],
     "excludePlatforms": [],
     "allowUnsafeCode": false,
     "overrideReferences": false,

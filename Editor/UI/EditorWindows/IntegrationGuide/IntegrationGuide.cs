@@ -20,8 +20,8 @@ namespace ReadyPlayerMe.Core.Editor
         private const string OPTIMIZE_THE_PERFORMANCE = "OptimizeThePerformance";
         private const string CORE_PACKAGE = "com.readyplayerme.core";
         private const string QUICKSTART_SAMPLE_NAME = "QuickStart";
-        private const string AVATAR_CREATOR_SAMPLE_NAME = "AvatarCreatorSamples";
-        private const string AVATAR_CREATOR_SAMPLE_SCENE_NAME = "Scenes/AvatarCreatorSample";
+        private const string AVATAR_CREATOR_SAMPLE_NAME = "LegacyAvatarCreator";
+        private const string AVATAR_CREATOR_SAMPLE_SCENE_NAME = "Scenes/LegacyAvatarCreator";
 
         [SerializeField] private VisualTreeAsset visualTreeAsset;
 

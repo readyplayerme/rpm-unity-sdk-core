@@ -6,7 +6,7 @@ using UnityEngine;
 
 namespace ReadyPlayerMe
 {
-    public class AvatarCreatorPOC : MonoBehaviour
+    public class SimpleAvatarCreator : MonoBehaviour
     {
         [SerializeField] private List<AssetSelectionElement> assetSelectionElements;
         [SerializeField] private List<ColorSelectionElement> colorSelectionElements;
@@ -97,8 +97,8 @@ namespace ReadyPlayerMe
 
         private void SetElements()
         {
-            avatar.AddComponent<MouseInput>();
-            avatar.AddComponent<AvatarMouseRotation>();
+            avatar.AddComponent<MouseRotationHandler>();
+            avatar.AddComponent<AvatarRotator>();
             avatar.GetComponent<Animator>().runtimeAnimatorController = animationController;
         }
     }
