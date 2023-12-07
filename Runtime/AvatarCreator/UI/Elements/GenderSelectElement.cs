@@ -1,3 +1,4 @@
+using System;
 using ReadyPlayerMe.Core;
 using UnityEngine;
 using UnityEngine.Events;
@@ -18,33 +19,16 @@ namespace ReadyPlayerMe.AvatarCreator
         [Header("Events")]
         public UnityEvent<OutfitGender> OnGenderSelected;
 
-        private void Awake()
+        private void OnEnable()
         {
-            InitializeButtons();
+            maleButton.onClick.AddListener(MaleButtonClicked);
+            femaleButton.onClick.AddListener(FemaleButtonClicked);
         }
 
-        private void InitializeButtons()
+        private void OnDisable()
         {
-            if (maleButton != null)
-            {
-                maleButton.onClick.AddListener(MaleButtonClicked);
-            }
-            if (femaleButton != null)
-            {
-                femaleButton.onClick.AddListener(FemaleButtonClicked);
-            }
-        }
-
-        private void OnDestroy()
-        {
-            if (maleButton != null)
-            {
-                maleButton.onClick.RemoveListener(MaleButtonClicked);
-            }
-            if (femaleButton != null)
-            {
-                femaleButton.onClick.RemoveListener(FemaleButtonClicked);
-            }
+            maleButton.onClick.RemoveListener(MaleButtonClicked);
+            femaleButton.onClick.RemoveListener(FemaleButtonClicked);
         }
 
         private void MaleButtonClicked()

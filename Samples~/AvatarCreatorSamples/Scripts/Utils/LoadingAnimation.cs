@@ -1,6 +1,7 @@
 using System;
 using System.Threading;
 using System.Threading.Tasks;
+using ReadyPlayerMe.AvatarCreator;
 using UnityEngine;
 
 namespace ReadyPlayerMe
