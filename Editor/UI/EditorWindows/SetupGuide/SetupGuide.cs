@@ -15,7 +15,6 @@ namespace ReadyPlayerMe.Core.Editor
         private const string ANALYTICS_PRIVACY_URL = "https://docs.readyplayer.me/ready-player-me/integration-guides/unity/help-us-improve-the-unity-sdk";
         private const string SUBDOMAIN_PANEL = "SubdomainPanel";
         private const string STUDIO_URL_LABEL = "StudioUrl";
-        private const string USE_DEMO_SUBDOMAIN_TOGGLE = "UseDemoSubdomainToggle";
         private const string ANALYTICS_PANEL = "AnalyticsPanel";
         private const string ANALYTICS_ENABLED_TOGGLE = "AnalyticsEnabledToggle";
         private const string NEXT_BUTTON = "NextButton";
@@ -85,32 +84,6 @@ namespace ReadyPlayerMe.Core.Editor
                 currentAppId = appId;
                 ToggleNextButton();
             };
-
-            if (!ProjectPrefs.GetBool(USE_DEMO_SUBDOMAIN_TOGGLE) && CoreSettingsHandler.CoreSettings.Subdomain == CoreSettings.DEFAULT_SUBDOMAIN)
-            {
-                subdomainTemplate.ClearSubdomain();
-                nextButton.SetEnabled(false);
-            }
-            var demoSubdomainToggle = subdomainPanel.Q<Toggle>(USE_DEMO_SUBDOMAIN_TOGGLE);
-            demoSubdomainToggle.value = ProjectPrefs.GetBool(USE_DEMO_SUBDOMAIN_TOGGLE);
-            subdomainTemplate.SetFieldEnabled(!ProjectPrefs.GetBool(USE_DEMO_SUBDOMAIN_TOGGLE));
-            demoSubdomainToggle.RegisterValueChangedCallback(x =>
-            {
-                if (x.newValue)
-                {
-                    subdomainTemplate.SetDefaultSubdomain();
-                    subdomainTemplate.SetFieldEnabled(false);
-                    nextButton.SetEnabled(true);
-                    ProjectPrefs.SetBool(USE_DEMO_SUBDOMAIN_TOGGLE, true);
-                }
-                else
-                {
-                    subdomainTemplate.ClearSubdomain();
-                    subdomainTemplate.SetFieldEnabled(true);
-                    nextButton.SetEnabled(false);
-                    ProjectPrefs.SetBool(USE_DEMO_SUBDOMAIN_TOGGLE, false);
-                }
-            });
 
             return subdomainPanel;
         }
