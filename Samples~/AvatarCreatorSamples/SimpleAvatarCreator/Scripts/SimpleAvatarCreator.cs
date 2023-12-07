@@ -6,7 +6,7 @@ using UnityEngine;
 
 namespace ReadyPlayerMe
 {
-    public class AvatarCreatorPOC : MonoBehaviour
+    public class SimpleAvatarCreator : MonoBehaviour
     {
         [SerializeField] private List<AssetSelectionElement> assetSelectionElements;
         [SerializeField] private List<ColorSelectionElement> colorSelectionElements;
