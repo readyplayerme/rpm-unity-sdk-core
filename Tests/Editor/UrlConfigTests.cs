@@ -7,20 +7,20 @@ namespace ReadyPlayerMe.Core.Tests
     public class UrlConfigTests : MonoBehaviour
     {
         private static readonly string URL_BASE = $"https://{CoreSettingsHandler.CoreSettings.Subdomain}.readyplayer.me";
-        private readonly string URL_DEFAULT = $"{URL_BASE}/avatar?frameApi&selectBodyType";
-        private readonly string URL_LANG_GERMAN = $"{URL_BASE}/de/avatar?frameApi&selectBodyType";
-        private readonly string URL_LANG_BRAZIL = $"{URL_BASE}/pt-BR/avatar?frameApi&selectBodyType";
+        private readonly string URL_DEFAULT = $"{URL_BASE}/avatar?frameApi&source=unity-avatar-creator&selectBodyType";
+        private readonly string URL_LANG_GERMAN = $"{URL_BASE}/de/avatar?frameApi&source=unity-avatar-creator&selectBodyType";
+        private readonly string URL_LANG_BRAZIL = $"{URL_BASE}/pt-BR/avatar?frameApi&source=unity-avatar-creator&selectBodyType";
 
-        private readonly string URL_GENDER_MALE = $"{URL_BASE}/avatar?frameApi&gender=male&selectBodyType";
-        private readonly string URL_GENDER_NONE = $"{URL_BASE}/avatar?frameApi&gender=male&selectBodyType";
+        private readonly string URL_GENDER_MALE = $"{URL_BASE}/avatar?frameApi&source=unity-avatar-creator&gender=male&selectBodyType";
+        private readonly string URL_GENDER_NONE = $"{URL_BASE}/avatar?frameApi&source=unity-avatar-creator&gender=male&selectBodyType";
 
-        private readonly string URL_TYPE_FULLBODY = $"{URL_BASE}/avatar?frameApi&bodyType=fullbody";
-        private readonly string URL_TYPE_HALFBODY = $"{URL_BASE}/avatar?frameApi&bodyType=halfbody";
+        private readonly string URL_TYPE_FULLBODY = $"{URL_BASE}/avatar?frameApi&source=unity-avatar-creator&bodyType=fullbody";
+        private readonly string URL_TYPE_HALFBODY = $"{URL_BASE}/avatar?frameApi&source=unity-avatar-creator&bodyType=halfbody";
 
-        private readonly string URL_CLEAR_CACHE = $"{URL_BASE}/avatar?frameApi&clearCache&selectBodyType";
+        private readonly string URL_CLEAR_CACHE = $"{URL_BASE}/avatar?frameApi&source=unity-avatar-creator&clearCache&selectBodyType";
 
-        private readonly string URL_QUICK_START = $"{URL_BASE}/avatar?frameApi&quickStart";
-        private readonly string URL_TOKEN = $"{URL_BASE}/avatar?frameApi&token=TOKEN&selectBodyType";
+        private readonly string URL_QUICK_START = $"{URL_BASE}/avatar?frameApi&source=unity-avatar-creator&quickStart";
+        private readonly string URL_TOKEN = $"{URL_BASE}/avatar?frameApi&source=unity-avatar-creator&token=TOKEN&selectBodyType";
         private const string LOGIN_TOKEN = "TOKEN";
 
         public UrlConfig config;
