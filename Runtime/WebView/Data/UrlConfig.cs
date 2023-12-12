@@ -42,7 +42,6 @@ namespace ReadyPlayerMe.Core.WebView
             var builder = new StringBuilder($"https://{CoreSettingsHandler.CoreSettings.Subdomain}.readyplayer.me/");
             builder.Append(language != Language.Default ? $"{language.GetValue()}/" : string.Empty);
             builder.Append($"avatar?{FRAME_API_PARAM}");
-            builder.Append($"&{SOURCE_PARAM}");
             #if UNITY_ANDROID
                 builder.Append($"&{SOURCE_PARAM}=unity-android-avatar-creator");
             #elif UNITY_IOS
