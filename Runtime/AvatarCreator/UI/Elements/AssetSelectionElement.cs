@@ -15,7 +15,7 @@ namespace ReadyPlayerMe.AvatarCreator
     {
         [Header("Properties")]
         [SerializeField] private BodyType bodyType = BodyType.FullBody;
-        [SerializeField] private AssetType assetType;
+        [SerializeField, AssetTypeFilter(AssetFilter.Style)] private AssetType assetType;
         [SerializeField] private int iconSize = 64;
 
         private PartnerAsset[] assets;
