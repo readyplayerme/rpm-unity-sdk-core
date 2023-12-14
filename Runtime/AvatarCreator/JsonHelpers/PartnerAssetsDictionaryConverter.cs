@@ -2,9 +2,11 @@
 using System.Collections.Generic;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
+using UnityEngine.Scripting;
 
 namespace ReadyPlayerMe.AvatarCreator
 {
+    [Preserve]
     public class CategoryDictionaryConverter : JsonConverter<Dictionary<Category, object>>
     {
         public override void WriteJson(JsonWriter writer, Dictionary<Category, object> value, JsonSerializer serializer)
