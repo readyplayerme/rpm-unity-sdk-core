@@ -2,9 +2,11 @@
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using ReadyPlayerMe.Core;
+using UnityEngine.Scripting;
 
 namespace ReadyPlayerMe.AvatarCreator
 {
+    [Preserve]
     public class BodyTypeConverter : JsonConverter<BodyType>
     {
         private const string FULL_BODY = "fullbody";
