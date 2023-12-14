@@ -45,7 +45,7 @@
         Top,
         [AssetTypeFilter(AssetFilter.Style)]
         Footwear,
-        [AssetTypeFilter(AssetFilter.Other)]
+        [AssetTypeFilter(AssetFilter.Template)]
         AvatarTemplate
     }
 
@@ -53,6 +53,6 @@
     {
         Color,
         Style,
-        Other
+        Template
     }
 }
