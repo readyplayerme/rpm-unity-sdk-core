@@ -46,25 +46,6 @@ namespace ReadyPlayerMe.Core.Editor
             subdomainField.RegisterCallback<FocusOutEvent>(OnSubdomainFocusOut);
         }
 
-        public void SetDefaultSubdomain()
-        {
-            partnerSubdomain = CoreSettings.DEFAULT_SUBDOMAIN;
-            subdomainField.value = partnerSubdomain;
-            SaveSubdomain();
-        }
-
-        public void ClearSubdomain()
-        {
-            partnerSubdomain = "";
-            subdomainField.value = partnerSubdomain;
-        }
-
-        public void SetFieldEnabled(bool enabled)
-        {
-            isSubdomainFieldEnabled = enabled;
-            subdomainField.SetEnabled(isSubdomainFieldEnabled);
-        }
-
         private static void OnSubdomainHelpClicked()
         {
             AnalyticsEditorLogger.EventLogger.LogFindOutMore(HelpSubject.Subdomain);

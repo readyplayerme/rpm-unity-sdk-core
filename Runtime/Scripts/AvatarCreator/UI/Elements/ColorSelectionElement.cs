@@ -11,7 +11,7 @@ namespace ReadyPlayerMe.AvatarCreator
     public class ColorSelectionElement : SelectionElement
     {
         [Header("Properties")]
-        [SerializeField] private AssetType assetType;
+        [SerializeField, AssetTypeFilter(AssetFilter.Color)] private AssetType assetType;
         private AssetColor[] colorAssets;
         private readonly AvatarAPIRequests avatarAPIRequests = new AvatarAPIRequests();
 
