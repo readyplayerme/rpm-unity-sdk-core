@@ -5,9 +5,9 @@ using UnityEngine.Rendering;
 namespace ReadyPlayerMe.Core.Editor
 {
     public enum RenderPipeline { Standard, URP, HDRP }
-    public static class ShaderVariantHelper
+    public static class GraphicsSettingsUtility
     {
-        private const string TAG = nameof(ShaderVariantHelper);
+        private const string TAG = nameof(GraphicsSettingsUtility);
         private const string PRELOADED_SHADER_PROPERTY = "m_PreloadedShaders";
         private const string GRAPHICS_SETTING_PATH = "ProjectSettings/GraphicsSettings.asset";
 

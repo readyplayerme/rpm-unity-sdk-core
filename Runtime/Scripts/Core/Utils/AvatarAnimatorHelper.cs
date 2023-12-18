@@ -7,7 +7,7 @@ namespace ReadyPlayerMe.Core
     /// </summary>
     public static class AvatarAnimatorHelper
     {
-        private const string ANIMATOR_CONTROLLER_NAME = "Avatar Animator";
+        private const string ANIMATOR_CONTROLLER_NAME = "Animation/Avatar Animator";
         private static RuntimeAnimatorController animatorController;
 
         /// <summary>

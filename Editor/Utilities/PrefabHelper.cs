@@ -22,7 +22,7 @@ namespace ReadyPlayerMe.Core.Editor
         {
             var modelFilePath = $"{path}.glb";
             AssetDatabase.Refresh();
-            Object avatarSource = AssetDatabase.LoadAssetAtPath(modelFilePath, typeof(GameObject));
+            var avatarSource = AssetDatabase.LoadAssetAtPath(modelFilePath, typeof(GameObject));
             var newAvatar = (GameObject) PrefabUtility.InstantiatePrefab(avatarSource);
             var avatarProcessor = new AvatarProcessor();
             PrefabUtility.UnpackPrefabInstance(newAvatar, PrefabUnpackMode.Completely, InteractionMode.AutomatedAction);

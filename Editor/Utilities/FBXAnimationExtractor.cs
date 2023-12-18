@@ -7,9 +7,9 @@ using Object = UnityEngine.Object;
 
 namespace ReadyPlayerMe.Core.Editor
 {
-    public class AnimationExtractor : UnityEditor.Editor
+    public class FBXAnimationExtractor : UnityEditor.Editor
     {
-        private static string FBX_FILE = ".fbx";
+        private const string FBX_FILE_SUFFIX = ".fbx";
         private const string PREVIEW_ANIM_PREFIX = "__preview__";
         private const string ASSET_ANIM_SUFFIX = ".anim";
 
@@ -30,7 +30,7 @@ namespace ReadyPlayerMe.Core.Editor
             {
                 return null;
             }
-            return paths.Where(path => path.Contains(FBX_FILE)).ToArray();
+            return paths.Where(path => path.Contains(FBX_FILE_SUFFIX)).ToArray();
             ;
         }
 
@@ -108,11 +108,11 @@ namespace ReadyPlayerMe.Core.Editor
         [MenuItem("Assets/Extract Animations", true), MenuItem("Assets/Extract Animations and Delete File", true)]
         private static bool ExtractAnimationsValidation()
         {
-            Object activeObject = Selection.activeObject;
+            var activeObject = Selection.activeObject;
             if (!activeObject) return false;
 
             var assetPath = AssetDatabase.GetAssetPath(activeObject);
-            var isFbx = Path.GetExtension(assetPath).ToLower() == FBX_FILE;
+            var isFbx = Path.GetExtension(assetPath).ToLower() == FBX_FILE_SUFFIX;
             var isGameObject = activeObject is GameObject;
 
             return isGameObject && isFbx;

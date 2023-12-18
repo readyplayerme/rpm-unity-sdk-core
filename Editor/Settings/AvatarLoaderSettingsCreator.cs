@@ -4,17 +4,17 @@ using UnityEngine;
 namespace ReadyPlayerMe.Core.Editor
 {
     [InitializeOnLoad]
-    public class EditorAssetGenerator
+    public class AvatarLoaderSettingsCreator
     {
         private const string SETTINGS_SAVE_FOLDER = "Ready Player Me/Resources/Settings";
         private const string AVATAR_LOADER_ASSET_NAME = "AvatarLoaderSettings.asset";
 
-        static EditorAssetGenerator()
+        static AvatarLoaderSettingsCreator()
         {
             EditorApplication.delayCall += CreateSettingsAssets;
         }
 
-        ~EditorAssetGenerator()
+        ~AvatarLoaderSettingsCreator()
         {
             EditorApplication.delayCall -= CreateSettingsAssets;
         }
@@ -35,7 +35,7 @@ namespace ReadyPlayerMe.Core.Editor
             var newSettings = ScriptableObject.CreateInstance<AvatarLoaderSettings>();
             newSettings.AvatarConfig = null;
             newSettings.GLTFDeferAgent = null;
-            newSettings.AvatarCachingEnabled = DefaultSettings.AvatarCachingEnabled;
+            newSettings.AvatarCachingEnabled = true;
 
             AssetDatabase.CreateAsset(newSettings, $"Assets/{SETTINGS_SAVE_FOLDER}/{AVATAR_LOADER_ASSET_NAME}");
             AssetDatabase.SaveAssets();

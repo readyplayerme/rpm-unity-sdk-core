@@ -19,7 +19,7 @@ namespace ReadyPlayerMe.Core.Editor
 
         public void OnPreprocessBuild(BuildReport report)
         {
-            if (!Application.isBatchMode && ShaderVariantHelper.IsMissingVariants())
+            if (!Application.isBatchMode && GraphicsSettingsUtility.IsMissingVariants())
             {
                 var addShaderVariants = EditorUtility.DisplayDialog(BUILD_WARNING,
                     SUBDOMAIN_WARNING,
@@ -28,7 +28,7 @@ namespace ReadyPlayerMe.Core.Editor
 
                 if (addShaderVariants)
                 {
-                    ShaderVariantHelper.AddPreloadShaderVariants();
+                    GraphicsSettingsUtility.AddPreloadShaderVariants();
                 }
                 else
                 {
