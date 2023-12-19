@@ -1,5 +1,10 @@
 using System.Linq;
+using System.Threading;
+using System.Threading.Tasks;
 using UnityEngine;
+#if UNITY_ANDROID
+using UnityEngine.Android;
+#endif
 using UnityEngine.Events;
 using UnityEngine.UI;
 
@@ -18,6 +23,11 @@ namespace ReadyPlayerMe.AvatarCreator
         private WebCamTexture cameraTexture;
         private bool isInitialized;
 
+        private int videoRotationAngle;
+        private bool videoVerticallyMirrored;
+
+        private CancellationTokenSource ctxSource;
+
         private void OnEnable()
         {
             if (initializeOnEnable)
@@ -28,11 +38,14 @@ namespace ReadyPlayerMe.AvatarCreator
 
         private void OnDisable()
         {
+            ctxSource?.Cancel();
             StopCamera();
         }
 
-        public void StartCamera()
+        public async void StartCamera()
         {
+            await GetPermission();
+
             if (!isInitialized)
             {
                 InitializeCamera();
@@ -41,6 +54,14 @@ namespace ReadyPlayerMe.AvatarCreator
             if (cameraTexture != null && !cameraTexture.isPlaying)
             {
                 cameraTexture.Play();
+
+                var currentRotation = cameraTextureTarget.transform.rotation;
+                cameraTextureTarget.transform.rotation = Quaternion.Euler(currentRotation.eulerAngles.x, currentRotation.eulerAngles.y, cameraTexture.videoRotationAngle);
+
+                if (!cameraTexture.videoVerticallyMirrored)
+                {
+                    cameraTextureTarget.transform.localScale = new Vector3(-1, 1, 1);
+                }
             }
         }
 
@@ -62,6 +83,35 @@ namespace ReadyPlayerMe.AvatarCreator
             texture.Apply();
 
             onPhotoCaptured?.Invoke(texture);
+        }
+
+        private async Task GetPermission()
+        {
+            ctxSource?.Cancel();
+            ctxSource = new CancellationTokenSource();
+
+#if UNITY_ANDROID
+            if (!Permission.HasUserAuthorizedPermission(Permission.Camera))
+            {
+                Permission.RequestUserPermission(Permission.Camera);
+            }
+
+            while (!Permission.HasUserAuthorizedPermission(Permission.Camera) && !ctxSource.IsCancellationRequested)
+            {
+                await Task.Yield();
+            }
+
+#elif UNITY_IOS
+            if (!Application.HasUserAuthorization(UserAuthorization.WebCam))
+            {
+                var async = Application.RequestUserAuthorization(UserAuthorization.Microphone);
+                while (!async.isDone && !ctxSource.IsCancellationRequested)
+                {
+                    await Task.Yield();
+                }
+            }
+#endif
+
         }
 
         private void InitializeCamera()
