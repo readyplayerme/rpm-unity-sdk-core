@@ -12,9 +12,9 @@ namespace ReadyPlayerMe.Core.Editor
         private const string GRAPHICS_SETTING_PATH = "ProjectSettings/GraphicsSettings.asset";
 
 #if RPM_DEVELOPMENT
-        private const string SHADER_VARIANT_FOLDER = "Assets/Ready Player Me/Core/Runtime/Shaders";
+        private const string SHADER_VARIANT_FOLDER = "Assets/Ready Player Me/Core/Runtime/Core/Shaders";
 #else
-    private const string SHADER_VARIANT_FOLDER = "Packages/com.readyplayerme.core/Runtime/Shaders";
+    private const string SHADER_VARIANT_FOLDER = "Packages/com.readyplayerme.core/Runtime/Core/Shaders";
 #endif
 
         private const string SHADER_VARIANTS_STANDARD = "glTFastShaderVariants";
