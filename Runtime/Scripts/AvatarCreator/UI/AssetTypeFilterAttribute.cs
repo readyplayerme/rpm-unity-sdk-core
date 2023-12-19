@@ -1,7 +1,4 @@
-﻿using System;
-using UnityEditor.UIElements;
-using UnityEngine;
-using UnityEngine.UIElements;
+﻿using UnityEngine;
 
 namespace ReadyPlayerMe.AvatarCreator
 {
@@ -14,5 +11,4 @@ namespace ReadyPlayerMe.AvatarCreator
             this.filter = filter;
         }
     }
-    
 }
