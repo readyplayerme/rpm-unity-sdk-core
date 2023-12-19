@@ -51,7 +51,7 @@ namespace ReadyPlayerMe.Core.Editor
         /// <summary>
         /// Check for Ready Player Me package updates.
         /// </summary>
-        [MenuItem("Ready Player Me/Check For Updates", priority = 23)]
+        [MenuItem("Tools/Ready Player Me/Check For Updates", priority = 23)]
         public static void CheckForUpdates()
         {
             AnalyticsEditorLogger.EventLogger.LogCheckForUpdates();
