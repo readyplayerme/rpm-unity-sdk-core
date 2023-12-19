@@ -1,5 +1,5 @@
 {
-    "name": "ReadyPlayerMe.Core.AvatarCreator",
+    "name": "ReadyPlayerMe.AvatarCreator",
     "rootNamespace": "",
     "references": [
         "ReadyPlayerMe.Core"

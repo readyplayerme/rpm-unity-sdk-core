@@ -2,9 +2,9 @@
     "name": "ReadyPlayerMe.Core.LegacyAvatarCreator.Editor",
     "rootNamespace": "",
     "references": [
-        "ReadyPlayerMe.Core.AvatarCreator",
         "ReadyPlayerMe.Core",
-        "ReadyPlayerMe.Core.LegacyAvatarCreator"
+        "ReadyPlayerMe.Core.LegacyAvatarCreator",
+        "ReadyPlayerMe.AvatarCreator"
     ],
     "includePlatforms": [
         "Editor"
