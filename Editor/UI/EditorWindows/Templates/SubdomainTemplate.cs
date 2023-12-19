@@ -68,7 +68,10 @@ namespace ReadyPlayerMe.Core.Editor
                 errorIcon.visible = !IsValidSubdomain();
                 if (changeEvent.previousValue == partnerSubdomain) return;
                 subdomainField.SetValueWithoutNotify(partnerSubdomain);
-                subdomainField.Focus(); // forces text to resize, making new subdomain value visible
+                if (changeEvent.newValue != partnerSubdomain)
+                {
+                    subdomainField.Focus(); // forces text to resize, making new subdomain value visible
+                }
                 OnSubdomainChanged?.Invoke(partnerSubdomain);
             };
         }
