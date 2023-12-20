@@ -14,7 +14,7 @@ namespace ReadyPlayerMe.AvatarCreator
         public OutfitGender Gender;
         [JsonConverter(typeof(BodyTypeConverter))]
         public BodyType BodyType;
-        [JsonConverter(typeof(CategoryDictionaryConverter))]
+        [JsonConverter(typeof(PartnerAssetsDictionaryConverter))]
         public Dictionary<Category, object> Assets;
         public string Base64Image;
     }

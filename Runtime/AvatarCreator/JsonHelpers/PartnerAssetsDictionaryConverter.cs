@@ -7,7 +7,7 @@ using UnityEngine.Scripting;
 namespace ReadyPlayerMe.AvatarCreator
 {
     [Preserve]
-    public class CategoryDictionaryConverter : JsonConverter<Dictionary<Category, object>>
+    public class PartnerAssetsDictionaryConverter : JsonConverter<Dictionary<Category, object>>
     {
         public override void WriteJson(JsonWriter writer, Dictionary<Category, object> value, JsonSerializer serializer)
         {
