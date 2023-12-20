@@ -64,6 +64,11 @@ namespace ReadyPlayerMe
             }
         }
 
+        public static void Clear()
+        {
+            CategoryPanelMap?.Clear();
+        }  
+      
         private static void DisableAllPanels()
         {
             foreach (var panels in CategoryPanelMap)
