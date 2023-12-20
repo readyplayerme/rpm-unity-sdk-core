@@ -1,9 +1,11 @@
 ﻿using System;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
+using UnityEngine.Scripting;
 
 namespace ReadyPlayerMe.AvatarCreator
 {
+    [Preserve]
     public class CategoryConverter : JsonConverter
     {
         public override bool CanConvert(Type objectType)
