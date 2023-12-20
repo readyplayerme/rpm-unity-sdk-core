@@ -1,11 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using Newtonsoft.Json.Linq;
-using UnityEngine.Scripting;
 
 namespace ReadyPlayerMe.AvatarCreator
 {
-    [Preserve]
     public static class AuthDataConverter
     {
         private const string DATA = "data";

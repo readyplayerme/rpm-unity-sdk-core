@@ -1,11 +1,9 @@
 ﻿using System.Collections.Generic;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Serialization;
-using UnityEngine.Scripting;
 
 namespace ReadyPlayerMe.AvatarCreator
 {
-    [Preserve]
     public static class AvatarPropertiesExtensions
     {
         public static string ToJson(this AvatarProperties avatarProperties, bool ignoreEmptyFields = false)
