@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEditor;
 using UnityEngine;
 
-namespace ReadyPlayerMe.AvatarCreator
+namespace ReadyPlayerMe.AvatarCreator.Editor
 {
     [CustomPropertyDrawer(typeof(AssetTypeFilterAttribute))]
     public class AssetTypeFilterDrawer : PropertyDrawer
@@ -27,14 +27,14 @@ namespace ReadyPlayerMe.AvatarCreator
                     var enumFieldInfo = typeof(AssetType).GetField(enumName);
                     var enumAttribute = (AssetTypeFilterAttribute) Attribute.GetCustomAttribute(enumFieldInfo, typeof(AssetTypeFilterAttribute));
                     if (enumAttribute == null) continue;
-                    
-                    var filter =(AssetFilter) Enum.Parse(typeof(AssetFilter), enumAttribute.filter.ToString());
+
+                    var filter = (AssetFilter) Enum.Parse(typeof(AssetFilter), enumAttribute.filter.ToString());
                     if (filter == assetTypeAttribute?.filter)
                     {
                         filteredEnumNames.Add(enumName);
                     }
                 }
-                
+
                 // Display the dropdown with filtered enum values
                 var newIndex = EditorGUI.Popup(position, label.text, Array.IndexOf(filteredEnumNames.ToArray(), currentEnumValue.ToString()), filteredEnumNames.ToArray());
 

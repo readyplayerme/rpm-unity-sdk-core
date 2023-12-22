@@ -2,8 +2,8 @@
     "name": "ReadyPlayerMe.Core.LegacyAvatarCreator",
     "rootNamespace": "",
     "references": [
-        "ReadyPlayerMe.Core.AvatarCreator",
-        "ReadyPlayerMe.Core"
+        "ReadyPlayerMe.Core",
+        "ReadyPlayerMe.AvatarCreator"
     ],
     "includePlatforms": [],
     "excludePlatforms": [],
