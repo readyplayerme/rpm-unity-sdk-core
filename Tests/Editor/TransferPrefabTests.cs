@@ -28,7 +28,7 @@ namespace ReadyPlayerMe.Core.Tests
             {
                 Assert.Fail();
             }
-            PrefabTransferHelper.TransferPrefabByGuid(guids[0], NEW_PREFAB_PATH);
+            PrefabHelper.TransferPrefabByGuid(guids[0], NEW_PREFAB_PATH);
             if (AssetDatabase.LoadAssetAtPath(NEW_PREFAB_PATH, typeof(GameObject)) != null)
             {
                 Assert.Pass();
@@ -42,7 +42,7 @@ namespace ReadyPlayerMe.Core.Tests
         [Test]
         public void Fail_Transfer_Prefab()
         {
-            PrefabTransferHelper.TransferPrefabByGuid(INCORRECT_ASSET_NAME, NEW_PREFAB_PATH);
+            PrefabHelper.TransferPrefabByGuid(INCORRECT_ASSET_NAME, NEW_PREFAB_PATH);
             if (AssetDatabase.LoadAssetAtPath(NEW_PREFAB_PATH, typeof(GameObject)) == null)
             {
                 Assert.Pass();

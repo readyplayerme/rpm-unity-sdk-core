@@ -1,9 +1,8 @@
 {
-    "name": "ReadyPlayerMe.Core.Editor.Tests",
+    "name": "ReadyPlayerMe.AvatarCreator.Editor",
     "rootNamespace": "",
     "references": [
         "ReadyPlayerMe.Core",
-        "ReadyPlayerMe.Core.Editor",
         "ReadyPlayerMe.AvatarCreator"
     ],
     "includePlatforms": [
@@ -11,14 +10,10 @@
     ],
     "excludePlatforms": [],
     "allowUnsafeCode": false,
-    "overrideReferences": true,
-    "precompiledReferences": [
-        "nunit.framework.dll"
-    ],
-    "autoReferenced": false,
-    "defineConstraints": [
-        "UNITY_INCLUDE_TESTS"
-    ],
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
     "versionDefines": [],
     "noEngineReferences": false
 }
