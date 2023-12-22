@@ -8,6 +8,16 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 ### Updated
 - updated to GLTFast 6.0.1 by @harrisonhough in [#XXX]()
 
+## [4.1.2] - 2023.12.20
+
+### Fixed
+- add preserve attribute to CategoryConverter in AvatarCreator by @harrisonHough in [#193](https://github.com/readyplayerme/rpm-unity-sdk-core/pull/193)
+
+## [4.1.1] - 2023.11.29
+
+### Fixed
+- fixed json converters in AvatarCreator getting stripped on android or webgl builds by @rYuuk in [#188](https://github.com/readyplayerme/rpm-unity-sdk-core/pull/188)
+
 ## [4.1.0] - 2023.11.29
 
 ### Updated
