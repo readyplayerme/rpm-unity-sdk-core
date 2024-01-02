@@ -48,6 +48,11 @@ namespace ReadyPlayerMe
             outfitCategoryButton.RemoveListener();
         }
 
+        private void OnDestroy()
+        {
+            PanelSwitcher.Clear();
+        }
+
         private void Initialize()
         {
             categoryButtonsMap = new Dictionary<AssetType, CategoryButton>();
