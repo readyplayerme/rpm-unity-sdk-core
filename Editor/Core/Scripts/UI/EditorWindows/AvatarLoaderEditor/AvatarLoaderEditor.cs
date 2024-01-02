@@ -26,7 +26,7 @@ namespace ReadyPlayerMe.Core.Editor
         private bool useEyeAnimations;
         private bool useVoiceToAnim;
 
-        [MenuItem("Ready Player Me/Avatar Loader", priority = 1)]
+        [MenuItem("Tools/Ready Player Me/Avatar Loader", priority = 1)]
         public static void ShowWindow()
         {
             var window = GetWindow<AvatarLoaderEditor>();

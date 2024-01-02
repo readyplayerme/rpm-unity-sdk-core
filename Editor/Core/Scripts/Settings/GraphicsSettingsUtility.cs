@@ -1,3 +1,4 @@
+using System.IO;
 using UnityEditor;
 using UnityEngine;
 using UnityEngine.Rendering;
@@ -11,11 +12,8 @@ namespace ReadyPlayerMe.Core.Editor
         private const string PRELOADED_SHADER_PROPERTY = "m_PreloadedShaders";
         private const string GRAPHICS_SETTING_PATH = "ProjectSettings/GraphicsSettings.asset";
 
-#if RPM_DEVELOPMENT
-        private const string SHADER_VARIANT_FOLDER = "Assets/Ready Player Me/Core/Runtime/Core/Shaders";
-#else
-    private const string SHADER_VARIANT_FOLDER = "Packages/com.readyplayerme.core/Runtime/Core/Shaders";
-#endif
+        private const string SHADER_VARIANT_ASSETS_FOLDER = "Assets/Ready Player Me/Core/Shaders";
+        private const string SHADER_VARIANT_PACKAGES_FOLDER = "Packages/com.readyplayerme.core/Shaders";
 
         private const string SHADER_VARIANTS_STANDARD = "glTFastShaderVariants";
         private const string SHADER_VARIANTS_URP = "glTFastShaderVariantsURP";
@@ -102,15 +100,17 @@ namespace ReadyPlayerMe.Core.Editor
 
         private static string GetTargetShaderPath()
         {
-            switch (GetCurrentRenderPipeline())
+            var shaderFolderPath = SHADER_VARIANT_PACKAGES_FOLDER;
+            if (!Directory.Exists(shaderFolderPath))
             {
-                case RenderPipeline.URP:
-                    return $"{SHADER_VARIANT_FOLDER}/{SHADER_VARIANTS_URP}{SHADER_VARIANTS_EXTENSION}";
-                case RenderPipeline.HDRP:
-                    return $"{SHADER_VARIANT_FOLDER}/{SHADER_VARIANTS_HDRP}{SHADER_VARIANTS_EXTENSION}";
-                default:
-                    return $"{SHADER_VARIANT_FOLDER}/{SHADER_VARIANTS_STANDARD}{SHADER_VARIANTS_EXTENSION}";
+                shaderFolderPath = SHADER_VARIANT_ASSETS_FOLDER;
             }
+            return GetCurrentRenderPipeline() switch
+            {
+                RenderPipeline.URP => $"{shaderFolderPath}/{SHADER_VARIANTS_URP}{SHADER_VARIANTS_EXTENSION}",
+                RenderPipeline.HDRP => $"{shaderFolderPath}/{SHADER_VARIANTS_HDRP}{SHADER_VARIANTS_EXTENSION}",
+                _ => $"{shaderFolderPath}/{SHADER_VARIANTS_STANDARD}{SHADER_VARIANTS_EXTENSION}"
+            };
         }
 
         private static RenderPipeline GetCurrentRenderPipeline()

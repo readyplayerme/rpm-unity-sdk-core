@@ -34,7 +34,7 @@ namespace ReadyPlayerMe.Core.Editor
         private Button finishSetupButton;
         private Button openQuickStartButton;
 
-        [MenuItem("Ready Player Me/Setup Guide", priority = 12)]
+        [MenuItem("Tools/Ready Player Me/Setup Guide", priority = 12)]
         public static void ShowWindow()
         {
             var window = GetWindow<SetupGuide>();
