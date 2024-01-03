@@ -64,7 +64,6 @@ namespace ReadyPlayerMe.Core.Editor
                 {
                     avatarConfigTarget.Lod = (Lod) x.newValue;
                     serializedObject.ApplyModifiedProperties();
-                    Debug.Log("Lod changed:" + x.newValue);
                 }
             );
         }
