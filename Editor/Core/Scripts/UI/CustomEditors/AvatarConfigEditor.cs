@@ -63,7 +63,7 @@ namespace ReadyPlayerMe.Core.Editor
             lod.RegisterValueChangedCallback(x =>
                 {
                     avatarConfigTarget.Lod = (Lod) x.newValue;
-                    serializedObject.ApplyModifiedProperties();
+                    Save();
                 }
             );
         }
@@ -75,9 +75,15 @@ namespace ReadyPlayerMe.Core.Editor
             pose.RegisterValueChangedCallback(x =>
                 {
                     avatarConfigTarget.Pose = (Pose) x.newValue;
-                    serializedObject.ApplyModifiedProperties();
+                    Save();
                 }
             );
+        }
+
+        private void Save()
+        {
+            serializedObject.ApplyModifiedProperties();
+            EditorUtility.SetDirty(serializedObject.targetObject);
         }
 
         private void SetupTextureAtlas()
@@ -87,7 +93,7 @@ namespace ReadyPlayerMe.Core.Editor
             textureAtlas.RegisterValueChangedCallback(x =>
                 {
                     avatarConfigTarget.TextureAtlas = (TextureAtlas) x.newValue;
-                    serializedObject.ApplyModifiedProperties();
+                    Save();
                 }
             );
         }
@@ -99,7 +105,7 @@ namespace ReadyPlayerMe.Core.Editor
             textureSizeLimit.RegisterValueChangedCallback(x =>
                 {
                     avatarConfigTarget.TextureSizeLimit = x.newValue;
-                    serializedObject.ApplyModifiedProperties();
+                    Save();
                 }
             );
         }
@@ -111,7 +117,7 @@ namespace ReadyPlayerMe.Core.Editor
             useHands.RegisterValueChangedCallback(x =>
                 {
                     avatarConfigTarget.UseHands = x.newValue;
-                    serializedObject.ApplyModifiedProperties();
+                    Save();
                 }
             );
         }
@@ -150,7 +156,7 @@ namespace ReadyPlayerMe.Core.Editor
                         useDracoCompression.SetValueWithoutNotify(false);
                     }
 
-                    serializedObject.ApplyModifiedProperties();
+                    Save();
                 }
             );
           
@@ -176,7 +182,7 @@ namespace ReadyPlayerMe.Core.Editor
                         useMeshOptCompression.SetValueWithoutNotify(false);
                     }
 
-                    serializedObject.ApplyModifiedProperties();
+                    Save();
                 }
             );
         }
@@ -219,7 +225,7 @@ namespace ReadyPlayerMe.Core.Editor
                         textureChannels.Remove((TextureChannel) i);
                         avatarConfigTarget.TextureChannel = textureChannels.ToArray();
                     }
-                    serializedObject.ApplyModifiedProperties();
+                    Save();
                 });
             }
 
@@ -249,7 +255,7 @@ namespace ReadyPlayerMe.Core.Editor
             shader.RegisterValueChangedCallback(x =>
                 {
                     avatarConfigTarget.Shader = (Shader) x.newValue;
-                    serializedObject.ApplyModifiedProperties();
+                    Save();
                     shaderPropertiesContainer.style.display = x.previousValue == null && x.newValue != null ? DisplayStyle.Flex : DisplayStyle.None;
                 }
             );
@@ -265,7 +271,7 @@ namespace ReadyPlayerMe.Core.Editor
                 field.RegisterValueChangedCallback(x =>
                 {
                     avatarConfigTarget.ShaderProperties[property].PropertyName = x.newValue;
-                    serializedObject.ApplyModifiedProperties();
+                    Save();
                 });
                 shaderPropertiesContainer.Add(field);
             }
