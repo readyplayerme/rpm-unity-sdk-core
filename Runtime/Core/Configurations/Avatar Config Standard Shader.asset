@@ -20,17 +20,17 @@ MonoBehaviour:
   UseHands: 0
   UseDracoCompression: 0
   UseMeshOptCompression: 0
-  Shader: {fileID: 0}
+  Shader: {fileID: 46, guid: 0000000000000000f000000000000000, type: 0}
   ShaderProperties:
   - TextureChannel: 0
     PropertyName: _MainTex
   - TextureChannel: 1
     PropertyName: _BumpMap
   - TextureChannel: 2
-    PropertyName: 
+    PropertyName: _MetallicGlossMap
   - TextureChannel: 3
-    PropertyName: 
+    PropertyName: _EmissionMap
   - TextureChannel: 4
-    PropertyName: 
+    PropertyName: _OcclusionMap
   MorphTargets:
   - Oculus Visemes

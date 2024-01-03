@@ -193,7 +193,7 @@ namespace ReadyPlayerMe.Core
 
                 renderer.name = $"{RENDERER_PREFIX}_{assetName}";
                 renderer.sharedMaterial.name = $"{MATERIAL_PREFIX}_{assetName}";
-                var textureByPropertyName = SetTextures(renderer, assetName, avatarConfig);
+                var textureByPropertyName = SetTextures(renderer, assetName);
                 SetShader(renderer, avatarConfig, textureByPropertyName);
                 SetMeshName(renderer, assetName);
             }
@@ -206,7 +206,7 @@ namespace ReadyPlayerMe.Core
         /// <param name="assetName">Name of the asset.</param>
         /// <param name="avatarConfig"></param>
         /// <remarks>Naming convention is 'Avatar_PropertyName_AssetName'. This makes it easier to view them in profiler</remarks>
-        private Dictionary<TextureChannel, Texture> SetTextures(Renderer renderer, string assetName, AvatarConfig avatarConfig = null)
+        private Dictionary<TextureChannel, Texture> SetTextures(Renderer renderer, string assetName)
         {
             var texturesByPropertyName = new Dictionary<TextureChannel, Texture>();
 
