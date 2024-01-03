@@ -52,7 +52,7 @@ namespace ReadyPlayerMe.Core.Editor
             SetupCompressionPackages();
             SetupTextureChannel();
             SetupMorphTargets();
-
+            SetupShader();
             return root;
         }
 
@@ -122,7 +122,7 @@ namespace ReadyPlayerMe.Core.Editor
             var useDracoCompression = root.Q<Toggle>("UseDracoCompression");
             var useMeshOptCompression = root.Q<Toggle>("UseMeshOptCompression");
 
-            var optimizationPackages =root.Q<Foldout>("OptimizationPackages");
+            var optimizationPackages = root.Q<Foldout>("OptimizationPackages");
             optimizationPackages.RegisterValueChangedCallback(x =>
             {
                 useDracoCompression.SetValueWithoutNotify(ModuleInstaller.IsModuleInstalled(ModuleList.DracoCompression.name));
@@ -139,8 +139,8 @@ namespace ReadyPlayerMe.Core.Editor
 
                     if (EditorUtility.DisplayDialog(
                             DIALOG_TITLE,
-                            string.Format(DIALOG_MESSAGE, "Draco compression", ModuleList.DracoCompression.name), 
-                            DIALOG_OK, 
+                            string.Format(DIALOG_MESSAGE, "Draco compression", ModuleList.DracoCompression.name),
+                            DIALOG_OK,
                             DIALOG_CANCEL))
                     {
                         ModuleInstaller.AddModuleRequest(ModuleList.DracoCompression.Identifier);
@@ -165,8 +165,8 @@ namespace ReadyPlayerMe.Core.Editor
 
                     if (EditorUtility.DisplayDialog(
                             DIALOG_TITLE,
-                            string.Format(DIALOG_MESSAGE, "Mesh opt compression", MESH_OPT_PACKAGE_NAME), 
-                            DIALOG_OK, 
+                            string.Format(DIALOG_MESSAGE, "Mesh opt compression", MESH_OPT_PACKAGE_NAME),
+                            DIALOG_OK,
                             DIALOG_CANCEL))
                     {
                         PackageManagerHelper.AddPackage(MESH_OPT_PACKAGE_NAME);
@@ -233,6 +233,43 @@ namespace ReadyPlayerMe.Core.Editor
 
             listView.onItemsChosen += Debug.Log;
             listView.onSelectionChange += Debug.Log;
+        }
+
+        private void SetupShader()
+        {
+            var shader = root.Q<ObjectField>("Shader");
+            shader.SetValueWithoutNotify(avatarConfigTarget.Shader);
+
+            var shaderPropertiesContainer = root.Q<VisualElement>("ShaderProperties");
+            CreateShaderProperties(shaderPropertiesContainer);
+            if (shader.value == null)
+            {
+                shaderPropertiesContainer.style.display = DisplayStyle.None;
+            }
+
+            shader.RegisterValueChangedCallback(x =>
+                {
+                    avatarConfigTarget.Shader = (Shader) x.newValue;
+                    serializedObject.ApplyModifiedProperties();
+                    shaderPropertiesContainer.style.display = x.previousValue == null && x.newValue != null ? DisplayStyle.Flex : DisplayStyle.None;
+                }
+            );
+        }
+
+        private void CreateShaderProperties(VisualElement shaderPropertiesContainer)
+        {
+            foreach (TextureChannel textureChannel in Enum.GetValues(typeof(TextureChannel)))
+            {
+                var field = new TextField(textureChannel.ToString());
+                var property = avatarConfigTarget.ShaderProperties.FindIndex(x => x.TextureChannel == textureChannel);
+                field.SetValueWithoutNotify(avatarConfigTarget.ShaderProperties[property].PropertyName);
+                field.RegisterValueChangedCallback(x =>
+                {
+                    avatarConfigTarget.ShaderProperties[property].PropertyName = x.newValue;
+                    serializedObject.ApplyModifiedProperties();
+                });
+                shaderPropertiesContainer.Add(field);
+            }
         }
 
         private void SetupMorphTargets()

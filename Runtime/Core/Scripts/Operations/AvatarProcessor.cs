@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
 using UnityEngine;
@@ -32,7 +33,7 @@ namespace ReadyPlayerMe.Core
             if (context.Data is GameObject)
             {
                 context = ProcessAvatarGameObject(context);
-                ProcessAvatar(context.Data as GameObject, context.Metadata);
+                ProcessAvatar(context.Data as GameObject, context.Metadata, context.AvatarConfig);
                 ProgressChanged?.Invoke(1);
                 return Task.FromResult(context);
             }
@@ -58,7 +59,8 @@ namespace ReadyPlayerMe.Core
         /// </summary>
         /// <param name="avatar"></param>
         /// <param name="avatarMetadata"></param>
-        public void ProcessAvatar(GameObject avatar, AvatarMetadata avatarMetadata)
+        /// <param name="avatarConfig"></param>
+        public void ProcessAvatar(GameObject avatar, AvatarMetadata avatarMetadata, AvatarConfig avatarConfig = null)
         {
             SDKLogger.Log(TAG, PROCESSING_AVATAR);
 
@@ -79,7 +81,7 @@ namespace ReadyPlayerMe.Core
                     SetupAnimator(avatar, avatarMetadata.OutfitGender);
                 }
 
-                RenameChildMeshes(avatar);
+                RenameChildMeshes(avatar, avatarConfig);
             }
             catch (Exception e)
             {
@@ -107,7 +109,7 @@ namespace ReadyPlayerMe.Core
         /// <param name="avatar">The <see cref="GameObject" /> to update.</param>
         private void RemoveHalfBodyRoot(GameObject avatar)
         {
-            Transform root = avatar.transform.Find(BONE_HALF_BODY_ROOT);
+            var root = avatar.transform.Find(BONE_HALF_BODY_ROOT);
             for (var i = root.childCount - 1; i >= 0; --i)
             {
                 root.GetChild(i).transform.SetParent(avatar.transform);
@@ -127,7 +129,7 @@ namespace ReadyPlayerMe.Core
             armature.name = BONE_ARMATURE;
             armature.transform.parent = avatar.transform;
 
-            Transform hips = avatar.transform.Find(BONE_HIPS);
+            var hips = avatar.transform.Find(BONE_HIPS);
             if (hips) hips.parent = armature.transform;
         }
 
@@ -165,33 +167,34 @@ namespace ReadyPlayerMe.Core
         private const string ADDING_ARMATURE_BONE = "Adding armature bone";
         private const string SETTING_UP_ANIMATOR = "Setting up animator";
 
-
-        // Texture property IDs
-        private static readonly string[] ShaderProperties =
+        // Shader properties by TextureChannel
+        private static readonly Dictionary<TextureChannel, string> ShaderProperties = new Dictionary<TextureChannel, string>
         {
-            "baseColorTexture",
-            "normalTexture",
-            "emissiveTexture",
-            "occlusionTexture",
-            "metallicRoughnessTexture"
+            { TextureChannel.BaseColor, "baseColorTexture" },
+            { TextureChannel.Normal, "normalTexture" },
+            { TextureChannel.Emissive, "emissiveTexture" },
+            { TextureChannel.Occlusion, "occlusionTexture" },
+            { TextureChannel.MetallicRoughness, "metallicRoughnessTexture" }
         };
 
         /// <summary>
         /// Rename avatar assets.
         /// </summary>
         /// <param name="avatar">The <see cref="GameObject" /> to update.</param>
+        /// <param name="avatarConfig"></param>
         /// <remarks>Naming convention is 'Avatar_Type_Name'. This makes it easier to view them in profiler</remarks>
-        private void RenameChildMeshes(GameObject avatar)
+        private void RenameChildMeshes(GameObject avatar, AvatarConfig avatarConfig = null)
         {
-            SkinnedMeshRenderer[] renderers = avatar.GetComponentsInChildren<SkinnedMeshRenderer>();
+            var renderers = avatar.GetComponentsInChildren<SkinnedMeshRenderer>();
 
-            foreach (SkinnedMeshRenderer renderer in renderers)
+            foreach (var renderer in renderers)
             {
                 var assetName = renderer.name.Replace(PREFIX, "");
 
                 renderer.name = $"{RENDERER_PREFIX}_{assetName}";
                 renderer.sharedMaterial.name = $"{MATERIAL_PREFIX}_{assetName}";
-                SetTextureNames(renderer, assetName);
+                var textureByPropertyName = SetTextures(renderer, assetName, avatarConfig);
+                SetShader(renderer, avatarConfig, textureByPropertyName);
                 SetMeshName(renderer, assetName);
             }
         }
@@ -201,19 +204,46 @@ namespace ReadyPlayerMe.Core
         /// </summary>
         /// <param name="renderer">Search for textures in this renderer.</param>
         /// <param name="assetName">Name of the asset.</param>
+        /// <param name="avatarConfig"></param>
         /// <remarks>Naming convention is 'Avatar_PropertyName_AssetName'. This makes it easier to view them in profiler</remarks>
-        private void SetTextureNames(Renderer renderer, string assetName)
+        private Dictionary<TextureChannel, Texture> SetTextures(Renderer renderer, string assetName, AvatarConfig avatarConfig = null)
         {
-            foreach (var propertyName in ShaderProperties)
+            var texturesByPropertyName = new Dictionary<TextureChannel, Texture>();
+
+            foreach (var property in ShaderProperties)
             {
-                var propertyID = Shader.PropertyToID(propertyName);
+                var propertyID = Shader.PropertyToID(property.Value);
 
                 if (renderer.sharedMaterial.HasProperty(propertyID))
                 {
-                    Texture texture = renderer.sharedMaterial.GetTexture(propertyID);
-                    if (texture != null) texture.name = $"{AVATAR_PREFIX}{propertyName}_{assetName}";
+                    var texture = renderer.sharedMaterial.GetTexture(propertyID);
+                    if (texture != null)
+                    {
+                        texture.name = $"{AVATAR_PREFIX}{property}_{assetName}";
+                        texturesByPropertyName.Add(property.Key, texture);
+                    }
                 }
             }
+
+            return texturesByPropertyName;
+        }
+
+        private void SetShader(Renderer renderer, AvatarConfig avatarConfig, Dictionary<TextureChannel, Texture> texturesByPropertyName)
+        {
+            if (avatarConfig == null || avatarConfig.Shader == null) return;
+
+            var material = new Material(avatarConfig.Shader);
+            material.name = renderer.name;
+
+            foreach (var textureByName in texturesByPropertyName)
+            {
+                var shaderProperties = avatarConfig.ShaderProperties;
+                var propertyName = shaderProperties.Find(x => x.TextureChannel == textureByName.Key).PropertyName;
+                var propertyID = Shader.PropertyToID(propertyName);
+                material.SetTexture(propertyID, textureByName.Value);
+            }
+
+            renderer.sharedMaterial = material;
         }
 
         /// <summary>
