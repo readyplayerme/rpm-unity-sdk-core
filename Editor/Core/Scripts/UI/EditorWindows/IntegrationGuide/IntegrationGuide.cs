@@ -87,19 +87,9 @@ namespace ReadyPlayerMe.Core.Editor
 
         private void LoadAndOpenSample(string sampleName, string scenePath)
         {
-
-            var folderPath = $"Assets/Ready Player Me/Samples/{sampleName}";
-
-            if (Directory.Exists(folderPath))
+            if (LoadFromAssetsFolder(sampleName, scenePath))
             {
-                var fullScenePath = $"{folderPath}/{scenePath}.unity";
-                if (File.Exists(scenePath))
-                {
-                    // Load the scene
-                    EditorSceneManager.OpenScene(fullScenePath);
-                    Debug.Log("Scene 'QuickStart' opened.");
-                    return;
-                }
+                return;
             }
 
             var sampleLoader = new SampleLoader();
@@ -111,6 +101,17 @@ namespace ReadyPlayerMe.Core.Editor
             }
 
             EditorUtility.DisplayDialog(INTEGRATION_GUIDE, $"No sample with name {sampleName} found.", "OK");
+        }
+
+        private bool LoadFromAssetsFolder(string sampleName, string scenePath)
+        {
+            var folderPath = $"Assets/Ready Player Me/Core/Samples/{sampleName}";
+
+            if (!Directory.Exists(folderPath)) return false;
+            var fullScenePath = $"{folderPath}/{scenePath}.unity";
+            if (!File.Exists(fullScenePath)) return false;
+            EditorSceneManager.OpenScene(fullScenePath);
+            return true;
         }
 
         private void OpenDocumentation(string link)
