@@ -42,13 +42,13 @@ namespace ReadyPlayerMe.Core.WebView
             var builder = new StringBuilder($"https://{CoreSettingsHandler.CoreSettings.Subdomain}.readyplayer.me/");
             builder.Append(language != Language.Default ? $"{language.GetValue()}/" : string.Empty);
             builder.Append($"avatar?{FRAME_API_PARAM}");
-            #if UNITY_ANDROID
+#if !UNITY_EDITOR && UNITY_ANDROID
                 builder.Append($"&{SOURCE_PARAM}=unity-android-avatar-creator");
-            #elif UNITY_IOS
+#elif !UNITY_EDITOR && UNITY_IOS
                 builder.Append($"&{SOURCE_PARAM}=unity-ios-avatar-creator");
-            #else
+#else
             builder.Append($"&{SOURCE_PARAM}=unity-avatar-creator");
-            #endif
+#endif
             builder.Append(clearCache ? $"&{CLEAR_CACHE_PARAM}" : string.Empty);
             if (loginToken != string.Empty)
             {
