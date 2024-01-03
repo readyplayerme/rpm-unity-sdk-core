@@ -1,5 +1,7 @@
+using System.IO;
 using ReadyPlayerMe.Core.Analytics;
 using UnityEditor;
+using UnityEditor.SceneManagement;
 using UnityEngine;
 using UnityEngine.UIElements;
 
@@ -85,6 +87,21 @@ namespace ReadyPlayerMe.Core.Editor
 
         private void LoadAndOpenSample(string sampleName, string scenePath)
         {
+
+            var folderPath = $"Assets/Ready Player Me/Samples/{sampleName}";
+
+            if (Directory.Exists(folderPath))
+            {
+                var fullScenePath = $"{folderPath}/{scenePath}.unity";
+                if (File.Exists(scenePath))
+                {
+                    // Load the scene
+                    EditorSceneManager.OpenScene(fullScenePath);
+                    Debug.Log("Scene 'QuickStart' opened.");
+                    return;
+                }
+            }
+
             var sampleLoader = new SampleLoader();
 
             if (sampleLoader.Load(CORE_PACKAGE, sampleName))
