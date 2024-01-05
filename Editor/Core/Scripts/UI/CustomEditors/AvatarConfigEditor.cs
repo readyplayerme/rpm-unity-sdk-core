@@ -36,6 +36,7 @@ namespace ReadyPlayerMe.Core.Editor
         private bool previousMeshOptCompressionValue;
 
         private VisualElement root;
+        private Action textureChannelChanged;
 
         public override VisualElement CreateInspectorGUI()
         {
@@ -215,15 +216,17 @@ namespace ReadyPlayerMe.Core.Editor
                 {
                     if (x.newValue)
                     {
-                        var textureChannels = new List<TextureChannel>();
+                        var textureChannels = avatarConfigTarget.TextureChannel.ToList();
                         textureChannels.Add((TextureChannel) i);
                         avatarConfigTarget.TextureChannel = textureChannels.ToArray();
+                        textureChannelChanged?.Invoke();
                     }
                     else
                     {
                         var textureChannels = avatarConfigTarget.TextureChannel.ToList();
                         textureChannels.Remove((TextureChannel) i);
                         avatarConfigTarget.TextureChannel = textureChannels.ToArray();
+                        textureChannelChanged?.Invoke();
                     }
                     Save();
                 });
@@ -247,18 +250,47 @@ namespace ReadyPlayerMe.Core.Editor
 
             var shaderPropertiesContainer = root.Q<VisualElement>("ShaderProperties");
             CreateShaderProperties(shaderPropertiesContainer);
+
+            textureChannelChanged += () => ShowShaderProperties(shaderPropertiesContainer);
             if (shader.value == null)
             {
                 shaderPropertiesContainer.style.display = DisplayStyle.None;
+            }
+            else
+            {
+                ShowShaderProperties(shaderPropertiesContainer);
             }
 
             shader.RegisterValueChangedCallback(x =>
                 {
                     avatarConfigTarget.Shader = (Shader) x.newValue;
                     Save();
-                    shaderPropertiesContainer.style.display = x.previousValue == null && x.newValue != null ? DisplayStyle.Flex : DisplayStyle.None;
+                    if (x.newValue == null)
+                    {
+                        shaderPropertiesContainer.style.display = DisplayStyle.None;
+                    }
+                    else
+                    {
+                        ShowShaderProperties(shaderPropertiesContainer);
+                    }
                 }
             );
+        }
+
+        private void ShowShaderProperties(VisualElement shaderPropertiesContainer)
+        {
+            shaderPropertiesContainer.style.display = DisplayStyle.Flex;
+            foreach (var child in shaderPropertiesContainer.Children())
+            {
+                if (avatarConfigTarget.TextureChannel.Contains((TextureChannel) Enum.Parse(typeof(TextureChannel), child.name)))
+                {
+                    child.style.display = DisplayStyle.Flex;
+                }
+                else
+                {
+                    child.style.display = DisplayStyle.None;
+                }
+            }
         }
 
         private void CreateShaderProperties(VisualElement shaderPropertiesContainer)
@@ -266,6 +298,7 @@ namespace ReadyPlayerMe.Core.Editor
             foreach (TextureChannel textureChannel in Enum.GetValues(typeof(TextureChannel)))
             {
                 var field = new TextField(textureChannel.ToString());
+                field.name = textureChannel.ToString();
                 var property = avatarConfigTarget.ShaderProperties.FindIndex(x => x.TextureChannel == textureChannel);
                 field.SetValueWithoutNotify(avatarConfigTarget.ShaderProperties[property].PropertyName);
                 field.RegisterValueChangedCallback(x =>
