@@ -118,12 +118,12 @@ namespace ReadyPlayerMe.Core.Editor
             }
             var paramHash = AvatarCache.GetAvatarConfigurationHash(avatarLoaderSettings.AvatarConfig);
             var path = $"{DirectoryUtility.GetRelativeProjectPath(args.Avatar.name, paramHash)}/{args.Avatar.name}";
-            if (!AvatarLoaderSettings.LoadSettings().AvatarCachingEnabled)
+            if (!avatarLoaderSettings.AvatarCachingEnabled)
             {
                 SDKLogger.LogWarning(TAG, "Enable Avatar Caching to generate a prefab in the project folder.");
                 return;
             }
-            var avatar = PrefabHelper.CreateAvatarPrefab(args.Metadata, path);
+            var avatar = PrefabHelper.CreateAvatarPrefab(args.Metadata, path, avatarConfig: avatarLoaderSettings.AvatarConfig);
             if (useEyeAnimations) avatar.AddComponent<EyeAnimationHandler>();
             if (useVoiceToAnim) avatar.AddComponent<VoiceHandler>();
             DestroyImmediate(args.Avatar, true);

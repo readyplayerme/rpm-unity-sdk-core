@@ -35,7 +35,18 @@ namespace ReadyPlayerMe.Core
         public bool UseDracoCompression;
         [Tooltip("Enable if you want to use Mesh Optimization compression. More effective on meshes with morph targets.")]
         public bool UseMeshOptCompression;
-        [HideInInspector]
+        [Tooltip("Add the shader which will be applied after avatar is loaded.")]
+        public Shader Shader;
+        [Tooltip("Assign properties for the shader used to assign the texture channels.")]
+        public List<ShaderProperty> ShaderProperties = new List<ShaderProperty>
+        {
+            new ShaderProperty(Core.TextureChannel.BaseColor, "_MainTex"),
+            new ShaderProperty(Core.TextureChannel.Normal, "_BumpMap"),
+            new ShaderProperty(Core.TextureChannel.MetallicRoughness, string.Empty),
+            new ShaderProperty(Core.TextureChannel.Emissive, string.Empty),
+            new ShaderProperty(Core.TextureChannel.Occlusion, string.Empty),
+        };
+
         public List<string> MorphTargets = new List<string>();
     }
 }

@@ -36,6 +36,7 @@ namespace ReadyPlayerMe.Core.Editor
         private bool previousMeshOptCompressionValue;
 
         private VisualElement root;
+        private Action textureChannelChanged;
 
         public override VisualElement CreateInspectorGUI()
         {
@@ -52,7 +53,7 @@ namespace ReadyPlayerMe.Core.Editor
             SetupCompressionPackages();
             SetupTextureChannel();
             SetupMorphTargets();
-
+            SetupShader();
             return root;
         }
 
@@ -63,8 +64,7 @@ namespace ReadyPlayerMe.Core.Editor
             lod.RegisterValueChangedCallback(x =>
                 {
                     avatarConfigTarget.Lod = (Lod) x.newValue;
-                    serializedObject.ApplyModifiedProperties();
-                    Debug.Log("Lod changed:" + x.newValue);
+                    Save();
                 }
             );
         }
@@ -76,9 +76,15 @@ namespace ReadyPlayerMe.Core.Editor
             pose.RegisterValueChangedCallback(x =>
                 {
                     avatarConfigTarget.Pose = (Pose) x.newValue;
-                    serializedObject.ApplyModifiedProperties();
+                    Save();
                 }
             );
+        }
+
+        private void Save()
+        {
+            serializedObject.ApplyModifiedProperties();
+            EditorUtility.SetDirty(serializedObject.targetObject);
         }
 
         private void SetupTextureAtlas()
@@ -88,7 +94,7 @@ namespace ReadyPlayerMe.Core.Editor
             textureAtlas.RegisterValueChangedCallback(x =>
                 {
                     avatarConfigTarget.TextureAtlas = (TextureAtlas) x.newValue;
-                    serializedObject.ApplyModifiedProperties();
+                    Save();
                 }
             );
         }
@@ -100,7 +106,7 @@ namespace ReadyPlayerMe.Core.Editor
             textureSizeLimit.RegisterValueChangedCallback(x =>
                 {
                     avatarConfigTarget.TextureSizeLimit = x.newValue;
-                    serializedObject.ApplyModifiedProperties();
+                    Save();
                 }
             );
         }
@@ -112,7 +118,7 @@ namespace ReadyPlayerMe.Core.Editor
             useHands.RegisterValueChangedCallback(x =>
                 {
                     avatarConfigTarget.UseHands = x.newValue;
-                    serializedObject.ApplyModifiedProperties();
+                    Save();
                 }
             );
         }
@@ -122,7 +128,7 @@ namespace ReadyPlayerMe.Core.Editor
             var useDracoCompression = root.Q<Toggle>("UseDracoCompression");
             var useMeshOptCompression = root.Q<Toggle>("UseMeshOptCompression");
 
-            var optimizationPackages =root.Q<Foldout>("OptimizationPackages");
+            var optimizationPackages = root.Q<Foldout>("OptimizationPackages");
             optimizationPackages.RegisterValueChangedCallback(x =>
             {
                 useDracoCompression.SetValueWithoutNotify(ModuleInstaller.IsModuleInstalled(ModuleList.DracoCompression.name));
@@ -139,8 +145,8 @@ namespace ReadyPlayerMe.Core.Editor
 
                     if (EditorUtility.DisplayDialog(
                             DIALOG_TITLE,
-                            string.Format(DIALOG_MESSAGE, "Draco compression", ModuleList.DracoCompression.name), 
-                            DIALOG_OK, 
+                            string.Format(DIALOG_MESSAGE, "Draco compression", ModuleList.DracoCompression.name),
+                            DIALOG_OK,
                             DIALOG_CANCEL))
                     {
                         ModuleInstaller.AddModuleRequest(ModuleList.DracoCompression.Identifier);
@@ -151,7 +157,7 @@ namespace ReadyPlayerMe.Core.Editor
                         useDracoCompression.SetValueWithoutNotify(false);
                     }
 
-                    serializedObject.ApplyModifiedProperties();
+                    Save();
                 }
             );
           
@@ -165,8 +171,8 @@ namespace ReadyPlayerMe.Core.Editor
 
                     if (EditorUtility.DisplayDialog(
                             DIALOG_TITLE,
-                            string.Format(DIALOG_MESSAGE, "Mesh opt compression", MESH_OPT_PACKAGE_NAME), 
-                            DIALOG_OK, 
+                            string.Format(DIALOG_MESSAGE, "Mesh opt compression", MESH_OPT_PACKAGE_NAME),
+                            DIALOG_OK,
                             DIALOG_CANCEL))
                     {
                         PackageManagerHelper.AddPackage(MESH_OPT_PACKAGE_NAME);
@@ -177,7 +183,7 @@ namespace ReadyPlayerMe.Core.Editor
                         useMeshOptCompression.SetValueWithoutNotify(false);
                     }
 
-                    serializedObject.ApplyModifiedProperties();
+                    Save();
                 }
             );
         }
@@ -210,17 +216,19 @@ namespace ReadyPlayerMe.Core.Editor
                 {
                     if (x.newValue)
                     {
-                        var textureChannels = new List<TextureChannel>();
+                        var textureChannels = avatarConfigTarget.TextureChannel.ToList();
                         textureChannels.Add((TextureChannel) i);
                         avatarConfigTarget.TextureChannel = textureChannels.ToArray();
+                        textureChannelChanged?.Invoke();
                     }
                     else
                     {
                         var textureChannels = avatarConfigTarget.TextureChannel.ToList();
                         textureChannels.Remove((TextureChannel) i);
                         avatarConfigTarget.TextureChannel = textureChannels.ToArray();
+                        textureChannelChanged?.Invoke();
                     }
-                    serializedObject.ApplyModifiedProperties();
+                    Save();
                 });
             }
 
@@ -233,6 +241,73 @@ namespace ReadyPlayerMe.Core.Editor
 
             listView.onItemsChosen += Debug.Log;
             listView.onSelectionChange += Debug.Log;
+        }
+
+        private void SetupShader()
+        {
+            var shader = root.Q<ObjectField>("Shader");
+            shader.SetValueWithoutNotify(avatarConfigTarget.Shader);
+
+            var shaderPropertiesContainer = root.Q<VisualElement>("ShaderProperties");
+            CreateShaderProperties(shaderPropertiesContainer);
+
+            textureChannelChanged += () => ShowShaderProperties(shaderPropertiesContainer);
+            if (shader.value == null)
+            {
+                shaderPropertiesContainer.style.display = DisplayStyle.None;
+            }
+            else
+            {
+                ShowShaderProperties(shaderPropertiesContainer);
+            }
+
+            shader.RegisterValueChangedCallback(x =>
+                {
+                    avatarConfigTarget.Shader = (Shader) x.newValue;
+                    Save();
+                    if (x.newValue == null)
+                    {
+                        shaderPropertiesContainer.style.display = DisplayStyle.None;
+                    }
+                    else
+                    {
+                        ShowShaderProperties(shaderPropertiesContainer);
+                    }
+                }
+            );
+        }
+
+        private void ShowShaderProperties(VisualElement shaderPropertiesContainer)
+        {
+            shaderPropertiesContainer.style.display = DisplayStyle.Flex;
+            foreach (var child in shaderPropertiesContainer.Children())
+            {
+                if (avatarConfigTarget.TextureChannel.Contains((TextureChannel) Enum.Parse(typeof(TextureChannel), child.name)))
+                {
+                    child.style.display = DisplayStyle.Flex;
+                }
+                else
+                {
+                    child.style.display = DisplayStyle.None;
+                }
+            }
+        }
+
+        private void CreateShaderProperties(VisualElement shaderPropertiesContainer)
+        {
+            foreach (TextureChannel textureChannel in Enum.GetValues(typeof(TextureChannel)))
+            {
+                var field = new TextField(textureChannel.ToString());
+                field.name = textureChannel.ToString();
+                var property = avatarConfigTarget.ShaderProperties.FindIndex(x => x.TextureChannel == textureChannel);
+                field.SetValueWithoutNotify(avatarConfigTarget.ShaderProperties[property].PropertyName);
+                field.RegisterValueChangedCallback(x =>
+                {
+                    avatarConfigTarget.ShaderProperties[property].PropertyName = x.newValue;
+                    Save();
+                });
+                shaderPropertiesContainer.Add(field);
+            }
         }
 
         private void SetupMorphTargets()

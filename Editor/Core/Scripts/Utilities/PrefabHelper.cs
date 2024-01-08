@@ -18,7 +18,7 @@ namespace ReadyPlayerMe.Core.Editor
             Selection.activeObject = AssetDatabase.LoadAssetAtPath(newPath, typeof(GameObject));
         }
         
-        public static GameObject CreateAvatarPrefab(AvatarMetadata avatarMetadata, string path, string prefabPath = null)
+        public static GameObject CreateAvatarPrefab(AvatarMetadata avatarMetadata, string path, string prefabPath = null, AvatarConfig avatarConfig = null)
         {
             var modelFilePath = $"{path}.glb";
             AssetDatabase.Refresh();
@@ -26,7 +26,7 @@ namespace ReadyPlayerMe.Core.Editor
             var newAvatar = (GameObject) PrefabUtility.InstantiatePrefab(avatarSource);
             var avatarProcessor = new AvatarProcessor();
             PrefabUtility.UnpackPrefabInstance(newAvatar, PrefabUnpackMode.Completely, InteractionMode.AutomatedAction);
-            avatarProcessor.ProcessAvatar(newAvatar, avatarMetadata);
+            avatarProcessor.ProcessAvatar(newAvatar, avatarMetadata, avatarConfig);
             var avatarData = newAvatar.AddComponent<AvatarData>();
             avatarData.AvatarMetadata = avatarMetadata;
             avatarData.AvatarId = newAvatar.name;
