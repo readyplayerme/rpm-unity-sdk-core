@@ -12,8 +12,8 @@ namespace ReadyPlayerMe.Core.Editor
         private const string PRELOADED_SHADER_PROPERTY = "m_PreloadedShaders";
         private const string GRAPHICS_SETTING_PATH = "ProjectSettings/GraphicsSettings.asset";
 
-        private const string SHADER_VARIANT_ASSETS_FOLDER = "Assets/Ready Player Me/Core/Shaders";
-        private const string SHADER_VARIANT_PACKAGES_FOLDER = "Packages/com.readyplayerme.core/Shaders";
+        private const string SHADER_VARIANT_ASSETS_FOLDER = "Assets/Ready Player Me/Core/Runtime/Core/Shaders";
+        private const string SHADER_VARIANT_PACKAGES_FOLDER = "Packages/com.readyplayerme.core/Runtime/Core/Shaders";
 
         private const string SHADER_VARIANTS_STANDARD = "glTFastShaderVariants";
         private const string SHADER_VARIANTS_URP = "glTFastShaderVariantsURP";
@@ -49,6 +49,11 @@ namespace ReadyPlayerMe.Core.Editor
 
             var newArrayIndex = shaderPreloadArray.arraySize;
             var shaderVariants = AssetDatabase.LoadAssetAtPath<ShaderVariantCollection>(GetTargetShaderPath());
+            if (shaderVariants == null)
+            {
+                Debug.LogWarning($"Shader variants not found at {GetTargetShaderPath()}");
+                return;
+            }
             if (checkForMissingVariants)
             {
                 var shadersMissing = true;
