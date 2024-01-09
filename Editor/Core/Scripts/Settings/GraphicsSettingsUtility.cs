@@ -49,6 +49,11 @@ namespace ReadyPlayerMe.Core.Editor
 
             var newArrayIndex = shaderPreloadArray.arraySize;
             var shaderVariants = AssetDatabase.LoadAssetAtPath<ShaderVariantCollection>(GetTargetShaderPath());
+            if (shaderVariants == null)
+            {
+                Debug.LogWarning($"Shader variants not found at {GetTargetShaderPath()}");
+                return;
+            }
             if (checkForMissingVariants)
             {
                 var shadersMissing = true;
