@@ -38,8 +38,8 @@ namespace ReadyPlayerMe.Core.Editor
         {
             name = "com.atteneder.draco",
             gitUrl = "https://github.com/atteneder/DracoUnity.git",
-            branch = "v4.0.2",
-            version = "4.0.2"
+            branch = "",
+            version = "4.1.0"
         };
 
         /// <summary>
