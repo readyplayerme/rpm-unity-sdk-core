@@ -14,7 +14,7 @@ namespace ReadyPlayerMe.Core
                 coreSettings = Load();
                 if (coreSettings == null)
                 {
-                    Debug.LogError("CoreSettings could not be loaded.");
+                    Debug.LogWarning("CoreSettings could not be loaded.");
                 }
                 return coreSettings;
             }
