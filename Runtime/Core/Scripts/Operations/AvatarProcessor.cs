@@ -95,8 +95,8 @@ namespace ReadyPlayerMe.Core
         #region Setup Armature and Animations
 
         // Animation avatars resource paths
-        private const string MASCULINE_ANIMATION_AVATAR_NAME = "AnimationAvatars/MasculineAnimationAvatar";
-        private const string FEMININE_ANIMATION_AVATAR_NAME = "AnimationAvatars/FeminineAnimationAvatar";
+        private const string MASCULINE_ANIMATION_AVATAR_NAME = "AnimationAvatars/Masculine_TPose";
+        private const string FEMININE_ANIMATION_AVATAR_NAME = "AnimationAvatars/Feminine_TPose";
 
         // Bone names
         private const string BONE_HIPS = "Hips";
@@ -145,7 +145,8 @@ namespace ReadyPlayerMe.Core
             var animationAvatarSource = gender == OutfitGender.Masculine
                 ? MASCULINE_ANIMATION_AVATAR_NAME
                 : FEMININE_ANIMATION_AVATAR_NAME;
-            var animationAvatar = Resources.Load<Avatar>(animationAvatarSource);
+            var model = Resources.Load<GameObject>(animationAvatarSource);
+            var animationAvatar = model.GetComponent<Animator>().avatar;
             var animator = avatar.AddComponent<Animator>();
             animator.avatar = animationAvatar;
             animator.applyRootMotion = true;
