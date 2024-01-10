@@ -11,7 +11,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout repo with submodule
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
         with:
           repository: "readyplayerme/Unity-SDK"
           submodules: true
