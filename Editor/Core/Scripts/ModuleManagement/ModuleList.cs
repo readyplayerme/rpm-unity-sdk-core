@@ -13,8 +13,8 @@ namespace ReadyPlayerMe.Core.Editor
         {
             name = "com.readyplayerme.core",
             gitUrl = "https://github.com/readyplayerme/rpm-unity-sdk-core.git",
-            branch = "",
-            version = "4.1.2"
+            branch = "release/v5.0.0",
+            version = "5.0.0"
         };
 
         /// <summary>
