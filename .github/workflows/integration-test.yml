@@ -42,7 +42,7 @@ jobs:
       - name: Add core with current branch as package
         run: openupm add com.readyplayerme.core@https://github.com/readyplayerme/rpm-unity-sdk-core.git#${{ github.ref_name }}
       - name: Run Tests
-        uses: game-ci/unity-test-runner@v2
+        uses: game-ci/unity-test-runner@v4
         env:
           UNITY_LICENSE: ${{ secrets.UNITY_LICENSE }}
         with:
