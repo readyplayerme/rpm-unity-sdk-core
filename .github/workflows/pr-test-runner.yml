@@ -20,7 +20,7 @@ jobs:
           - 2020.3.16f1
     steps:
       - name: Checkout Unity-SDK Repository
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
         with:
           repository: "readyplayerme/Unity-SDK"
           submodules: true
@@ -43,7 +43,7 @@ jobs:
             Library-
 
       - name: Run Tests
-        uses: game-ci/unity-test-runner@v2
+        uses: game-ci/unity-test-runner@v4
         env:
           UNITY_LICENSE: ${{ secrets.UNITY_LICENSE }}
         with:
