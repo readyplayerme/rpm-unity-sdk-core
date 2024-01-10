@@ -22,9 +22,9 @@ namespace ReadyPlayerMe.Core.Editor
         private const string OPTIMIZE_THE_PERFORMANCE = "OptimizeThePerformance";
         private const string CORE_PACKAGE = "com.readyplayerme.core";
         private const string QUICKSTART_SAMPLE_NAME = "QuickStart";
-        private const string AVATAR_CREATOR_SAMPLE_NAME = "LegacyAvatarCreator";
-        private const string AVATAR_CREATOR_SAMPLE_SCENE_NAME = "Scenes/LegacyAvatarCreator";
-
+        private const string AVATAR_CREATOR_SAMPLE_NAME = "AvatarCreatorSamples";
+        private const string AVATAR_CREATOR_SAMPLE_SCENE_PATH = "LegacyAvatarCreator/Scenes/LegacyAvatarCreator";
+        private const string SAMPLES_FOLDER_PATH = "Assets/Ready Player Me/Core/Samples";
         [SerializeField] private VisualTreeAsset visualTreeAsset;
 
         [MenuItem("Tools/Ready Player Me/Integration Guide", priority = 12)]
@@ -75,7 +75,7 @@ namespace ReadyPlayerMe.Core.Editor
             rootVisualElement.Q<VisualElement>(INTEGRATE_AVATAR_CREATOR).Q<Button>("LoadSampleSceneButton").clicked += () =>
             {
                 AnalyticsEditorLogger.EventLogger.LogAvatarCreatorSampleImported();
-                LoadAndOpenSample(AVATAR_CREATOR_SAMPLE_NAME, AVATAR_CREATOR_SAMPLE_SCENE_NAME);
+                LoadAndOpenSample(AVATAR_CREATOR_SAMPLE_NAME, AVATAR_CREATOR_SAMPLE_SCENE_PATH);
             };
 
             rootVisualElement.Q<VisualElement>(OPTIMIZE_THE_PERFORMANCE).Q<Button>().clicked += () =>
@@ -105,8 +105,13 @@ namespace ReadyPlayerMe.Core.Editor
 
         private bool LoadFromAssetsFolder(string sampleName, string scenePath)
         {
-            var folderPath = $"Assets/Ready Player Me/Core/Samples/{sampleName}";
+            var version = ApplicationData.GetData().UnityVersion;
 
+            var folderPath = $"{SAMPLES_FOLDER_PATH}/{sampleName}";
+            if (!Directory.Exists(folderPath))
+            {
+                folderPath = $"{SAMPLES_FOLDER_PATH}/{version}/{sampleName}";
+            }
             if (!Directory.Exists(folderPath)) return false;
             var fullScenePath = $"{folderPath}/{scenePath}.unity";
             if (!File.Exists(fullScenePath)) return false;
