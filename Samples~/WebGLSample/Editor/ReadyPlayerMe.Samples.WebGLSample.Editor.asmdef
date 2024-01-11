@@ -6,8 +6,7 @@
         "ReadyPlayerMe.Core.Editor"
     ],
     "includePlatforms": [
-        "Editor",
-        "WebGL"
+        "Editor"
     ],
     "excludePlatforms": [],
     "allowUnsafeCode": false,
