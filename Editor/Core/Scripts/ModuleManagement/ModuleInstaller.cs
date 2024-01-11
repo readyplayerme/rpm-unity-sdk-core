@@ -31,11 +31,8 @@ namespace ReadyPlayerMe.Core.Editor
 
         private const float TIMEOUT_FOR_MODULE_INSTALLATION = 20f;
 
-        private static bool modulesInstalled;
-
         static ModuleInstaller()
         {
-
             Events.registeringPackages -= OnRegisteringPackages;
             Events.registeringPackages += OnRegisteringPackages;
 
@@ -75,7 +72,7 @@ namespace ReadyPlayerMe.Core.Editor
             EditorUtility.DisplayProgressBar(PROGRESS_BAR_TITLE, INSTALLING_MODULES, 0);
             Thread.Sleep(THREAD_SLEEP_TIME);
 
-            ModuleInfo[] missingModules = GetMissingModuleNames();
+            var missingModules = GetMissingModuleNames();
             if (missingModules.Length > 0)
             {
                 var installedModuleCount = 0f;
@@ -91,7 +88,6 @@ namespace ReadyPlayerMe.Core.Editor
                 Thread.Sleep(THREAD_SLEEP_TIME);
             }
             EditorUtility.ClearProgressBar();
-            modulesInstalled = true;
         }
 
         /// <summary>
