@@ -18,10 +18,9 @@ namespace ReadyPlayerMe.Samples
         private const string CANCEL_BUTTON_TEXT = "Cancel";
 
         private const string RPM_WEBGL_SCREEN_SHOWN_KEY = "rpm-webgl-screen-shown";
-        private const string FILE_NAME = "ReadyPlayerMe.Core.WebGLSample.asmdef";
         private const string PACKAGE_PATH = "Packages/com.readyplayerme.core/Samples~/WebGLSample/WebGLSample.unitypackage";
         private const string ASSETS_PACKAGE_PATH = "Assets/Ready Player Me/Core/Samples/WebGLSample/WebGLSample.unitypackage";
-
+        
         [InitializeOnLoadMethod]
         private static void InitializeOnLoad()
         {
@@ -53,12 +52,6 @@ namespace ReadyPlayerMe.Samples
 
         private static void OnConfirm()
         {
-            var samplesRootFolder = GetSampleRootFolder();
-            if (string.IsNullOrEmpty(samplesRootFolder))
-            {
-                Debug.LogWarning("Failed to find WebGLSample. No changes were done to project");
-                return;
-            }
             ImportPackage();
             SetWebGLTemplate();
         }
@@ -79,17 +72,7 @@ namespace ReadyPlayerMe.Samples
             }
             AssetDatabase.ImportPackage(path, true);
         }
-
-        private static string GetSampleRootFolder()
-        {
-            var results = Directory.GetFiles(Application.dataPath, FILE_NAME, SearchOption.AllDirectories);
-            if (results.Length == 0)
-            {
-                return String.Empty;
-            }
-            var rootSamplePath = results[0].Replace(FILE_NAME, "").Replace("\\", "/");
-            return rootSamplePath.TrimEnd('/');
-        }
+        
         private static void SetWebGLTemplate()
         {
             PlayerSettings.WebGL.template = "PROJECT:RPMTemplate";
