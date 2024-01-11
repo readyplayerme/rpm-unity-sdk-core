@@ -34,6 +34,7 @@ namespace ReadyPlayerMe.Samples
 
         private static void ShowWebGLScreen()
         {
+            EditorApplication.update -= ShowWebGLScreen;
             ProjectPrefs.SetBool(RPM_WEBGL_SCREEN_SHOWN_KEY, true);
             var shouldUpdate = EditorUtility.DisplayDialogComplex(WINDOW_TITLE,
                 DESCRIPTION,
@@ -47,7 +48,6 @@ namespace ReadyPlayerMe.Samples
                     OnConfirm();
                     break;
             }
-            EditorApplication.update -= ShowWebGLScreen;
         }
 
         private static void OnConfirm()
@@ -55,6 +55,7 @@ namespace ReadyPlayerMe.Samples
             AssetDatabase.ImportPackage(GetRelativeAssetPath(), false);
             SetWebGLTemplate();
         }
+        
         [MenuItem("RPM Tools/Setup WebGL Sample", priority = 13)]
         public static void ImportAndSetup()
         {
@@ -64,10 +65,6 @@ namespace ReadyPlayerMe.Samples
         
         private static string GetRelativeAssetPath()
         {
-            if(!Directory.Exists(TEMPLATE_PACKAGE_PACKAGES_FOLDER)){}
-            Debug.Log($"{TEMPLATE_PACKAGE_PACKAGES_FOLDER} does not exist");
-            if(Directory.Exists(TEMPLATE_PACKAGE_ASSETS_FOLDER))
-                Debug.Log($"{TEMPLATE_PACKAGE_ASSETS_FOLDER} does not exist");
             return !Directory.Exists(TEMPLATE_PACKAGE_PACKAGES_FOLDER) ? TEMPLATE_PACKAGE_PACKAGES_FOLDER : TEMPLATE_PACKAGE_ASSETS_FOLDER;
         }
         
