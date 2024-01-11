@@ -36,7 +36,6 @@ namespace ReadyPlayerMe.Core.Editor
             partnerSubdomain = CoreSettingsHandler.CoreSettings.Subdomain;
             subdomainField = this.Q<TextField>("SubdomainField");
             subdomainField.value = partnerSubdomain;
-
             var errorIcon = this.Q<VisualElement>("ErrorIcon");
             errorIcon.tooltip = DOMAIN_VALIDATION_ERROR;
 
@@ -66,7 +65,7 @@ namespace ReadyPlayerMe.Core.Editor
             {
                 partnerSubdomain = ExtractSubdomain(changeEvent.newValue);
                 errorIcon.visible = !IsValidSubdomain();
-                if (changeEvent.previousValue == partnerSubdomain) return;
+                if (changeEvent.previousValue == partnerSubdomain && !changeEvent.newValue.Contains(".")) return;
                 subdomainField.SetValueWithoutNotify(partnerSubdomain);
                 if (changeEvent.newValue != partnerSubdomain)
                 {
@@ -78,17 +77,25 @@ namespace ReadyPlayerMe.Core.Editor
 
         private static string ExtractSubdomain(string url)
         {
-            if (Uri.TryCreate(url, UriKind.Absolute, out Uri uri))
+            if (Uri.TryCreate(url, UriKind.Absolute, out var uri))
             {
-                url = uri.Host;
+                var host = uri.Host;
+                var indexOfColon = host.IndexOf(':');
+                if (indexOfColon >= 0)
+                {
+                    host = host.Substring(0, indexOfColon);
+                }
+
+                var hostParts = host.Split('.');
+                if (hostParts.Length > 0)
+                {
+                    return hostParts[0];
+                }
             }
-            var hostParts = url.Split('.');
-            if (hostParts.Length > 1)
-            {
-                return hostParts[0];
-            }
+            
             return url;
         }
+
 
         private bool IsValidSubdomain()
         {
