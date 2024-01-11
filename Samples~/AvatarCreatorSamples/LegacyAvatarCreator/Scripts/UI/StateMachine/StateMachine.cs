@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace ReadyPlayerMe
+namespace ReadyPlayerMe.Samples.LegacyAvatarCreator
 {
     public abstract class StateMachine : MonoBehaviour
     {

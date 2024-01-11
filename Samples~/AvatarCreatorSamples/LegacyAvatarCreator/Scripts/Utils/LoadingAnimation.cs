@@ -4,7 +4,7 @@ using System.Threading.Tasks;
 using ReadyPlayerMe.AvatarCreator;
 using UnityEngine;
 
-namespace ReadyPlayerMe
+namespace ReadyPlayerMe.Samples.LegacyAvatarCreator
 {
     public class LoadingAnimation : MonoBehaviour
     {

@@ -6,7 +6,7 @@ using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
-namespace ReadyPlayerMe
+namespace ReadyPlayerMe.Samples.LegacyAvatarCreator
 {
     public class AvatarButton : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
     {
