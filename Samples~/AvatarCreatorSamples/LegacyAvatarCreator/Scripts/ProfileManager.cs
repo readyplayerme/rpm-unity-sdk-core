@@ -27,11 +27,13 @@ namespace ReadyPlayerMe
 
         private void OnEnable()
         {
+            profileUI.SignedOut += AuthManager.Logout;
             AuthManager.OnSignedOut += DeleteSession;
         }
 
         private void OnDisable()
         {
+            profileUI.SignedOut += AuthManager.Logout;
             AuthManager.OnSignedOut -= DeleteSession;
         }
 
