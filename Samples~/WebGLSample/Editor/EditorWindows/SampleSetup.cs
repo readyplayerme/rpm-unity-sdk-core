@@ -57,14 +57,9 @@ namespace ReadyPlayerMe.Samples
         
         private static string GetRelativeAssetPath()
         {
-            var assetGUID = AssetDatabase.FindAssets(RPM_TEMPLATE_PACKAGE_NAME)[0]; // Get the first matching asset's GUID
-            var assetPath = AssetDatabase.GUIDToAssetPath(assetGUID);
-
-            // Get the project's asset folder path
-            var projectFolderPath = Application.dataPath;
-
-            // Calculate the relative path by removing the project folder path
-            var relativePath = assetPath.Replace(projectFolderPath, "Assets");
+            var assetGuid = AssetDatabase.FindAssets(RPM_TEMPLATE_PACKAGE_NAME)[0];
+            var assetPath = AssetDatabase.GUIDToAssetPath(assetGuid);
+            var relativePath = assetPath.Replace(Application.dataPath, "Assets");
 
             return relativePath;
         }
