@@ -18,8 +18,9 @@ namespace ReadyPlayerMe.Samples
         private const string CANCEL_BUTTON_TEXT = "Cancel";
 
         private const string RPM_WEBGL_SCREEN_SHOWN_KEY = "rpm-webgl-screen-shown";
-        private const string RPM_TEMPLATE_PACKAGE_NAME = "RpmWebGLTemplate.unitypackage";
-    
+        private const string TEMPLATE_PACKAGE_ASSETS_FOLDER = "Assets/Ready Player Me/Core/Editor/WebView/RpmWebGLTemplate.unitypackage";
+        private const string TEMPLATE_PACKAGE_PACKAGES_FOLDER = "Packages/com.readyplayerme.core/Editor/WebView/RpmWebGLTemplate.unitypackage";
+
         [InitializeOnLoadMethod]
         private static void InitializeOnLoad()
         {
@@ -51,17 +52,23 @@ namespace ReadyPlayerMe.Samples
 
         private static void OnConfirm()
         {
+            AssetDatabase.ImportPackage(GetRelativeAssetPath(), false);
+            SetWebGLTemplate();
+        }
+        [MenuItem("RPM Tools/Setup WebGL Sample", priority = 13)]
+        public static void ImportAndSetup()
+        {
             AssetDatabase.ImportPackage(GetRelativeAssetPath(), true);
             SetWebGLTemplate();
         }
         
         private static string GetRelativeAssetPath()
         {
-            var assetGuid = AssetDatabase.FindAssets(RPM_TEMPLATE_PACKAGE_NAME)[0];
-            var assetPath = AssetDatabase.GUIDToAssetPath(assetGuid);
-            var relativePath = assetPath.Replace(Application.dataPath, "Assets");
-
-            return relativePath;
+            if(!Directory.Exists(TEMPLATE_PACKAGE_PACKAGES_FOLDER)){}
+            Debug.Log($"{TEMPLATE_PACKAGE_PACKAGES_FOLDER} does not exist");
+            if(Directory.Exists(TEMPLATE_PACKAGE_ASSETS_FOLDER))
+                Debug.Log($"{TEMPLATE_PACKAGE_ASSETS_FOLDER} does not exist");
+            return !Directory.Exists(TEMPLATE_PACKAGE_PACKAGES_FOLDER) ? TEMPLATE_PACKAGE_PACKAGES_FOLDER : TEMPLATE_PACKAGE_ASSETS_FOLDER;
         }
         
         private static void SetWebGLTemplate()
