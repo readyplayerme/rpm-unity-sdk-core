@@ -1,12 +1,15 @@
 using UnityEngine;
 using UnityEngine.UI;
 
-public class DebugLogger : MonoBehaviour
+namespace ReadyPlayerMe.Samples
 {
-    [SerializeField] private Text debugText;
-
-    public void LogMessage(string messages)
+    public class DebugLogger : MonoBehaviour
     {
-        debugText.text = messages;
+        [SerializeField] private Text debugText;
+
+        public void LogMessage(string messages)
+        {
+            debugText.text = messages;
+        }
     }
 }
