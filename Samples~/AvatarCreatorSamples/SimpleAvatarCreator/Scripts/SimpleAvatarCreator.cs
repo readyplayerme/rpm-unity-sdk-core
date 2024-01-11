@@ -3,6 +3,8 @@ using System.Threading.Tasks;
 using ReadyPlayerMe.AvatarCreator;
 using ReadyPlayerMe.Core;
 using UnityEngine;
+#pragma warning disable CS4014
+#pragma warning disable CS1998 
 
 namespace ReadyPlayerMe
 {
