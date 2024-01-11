@@ -56,13 +56,6 @@ namespace ReadyPlayerMe.Samples
             SetWebGLTemplate();
         }
         
-        [MenuItem("RPM Tools/Setup WebGL Sample", priority = 13)]
-        public static void ImportAndSetup()
-        {
-            AssetDatabase.ImportPackage(GetRelativeAssetPath(), true);
-            SetWebGLTemplate();
-        }
-        
         private static string GetRelativeAssetPath()
         {
             return !Directory.Exists(TEMPLATE_PACKAGE_PACKAGES_FOLDER) ? TEMPLATE_PACKAGE_PACKAGES_FOLDER : TEMPLATE_PACKAGE_ASSETS_FOLDER;
