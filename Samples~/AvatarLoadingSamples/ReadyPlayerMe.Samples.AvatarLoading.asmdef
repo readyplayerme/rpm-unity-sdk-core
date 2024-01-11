@@ -1,14 +1,10 @@
 {
-    "name": "ReadyPlayerMe.Core.WebGLSample",
+    "name": "ReadyPlayerMe.Samples.AvatarLoading",
     "rootNamespace": "",
     "references": [
-        "ReadyPlayerMe.Core",
-        "ReadyPlayerMe.WebView"
+        "ReadyPlayerMe.Core"
     ],
-    "includePlatforms": [
-        "Editor",
-        "WebGL"
-    ],
+    "includePlatforms": [],
     "excludePlatforms": [],
     "allowUnsafeCode": false,
     "overrideReferences": false,

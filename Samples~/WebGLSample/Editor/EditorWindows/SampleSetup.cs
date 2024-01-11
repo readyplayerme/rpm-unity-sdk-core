@@ -6,7 +6,7 @@ using ReadyPlayerMe.Core.Editor;
 using UnityEditor;
 using UnityEngine;
 
-namespace ReadyPlayerMe.Samples
+namespace ReadyPlayerMe.Samples.WebGLSample.Editor
 {
     public static class SampleSetup
     {

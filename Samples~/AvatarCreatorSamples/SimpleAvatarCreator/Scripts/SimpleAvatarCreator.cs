@@ -6,7 +6,7 @@ using UnityEngine;
 #pragma warning disable CS4014
 #pragma warning disable CS1998 
 
-namespace ReadyPlayerMe
+namespace ReadyPlayerMe.Samples.SimpleAvatarCreator
 {
     public class SimpleAvatarCreator : MonoBehaviour
     {

@@ -1,7 +1,7 @@
 using UnityEngine;
 using UnityEngine.UI;
 
-namespace ReadyPlayerMe.Samples
+namespace ReadyPlayerMe.Samples.WebGLSample
 {
     public class DebugLogger : MonoBehaviour
     {
