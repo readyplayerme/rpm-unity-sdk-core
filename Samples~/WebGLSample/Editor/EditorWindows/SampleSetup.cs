@@ -18,9 +18,8 @@ namespace ReadyPlayerMe.Samples
         private const string CANCEL_BUTTON_TEXT = "Cancel";
 
         private const string RPM_WEBGL_SCREEN_SHOWN_KEY = "rpm-webgl-screen-shown";
-        private const string PACKAGE_PATH = "Packages/com.readyplayerme.core/Samples~/WebGLSample/WebGLSample.unitypackage";
-        private const string ASSETS_PACKAGE_PATH = "Assets/Ready Player Me/Core/Samples/WebGLSample/WebGLSample.unitypackage";
-        
+        private const string RPM_TEMPLATE_PACKAGE_NAME = "RpmWebGLTemplate.unitypackage";
+    
         [InitializeOnLoadMethod]
         private static void InitializeOnLoad()
         {
@@ -52,25 +51,22 @@ namespace ReadyPlayerMe.Samples
 
         private static void OnConfirm()
         {
-            ImportPackage();
+            AssetDatabase.ImportPackage(GetRelativeAssetPath(), true);
             SetWebGLTemplate();
         }
-
-        private static void ImportPackage()
+        
+        private static string GetRelativeAssetPath()
         {
-            var path = PACKAGE_PATH;
-            var asset = AssetDatabase.LoadAssetAtPath<UnityEngine.Object>(path);
-            if(asset == null)
-            {
-                path = ASSETS_PACKAGE_PATH;
-                asset = AssetDatabase.LoadAssetAtPath<UnityEngine.Object>(path);
-            }
-            if (asset == null)
-            {
-                Debug.LogWarning("Failed to find WebGLSample. No changes were done to project");
-                return;
-            }
-            AssetDatabase.ImportPackage(path, true);
+            var assetGUID = AssetDatabase.FindAssets(RPM_TEMPLATE_PACKAGE_NAME)[0]; // Get the first matching asset's GUID
+            var assetPath = AssetDatabase.GUIDToAssetPath(assetGUID);
+
+            // Get the project's asset folder path
+            var projectFolderPath = Application.dataPath;
+
+            // Calculate the relative path by removing the project folder path
+            var relativePath = assetPath.Replace(projectFolderPath, "Assets");
+
+            return relativePath;
         }
         
         private static void SetWebGLTemplate()
