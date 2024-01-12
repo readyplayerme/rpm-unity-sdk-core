@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using ReadyPlayerMe.Core;
@@ -13,13 +13,13 @@ namespace ReadyPlayerMe.Samples.WebGLSample.Editor
         private const string TAG = nameof(SampleSetup);
         private const string WINDOW_TITLE = "RPM WebGL Sample";
         private const string DESCRIPTION =
-            "This uses includes a WebGL template and a WebGLHelper library that is used for WebGL builds. For these to work they need to be imported into specific folder locations. Would you like to import them automatically now?";
+            "The RPM WebGL Sample includes a WebGL template and a WebGLHelper library that is used for WebGL builds. For these to work they need to be imported into specific folder locations. Would you like to import them automatically now?";
         private const string CONFIRM_BUTTON_TEXT = "Ok";
         private const string CANCEL_BUTTON_TEXT = "Cancel";
 
         private const string RPM_WEBGL_SCREEN_SHOWN_KEY = "rpm-webgl-screen-shown";
-        private const string TEMPLATE_PACKAGE_ASSETS_FOLDER = "Assets/Ready Player Me/Core/Editor/WebView/RpmWebGLTemplate.unitypackage";
-        private const string TEMPLATE_PACKAGE_PACKAGES_FOLDER = "Packages/com.readyplayerme.core/Editor/WebView/RpmWebGLTemplate.unitypackage";
+        private const string TEMPLATE_PACKAGE_ASSETS_FOLDER = "Assets/Ready Player Me/Core/Editor/WebGL/RpmWebGLTemplate.unitypackage";
+        private const string TEMPLATE_PACKAGE_PACKAGES_FOLDER = "Packages/com.readyplayerme.core/Editor/WebGL/RpmWebGLTemplate.unitypackage";
 
         [InitializeOnLoadMethod]
         private static void InitializeOnLoad()
@@ -58,7 +58,7 @@ namespace ReadyPlayerMe.Samples.WebGLSample.Editor
         
         private static string GetRelativeAssetPath()
         {
-            return !Directory.Exists(TEMPLATE_PACKAGE_PACKAGES_FOLDER) ? TEMPLATE_PACKAGE_PACKAGES_FOLDER : TEMPLATE_PACKAGE_ASSETS_FOLDER;
+            return Directory.Exists(TEMPLATE_PACKAGE_PACKAGES_FOLDER) ? TEMPLATE_PACKAGE_PACKAGES_FOLDER : TEMPLATE_PACKAGE_ASSETS_FOLDER;
         }
         
         private static void SetWebGLTemplate()
