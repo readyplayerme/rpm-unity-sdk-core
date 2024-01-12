@@ -37,6 +37,12 @@ namespace ReadyPlayerMe.Core.Editor
             AnalyticsEditorLogger.EventLogger.LogOpenProject();
             AnalyticsEditorLogger.EventLogger.IdentifyUser();
             Startup?.Invoke();
+            EditorApplication.quitting += OnQuit;
+        }
+
+        private static void OnQuit()
+        {
+            AnalyticsEditorLogger.EventLogger.LogCloseProject();
         }
     }
 }
