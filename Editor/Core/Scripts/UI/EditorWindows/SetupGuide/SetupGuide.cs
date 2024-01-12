@@ -136,6 +136,10 @@ namespace ReadyPlayerMe.Core.Editor
             finishSetupButton = rootVisualElement.Q<Button>(FINISH_SETUP_BUTTON);
             finishSetupButton.clicked += () =>
             {
+                if (AnalyticsEditorLogger.IsEnabled)
+                {
+                    AnalyticsEditorLogger.EventLogger.IdentifyUser();
+                }
                 Close();
                 IntegrationGuide.ShowWindow();
             };
