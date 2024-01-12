@@ -50,13 +50,7 @@ namespace ReadyPlayerMe.Samples.WebGLSample.Editor
 
         private static void OnConfirm()
         {
-            var path = GetRelativeAssetPath();
-            if (Directory.Exists(path))
-            {
-                Debug.Log($"Unable to find RpmWebGLTemplate.unitypackage at {path}");
-                return;
-            }
-            AssetDatabase.ImportPackage(path, false);
+            AssetDatabase.ImportPackage(GetRelativeAssetPath(), false);
             SetWebGLTemplate();
         }
         
