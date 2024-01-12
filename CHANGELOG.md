@@ -7,6 +7,28 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 
 ### Updated
 - updated to GLTFast 6.0.1 by @harrisonhough in [#XXX]()
+- replaced use of ienumerator coroutines with async/await by @rYuuk in [#172](https://github.com/readyplayerme/rpm-unity-sdk-core/pull/172)
+- request class names updated to be more uniform by @MaxAndreassenRPM in [#173](https://github.com/readyplayerme/rpm-unity-sdk-core/pull/173)
+- endpoint classes removed and refactored by @MaxAndreassenRPM in [#174](https://github.com/readyplayerme/rpm-unity-sdk-core/pull/174)
+- added avatar creator POC sample using new elements by @ryuuk in [#182](https://github.com/readyplayerme/rpm-unity-sdk-core/pull/182)
+- restructure of avatar creator samples by @rYuuk in [#185](https://github.com/readyplayerme/rpm-unity-sdk-core/pull/185)
+- removed "I don't have an account" checkbox from setup guide by @rk132 in [#184](https://github.com/readyplayerme/rpm-unity-sdk-core/pull/184)
+- class and folder restructure to match Unity package standards by @harrisonhough in [#190](https://github.com/readyplayerme/rpm-unity-sdk-core/pull/190)
+- namespaces added to some scripts to meet asset store requirements by @harrisonhough in [#195](https://github.com/readyplayerme/rpm-unity-sdk-core/pull/195)
+- Ready Player Me top toolbar menu is under `Tools/Ready Player Me` to comply with Asset Store requirements by @harrisonhough in [#195](https://github.com/readyplayerme/rpm-unity-sdk-core/pull/195)
+- samples renamed for Asset Store version of package and paths updated accordingly by @harrisonhough in [#198](https://github.com/readyplayerme/rpm-unity-sdk-core/pull/198)
+- quick start sample animations updated by @rYuuk in [#200](https://github.com/readyplayerme/rpm-unity-sdk-core/pull/200)
+- draco compression package version updated by @harrisonhough in [#202](https://github.com/readyplayerme/rpm-unity-sdk-core/pull/202)
+
+### Added
+- fixed some issues related to paths like in the Graphics Setting Utility by @harrisonhough in [#195](https://github.com/readyplayerme/rpm-unity-sdk-core/pull/195)
+- shader override property added to avatar config by @ryuuk in [#199](https://github.com/readyplayerme/rpm-unity-sdk-core/pull/199)
+
+### Fixed
+- fix for handling pasted url text in subdomain field by @harrisonhough in [#183](https://github.com/readyplayerme/rpm-unity-sdk-core/pull/183)
+- added permission and orientation fix to photo capture element by @ryuuk in [#192](https://github.com/readyplayerme/rpm-unity-sdk-core/pull/192)
+- added Panel Switcher clear functionality to fix issues related to relaunching the creator by @ryuuk in [#194](https://github.com/readyplayerme/rpm-unity-sdk-core/pull/194)
+- namespaces added to some scripts to meet asset store requirements by @harrisonhough in [#195](https://github.com/readyplayerme/rpm-unity-sdk-core/pull/195)
 
 ## [4.1.2] - 2023.12.20
 
