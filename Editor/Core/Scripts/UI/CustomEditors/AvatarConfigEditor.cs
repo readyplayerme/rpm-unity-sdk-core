@@ -134,7 +134,7 @@ namespace ReadyPlayerMe.Core.Editor
                 useDracoCompression.SetValueWithoutNotify(ModuleInstaller.IsModuleInstalled(ModuleList.DracoCompression.name));
                 useMeshOptCompression.SetValueWithoutNotify(PackageManagerHelper.IsPackageInstalled(MESH_OPT_PACKAGE_NAME));
             });
-            
+
             useDracoCompression.RegisterValueChangedCallback(x =>
                 {
                     avatarConfigTarget.UseDracoCompression = x.newValue;
@@ -160,7 +160,7 @@ namespace ReadyPlayerMe.Core.Editor
                     Save();
                 }
             );
-          
+
             useMeshOptCompression.RegisterValueChangedCallback(x =>
                 {
                     avatarConfigTarget.UseMeshOptCompression = x.newValue;
@@ -245,7 +245,7 @@ namespace ReadyPlayerMe.Core.Editor
 
         private void SetupShader()
         {
-            var shader = root.Q<ObjectField>("Shader");
+            var shader = root.Q<ObjectField>("ShaderOverride");
             shader.SetValueWithoutNotify(avatarConfigTarget.Shader);
 
             var shaderPropertiesContainer = root.Q<VisualElement>("ShaderProperties");

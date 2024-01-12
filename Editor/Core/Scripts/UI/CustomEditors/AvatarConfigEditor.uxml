@@ -8,7 +8,7 @@
         <ui:ListView focusable="true" reorderable="true" show-border="true" show-alternating-row-backgrounds="All" style="height: auto; flex-shrink: 0; flex-grow: 0; justify-content: flex-start; border-left-width: 1px; border-right-width: 1px; border-top-width: 1px; border-bottom-width: 1px;" />
     </ui:Foldout>
     <ui:VisualElement name="CustomShader" style="border-left-width: 1px; border-right-width: 1px; border-top-width: 1px; border-bottom-width: 1px; border-left-color: rgba(113, 109, 109, 255); border-right-color: rgba(113, 109, 109, 255); border-top-color: rgba(113, 109, 109, 255); border-bottom-color: rgba(113, 109, 109, 255);">
-        <uie:ObjectField label="Shader" type="UnityEngine.Shader, UnityEngine.CoreModule" name="Shader" />
+        <uie:ObjectField label="Shader Override" type="UnityEngine.Shader, UnityEngine.CoreModule" name="ShaderOverride" />
         <ui:VisualElement name="ShaderProperties" style="flex-grow: 1; margin-left: 5px;" />
     </ui:VisualElement>
     <ui:Foldout text="Optimization Packages" name="OptimizationPackages" value="false" style="flex-shrink: 0; margin-top: 4px; margin-left: 4px; margin-right: 4px;">
