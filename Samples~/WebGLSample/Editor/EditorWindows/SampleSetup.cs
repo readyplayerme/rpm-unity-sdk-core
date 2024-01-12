@@ -13,7 +13,7 @@ namespace ReadyPlayerMe.Samples.WebGLSample.Editor
         private const string TAG = nameof(SampleSetup);
         private const string WINDOW_TITLE = "RPM WebGL Sample";
         private const string DESCRIPTION =
-            "This sample includes a WebGL template and a WebGLHelper library that is used for WebGL builds. For these to work they need to be moved into specific directories. Would you like to move them automatically now?";
+            "This uses includes a WebGL template and a WebGLHelper library that is used for WebGL builds. For these to work they need to be imported into specific folder locations. Would you like to import them automatically now?";
         private const string CONFIRM_BUTTON_TEXT = "Ok";
         private const string CANCEL_BUTTON_TEXT = "Cancel";
 
