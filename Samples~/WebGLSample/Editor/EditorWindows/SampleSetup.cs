@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.IO;
 using ReadyPlayerMe.Core;
@@ -28,13 +28,11 @@ namespace ReadyPlayerMe.Samples.WebGLSample.Editor
             {
                 return;
             }
-            
-            EditorApplication.update += ShowWebGLScreen;
+            ShowWebGLScreen();
         }
 
         private static void ShowWebGLScreen()
         {
-            EditorApplication.update -= ShowWebGLScreen;
             ProjectPrefs.SetBool(RPM_WEBGL_SCREEN_SHOWN_KEY, true);
             var shouldUpdate = EditorUtility.DisplayDialogComplex(WINDOW_TITLE,
                 DESCRIPTION,
