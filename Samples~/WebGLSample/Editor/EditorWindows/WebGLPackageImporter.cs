@@ -32,8 +32,7 @@ namespace ReadyPlayerMe.Samples.WebGLSample.Editor
         {
             return !ProjectPrefs.GetBool(RPM_WEBGL_SCREEN_SHOWN_KEY) && !ProjectPrefs.GetBool(DONT_ASK_AGAIN_PREF) && !IsTemplateImported();
         }
-
-        [MenuItem("RPMTools/Show popup")]
+        
         public static void ShowWebGLPopup()
         {
             ProjectPrefs.SetBool(RPM_WEBGL_SCREEN_SHOWN_KEY, true);
