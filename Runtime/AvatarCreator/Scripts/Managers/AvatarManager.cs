@@ -88,7 +88,7 @@ namespace ReadyPlayerMe.AvatarCreator
                 {
                     return (null, avatarProperties);
                 }
-
+                avatarProperties.isDraft = true;
                 avatarId = avatarProperties.Id;
                 avatar = await GetAvatar(avatarId, bodyType, true);
             }

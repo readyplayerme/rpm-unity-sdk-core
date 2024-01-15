@@ -249,9 +249,13 @@ namespace ReadyPlayerMe.Samples.LegacyAvatarCreator
         private async void Save()
         {
             var startTime = Time.time;
+
             LoadingManager.EnableLoading("Saving avatar...", LoadingManager.LoadingType.Popup);
-            var avatarId = await avatarManager.Save();
-            AvatarCreatorData.AvatarProperties.Id = avatarId;
+            if (AvatarCreatorData.AvatarProperties.isDraft)
+            {
+                var avatarId = await avatarManager.Save();
+                AvatarCreatorData.AvatarProperties.Id = avatarId;
+            }
             StateMachine.SetState(StateType.End);
             LoadingManager.DisableLoading();
             SDKLogger.Log(TAG, $"Avatar saved in {Time.time - startTime:F2}s");
@@ -286,7 +290,7 @@ namespace ReadyPlayerMe.Samples.LegacyAvatarCreator
             {
                 return;
             }
-
+            AvatarCreatorData.AvatarProperties.isDraft = true;
             ProcessAvatar(avatar);
             Destroy(currentAvatar);
             currentAvatar = avatar;

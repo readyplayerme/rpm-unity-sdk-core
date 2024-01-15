@@ -17,5 +17,6 @@ namespace ReadyPlayerMe.AvatarCreator
         [JsonConverter(typeof(CategoryDictionaryConverter))]
         public Dictionary<AssetType, object> Assets;
         public string Base64Image;
+        public bool isDraft;
     }
 }
