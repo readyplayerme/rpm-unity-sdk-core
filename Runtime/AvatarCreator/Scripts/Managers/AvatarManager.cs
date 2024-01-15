@@ -26,8 +26,10 @@ namespace ReadyPlayerMe.AvatarCreator
 
         /// <param name="avatarConfig">Config for downloading preview avatar</param>
         /// <param name="token">Cancellation token</param>
-        public AvatarManager(AvatarConfig avatarConfig = null, CancellationToken token = default)
+        /// <param name="gender"></param>
+        public AvatarManager(AvatarConfig avatarConfig = null, CancellationToken token = default, OutfitGender gender = OutfitGender.None)
         {
+            this.gender = gender;
             if (avatarConfig != null)
             {
                 avatarConfigParameters = AvatarConfigProcessor.ProcessAvatarConfiguration(avatarConfig);

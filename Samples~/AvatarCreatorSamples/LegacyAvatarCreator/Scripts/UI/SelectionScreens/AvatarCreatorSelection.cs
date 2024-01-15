@@ -65,7 +65,8 @@ namespace ReadyPlayerMe.Samples.LegacyAvatarCreator
 
             avatarManager = new AvatarManager(
                 inCreatorConfig,
-                ctxSource.Token);
+                ctxSource.Token, 
+                AvatarCreatorData.AvatarProperties.Gender);
             avatarManager.OnError += OnErrorCallback;
 
             currentAvatar = await LoadAvatar();
