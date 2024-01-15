@@ -33,7 +33,7 @@ namespace ReadyPlayerMe.Samples.LegacyAvatarCreator
 
         private void OnDisable()
         {
-            profileUI.SignedOut += AuthManager.Logout;
+            profileUI.SignedOut -= AuthManager.Logout;
             AuthManager.OnSignedOut -= DeleteSession;
         }
 
