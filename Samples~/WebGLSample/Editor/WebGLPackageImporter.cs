@@ -1,6 +1,8 @@
-﻿using ReadyPlayerMe.Core;
+﻿using System.IO;
+using ReadyPlayerMe.Core;
 using ReadyPlayerMe.Core.Editor;
 using UnityEditor;
+using UnityEngine;
 
 namespace ReadyPlayerMe.Samples.WebGLSample.Editor
 {
@@ -16,8 +18,9 @@ namespace ReadyPlayerMe.Samples.WebGLSample.Editor
         private const string RPM_WEBGL_SCREEN_SHOWN_KEY = "rpm-webgl-screen-shown";
         private const string WEBGL_PACKAGE = "RpmWebGLPackage";
         private const string DONT_ASK_AGAIN_PREF = "rpm-webgl-package-importer";
-        private const string WEBGL_TEMPLATE = "RpmWebGLTemplate";
+        private const string TEMPLATE_FOLDER = "Assets/WebGLTemplates/RPMTemplate/TemplateData";
         private static string unityPackagePath;
+        private const string RPM_WEB_HELPER = "RpmWebGLHelper";
 
         [InitializeOnLoadMethod]
         private static void InitializeOnLoad()
@@ -32,7 +35,7 @@ namespace ReadyPlayerMe.Samples.WebGLSample.Editor
         {
             return !ProjectPrefs.GetBool(RPM_WEBGL_SCREEN_SHOWN_KEY) && !ProjectPrefs.GetBool(DONT_ASK_AGAIN_PREF) && !IsTemplateImported();
         }
-        
+
         public static void ShowWebGLPopup()
         {
             ProjectPrefs.SetBool(RPM_WEBGL_SCREEN_SHOWN_KEY, true);
@@ -62,14 +65,12 @@ namespace ReadyPlayerMe.Samples.WebGLSample.Editor
             if (!string.IsNullOrEmpty(unityPackagePath))
             {
                 AssetDatabase.ImportPackage(unityPackagePath, false);
-
             }
         }
 
         public static bool IsTemplateImported()
         {
-            var webglTemplateGuid = AssetDatabase.FindAssets(WEBGL_TEMPLATE);
-            return webglTemplateGuid != null && webglTemplateGuid.Length > 0;
+            return AssetDatabase.IsValidFolder(TEMPLATE_FOLDER);
         }
 
         private static string GetRelativeAssetPath()
@@ -83,6 +84,12 @@ namespace ReadyPlayerMe.Samples.WebGLSample.Editor
         {
             PlayerSettings.WebGL.template = "PROJECT:RPMTemplate";
             SDKLogger.Log(TAG, "Updated player settings to use RPMTemplate");
+        }
+
+        public static bool IsWebHelperImported()
+        {
+            var guids = AssetDatabase.FindAssets(RPM_WEB_HELPER);
+            return guids != null && guids.Length > 0;
         }
     }
 }
