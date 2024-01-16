@@ -28,6 +28,7 @@ namespace ReadyPlayerMe.Samples.LegacyAvatarCreator
                 await Task.Yield();
             }
             LoadImage();
+            AuthManager.OnSignedOut += () => ctxSource?.Cancel();
         }
 
         public void Init(string id, Action onCustomize, Action onSelect, bool isCurrentPartner)
@@ -76,7 +77,7 @@ namespace ReadyPlayerMe.Samples.LegacyAvatarCreator
             {
                 return;
             }
-            
+
             loading.SetActive(false);
         }
     }
