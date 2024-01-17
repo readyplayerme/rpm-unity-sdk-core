@@ -2,7 +2,7 @@ using System.Threading;
 using ReadyPlayerMe.AvatarCreator;
 using UnityEngine;
 
-namespace ReadyPlayerMe
+namespace ReadyPlayerMe.Samples.LegacyAvatarCreator
 {
     public class CameraZoom : MonoBehaviour
     {

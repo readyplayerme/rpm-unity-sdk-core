@@ -3337,6 +3337,16 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 5079932738637831216, guid: b5e780cfda18ab9469c25deff06532aa,
         type: 3}
+      propertyPath: runSpeed
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 5079932738637831216, guid: b5e780cfda18ab9469c25deff06532aa,
+        type: 3}
+      propertyPath: walkSpeed
+      value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: 5079932738637831216, guid: b5e780cfda18ab9469c25deff06532aa,
+        type: 3}
       propertyPath: playerCamera
       value: 
       objectReference: {fileID: 1123105911}

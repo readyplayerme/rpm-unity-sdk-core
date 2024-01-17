@@ -6,7 +6,7 @@ using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
-namespace ReadyPlayerMe
+namespace ReadyPlayerMe.Samples.LegacyAvatarCreator
 {
     public class AvatarButton : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
     {
@@ -28,6 +28,7 @@ namespace ReadyPlayerMe
                 await Task.Yield();
             }
             LoadImage();
+            AuthManager.OnSignedOut += () => ctxSource?.Cancel();
         }
 
         public void Init(string id, Action onCustomize, Action onSelect, bool isCurrentPartner)
@@ -76,7 +77,7 @@ namespace ReadyPlayerMe
             {
                 return;
             }
-            
+
             loading.SetActive(false);
         }
     }

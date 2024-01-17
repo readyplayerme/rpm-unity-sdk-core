@@ -84,7 +84,7 @@ namespace ReadyPlayerMe.Core
                 {
                     return response;
                 }
-                Debug.Log(request.downloadHandler.text + "\n" + url);
+                Debug.Log(request.downloadHandler.text + "\n" + request.method.ToUpper() + " " + url);
                 return response;
             }
 

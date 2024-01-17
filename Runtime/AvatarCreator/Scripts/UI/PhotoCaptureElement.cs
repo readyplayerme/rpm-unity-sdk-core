@@ -7,6 +7,7 @@ using UnityEngine.Android;
 #endif
 using UnityEngine.Events;
 using UnityEngine.UI;
+#pragma warning disable CS1998
 
 namespace ReadyPlayerMe.AvatarCreator
 {
@@ -84,7 +85,7 @@ namespace ReadyPlayerMe.AvatarCreator
 
             onPhotoCaptured?.Invoke(texture);
         }
-
+        
         private async Task GetPermission()
         {
             ctxSource?.Cancel();

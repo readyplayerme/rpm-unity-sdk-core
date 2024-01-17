@@ -4,7 +4,7 @@ using ReadyPlayerMe.Core;
 using ReadyPlayerMe.Core.WebView;
 using UnityEngine;
 
-namespace ReadyPlayerMe.Samples
+namespace ReadyPlayerMe.Samples.WebGLSample
 {
     public enum AutoInitialize
     {

@@ -8,26 +8,18 @@ namespace ReadyPlayerMe.Core.Editor
     {
         static OneTimeSetup()
         {
-            EntryPoint.Startup += OnStartup;
+            if (!ProjectPrefs.GetBool(ProjectPrefs.FIRST_TIME_SETUP_DONE))
+            {
+                EditorApplication.update += OnStartup;
+            }
         }
 
         private static void OnStartup()
         {
-            EntryPoint.Startup -= OnStartup;
-
-            if (CanShowWindow())
-            {
-                AnalyticsEditorLogger.Enable();
-                SetupGuide.ShowWindow();
-                ProjectPrefs.SetBool(ProjectPrefs.FIRST_TIME_SETUP_DONE, true);
-            }
-
-            if (AnalyticsEditorLogger.IsEnabled)
-            {
-                AnalyticsEditorLogger.EventLogger.LogOpenProject();
-                AnalyticsEditorLogger.EventLogger.IdentifyUser();
-                EditorApplication.quitting += OnQuit;
-            }
+            EditorApplication.update -= OnStartup;
+            AnalyticsEditorLogger.Enable();
+            SetupGuide.ShowWindow();
+            ProjectPrefs.SetBool(ProjectPrefs.FIRST_TIME_SETUP_DONE, true);
         }
 
         private static void OnQuit()

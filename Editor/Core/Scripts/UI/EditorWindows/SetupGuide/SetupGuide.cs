@@ -52,6 +52,10 @@ namespace ReadyPlayerMe.Core.Editor
                 InitializeSubdomainPanel(),
                 InitializeAnalyticsPanel()
             };
+            if (string.IsNullOrEmpty(currentAppId))
+            {
+                currentAppId = CoreSettingsHandler.CoreSettings.AppId;
+            }
             StartStateMachine();
         }
 
@@ -70,6 +74,11 @@ namespace ReadyPlayerMe.Core.Editor
             {
                 Application.OpenURL(STUDIO_URL);
             });
+
+            if (string.IsNullOrEmpty(currentSubdomain))
+            {
+                currentSubdomain = CoreSettingsHandler.CoreSettings.Subdomain;
+            }
 
             var subdomainTemplate = subdomainPanel.Q<SubdomainTemplate>();
             subdomainTemplate.OnSubdomainChanged += subdomain =>
@@ -138,6 +147,10 @@ namespace ReadyPlayerMe.Core.Editor
             {
                 Close();
                 IntegrationGuide.ShowWindow();
+                if (AnalyticsEditorLogger.IsEnabled)
+                {
+                    AnalyticsEditorLogger.EventLogger.IdentifyUser();
+                }
             };
         }
 

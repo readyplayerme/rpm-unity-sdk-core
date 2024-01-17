@@ -2,7 +2,7 @@ using ReadyPlayerMe.Core;
 using UnityEngine;
 using BodyType = ReadyPlayerMe.Core.BodyType;
 
-namespace ReadyPlayerMe.Samples
+namespace ReadyPlayerMe.Samples.WebGLSample
 {
     [RequireComponent(typeof(WebFrameHandler))]
     public class WebGLAvatarLoader : MonoBehaviour

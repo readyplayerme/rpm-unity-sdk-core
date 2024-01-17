@@ -3,10 +3,10 @@ using ReadyPlayerMe.Core;
 using UnityEditor;
 using UnityEngine;
 
-namespace ReadyPlayerMe
+namespace ReadyPlayerMe.Samples.LegacyAvatarCreator.Editor
 {
     [CustomEditor(typeof(AvatarCreatorStateMachine)), CanEditMultipleObjects]
-    public class AvatarCreatorStateMachineEditor : Editor
+    public class AvatarCreatorStateMachineEditor : UnityEditor.Editor
     {
         private AvatarCreatorStateMachine avatarCreatorStateMachine;
         private string[] genderOptions;

@@ -8,7 +8,7 @@ using ReadyPlayerMe.Core;
 using UnityEngine;
 using UnityEngine.UI;
 
-namespace ReadyPlayerMe
+namespace ReadyPlayerMe.Samples.LegacyAvatarCreator
 {
     public class AvatarCreatorSelection : State, IDisposable
     {
@@ -65,7 +65,8 @@ namespace ReadyPlayerMe
 
             avatarManager = new AvatarManager(
                 inCreatorConfig,
-                ctxSource.Token);
+                ctxSource.Token, 
+                AvatarCreatorData.AvatarProperties.Gender);
             avatarManager.OnError += OnErrorCallback;
 
             currentAvatar = await LoadAvatar();
@@ -249,9 +250,13 @@ namespace ReadyPlayerMe
         private async void Save()
         {
             var startTime = Time.time;
+
             LoadingManager.EnableLoading("Saving avatar...", LoadingManager.LoadingType.Popup);
-            var avatarId = await avatarManager.Save();
-            AvatarCreatorData.AvatarProperties.Id = avatarId;
+            if (AvatarCreatorData.AvatarProperties.isDraft)
+            {
+                var avatarId = await avatarManager.Save();
+                AvatarCreatorData.AvatarProperties.Id = avatarId;
+            }
             StateMachine.SetState(StateType.End);
             LoadingManager.DisableLoading();
             SDKLogger.Log(TAG, $"Avatar saved in {Time.time - startTime:F2}s");
@@ -286,7 +291,7 @@ namespace ReadyPlayerMe
             {
                 return;
             }
-
+            AvatarCreatorData.AvatarProperties.isDraft = true;
             ProcessAvatar(avatar);
             Destroy(currentAvatar);
             currentAvatar = avatar;

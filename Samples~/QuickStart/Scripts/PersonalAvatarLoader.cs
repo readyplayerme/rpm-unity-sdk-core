@@ -4,7 +4,7 @@ using ReadyPlayerMe.Core.Analytics;
 using UnityEngine;
 using UnityEngine.UI;
 
-namespace ReadyPlayerMe.Samples
+namespace ReadyPlayerMe.Samples.QuickStart
 {
     public class PersonalAvatarLoader : MonoBehaviour
     {

@@ -4,7 +4,7 @@ using System.Threading.Tasks;
 using UnityEngine;
 using ReadyPlayerMe;
 
-namespace ReadyPlayerMe.Samples
+namespace ReadyPlayerMe.Samples.QuickStart
 {
     public class LoadingAnimation : MonoBehaviour
     {

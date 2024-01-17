@@ -1,6 +1,6 @@
 using System.Runtime.InteropServices;
 
-namespace ReadyPlayerMe.Samples
+namespace ReadyPlayerMe.Samples.WebGLSample
 {
     public static class WebInterface
     {

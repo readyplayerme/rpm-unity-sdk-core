@@ -395,6 +395,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2616518480041139177, guid: 86b528853dfd4214a8140eee1b7ed309,
         type: 3}
+      propertyPath: url
+      value: https://models.readyplayer.me/638df70ed72bffc6fa179596.glb
+      objectReference: {fileID: 0}
+    - target: {fileID: 2616518480041139177, guid: 86b528853dfd4214a8140eee1b7ed309,
+        type: 3}
       propertyPath: renderSettings.Camera
       value: 1
       objectReference: {fileID: 0}
@@ -628,6 +633,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2616518480041139177, guid: 86b528853dfd4214a8140eee1b7ed309,
         type: 3}
+      propertyPath: url
+      value: https://models.readyplayer.me/638df70ed72bffc6fa179596.glb
+      objectReference: {fileID: 0}
+    - target: {fileID: 2616518480041139177, guid: 86b528853dfd4214a8140eee1b7ed309,
+        type: 3}
       propertyPath: renderSettings.Size
       value: 200
       objectReference: {fileID: 0}
@@ -765,6 +775,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: Expression-Lol
+      objectReference: {fileID: 0}
+    - target: {fileID: 2616518480041139177, guid: 86b528853dfd4214a8140eee1b7ed309,
+        type: 3}
+      propertyPath: url
+      value: https://models.readyplayer.me/638df70ed72bffc6fa179596.glb
       objectReference: {fileID: 0}
     - target: {fileID: 2616518480041139177, guid: 86b528853dfd4214a8140eee1b7ed309,
         type: 3}
@@ -909,7 +924,7 @@ PrefabInstance:
     - target: {fileID: 2616518480041139177, guid: 86b528853dfd4214a8140eee1b7ed309,
         type: 3}
       propertyPath: url
-      value: https://models.readyplayer.me/638f2c7775f8551b54c8db58.glb
+      value: https://models.readyplayer.me/638df5fc5a7d322604bb3a58.glb
       objectReference: {fileID: 0}
     - target: {fileID: 2616518480041139177, guid: 86b528853dfd4214a8140eee1b7ed309,
         type: 3}
@@ -1059,7 +1074,7 @@ PrefabInstance:
     - target: {fileID: 2616518480041139177, guid: 86b528853dfd4214a8140eee1b7ed309,
         type: 3}
       propertyPath: url
-      value: https://models.readyplayer.me/638f2c7775f8551b54c8db58.glb
+      value: https://models.readyplayer.me/638df5fc5a7d322604bb3a58.glb
       objectReference: {fileID: 0}
     - target: {fileID: 2616518480041139177, guid: 86b528853dfd4214a8140eee1b7ed309,
         type: 3}
@@ -1280,7 +1295,7 @@ PrefabInstance:
     - target: {fileID: 2616518480041139177, guid: 86b528853dfd4214a8140eee1b7ed309,
         type: 3}
       propertyPath: url
-      value: https://models.readyplayer.me/638f2c7775f8551b54c8db58.glb
+      value: https://models.readyplayer.me/638df5fc5a7d322604bb3a58.glb
       objectReference: {fileID: 0}
     - target: {fileID: 2616518480041139177, guid: 86b528853dfd4214a8140eee1b7ed309,
         type: 3}
@@ -1528,7 +1543,7 @@ PrefabInstance:
     - target: {fileID: 2616518480041139177, guid: 86b528853dfd4214a8140eee1b7ed309,
         type: 3}
       propertyPath: url
-      value: https://models.readyplayer.me/638f2c7775f8551b54c8db58.glb
+      value: https://models.readyplayer.me/638df5fc5a7d322604bb3a58.glb
       objectReference: {fileID: 0}
     - target: {fileID: 2616518480041139177, guid: 86b528853dfd4214a8140eee1b7ed309,
         type: 3}
@@ -1772,6 +1787,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: DefaultMale
+      objectReference: {fileID: 0}
+    - target: {fileID: 2616518480041139177, guid: 86b528853dfd4214a8140eee1b7ed309,
+        type: 3}
+      propertyPath: url
+      value: https://models.readyplayer.me/638df70ed72bffc6fa179596.glb
       objectReference: {fileID: 0}
     - target: {fileID: 2616518480041139177, guid: 86b528853dfd4214a8140eee1b7ed309,
         type: 3}
