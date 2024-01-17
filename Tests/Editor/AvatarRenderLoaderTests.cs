@@ -1,8 +1,7 @@
-﻿using System.Collections;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using NUnit.Framework;
 using UnityEngine;
-using UnityEngine.TestTools;
 
 namespace ReadyPlayerMe.Core.Tests
 {
@@ -13,8 +12,8 @@ namespace ReadyPlayerMe.Core.Tests
         private const float BLENDSHAPE_VALUE = 0.5f;
         private const string RENDER_STRING = "?pose=relaxed&blendShapes[mouthSmile]=0.5&camera=portrait&size=800&background=255,255,255";
 
-        [UnityTest]
-        public IEnumerator RenderLoader_Load()
+        [Test]
+        public async Task RenderLoader_Load()
         {
             Texture2D renderTexture = null;
             var failureType = FailureType.None;
@@ -28,14 +27,17 @@ namespace ReadyPlayerMe.Core.Tests
                 Camera = RENDER_SCENE
             });
 
-            yield return new WaitUntil(() => renderTexture != null || failureType != FailureType.None);
+            while (renderTexture == null && failureType == FailureType.None)
+            {
+                await Task.Yield();
+            }
 
             Assert.AreEqual(FailureType.None, failureType);
             Assert.IsNotNull(renderTexture);
         }
 
-        [UnityTest]
-        public IEnumerator Fail_RenderLoader_Load_Wrong_Url()
+        [Test]
+        public async Task Fail_RenderLoader_Load_Wrong_Url()
         {
             Texture2D renderTexture = null;
             var failureType = FailureType.None;
@@ -49,14 +51,17 @@ namespace ReadyPlayerMe.Core.Tests
                 Camera = RENDER_SCENE
             });
 
-            yield return new WaitUntil(() => renderTexture != null || failureType != FailureType.None);
+            while (renderTexture == null && failureType == FailureType.None)
+            {
+                await Task.Yield();
+            }
 
             Assert.AreEqual(FailureType.MetadataDownloadError, failureType);
             Assert.IsNull(renderTexture);
         }
 
-        [UnityTest]
-        public IEnumerator RenderLoader_Load_With_Correct_BlendShape_Parameters()
+        [Test]
+        public async Task RenderLoader_Load_With_Correct_BlendShape_Parameters()
         {
             Texture2D renderTexture = null;
             var failureType = FailureType.None;
@@ -75,14 +80,16 @@ namespace ReadyPlayerMe.Core.Tests
                 }
             );
 
-            yield return new WaitUntil(() => renderTexture != null || failureType != FailureType.None);
-
+            while (renderTexture == null && failureType == FailureType.None)
+            {
+                await Task.Yield();
+            }
             Assert.AreEqual(FailureType.None, failureType);
             Assert.IsNotNull(renderTexture);
         }
 
-        [UnityTest]
-        public IEnumerator RenderLoader_Load_Incorrect_BlendShape_Shape_Parameter()
+        [Test]
+        public async Task RenderLoader_Load_Incorrect_BlendShape_Shape_Parameter()
         {
             Texture2D renderTexture = null;
             var failureType = FailureType.None;
@@ -101,11 +108,14 @@ namespace ReadyPlayerMe.Core.Tests
                 }
             );
 
-            yield return new WaitUntil(() => renderTexture != null || failureType != FailureType.None);
+            while (renderTexture == null && failureType == FailureType.None)
+            {
+                await Task.Yield();
+            }
 
             Assert.AreEqual(FailureType.None, failureType);
             Assert.IsNotNull(renderTexture);
-            
+
         }
 
         // create a render string test
@@ -114,8 +124,8 @@ namespace ReadyPlayerMe.Core.Tests
         {
             var renderSettings = new AvatarRenderSettings
             {
-                 BlendShapes = new List<BlendShape>
-                        { new BlendShape(RENDER_BLENDSHAPE, BLENDSHAPE_VALUE) }
+                BlendShapes = new List<BlendShape>
+                    { new BlendShape(RENDER_BLENDSHAPE, BLENDSHAPE_VALUE) }
             };
 
             var renderString = renderSettings.GetParametersAsString();

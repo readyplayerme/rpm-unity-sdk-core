@@ -1,7 +1,7 @@
 using System;
 using UnityEngine;
 
-namespace ReadyPlayerMe.Samples
+namespace ReadyPlayerMe.Samples.QuickStart
 {
     public class PlayerInput : MonoBehaviour
     {

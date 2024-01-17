@@ -4,7 +4,7 @@
     "references": [
         "ReadyPlayerMe.Core",
         "ReadyPlayerMe.Core.Editor",
-        "ReadyPlayerMe.Core.AvatarCreator"
+        "ReadyPlayerMe.AvatarCreator"
     ],
     "includePlatforms": [
         "Editor"

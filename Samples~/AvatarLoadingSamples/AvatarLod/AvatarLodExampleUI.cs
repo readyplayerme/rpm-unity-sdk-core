@@ -2,7 +2,7 @@
 using UnityEngine;
 using UnityEngine.UI;
 
-namespace ReadyPlayerMe.Samples
+namespace ReadyPlayerMe.Samples.AvatarLoading
 {
     public class AvatarLodExampleUI : MonoBehaviour
     {
