@@ -27,7 +27,7 @@ namespace ReadyPlayerMe.Core.Editor
                 name = "com.readyplayerme.webview",
                 gitUrl = "https://github.com/readyplayerme/rpm-unity-sdk-webview.git",
                 branch = "",
-                version = "2.1.2"
+                version = "2.1.3"
             }
         };
 
