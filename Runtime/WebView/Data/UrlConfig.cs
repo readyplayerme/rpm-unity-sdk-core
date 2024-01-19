@@ -13,6 +13,7 @@ namespace ReadyPlayerMe.Core.WebView
         private const string TAG = nameof(UrlConfig);
         private const string CLEAR_CACHE_PARAM = "clearCache";
         private const string FRAME_API_PARAM = "frameApi";
+        private const string SOURCE_PARAM = "source";
         private const string QUICK_START_PARAM = "quickStart";
         private const string SELECT_BODY_PARAM = "selectBodyType";
         private const string LOGIN_TOKEN_PARAM = "token";
@@ -41,6 +42,13 @@ namespace ReadyPlayerMe.Core.WebView
             var builder = new StringBuilder($"https://{CoreSettingsHandler.CoreSettings.Subdomain}.readyplayer.me/");
             builder.Append(language != Language.Default ? $"{language.GetValue()}/" : string.Empty);
             builder.Append($"avatar?{FRAME_API_PARAM}");
+#if !UNITY_EDITOR && UNITY_ANDROID
+                builder.Append($"&{SOURCE_PARAM}=unity-android-avatar-creator");
+#elif !UNITY_EDITOR && UNITY_IOS
+                builder.Append($"&{SOURCE_PARAM}=unity-ios-avatar-creator");
+#else
+            builder.Append($"&{SOURCE_PARAM}=unity-avatar-creator");
+#endif
             builder.Append(clearCache ? $"&{CLEAR_CACHE_PARAM}" : string.Empty);
             if (loginToken != string.Empty)
             {

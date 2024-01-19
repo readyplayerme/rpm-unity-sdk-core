@@ -1,6 +1,6 @@
 using UnityEngine;
 
-namespace ReadyPlayerMe.Samples
+namespace ReadyPlayerMe.Samples.QuickStart
 {
     [RequireComponent(typeof(ThirdPersonMovement),typeof(PlayerInput))]
     public class ThirdPersonController : MonoBehaviour

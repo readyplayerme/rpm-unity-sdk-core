@@ -1,17 +1,15 @@
 ﻿using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using NUnit.Framework;
 using UnityEngine;
-using UnityEngine.TestTools;
 using Object = UnityEngine.Object;
 
 namespace ReadyPlayerMe.Core.Tests
 {
     public class AvatarAPITests
     {
-        private const string AVATAR_API_AVATAR_URL = "https://api.readyplayer.me/v1/avatars/638df693d72bffc6fa17943c.glb";
+        private const string AVATAR_API_AVATAR_URL = "https://models.readyplayer.me/638df693d72bffc6fa17943c.glb";
         private const int TEXTURE_SIZE_LOW = 256;
         private const int TEXTURE_SIZE_MED = 512;
         private const int TEXTURE_SIZE_HIGH = 1024;
@@ -108,8 +106,8 @@ namespace ReadyPlayerMe.Core.Tests
             return textureChannels;
         }
 
-        [UnityTest]
-        public IEnumerator AvatarLoader_Avatar_API_Mesh_LOD()
+        [Test]
+        public async Task AvatarLoader_Avatar_API_Mesh_LOD()
         {
             var avatarConfigs = new Queue<AvatarConfig>();
             avatarConfigs.Enqueue(avatarConfigLow);
@@ -135,15 +133,18 @@ namespace ReadyPlayerMe.Core.Tests
             loader.AvatarConfig = avatarConfigs.Dequeue();
             loader.LoadAvatar(AVATAR_API_AVATAR_URL);
 
-            yield return new WaitUntil(() => vertexCounts.Count == 3 || failureType != FailureType.None);
+            while (vertexCounts.Count != 3 && failureType == FailureType.None)
+            {
+                await Task.Yield();
+            }
 
             Assert.AreEqual(FailureType.None, failureType);
             Assert.Less(vertexCounts[0], vertexCounts[1]);
             Assert.Less(vertexCounts[1], vertexCounts[2]);
         }
 
-        [UnityTest]
-        public IEnumerator AvatarLoader_Avatar_API_TextureSize()
+        [Test]
+        public async Task AvatarLoader_Avatar_API_TextureSize()
         {
             var avatarConfigs = new Queue<AvatarConfig>();
             avatarConfigs.Enqueue(avatarConfigLow);
@@ -169,7 +170,10 @@ namespace ReadyPlayerMe.Core.Tests
             loader.AvatarConfig = avatarConfigs.Dequeue();
             loader.LoadAvatar(AVATAR_API_AVATAR_URL);
 
-            yield return new WaitUntil(() => textureSizes.Count == 3 || failureType != FailureType.None);
+            while (textureSizes.Count != 3 && failureType == FailureType.None)
+            {
+                await Task.Yield();
+            }
 
             Assert.AreEqual(FailureType.None, failureType);
             Assert.AreEqual(TEXTURE_SIZE_LOW, textureSizes[0]);
@@ -177,8 +181,8 @@ namespace ReadyPlayerMe.Core.Tests
             Assert.AreEqual(TEXTURE_SIZE_HIGH, textureSizes[2]);
         }
 
-        [UnityTest]
-        public IEnumerator AvatarLoader_Avatar_API_MorphTargets_None()
+        [Test]
+        public async Task AvatarLoader_Avatar_API_MorphTargets_None()
         {
             GameObject avatar = null;
             var failureType = FailureType.None;
@@ -192,7 +196,10 @@ namespace ReadyPlayerMe.Core.Tests
             loader.AvatarConfig = avatarConfigLow;
             loader.LoadAvatar(AVATAR_API_AVATAR_URL);
 
-            yield return new WaitUntil(() => avatar != null || failureType != FailureType.None);
+            while (avatar == null && failureType == FailureType.None)
+            {
+                await Task.Yield();
+            }
 
             var blendShapeCount = avatar.GetComponentInChildren<SkinnedMeshRenderer>().sharedMesh.blendShapeCount;
             Debug.Log(blendShapeCount);
@@ -202,8 +209,8 @@ namespace ReadyPlayerMe.Core.Tests
             Assert.Zero(blendShapeCount);
         }
 
-        [UnityTest]
-        public IEnumerator AvatarLoader_Avatar_API_MorphTargets_Oculus()
+        [Test]
+        public async Task AvatarLoader_Avatar_API_MorphTargets_Oculus()
         {
             GameObject avatar = null;
             var failureType = FailureType.None;
@@ -217,7 +224,10 @@ namespace ReadyPlayerMe.Core.Tests
             loader.AvatarConfig = avatarConfigMed;
             loader.LoadAvatar(AVATAR_API_AVATAR_URL);
 
-            yield return new WaitUntil(() => avatar != null || failureType != FailureType.None);
+            while (avatar == null && failureType == FailureType.None)
+            {
+                await Task.Yield();
+            }
 
             var blendShapeCount = avatar.GetComponentInChildren<SkinnedMeshRenderer>().sharedMesh.blendShapeCount;
 

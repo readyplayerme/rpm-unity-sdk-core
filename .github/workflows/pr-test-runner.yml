@@ -2,7 +2,7 @@ name: Run Tests
 
 on:
   pull_request:
-    types: [ opened, reopened ]
+    types: [ opened, reopened, edited ]
   workflow_dispatch:
 
 jobs:
@@ -17,10 +17,10 @@ jobs:
           - playmode
           - editmode
         unityVersion:
-          - 2020.3.0f1
+          - 2020.3.16f1
     steps:
       - name: Checkout Unity-SDK Repository
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
         with:
           repository: "readyplayerme/Unity-SDK"
           submodules: true
@@ -43,15 +43,17 @@ jobs:
             Library-
 
       - name: Run Tests
-        uses: game-ci/unity-test-runner@v2
+        uses: game-ci/unity-test-runner@v4
         env:
+          UNITY_LICENSE: ${{ secrets.UNITY_LICENSE }}
           UNITY_EMAIL: ${{ secrets.UNITY_EMAIL }}
           UNITY_PASSWORD: ${{ secrets.UNITY_PASSWORD }}
-          UNITY_SERIAL: ${{ secrets.UNITY_SERIAL }}
         with:
           unityVersion: ${{ matrix.unityVersion }}
           testMode: ${{ matrix.testMode }}
           projectPath: ${{ matrix.projectPath }}
           checkName: ${{ matrix.unityVersion }} ${{ matrix.testMode }} tests result
           githubToken: ${{ secrets.GITHUB_TOKEN }}
-          coverageOptions: "generateAdditionalMetrics;generateHtmlReport;generateBadgeReport;assemblyFilters:+my.assembly.*"
+          customParameters: |
+            assemblyNames "ReadyPlayerMe.Core.Editor.Tests;ReadyPlayerMe.Tests.Editor;ReadyPlayerMe.Tests.Runtime"
+          coverageOptions: "generateAdditionalMetrics;generateHtmlReport;generateBadgeReport;assemblyFilters:+ReadyPlayerMe.*"

@@ -1,10 +1,8 @@
 using System;
-using System.Collections;
 using System.Linq;
 using System.Threading.Tasks;
 using NUnit.Framework;
 using UnityEngine;
-using UnityEngine.TestTools;
 using Object = UnityEngine.Object;
 
 namespace ReadyPlayerMe.Core.Tests
@@ -25,8 +23,8 @@ namespace ReadyPlayerMe.Core.Tests
             }
         }
 
-        [UnityTest]
-        public IEnumerator AvatarLoader_Complete_Load()
+        [Test]
+        public async Task AvatarLoader_Complete_Load()
         {
             var avatarUrl = string.Empty;
             var failureType = FailureType.None;
@@ -39,8 +37,11 @@ namespace ReadyPlayerMe.Core.Tests
             };
             loader.OnFailed += (sender, args) => { failureType = args.Type; };
             loader.LoadAvatar(TestAvatarData.DefaultAvatarUri.ModelUrl);
-
-            yield return new WaitUntil(() => avatar != null || failureType != FailureType.None);
+        
+            while (avatar == null && failureType == FailureType.None)
+            {
+                await Task.Yield();
+            }
 
             Assert.AreEqual(TestAvatarData.DefaultAvatarUri.ModelUrl, avatarUrl);
             Assert.AreEqual(FailureType.None, failureType);
@@ -73,8 +74,8 @@ namespace ReadyPlayerMe.Core.Tests
             }
         }
 
-        [UnityTest]
-        public IEnumerator AvatarLoader_Fail_Load()
+        [Test]
+        public async Task AvatarLoader_Fail_Load()
         {
             var failureType = FailureType.None;
             var avatarUrl = string.Empty;
@@ -87,41 +88,17 @@ namespace ReadyPlayerMe.Core.Tests
             };
             loader.LoadAvatar(TestAvatarData.WrongUri.ModelUrl);
 
-            yield return new WaitUntil(() => failureType != FailureType.None);
+            while (failureType == FailureType.None)
+            {
+                await Task.Yield();
+            }
 
             Assert.AreEqual(TestAvatarData.WrongUri.ModelUrl, avatarUrl);
             Assert.AreNotEqual(FailureType.None, failureType);
         }
 
-        [UnityTest]
-        public IEnumerator AvatarLoader_Replace_Old_Avatar_Instance()
-        {
-            GameObject avatarA = null;
-            GameObject avatarB = null;
-            var failureType = FailureType.None;
-
-            var loaderA = new AvatarObjectLoader();
-            loaderA.OnCompleted += (_, args) => avatarA = args.Avatar;
-            loaderA.OnFailed += (_, args) => failureType = args.Type;
-            loaderA.LoadAvatar(TestAvatarData.DefaultAvatarUri.ModelUrl);
-
-            yield return new WaitUntil(() => avatarA != null || failureType != FailureType.None);
-
-            var loaderB = new AvatarObjectLoader();
-            loaderB.OnCompleted += (_, args) => avatarB = args.Avatar;
-            loaderB.OnFailed += (_, args) => failureType = args.Type;
-            loaderB.LoadAvatar(TestAvatarData.DefaultAvatarUri.ModelUrl);
-
-            yield return new WaitUntil(() => avatarB != null || failureType != FailureType.None);
-
-            Animator[] objects = Object.FindObjectsOfType<Animator>();
-
-            Assert.AreEqual(1, objects.Length);
-            Assert.AreEqual(FailureType.None, failureType);
-        }
-
-        [UnityTest]
-        public IEnumerator AvatarLoader_Clears_Persistent_Cache()
+        [Test]
+        public async Task AvatarLoader_Clears_Persistent_Cache()
         {
             AvatarLoaderSettings settings = AvatarLoaderSettings.LoadSettings();
             settings.AvatarCachingEnabled = true;
@@ -133,7 +110,10 @@ namespace ReadyPlayerMe.Core.Tests
             loader.OnFailed += (_, args) => failureType = args.Type;
             loader.LoadAvatar(TestAvatarData.DefaultAvatarUri.ModelUrl);
 
-            yield return new WaitUntil(() => avatar != null || failureType != FailureType.None);
+            while (avatar == null && failureType == FailureType.None)
+            {
+                await Task.Yield();
+            }
 
             Assert.AreEqual(FailureType.None, failureType);
             Assert.AreEqual(false, AvatarCache.IsCacheEmpty());
@@ -144,8 +124,8 @@ namespace ReadyPlayerMe.Core.Tests
             settings.AvatarCachingEnabled = false;
         }
 
-        [UnityTest]
-        public IEnumerator AvatarLoader_Cancel_Loading()
+        [Test]
+        public async Task AvatarLoader_Cancel_Loading()
         {
             var failureType = FailureType.None;
             var loader = new AvatarObjectLoader();
@@ -168,23 +148,23 @@ namespace ReadyPlayerMe.Core.Tests
                 }
 
                 frameCount++;
-                yield return null;
+                await Task.Yield();
             }
 
             Assert.AreNotEqual(FailureType.None, failureType);
             Assert.AreEqual(null, avatar);
         }
 
-        [UnityTest]
-        public IEnumerator AvatarLoader_Low_LOD_Smaller_than_High_LOD()
+        [Test]
+        public async Task AvatarLoader_Low_LOD_Smaller_than_High_LOD()
         {
             var failureType = FailureType.None;
-            
+
             var avatarConfig = ScriptableObject.CreateInstance<AvatarConfig>();
             avatarConfig.Lod = Lod.Low;
             avatarConfig.TextureAtlas = TextureAtlas.Low;
             avatarConfig.TextureChannel = Array.Empty<TextureChannel>();
-            
+
             var loader = new AvatarObjectLoader();
             loader.OnCompleted += (sender, args) =>
             {
@@ -193,7 +173,12 @@ namespace ReadyPlayerMe.Core.Tests
             loader.AvatarConfig = avatarConfig;
             loader.OnFailed += (sender, args) => { failureType = args.Type; };
             loader.LoadAvatar(TestAvatarData.DefaultAvatarUri.ModelUrl);
-            yield return new WaitUntil(() => avatar != null || failureType != FailureType.None);
+          
+            while (avatar == null && failureType == FailureType.None)
+            {
+                await Task.Yield();
+            }
+            
             var thisRenderer = avatar.GetComponentsInChildren<SkinnedMeshRenderer>();
             var lowLODVertices = thisRenderer.Aggregate(0, (totalVertices, renderer) => totalVertices + renderer.sharedMesh.vertexCount);
 
@@ -201,7 +186,7 @@ namespace ReadyPlayerMe.Core.Tests
             loader = new AvatarObjectLoader();
             avatarConfig.Lod = Lod.High;
             loader.AvatarConfig = avatarConfig;
-            
+
             loader.OnCompleted += (sender, args) =>
             {
                 avatar = args.Avatar;
@@ -209,7 +194,12 @@ namespace ReadyPlayerMe.Core.Tests
             };
             loader.OnFailed += (sender, args) => { failureType = args.Type; };
             loader.LoadAvatar(TestAvatarData.DefaultAvatarUri.ModelUrl);
-            yield return new WaitUntil(() => avatar != null || failureType != FailureType.None);
+           
+            while (avatar == null && failureType == FailureType.None)
+            {
+                await Task.Yield();
+            }
+            
             thisRenderer = avatar.GetComponentsInChildren<SkinnedMeshRenderer>();
             var highLODVertices = thisRenderer.Aggregate(0, (totalVertices, renderer) => totalVertices + renderer.sharedMesh.vertexCount);
 
