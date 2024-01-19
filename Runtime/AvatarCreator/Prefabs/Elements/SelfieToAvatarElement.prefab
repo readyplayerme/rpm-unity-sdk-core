@@ -311,7 +311,7 @@ GameObject:
   - component: {fileID: 4316720321970040649}
   - component: {fileID: 1361592108061403732}
   m_Layer: 5
-  m_Name: Selfie Element
+  m_Name: SelfieToAvatarElement
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

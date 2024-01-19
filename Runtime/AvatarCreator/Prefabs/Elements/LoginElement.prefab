@@ -559,7 +559,7 @@ GameObject:
   - component: {fileID: 4316720321970040649}
   - component: {fileID: 4316720321970040648}
   m_Layer: 5
-  m_Name: Login Element
+  m_Name: LoginElement
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

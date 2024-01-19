@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 7115452449051436486}
   - component: {fileID: 7115452449051436480}
   m_Layer: 5
-  m_Name: Gender Select Element
+  m_Name: GenderSelectElement
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

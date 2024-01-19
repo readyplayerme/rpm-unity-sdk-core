@@ -7,10 +7,15 @@ using UnityEngine.Android;
 #endif
 using UnityEngine.Events;
 using UnityEngine.UI;
+
 #pragma warning disable CS1998
 
 namespace ReadyPlayerMe.AvatarCreator
 {
+    /// <summary>
+    /// A Unity MonoBehaviour class for capturing photos from the device's camera.
+    /// Allows starting and stopping the camera, capturing photos, and handling camera permissions.
+    /// </summary>
     public class PhotoCaptureElement : MonoBehaviour
     {
         [Header("Settings")]
@@ -20,7 +25,7 @@ namespace ReadyPlayerMe.AvatarCreator
         [Space(5)]
         [Header("Events")]
         public UnityEvent<Texture2D> onPhotoCaptured;
-        
+
         private WebCamTexture cameraTexture;
         private bool isInitialized;
 
@@ -51,7 +56,7 @@ namespace ReadyPlayerMe.AvatarCreator
             {
                 InitializeCamera();
             }
-            
+
             if (cameraTexture != null && !cameraTexture.isPlaying)
             {
                 cameraTexture.Play();
@@ -85,7 +90,7 @@ namespace ReadyPlayerMe.AvatarCreator
 
             onPhotoCaptured?.Invoke(texture);
         }
-        
+
         private async Task GetPermission()
         {
             ctxSource?.Cancel();

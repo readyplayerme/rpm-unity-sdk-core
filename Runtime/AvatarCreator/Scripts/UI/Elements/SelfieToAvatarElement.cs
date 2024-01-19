@@ -6,6 +6,10 @@ using UnityEngine.Events;
 
 namespace ReadyPlayerMe.AvatarCreator
 {
+    /// <summary>
+    /// A Unity MonoBehaviour class for converting selfies into avatars.
+    /// Allows capturing a selfie photo, encoding it, and creating an avatar based on provided settings.
+    /// </summary>
     public class SelfieToAvatarElement : MonoBehaviour
     {
         private const string TAG = nameof(SelfieToAvatarElement);
