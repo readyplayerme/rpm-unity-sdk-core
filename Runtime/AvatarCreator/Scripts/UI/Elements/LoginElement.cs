@@ -31,11 +31,17 @@ namespace ReadyPlayerMe.AvatarCreator
             AuthManager.OnSignInError -= LoginFailed;
         }
 
+        /// <summary>
+        /// Sends a verification code to the email address that was entered into the email InputField.
+        /// </summary>
         public void SendVerificationCode()
         {
             AuthManager.SendEmailCode(emailField.text);
         }
 
+        /// <summary>
+        /// Attempts to login with the verification code that was entered into the code InputField.
+        /// </summary>
         public async void LoginWithCode()
         {
             try

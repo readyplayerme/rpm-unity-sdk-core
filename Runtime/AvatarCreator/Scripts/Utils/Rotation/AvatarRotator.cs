@@ -2,9 +2,11 @@
 
 namespace ReadyPlayerMe.AvatarCreator
 {
+    /// <summary>
+    /// This class handles the rotation of the avatar based on input.
+    /// </summary>
     public class AvatarRotator : MonoBehaviour
     {
-        private const string TAG = nameof(AvatarRotator);
         [SerializeField] private float speed = 50;
 
         private IAvatarRotatorInput avatarRotatorInput;
@@ -14,6 +16,9 @@ namespace ReadyPlayerMe.AvatarCreator
             avatarRotatorInput = GetComponent<IAvatarRotatorInput>();
         }
 
+        /// <summary>
+        /// Resets the rotation of the avatar to its initial state.
+        /// </summary>
         public void ResetRotation()
         {
             transform.rotation = Quaternion.identity;

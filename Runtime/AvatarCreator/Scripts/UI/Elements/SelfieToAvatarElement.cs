@@ -7,8 +7,8 @@ using UnityEngine.Events;
 namespace ReadyPlayerMe.AvatarCreator
 {
     /// <summary>
-    /// A Unity MonoBehaviour class for converting selfies into avatars.
-    /// Allows capturing a selfie photo, encoding it, and creating an avatar based on provided settings.
+    /// A Unity MonoBehaviour class for converting selfies images into avatars.
+    /// Allows capturing a photo and creating an avatar based on provided settings.
     /// </summary>
     public class SelfieToAvatarElement : MonoBehaviour
     {
@@ -22,6 +22,10 @@ namespace ReadyPlayerMe.AvatarCreator
         [Header("Events")]
         public UnityEvent<GameObject, AvatarProperties> onAvatarCreated;
 
+        /// <summary>
+        /// Called when a photo is captured. Converts the photo to an avatar based on provided settings.
+        /// </summary>
+        /// <param name="texture">The captured selfie photo as a Texture2D.</param>
         public async void OnPhotoCaptured(Texture2D texture)
         {
             var bytes = texture.EncodeToPNG();

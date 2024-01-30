@@ -31,6 +31,8 @@ Both of these are UnityEvents so they can be subscribed to in the inspector usin
 
 This element, useful for creating asset selection UI panels or windows.
 
+_NOTE: for creating color selection panels we suggest using the ColorSelectionElement instead_
+
 **Prefab Location:**
 `Runtime/AvatarCreator/Prefabs/AssetSelectionElement.prefab`.
 
@@ -42,12 +44,13 @@ This is best used for assets of the following asset types:
 - Clothing (Outfit, Shirt, Bottom, Top, etc)
 - Facemask
 - Glasses
+- EyeColor **(this is a special case as eye color is actually a texture asset, not simply a color value)**
 
 It is not recommended to use this for Color selection or Template avatar selection, for these we recommend the ColorSelectionElement & TemplateSelectionElement.
 
-### How it works 
+### Inspector Properties
 
-If you find and open the AssetSelectionElement prefab we can go through the properties you see in the inspector. 
+If you find and open the AssetSelectionElement prefab we can go through the properties you see in the inspector.
 
 **ButtonElementPrefab:** This is the prefab that will be used to display each asset.
 
@@ -57,25 +60,85 @@ If you find and open the AssetSelectionElement prefab we can go through the prop
 
 **OnAssetSelected:** This is a UnityEvent that will be fired when an asset is selected. It has a single parameter of type AvatarCreatorAsset. This can be used to retrieve the asset that was selected.
 
-**BodyType:** This is the body type that the assets should be filtered by. This is used to ensure that only assets that are compatible with the selected body type are displayed. 
+**BodyType:** This is the body type that the assets should be filtered by. This is used to ensure that only assets that are compatible with the selected body type are displayed.
 
 **AssetType:** This is the asset type that the assets should be filtered by. This is used to determine which assets should be displayed and equipped.
 
 **IconSize:** This is the square dimension size of the icon that will be requested. NOTE: bigger sizes will result in larger file sizes.
+
+### Prefab Setup
 
 You can add the AssetSelectionElement to your scene by following these steps.
 1. Find the AssetSelectionElement prefab in the Unity Project window.
 2. Drag the AssetSelectionElement prefab into your scene. NOTE: It should be placed as a child of a Canvas object as it is a UI element
 3. Find the AssetSelectionElement in the hierarchy and select it to open the inspector.
 4. From here you will need to set your Asset Type 
-5. You can also adjust any other settings as needed. 
-6. Lastly you will see an OnAssetSelected event. You can subscribe to this event by clicking the `+`.
+5. Set your body type (this can also be done at runtime using the SetBodyType function). 
+6. You can also adjust any other settings as needed. 
+7. Lastly you will see an OnAssetSelected event. You can subscribe to this event by clicking the `+`.
 
 #### OnAssetSelected event
 
 This event is called whenever an asset button is clicked (selected) and it has a single parameter of IAssetData.
 The purpose of this event is to allow you to retrieve the asset ID and AssetType from other scripts. With this data you 
 can make requests to our API's to update the avatar customizations. For example changing hair styles.
+
+## Color Selection Element
+
+This element is useful for creating a color selection UI panels.
+
+_NOTE: This is not recommended for selecting eye color as it is actually a texture asset, not a color value,
+for this you instead need to use the AssetSelectionElement._
+
+**Prefab Location:**
+`Runtime/AvatarCreator/Prefabs/ColorSelectionElement.prefab`.
+
+This is best used for assets of the following asset types:
+- SkinColor
+- HairColor
+- EyeColor
+- LipColor
+- EyebrowColor
+- BeardColor
+
+### Prefab Setup
+
+You can add the ColorSelectionElement to your scene by following these steps.
+1. Find the ColorSelectionElement prefab in the Unity Project window.
+2. Drag the ColorSelectionElement prefab into your scene. NOTE: It should be placed as a child of a Canvas object as it is a UI element
+3. Find the ColorSelectionElement in the hierarchy and select it to open the inspector.
+4. From here you will need to set your Asset Type
+5. By default all the properties on the ColorSelectionElement component should be set already however you can also adjust them as you like.
+6. Lastly you will see an OnAssetSelected event. You can subscribe to this event by clicking the `+
+
+## Template Selection Element
+
+This element is useful for creating a template selection UI panels.
+
+**Prefab Location:**
+`Runtime/AvatarCreator/Prefabs/TemplateSelectionElement.prefab`.
+
+### Prefab Setup
+
+You can add the AssetSelectionElement to your scene by following these steps.
+1. Find the TemplateSelectionElement prefab in the Unity Project window.
+2. Drag the TemplateSelectionElement prefab into your scene. NOTE: It should be placed as a child of a Canvas object as it is a UI element
+3. Find the TemplateSelectionElement in the hierarchy and select it to open the inspector.
+4. By default all the properties on the TemplateSelectionElement component should be set already however you can also adjust them as you like.
+5. Lastly you will see an OnAssetSelected event. You can subscribe to this event by clicking the `+`.
+
+## Avatar Preview Element
+
+The AvatarPreviewElement is prefab that can be used to load an avatar during the avatar creation process and it adds a number of useful features. 
+
+**Prefab Location:**
+`Runtime/AvatarCreator/Prefabs/AvatarPreviewElement.prefab`.
+
+**Key features include:**
+- AvatarPreviewElement component that stores a reference to the avatar and overrides when a new one is loaded
+- CameraFocuser component that can be used to switch the camera focus between the avatar face and full body viewpoints
+- AvatarRotator component for rotating the avatar
+- MouseRotationHandler component that implements the IAvatarRotatorInput interface for handing mouseInput
 
 ## Gender Selection Element
 
@@ -95,7 +158,7 @@ This element is useful for creating Ready Player Me login UI.
 **Prefab Location:**
 `Runtime/AvatarCreator//Prefabs/LoginElement.prefab`.
 
-Key features include:
+**Key features include:**
 - an input field for the user to enter their email address
 - an input field for the user to enter in their 1 time login code
 - functionality to automatically send a login code to the user after they enter their email address
@@ -104,7 +167,8 @@ Key features include:
 
 ## Photo Capture Element
 
-This element is useful for creating a photo capture UI.
+This element is useful for creating a photo capture UI and returning the image (selfie) of the user as a Texture2D so
+that it can later be used to create a new avatar.
 
 **Prefab Location:**
 `Runtime/AvatarCreator/Prefabs/PhotoCaptureElement.prefab`.
@@ -119,8 +183,19 @@ photo to request an avatar before finally invoking the OnAvatarCreated event pas
 
 ## ButtonElement
 
+This element is useful for creating a UI button that can be used to select an asset. 
+The ButtonElement prefab has the image set to a loading icon by default so that it is seen to be loading, until the
+asset has been loaded.
+It uses the SelectionButton script that provides functionality for:
+- Adding a listener to the button's OnClick event
+- Setting the button's icon
+- Setting the button color
+
 ## ColorButton
 
+This element is useful for creating a UI button that can be used to select a color of an asset. 
+The ColorButton prefab has the image set to white circle icon, it is white so that the tint or color value can be set
+using the SetColor function on the SelectionButton script. 
 
 
 
