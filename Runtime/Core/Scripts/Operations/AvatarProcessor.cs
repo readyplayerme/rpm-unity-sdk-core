@@ -76,9 +76,10 @@ namespace ReadyPlayerMe.Core
                     AddArmatureBone(avatar);
                 }
 
-                if (avatarMetadata.BodyType == BodyType.FullBody)
+                if (avatarMetadata.BodyType == BodyType.FullBody || avatarMetadata.BodyType == BodyType.XRFullbody)
                 {
-                    SetupAnimator(avatar, avatarMetadata.OutfitGender);
+                    var animationAvatar = GetAnimationAvatar(avatarMetadata.OutfitGender, avatarMetadata.BodyType);
+                    SetupAnimator(avatar, animationAvatar);
                 }
 
                 RenameChildMeshes(avatar, avatarConfig);
@@ -91,12 +92,13 @@ namespace ReadyPlayerMe.Core
             }
         }
 
-
         #region Setup Armature and Animations
 
         // Animation avatars resource paths
         private const string MASCULINE_ANIMATION_AVATAR_NAME = "AnimationAvatars/Masculine_TPose";
         private const string FEMININE_ANIMATION_AVATAR_NAME = "AnimationAvatars/Feminine_TPose";
+        private const string XR_MASCULINE_ANIMATION_AVATAR_NAME = "MaleSkel";
+        private const string XR_FEMININE_ANIMATION_AVATAR_NAME = "MaleSkel";
 
         // Bone names
         private const string BONE_HIPS = "Hips";
@@ -138,18 +140,31 @@ namespace ReadyPlayerMe.Core
         /// </summary>
         /// <param name="avatar">The <see cref="GameObject" /> to update.</param>
         /// <param name="gender">Get gender of the Avatar.</param>
-        private void SetupAnimator(GameObject avatar, OutfitGender gender)
+        private void SetupAnimator(GameObject avatar, Avatar animationAvatar)
         {
             SDKLogger.Log(TAG, SETTING_UP_ANIMATOR);
-
-            var animationAvatarSource = gender == OutfitGender.Masculine
-                ? MASCULINE_ANIMATION_AVATAR_NAME
-                : FEMININE_ANIMATION_AVATAR_NAME;
-            var model = Resources.Load<GameObject>(animationAvatarSource);
-            var animationAvatar = model.GetComponent<Animator>().avatar;
             var animator = avatar.AddComponent<Animator>();
             animator.avatar = animationAvatar;
             animator.applyRootMotion = true;
+        }
+
+        private Avatar GetAnimationAvatar(OutfitGender outfitGender, BodyType bodyType)
+        {
+            if (bodyType == BodyType.FullBody)
+            {
+                var fullbodySource = outfitGender == OutfitGender.Masculine
+                    ? MASCULINE_ANIMATION_AVATAR_NAME
+                    : FEMININE_ANIMATION_AVATAR_NAME;
+                var fullbodyModel = Resources.Load<GameObject>(fullbodySource);
+                var fullbodyAvatar = fullbodyModel.GetComponent<Animator>().avatar;
+                return fullbodyAvatar;
+            }
+            var fullbodyXRSource = outfitGender == OutfitGender.Masculine
+                ? XR_MASCULINE_ANIMATION_AVATAR_NAME
+                : XR_FEMININE_ANIMATION_AVATAR_NAME;
+            var fullbodyXRModel = Resources.Load<GameObject>(fullbodyXRSource);
+            var fullbodyXRAvatar = fullbodyXRModel.GetComponent<Animator>().avatar;
+            return fullbodyXRAvatar;
         }
 
         #endregion
