@@ -22,6 +22,8 @@ namespace ReadyPlayerMe.AvatarCreator
         public UnityEvent<IAssetData> onAssetSelected;
         private readonly Dictionary<string, SelectionButton> buttonElementById = new Dictionary<string, SelectionButton>();
 
+        protected Transform ButtonContainer => buttonContainer;
+
         /// <summary>
         /// Creates button elements for each asset in the provided array.
         /// This function is generic and can work with any asset type that implements the IAssetData interface.
@@ -38,7 +40,7 @@ namespace ReadyPlayerMe.AvatarCreator
                 return;
             }
             ClearButtons();
-            for (int i = 0; i < assets.Length; i++)
+            for (var i = 0; i < assets.Length; i++)
             {
                 var button = CreateButton(assets[i].Id);
                 var asset = assets[i];
@@ -59,6 +61,18 @@ namespace ReadyPlayerMe.AvatarCreator
             buttonElementById.Add(id, button);
             button.AddListener(() => SetButtonSelected(button.transform));
             return button;
+        }
+
+        public void AddClearButton(SelectionButton button, AssetType assetType, bool setAsFirstChild = true)
+        {
+            var clearButton = Instantiate(button, ButtonContainer);
+            if (setAsFirstChild)
+            {
+                clearButton.transform.SetAsFirstSibling();
+            }
+            var assetData = new PartnerAsset { Id = "0", AssetType = assetType };
+            clearButton.AddListener(() => onAssetSelected?.Invoke(assetData));
+            clearButton.AddListener(() => SetButtonSelected(clearButton.transform));
         }
 
         /// <summary>
@@ -96,6 +110,14 @@ namespace ReadyPlayerMe.AvatarCreator
         {
             selectedIcon.transform.SetParent(button);
             selectedIcon.transform.localPosition = Vector3.zero;
+            var rect = selectedIcon.GetComponent<RectTransform>();
+            if (rect != null)
+            {
+                rect.anchorMin = Vector2.zero;
+                rect.anchorMax = Vector2.one;
+                rect.sizeDelta = Vector2.zero;
+                rect.anchoredPosition = Vector2.zero;
+            }
             selectedIcon.SetActive(true);
         }
     }
