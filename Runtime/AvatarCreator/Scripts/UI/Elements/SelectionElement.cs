@@ -16,13 +16,20 @@ namespace ReadyPlayerMe.AvatarCreator
         [Header("UI Elements")]
         [Space(5)]
         [SerializeField] private SelectionButton buttonElementPrefab;
+        [SerializeField] private GameObject selectedIconPrefab;
         [SerializeField] private Transform buttonContainer;
-        [SerializeField] private GameObject selectedIcon;
+        private GameObject selectedIcon;
 
         public UnityEvent<IAssetData> onAssetSelected;
         private readonly Dictionary<string, SelectionButton> buttonElementById = new Dictionary<string, SelectionButton>();
 
         protected Transform ButtonContainer => buttonContainer;
+
+        private void Start()
+        {
+            selectedIcon = Instantiate(selectedIconPrefab, transform);
+            selectedIcon.SetActive(false);
+        }
 
         /// <summary>
         /// Creates button elements for each asset in the provided array.
@@ -80,11 +87,18 @@ namespace ReadyPlayerMe.AvatarCreator
         /// </summary>
         public void ClearButtons()
         {
+            ResetSelectIcon();
             foreach (var button in buttonElementById)
             {
                 Destroy(button.Value.gameObject);
             }
             buttonElementById.Clear();
+        }
+
+        private void ResetSelectIcon()
+        {
+            selectedIcon.transform.SetParent(transform);
+            selectedIcon.SetActive(false);
         }
 
         /// <summary>
