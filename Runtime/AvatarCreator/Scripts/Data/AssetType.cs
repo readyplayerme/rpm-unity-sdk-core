@@ -7,7 +7,7 @@
         SkinColor,
         [AssetTypeFilter(AssetFilter.Style)]
         BeardStyle,
-        [AssetTypeFilter(AssetFilter.Color)]
+        [AssetTypeFilter(AssetFilter.Style)]
         EyeColor,
         [AssetTypeFilter(AssetFilter.Style)]
         EyeShape,

@@ -16,11 +16,20 @@ namespace ReadyPlayerMe.AvatarCreator
         [Header("UI Elements")]
         [Space(5)]
         [SerializeField] private SelectionButton buttonElementPrefab;
+        [SerializeField] private GameObject selectedIconPrefab;
         [SerializeField] private Transform buttonContainer;
-        [SerializeField] private GameObject selectedIcon;
+        private GameObject selectedIcon;
 
         public UnityEvent<IAssetData> onAssetSelected;
         private readonly Dictionary<string, SelectionButton> buttonElementById = new Dictionary<string, SelectionButton>();
+
+        protected Transform ButtonContainer => buttonContainer;
+
+        private void Start()
+        {
+            selectedIcon = Instantiate(selectedIconPrefab, transform);
+            selectedIcon.SetActive(false);
+        }
 
         /// <summary>
         /// Creates button elements for each asset in the provided array.
@@ -38,7 +47,7 @@ namespace ReadyPlayerMe.AvatarCreator
                 return;
             }
             ClearButtons();
-            for (int i = 0; i < assets.Length; i++)
+            for (var i = 0; i < assets.Length; i++)
             {
                 var button = CreateButton(assets[i].Id);
                 var asset = assets[i];
@@ -61,16 +70,35 @@ namespace ReadyPlayerMe.AvatarCreator
             return button;
         }
 
+        public void AddClearButton(SelectionButton button, AssetType assetType, bool setAsFirstChild = true)
+        {
+            var clearButton = Instantiate(button, ButtonContainer);
+            if (setAsFirstChild)
+            {
+                clearButton.transform.SetAsFirstSibling();
+            }
+            var assetData = new PartnerAsset { Id = "0", AssetType = assetType };
+            clearButton.AddListener(() => onAssetSelected?.Invoke(assetData));
+            clearButton.AddListener(() => SetButtonSelected(clearButton.transform));
+        }
+
         /// <summary>
         /// Clears all button elements from the UI and the buttonElementById dictionary.
         /// </summary>
         public void ClearButtons()
         {
+            ResetSelectIcon();
             foreach (var button in buttonElementById)
             {
                 Destroy(button.Value.gameObject);
             }
             buttonElementById.Clear();
+        }
+
+        private void ResetSelectIcon()
+        {
+            selectedIcon.transform.SetParent(transform);
+            selectedIcon.SetActive(false);
         }
 
         /// <summary>
@@ -96,6 +124,14 @@ namespace ReadyPlayerMe.AvatarCreator
         {
             selectedIcon.transform.SetParent(button);
             selectedIcon.transform.localPosition = Vector3.zero;
+            var rect = selectedIcon.GetComponent<RectTransform>();
+            if (rect != null)
+            {
+                rect.anchorMin = Vector2.zero;
+                rect.anchorMax = Vector2.one;
+                rect.sizeDelta = Vector2.zero;
+                rect.anchoredPosition = Vector2.zero;
+            }
             selectedIcon.SetActive(true);
         }
     }

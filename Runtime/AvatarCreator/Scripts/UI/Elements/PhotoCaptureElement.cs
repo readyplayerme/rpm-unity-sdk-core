@@ -7,10 +7,15 @@ using UnityEngine.Android;
 #endif
 using UnityEngine.Events;
 using UnityEngine.UI;
+
 #pragma warning disable CS1998
 
 namespace ReadyPlayerMe.AvatarCreator
 {
+    /// <summary>
+    /// A Unity MonoBehaviour class for capturing photos from the device's camera.
+    /// Allows starting and stopping the camera, capturing photos, and handling camera permissions.
+    /// </summary>
     public class PhotoCaptureElement : MonoBehaviour
     {
         [Header("Settings")]
@@ -20,7 +25,7 @@ namespace ReadyPlayerMe.AvatarCreator
         [Space(5)]
         [Header("Events")]
         public UnityEvent<Texture2D> onPhotoCaptured;
-        
+
         private WebCamTexture cameraTexture;
         private bool isInitialized;
 
@@ -43,15 +48,18 @@ namespace ReadyPlayerMe.AvatarCreator
             StopCamera();
         }
 
+        /// <summary>
+        /// Starts the device's camera, requesting camera permissions if needed.
+        /// </summary>
         public async void StartCamera()
         {
-            await GetPermission();
+            await RequestCameraPermission();
 
             if (!isInitialized)
             {
                 InitializeCamera();
             }
-            
+
             if (cameraTexture != null && !cameraTexture.isPlaying)
             {
                 cameraTexture.Play();
@@ -66,6 +74,9 @@ namespace ReadyPlayerMe.AvatarCreator
             }
         }
 
+        /// <summary>
+        /// Stops the device's camera.
+        /// </summary>
         public void StopCamera()
         {
             if (cameraTexture != null && cameraTexture.isPlaying)
@@ -74,6 +85,9 @@ namespace ReadyPlayerMe.AvatarCreator
             }
         }
 
+        /// <summary>
+        /// Takes a photo from the camera and invokes the onPhotoCaptured event with the captured texture.
+        /// </summary>
         public void TakePhoto()
         {
             if (cameraTexture == null || !cameraTexture.isPlaying)
@@ -85,8 +99,11 @@ namespace ReadyPlayerMe.AvatarCreator
 
             onPhotoCaptured?.Invoke(texture);
         }
-        
-        private async Task GetPermission()
+
+        /// <summary>
+        /// Requests camera permissions from the user for IOS and Android devices.
+        /// </summary>
+        private async Task RequestCameraPermission()
         {
             ctxSource?.Cancel();
             ctxSource = new CancellationTokenSource();
@@ -115,6 +132,9 @@ namespace ReadyPlayerMe.AvatarCreator
 
         }
 
+        /// <summary>
+        /// Finds the device's camera and sets up the camera texture.
+        /// </summary>
         private void InitializeCamera()
         {
             var webCamDevice = GetWebCamDevice();
@@ -122,6 +142,10 @@ namespace ReadyPlayerMe.AvatarCreator
             isInitialized = true;
         }
 
+        /// <summary>
+        /// Sets up the camera texture with the provided texture name.
+        /// </summary>
+        /// <param name="textureName">The name for the created WebCamTexture</param>
         private void SetupPhotoBoothTexture(string textureName)
         {
             var size = cameraTextureTarget.rectTransform.sizeDelta;
@@ -129,6 +153,10 @@ namespace ReadyPlayerMe.AvatarCreator
             cameraTextureTarget.texture = cameraTexture;
         }
 
+        /// <summary>
+        /// Tries to find the device's front-facing camera or returns default camera.
+        /// </summary>
+        /// <returns>Returns the WebCamDevice if found</returns>
         private static WebCamDevice? GetWebCamDevice()
         {
             var devices = WebCamTexture.devices;
