@@ -159,6 +159,22 @@ namespace ReadyPlayerMe.AvatarCreator
             return await inCreatorAvatarLoader.Load(avatarId, bodyType, gender, data);
         }
 
+        public async Task<AvatarProperties> GetAvatarProperties(string id)
+        {
+            avatarId = id;
+            var avatarProperties = new AvatarProperties();
+            try
+            {
+                avatarProperties = await avatarAPIRequests.GetAvatarProperties(avatarId);
+            }
+            catch (Exception e)
+            {
+                OnError?.Invoke(e.Message);
+            }
+
+            return avatarProperties;
+        }
+
         /// <summary>
         /// Update an asset of the avatar.
         /// </summary>
