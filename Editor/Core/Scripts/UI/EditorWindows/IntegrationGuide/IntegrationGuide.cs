@@ -23,7 +23,7 @@ namespace ReadyPlayerMe.Core.Editor
         private const string CORE_PACKAGE = "com.readyplayerme.core";
         private const string QUICKSTART_SAMPLE_NAME = "QuickStart";
         private const string AVATAR_CREATOR_SAMPLE_NAME = "AvatarCreatorSamples";
-        private const string AVATAR_CREATOR_SAMPLE_SCENE_PATH = "LegacyAvatarCreator/Scenes/LegacyAvatarCreator";
+        private const string AVATAR_CREATOR_SAMPLE_SCENE_PATH = "AvatarCreatorWizard/Scenes/AvatarCreatorWizard";
         private const string SAMPLES_FOLDER_PATH = "Assets/Ready Player Me/Core/Samples";
         [SerializeField] private VisualTreeAsset visualTreeAsset;
 

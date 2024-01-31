@@ -1,5 +1,5 @@
 {
-    "name": "ReadyPlayerMe.Samples.LegacyAvatarCreator",
+    "name": "ReadyPlayerMe.Samples.AvatarCreatorWizard",
     "rootNamespace": "",
     "references": [
         "ReadyPlayerMe.Core",

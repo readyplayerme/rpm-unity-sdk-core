@@ -1,14 +1,11 @@
 {
-    "name": "ReadyPlayerMe.Samples.LegacyAvatarCreator.Editor",
+    "name": "ReadyPlayerMe.Samples.AvatarCreatorExperimental",
     "rootNamespace": "",
     "references": [
-        "ReadyPlayerMe.Core",
-        "ReadyPlayerMe.Samples.LegacyAvatarCreator",
-        "ReadyPlayerMe.AvatarCreator"
+        "ReadyPlayerMe.AvatarCreator",
+        "ReadyPlayerMe.Core"
     ],
-    "includePlatforms": [
-        "Editor"
-    ],
+    "includePlatforms": [],
     "excludePlatforms": [],
     "allowUnsafeCode": false,
     "overrideReferences": false,
