@@ -4,7 +4,7 @@ using ReadyPlayerMe.Core;
 using UnityEngine;
 using UnityEngine.UI;
 
-namespace ReadyPlayerMe.Samples.LegacyAvatarCreator
+namespace ReadyPlayerMe.Samples.AvatarCreatorWizard
 {
     public class LoginWithEmailSelection : State
     {
