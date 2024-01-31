@@ -18,7 +18,9 @@ namespace ReadyPlayerMe.Samples.WebGLSample
         private string TAG = nameof(WebFrameHandler);
         public Action<string> OnAvatarExport;
         public Action<string> OnUserSet;
+        public Action<string> OnUserUpdated;
         public Action<string> OnUserAuthorized;
+        public Action onUserLogOut;
         public Action<AssetRecord> OnAssetUnlock;
 
         [SerializeField] private AutoInitialize autoInitialize = AutoInitialize.OnStart;
@@ -67,6 +69,14 @@ namespace ReadyPlayerMe.Samples.WebGLSample
                 case WebViewEvents.USER_AUTHORIZED:
                     SDKLogger.Log(TAG, webMessage.eventName);
                     OnUserAuthorized?.Invoke(webMessage.GetUserId());
+                    break;
+                case WebViewEvents.USER_UPDATED:
+                    SDKLogger.Log(TAG, webMessage.eventName);
+                    OnUserUpdated?.Invoke(webMessage.GetUserId());
+                    break;
+                case WebViewEvents.USER_LOGOUT:
+                    SDKLogger.Log(TAG, webMessage.eventName);
+                    onUserLogOut?.Invoke();
                     break;
                 case WebViewEvents.ASSET_UNLOCK:
                     OnAssetUnlock?.Invoke(webMessage.GetAssetRecord());
