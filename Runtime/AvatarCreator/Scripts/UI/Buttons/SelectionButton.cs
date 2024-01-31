@@ -31,7 +31,7 @@ namespace ReadyPlayerMe.AvatarCreator
         /// <param name="sizeToParent">If true the icon will resize itself to fit inside the parent RectTransform</param>
         public void SetIcon(Texture texture)
         {
-            if (rawImageRectTransform != null)
+            if (rawImageRectTransform == null)
             {
                 rawImageRectTransform = rawImage.GetComponent<RectTransform>();
             }

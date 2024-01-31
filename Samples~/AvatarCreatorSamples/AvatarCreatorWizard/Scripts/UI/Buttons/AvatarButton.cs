@@ -16,6 +16,7 @@ namespace ReadyPlayerMe.Samples.LegacyAvatarCreator
         [SerializeField] private Button customizeButton;
         [SerializeField] private Button selectButton;
 
+        private RectTransform rawImageRectTransform;
         private string avatarId;
         private bool showButtons;
 
@@ -23,6 +24,7 @@ namespace ReadyPlayerMe.Samples.LegacyAvatarCreator
 
         private async void Start()
         {
+            rawImageRectTransform = image.GetComponent<RectTransform>();
             while (string.IsNullOrEmpty(avatarId))
             {
                 await Task.Yield();
@@ -66,7 +68,9 @@ namespace ReadyPlayerMe.Samples.LegacyAvatarCreator
             try
             {
                 ctxSource = new CancellationTokenSource();
+                var previousSize = rawImageRectTransform.sizeDelta;
                 image.texture = await AvatarRenderHelper.GetPortrait(avatarId, ctxSource.Token);
+                rawImageRectTransform.sizeDelta = previousSize;
             }
             catch (Exception)
             {
