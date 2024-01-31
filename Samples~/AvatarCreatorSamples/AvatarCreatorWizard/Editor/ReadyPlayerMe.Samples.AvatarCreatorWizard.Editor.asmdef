@@ -1,0 +1,20 @@
+{
+  "name": "ReadyPlayerMe.Samples.AvatarCreatorWizard.Editor",
+  "rootNamespace": "",
+  "references": [
+    "ReadyPlayerMe.Core",
+    "ReadyPlayerMe.AvatarCreator",
+    "ReadyPlayerMe.Samples.AvatarCreatorWizard"
+  ],
+  "includePlatforms": [
+    "Editor"
+  ],
+  "excludePlatforms": [],
+  "allowUnsafeCode": false,
+  "overrideReferences": false,
+  "precompiledReferences": [],
+  "autoReferenced": true,
+  "defineConstraints": [],
+  "versionDefines": [],
+  "noEngineReferences": false
+}
