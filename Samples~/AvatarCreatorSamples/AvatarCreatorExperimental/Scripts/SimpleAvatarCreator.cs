@@ -3,18 +3,21 @@ using System.Threading.Tasks;
 using ReadyPlayerMe.AvatarCreator;
 using ReadyPlayerMe.Core;
 using UnityEngine;
+using UnityEngine.Events;
+
 #pragma warning disable CS4014
-#pragma warning disable CS1998 
+#pragma warning disable CS1998
 
 namespace ReadyPlayerMe.Samples.SimpleAvatarCreator
 {
     public class SimpleAvatarCreator : MonoBehaviour
     {
+        public UnityEvent<AvatarProperties> onAvatarCreated;
         [SerializeField] private List<AssetSelectionElement> assetSelectionElements;
         [SerializeField] private List<ColorSelectionElement> colorSelectionElements;
         [SerializeField] private RuntimeAnimatorController animationController;
         [SerializeField] private GameObject loading;
-      
+
         private readonly BodyType bodyType = BodyType.FullBody;
         private readonly OutfitGender gender = OutfitGender.Masculine;
 
@@ -28,7 +31,7 @@ namespace ReadyPlayerMe.Samples.SimpleAvatarCreator
 
             loading.SetActive(true);
             GetAssets();
-            var avatarProperties = await GetAvatar();
+            var avatarProperties = await GetTemplateAvatar();
             GetColors(avatarProperties);
             loading.SetActive(false);
         }
@@ -85,7 +88,7 @@ namespace ReadyPlayerMe.Samples.SimpleAvatarCreator
             }
         }
 
-        private async Task<AvatarProperties> GetAvatar()
+        private async Task<AvatarProperties> GetTemplateAvatar()
         {
             var avatarTemplateFetcher = new AvatarTemplateFetcher();
             var templates = await avatarTemplateFetcher.GetTemplates();
@@ -94,6 +97,8 @@ namespace ReadyPlayerMe.Samples.SimpleAvatarCreator
             var templateAvatarProps = await avatarManager.CreateAvatarFromTemplate(avatarTemplate.Id, bodyType);
             avatar = templateAvatarProps.Item1;
             SetElements();
+            //var avatarProperties = await avatarManager.GetAvatarProperties(templateAvatarProps.Item2.Id);
+            onAvatarCreated?.Invoke(templateAvatarProps.Item2);
             return templateAvatarProps.Item2;
         }
 

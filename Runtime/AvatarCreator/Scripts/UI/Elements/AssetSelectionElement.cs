@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using ReadyPlayerMe.Core;
@@ -70,6 +71,22 @@ namespace ReadyPlayerMe.AvatarCreator
             var url = iconSize > 0 ? $"{asset.ImageUrl}?w={iconSize}" : asset.ImageUrl;
             var texture = await webRequestDispatcher.DownloadTexture(url);
             button.SetIcon(texture);
+        }
+
+        public void SetAssetSelected(AvatarProperties avatarProperties)
+        {
+            if (!avatarProperties.Assets.ContainsKey(assetType))
+            {
+                Debug.Log($"Avatar properties does not contain asset type {assetType}");
+                return;
+            }
+            var assetId = avatarProperties.Assets[assetType] as string;
+            if (string.IsNullOrEmpty(assetId))
+            {
+                Debug.Log($"Asset id is null or empty {assetId} on type {assetType}");
+                return;
+            }
+            SetButtonSelected(assetId);
         }
     }
 }
