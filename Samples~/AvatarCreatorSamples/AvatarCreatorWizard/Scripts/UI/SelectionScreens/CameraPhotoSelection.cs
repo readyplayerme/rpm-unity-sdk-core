@@ -4,7 +4,7 @@ using ReadyPlayerMe.AvatarCreator;
 using UnityEngine;
 using UnityEngine.UI;
 
-namespace ReadyPlayerMe.Samples.LegacyAvatarCreator
+namespace ReadyPlayerMe.Samples.AvatarCreatorWizard
 {
     public class CameraPhotoSelection : State
     {
@@ -49,7 +49,7 @@ namespace ReadyPlayerMe.Samples.LegacyAvatarCreator
             }
 
             Vector2 size = rawImage.rectTransform.sizeDelta;
-            camTexture = new WebCamTexture(webCamDevice.name, (int) size.x, (int) size.y);
+            camTexture = new WebCamTexture(webCamDevice.name, (int)size.x, (int)size.y);
             camTexture.Play();
             rawImage.texture = camTexture;
             rawImage.SizeToParent();

@@ -2,7 +2,7 @@
 using ReadyPlayerMe.AvatarCreator;
 using UnityEngine;
 
-namespace ReadyPlayerMe.Samples.LegacyAvatarCreator
+namespace ReadyPlayerMe.Samples.AvatarCreatorWizard
 {
     public static class PanelSwitcher
     {
@@ -67,8 +67,8 @@ namespace ReadyPlayerMe.Samples.LegacyAvatarCreator
         public static void Clear()
         {
             CategoryPanelMap?.Clear();
-        }  
-      
+        }
+
         private static void DisableAllPanels()
         {
             foreach (var panels in CategoryPanelMap)

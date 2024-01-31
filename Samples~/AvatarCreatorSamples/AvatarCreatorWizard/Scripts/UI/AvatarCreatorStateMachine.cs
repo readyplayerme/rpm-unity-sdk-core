@@ -6,7 +6,7 @@ using ReadyPlayerMe.Core.Analytics;
 using UnityEngine;
 using UnityEngine.UI;
 
-namespace ReadyPlayerMe.Samples.LegacyAvatarCreator
+namespace ReadyPlayerMe.Samples.AvatarCreatorWizard
 {
     public class AvatarCreatorStateMachine : StateMachine
     {

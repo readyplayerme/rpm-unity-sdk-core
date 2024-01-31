@@ -3,10 +3,11 @@ using System.Threading.Tasks;
 using ReadyPlayerMe.AvatarCreator;
 using ReadyPlayerMe.Core;
 using UnityEngine;
-#pragma warning disable CS4014
-#pragma warning disable CS1998 
 
-namespace ReadyPlayerMe.Samples.SimpleAvatarCreator
+#pragma warning disable CS4014
+#pragma warning disable CS1998
+
+namespace ReadyPlayerMe.Samples.AvatarCreatorExperimental
 {
     public class SimpleAvatarCreator : MonoBehaviour
     {
@@ -14,7 +15,7 @@ namespace ReadyPlayerMe.Samples.SimpleAvatarCreator
         [SerializeField] private List<ColorSelectionElement> colorSelectionElements;
         [SerializeField] private RuntimeAnimatorController animationController;
         [SerializeField] private GameObject loading;
-      
+
         private readonly BodyType bodyType = BodyType.FullBody;
         private readonly OutfitGender gender = OutfitGender.Masculine;
 
