@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.44657826, g: 0.49641263, b: 0.57481676, a: 1}
+  m_IndirectSpecularColor: {r: 0.44657898, g: 0.4964133, b: 0.5748178, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -1524,6 +1524,11 @@ PrefabInstance:
       propertyPath: m_AnchorMax.y
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 8416300172646733353, guid: bed67741521b22649bc65f4a8cc74cf1,
+        type: 3}
+      propertyPath: m_AnchorMin.x
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: bed67741521b22649bc65f4a8cc74cf1, type: 3}
 --- !u!224 &729649017 stripped
@@ -2220,7 +2225,7 @@ PrefabInstance:
     - target: {fileID: 1536621870556083727, guid: 2bb6b08b8e48b2d4ca36bf901b0b1a2e,
         type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: 0.000015258789
+      value: 0.000022888184
       objectReference: {fileID: 0}
     - target: {fileID: 1536621870556083728, guid: 2bb6b08b8e48b2d4ca36bf901b0b1a2e,
         type: 3}
@@ -2773,6 +2778,11 @@ PrefabInstance:
       propertyPath: m_AnchorMax.y
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 8416300172646733353, guid: bed67741521b22649bc65f4a8cc74cf1,
+        type: 3}
+      propertyPath: m_AnchorMin.x
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: bed67741521b22649bc65f4a8cc74cf1, type: 3}
 --- !u!224 &1404654432 stripped
@@ -2824,6 +2834,61 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f5c8c0dceba52dc439e98eb49fdee50f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  onAvatarCreated:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 713799765}
+        m_TargetAssemblyTypeName: ReadyPlayerMe.AvatarCreator.AssetSelectionElement,
+          ReadyPlayerMe.AvatarCreator
+        m_MethodName: SetAssetSelected
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+      - m_Target: {fileID: 1624350962}
+        m_TargetAssemblyTypeName: ReadyPlayerMe.AvatarCreator.AssetSelectionElement,
+          ReadyPlayerMe.AvatarCreator
+        m_MethodName: SetAssetSelected
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+      - m_Target: {fileID: 729649025}
+        m_TargetAssemblyTypeName: ReadyPlayerMe.AvatarCreator.AssetSelectionElement,
+          ReadyPlayerMe.AvatarCreator
+        m_MethodName: SetAssetSelected
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+      - m_Target: {fileID: 1528640351}
+        m_TargetAssemblyTypeName: ReadyPlayerMe.AvatarCreator.AssetSelectionElement,
+          ReadyPlayerMe.AvatarCreator
+        m_MethodName: SetAssetSelected
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
   assetSelectionElements:
   - {fileID: 1624350962}
   - {fileID: 1528640351}
