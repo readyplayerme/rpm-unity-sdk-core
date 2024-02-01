@@ -12,7 +12,6 @@ namespace ReadyPlayerMe.AvatarCreator
             var parent = image.GetComponentInParent<RectTransform>();
             var imageTransform = image.GetComponent<RectTransform>();
 
-            // check if there is something to do
             if (image.texture != null)
             {
                 if (!parent)

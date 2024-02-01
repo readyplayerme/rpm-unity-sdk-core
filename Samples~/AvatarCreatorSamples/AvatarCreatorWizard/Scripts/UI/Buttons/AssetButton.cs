@@ -12,6 +12,8 @@ namespace ReadyPlayerMe.Samples.AvatarCreatorWizard
         [SerializeField] private GameObject mask;
         [SerializeField] private GameObject loading;
 
+        private RectTransform rawImageRectTransform;
+
         public void AddListener(Action action)
         {
             button.onClick.AddListener(action.Invoke);
@@ -25,8 +27,14 @@ namespace ReadyPlayerMe.Samples.AvatarCreatorWizard
 
         public void SetIcon(Texture texture)
         {
+            if (rawImageRectTransform == null)
+            {
+                rawImageRectTransform = icon.GetComponent<RectTransform>();
+            }
+            var previousSize = rawImageRectTransform.sizeDelta;
             icon.texture = texture;
             icon.enabled = true;
+            rawImageRectTransform.sizeDelta = previousSize;
             loading.SetActive(false);
         }
 
