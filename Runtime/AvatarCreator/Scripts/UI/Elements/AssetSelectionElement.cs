@@ -14,6 +14,7 @@ namespace ReadyPlayerMe.AvatarCreator
     public class AssetSelectionElement : SelectionElement
     {
         [Header("Properties")]
+        [SerializeField] private SelectionButton clearSelectionButton;
         [SerializeField] private BodyType bodyType = BodyType.FullBody;
         [SerializeField, AssetTypeFilter(AssetFilter.Style)] private AssetType assetType;
         [SerializeField] private int iconSize = 64;
@@ -24,6 +25,16 @@ namespace ReadyPlayerMe.AvatarCreator
         private void Awake()
         {
             assetsRequests = new AssetAPIRequests(CoreSettingsHandler.CoreSettings.AppId);
+            if (clearSelectionButton == null) return;
+            AddClearButton(clearSelectionButton, assetType);
+        }
+
+        private void CreateClearButton()
+        {
+            var clearButton = Instantiate(clearSelectionButton, ButtonContainer);
+            clearButton.transform.SetAsFirstSibling();
+            var assetData = new PartnerAsset { Id = "0", AssetType = assetType };
+            clearButton.GetComponent<SelectionButton>().AddListener(() => onAssetSelected?.Invoke(assetData));
         }
 
         public void SetBodyType(BodyType bodyType)

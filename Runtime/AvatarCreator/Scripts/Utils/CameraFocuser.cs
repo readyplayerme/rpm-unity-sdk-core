@@ -3,6 +3,9 @@ using UnityEngine;
 
 namespace ReadyPlayerMe.AvatarCreator
 {
+    /// <summary>
+    /// This class handles camera focusing on specific points of an avatar.
+    /// </summary>
     public class CameraFocuser : MonoBehaviour
     {
         private const string TAG = nameof(CameraFocuser);
@@ -42,16 +45,25 @@ namespace ReadyPlayerMe.AvatarCreator
             }
         }
 
+        /// <summary>
+        /// Focus the camera on the face of the avatar.
+        /// </summary>
         public void FocusOnFace()
         {
             StartTransition(faceViewPoint, defaultDuration);
         }
 
+        /// <summary>
+        /// Focus the camera on the body of the avatar.
+        /// </summary>
         public void FocusOnBody()
         {
             StartTransition(bodyViewPoint, defaultDuration);
         }
 
+        /// <summary>
+        /// Stop the ongoing camera transition.
+        /// </summary>
         public void StopTransition()
         {
             isTransitioning = false;
