@@ -3,7 +3,7 @@ using ReadyPlayerMe.Core;
 using UnityEditor;
 using UnityEngine;
 
-namespace ReadyPlayerMe.Samples.LegacyAvatarCreator.Editor
+namespace ReadyPlayerMe.Samples.AvatarCreatorWizard.Editor
 {
     [CustomEditor(typeof(AvatarCreatorStateMachine)), CanEditMultipleObjects]
     public class AvatarCreatorStateMachineEditor : UnityEditor.Editor
@@ -14,7 +14,7 @@ namespace ReadyPlayerMe.Samples.LegacyAvatarCreator.Editor
 
         public override void OnInspectorGUI()
         {
-            avatarCreatorStateMachine = (AvatarCreatorStateMachine) target;
+            avatarCreatorStateMachine = (AvatarCreatorStateMachine)target;
             DrawDefaultInspector();
             if (avatarCreatorStateMachine.avatarCreatorData != null)
             {
@@ -30,11 +30,11 @@ namespace ReadyPlayerMe.Samples.LegacyAvatarCreator.Editor
                 EditorGUILayout.PrefixLabel(new GUIContent("Default Gender"));
 
                 EditorGUI.BeginChangeCheck();
-                var choiceIndex = EditorGUILayout.Popup((int) avatarCreatorStateMachine.avatarCreatorData.AvatarProperties.Gender, genderOptions);
+                var choiceIndex = EditorGUILayout.Popup((int)avatarCreatorStateMachine.avatarCreatorData.AvatarProperties.Gender, genderOptions);
                 if (EditorGUI.EndChangeCheck())
                 {
                     avatarCreatorStateMachine.avatarCreatorData.AvatarProperties.Gender =
-                        (OutfitGender) Enum.Parse(typeof(OutfitGender), genderOptions[choiceIndex]);
+                        (OutfitGender)Enum.Parse(typeof(OutfitGender), genderOptions[choiceIndex]);
                     EditorUtility.SetDirty(avatarCreatorStateMachine.avatarCreatorData);
                 }
             }
@@ -48,11 +48,11 @@ namespace ReadyPlayerMe.Samples.LegacyAvatarCreator.Editor
                 EditorGUILayout.PrefixLabel(new GUIContent("Default BodyType"));
 
                 EditorGUI.BeginChangeCheck();
-                var choiceIndex = EditorGUILayout.Popup((int) avatarCreatorStateMachine.avatarCreatorData.AvatarProperties.BodyType, bodyTypeOptions);
+                var choiceIndex = EditorGUILayout.Popup((int)avatarCreatorStateMachine.avatarCreatorData.AvatarProperties.BodyType, bodyTypeOptions);
                 if (EditorGUI.EndChangeCheck())
                 {
                     avatarCreatorStateMachine.avatarCreatorData.AvatarProperties.BodyType =
-                        (BodyType) Enum.Parse(typeof(BodyType), bodyTypeOptions[choiceIndex]);
+                        (BodyType)Enum.Parse(typeof(BodyType), bodyTypeOptions[choiceIndex]);
                     EditorUtility.SetDirty(avatarCreatorStateMachine.avatarCreatorData);
                 }
             }

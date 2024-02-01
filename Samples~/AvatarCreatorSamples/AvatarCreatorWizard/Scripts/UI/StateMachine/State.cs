@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-namespace ReadyPlayerMe.Samples.LegacyAvatarCreator
+namespace ReadyPlayerMe.Samples.AvatarCreatorWizard
 {
     public enum StateType
     {

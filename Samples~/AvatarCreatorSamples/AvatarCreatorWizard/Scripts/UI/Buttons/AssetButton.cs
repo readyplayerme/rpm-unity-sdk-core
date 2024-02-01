@@ -2,7 +2,7 @@ using System;
 using UnityEngine;
 using UnityEngine.UI;
 
-namespace ReadyPlayerMe.Samples.LegacyAvatarCreator
+namespace ReadyPlayerMe.Samples.AvatarCreatorWizard
 {
     public class AssetButton : MonoBehaviour
     {
@@ -11,6 +11,8 @@ namespace ReadyPlayerMe.Samples.LegacyAvatarCreator
         [SerializeField] private Button button;
         [SerializeField] private GameObject mask;
         [SerializeField] private GameObject loading;
+
+        private RectTransform rawImageRectTransform;
 
         public void AddListener(Action action)
         {
@@ -25,8 +27,14 @@ namespace ReadyPlayerMe.Samples.LegacyAvatarCreator
 
         public void SetIcon(Texture texture)
         {
+            if (rawImageRectTransform == null)
+            {
+                rawImageRectTransform = icon.GetComponent<RectTransform>();
+            }
+            var previousSize = rawImageRectTransform.sizeDelta;
             icon.texture = texture;
             icon.enabled = true;
+            rawImageRectTransform.sizeDelta = previousSize;
             loading.SetActive(false);
         }
 
