@@ -10,6 +10,7 @@ namespace ReadyPlayerMe.AvatarCreator
     public class BodyTypeConverter : JsonConverter<BodyType>
     {
         private const string FULL_BODY = "fullbody";
+        private const string FULL_BODY_XR = "fullbody-xr";
         private const string HALF_BODY = "halfbody";
 
         public override void WriteJson(JsonWriter writer, BodyType value, JsonSerializer serializer)
@@ -27,6 +28,7 @@ namespace ReadyPlayerMe.AvatarCreator
                 {
                     FULL_BODY => BodyType.FullBody,
                     HALF_BODY => BodyType.HalfBody,
+                    FULL_BODY_XR => BodyType.XRFullbody,
                     _ => BodyType.None
                 };
             }
