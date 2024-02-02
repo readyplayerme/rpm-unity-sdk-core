@@ -5,7 +5,7 @@ namespace ReadyPlayerMe.AvatarCreator
 {
     public static class RawImageExtensions
     {
-        public static Vector2 SizeToParent(this RawImage image, float padding = 0)
+        public static void SizeToParent(this RawImage image, float padding = 0)
         {
             var width = 0f;
             var height = 0f;
@@ -16,8 +16,7 @@ namespace ReadyPlayerMe.AvatarCreator
             {
                 if (!parent)
                 {
-                    //if we don't have a parent, just return our current width
-                    return imageTransform.sizeDelta;
+                    return;
                 }
 
                 padding = 1 - padding;
@@ -43,7 +42,6 @@ namespace ReadyPlayerMe.AvatarCreator
             }
             imageTransform.SetSizeWithCurrentAnchors(RectTransform.Axis.Horizontal, width);
             imageTransform.SetSizeWithCurrentAnchors(RectTransform.Axis.Vertical, height);
-            return imageTransform.sizeDelta;
         }
     }
 }

@@ -33,7 +33,7 @@ namespace ReadyPlayerMe.AvatarCreator
                 var webRequestDispatcher = new WebRequestDispatcher();
                 var url = $"{asset.ImageUrl}";
                 var texture = await webRequestDispatcher.DownloadTexture(url);
-                button.SetIcon(texture);
+                button.SetIcon(texture, true);
             });
         }
 

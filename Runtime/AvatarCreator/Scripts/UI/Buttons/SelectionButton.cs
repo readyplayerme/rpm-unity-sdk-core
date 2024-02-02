@@ -29,7 +29,7 @@ namespace ReadyPlayerMe.AvatarCreator
         /// </summary>
         /// <param name="texture">The texture to be assigned to the RawImage component</param>
         /// <param name="sizeToParent">If true the icon will resize itself to fit inside the parent RectTransform</param>
-        public void SetIcon(Texture texture)
+        public void SetIcon(Texture texture, bool sizeToParent = false)
         {
             if (rawImageRectTransform == null)
             {
@@ -38,6 +38,11 @@ namespace ReadyPlayerMe.AvatarCreator
 
             var previousSize = rawImageRectTransform.sizeDelta;
             rawImage.texture = texture;
+            if (sizeToParent)
+            {
+                rawImage.SizeToParent();
+                return;
+            }
             rawImageRectTransform.sizeDelta = previousSize;
         }
 

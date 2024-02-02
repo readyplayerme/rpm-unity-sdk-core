@@ -19,7 +19,7 @@ namespace ReadyPlayerMe.AvatarCreator
         [SerializeField] private GameObject selectedIconPrefab;
         [SerializeField] private Transform buttonContainer;
         private GameObject selectedIcon;
-
+        [Space(5)]
         public UnityEvent<IAssetData> onAssetSelected;
         private readonly Dictionary<string, SelectionButton> buttonElementById = new Dictionary<string, SelectionButton>();
 
