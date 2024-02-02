@@ -134,5 +134,17 @@ namespace ReadyPlayerMe.AvatarCreator
             }
             selectedIcon.SetActive(true);
         }
+
+        protected void SetButtonSelected(string assetId)
+        {
+            var button = GetButton(assetId);
+            if (button == null)
+            {
+                Debug.Log($"No button found with id {assetId}");
+                return;
+            }
+            Debug.Log($"Set {button.name} selected");
+            SetButtonSelected(button.transform);
+        }
     }
 }

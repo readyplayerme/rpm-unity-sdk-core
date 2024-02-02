@@ -24,11 +24,17 @@ namespace ReadyPlayerMe.Core
             return new KeyValuePair<string, string>("X-APP-ID", CoreSettingsHandler.CoreSettings.AppId);
         }
 
+        public static KeyValuePair<string, string> GetAppSource()
+        {
+            return new KeyValuePair<string, string>("rpm-source", UNITY_PREFIX);
+        }
+
         public static IDictionary<string, string> GetHeadersWithAppId()
         {
-            IDictionary<string,string> dictionary = new Dictionary<string, string>();
+            IDictionary<string, string> dictionary = new Dictionary<string, string>();
             dictionary.Add(GetApplicationJsonHeader());
             dictionary.Add(GetAppIdHeader());
+            dictionary.Add(GetAppSource());
             return dictionary;
         }
 
