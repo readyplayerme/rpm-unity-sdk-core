@@ -3,14 +3,20 @@ using System.Threading.Tasks;
 using ReadyPlayerMe.AvatarCreator;
 using ReadyPlayerMe.Core;
 using UnityEngine;
+using UnityEngine.Events;
 
 #pragma warning disable CS4014
 #pragma warning disable CS1998
 
 namespace ReadyPlayerMe.Samples.AvatarCreatorExperimental
 {
+
+    /// <summary>
+    /// A class responsible for creating and customizing avatars using asset and color selections.
+    /// </summary>
     public class SimpleAvatarCreator : MonoBehaviour
     {
+        public UnityEvent<AvatarProperties> onAvatarCreated;
         [SerializeField] private List<AssetSelectionElement> assetSelectionElements;
         [SerializeField] private List<ColorSelectionElement> colorSelectionElements;
         [SerializeField] private RuntimeAnimatorController animationController;
@@ -22,20 +28,24 @@ namespace ReadyPlayerMe.Samples.AvatarCreatorExperimental
         private AvatarManager avatarManager;
         private GameObject avatar;
 
+        /// <summary>
+        /// Start is used to initialize the avatar creator and loads initial avatar assets.
+        /// </summary>
         private async void Start()
         {
             await AuthManager.LoginAsAnonymous();
             avatarManager = new AvatarManager();
 
             loading.SetActive(true);
-            GetAssets();
-            var avatarProperties = await GetAvatar();
+            LoadAssets();
+            var avatarProperties = await CreateTemplateAvatar();
             GetColors(avatarProperties);
             loading.SetActive(false);
         }
 
         private void OnEnable()
         {
+            // Subscribes to asset selection events when this component is enabled.
             foreach (var element in assetSelectionElements)
             {
                 element.onAssetSelected.AddListener(OnAssetSelection);
@@ -49,6 +59,7 @@ namespace ReadyPlayerMe.Samples.AvatarCreatorExperimental
 
         private void OnDisable()
         {
+            // Unsubscribes from asset selection events when this component is disabled.
             foreach (var element in assetSelectionElements)
             {
                 element.onAssetSelected.RemoveListener(OnAssetSelection);
@@ -60,17 +71,29 @@ namespace ReadyPlayerMe.Samples.AvatarCreatorExperimental
             }
         }
 
+        /// <summary>
+        /// Handles the selection of an asset and updates the avatar accordingly.
+        /// </summary>
+        /// <param name="assetData">The selected asset data.</param>
         private async void OnAssetSelection(IAssetData assetData)
         {
             loading.SetActive(true);
             var newAvatar = await avatarManager.UpdateAsset(assetData.AssetType, bodyType, assetData.Id);
-            Destroy(avatar);
+
+            // Destroy the old avatar and replace it with the new one.
+            if (avatar != null)
+            {
+                Destroy(avatar);
+            }
             avatar = newAvatar;
-            SetElements();
+            SetupAvatar();
             loading.SetActive(false);
         }
 
-        private async void GetAssets()
+        /// <summary>
+        /// Loads and initializes asset selection elements for avatar customization.
+        /// </summary>
+        private async void LoadAssets()
         {
             foreach (var element in assetSelectionElements)
             {
@@ -78,6 +101,10 @@ namespace ReadyPlayerMe.Samples.AvatarCreatorExperimental
             }
         }
 
+        /// <summary>
+        /// Loads and initializes color selection elements for choosing avatar colors.
+        /// </summary>
+        /// <param name="avatarProperties">The properties of the avatar.</param>
         private void GetColors(AvatarProperties avatarProperties)
         {
             foreach (var element in colorSelectionElements)
@@ -86,7 +113,11 @@ namespace ReadyPlayerMe.Samples.AvatarCreatorExperimental
             }
         }
 
-        private async Task<AvatarProperties> GetAvatar()
+        /// <summary>
+        /// Creates an avatar from a template and sets its initial properties.
+        /// </summary>
+        /// <returns>The properties of the created avatar.</returns>
+        private async Task<AvatarProperties> CreateTemplateAvatar()
         {
             var avatarTemplateFetcher = new AvatarTemplateFetcher();
             var templates = await avatarTemplateFetcher.GetTemplates();
@@ -94,11 +125,15 @@ namespace ReadyPlayerMe.Samples.AvatarCreatorExperimental
 
             var templateAvatarProps = await avatarManager.CreateAvatarFromTemplate(avatarTemplate.Id, bodyType);
             avatar = templateAvatarProps.Item1;
-            SetElements();
+            SetupAvatar();
+            onAvatarCreated?.Invoke(templateAvatarProps.Item2);
             return templateAvatarProps.Item2;
         }
 
-        private void SetElements()
+        /// <summary>
+        /// Sets additional elements and components on the created avatar, such as mouse rotation and animation controller.
+        /// </summary>
+        private void SetupAvatar()
         {
             avatar.AddComponent<MouseRotationHandler>();
             avatar.AddComponent<AvatarRotator>();
