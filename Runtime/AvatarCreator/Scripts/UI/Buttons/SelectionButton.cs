@@ -36,23 +36,23 @@ namespace ReadyPlayerMe.AvatarCreator
                 rawImageRectTransform = rawImage.GetComponent<RectTransform>();
             }
 
-            var previousSize = rawImageRectTransform.sizeDelta;
+            var previousSizeDelta = rawImageRectTransform.sizeDelta;
             rawImage.texture = texture;
-
             if (keepAspectRatio)
             {
-                var currentAspectRatio = previousSize.x / previousSize.y;
+                var rect = rawImageRectTransform.rect;
+                var currentRatio = rect.size.x / rect.size.y;
                 var targetAspectRatio = texture.width / (float) texture.height;
-                if (Mathf.Abs(currentAspectRatio - targetAspectRatio) > 0.01f)
+                if (Mathf.Abs(currentRatio - targetAspectRatio) > Mathf.Epsilon)
                 {
-                    AdjustRectTransformToAspectRatio(texture);
+                    AdjustRectTransformToAspectRatio(targetAspectRatio);
                     return;
                 }
             }
-            rawImageRectTransform.sizeDelta = previousSize;
+            rawImageRectTransform.sizeDelta = previousSizeDelta;
         }
 
-        private void AdjustRectTransformToAspectRatio(Texture texture)
+        private void AdjustRectTransformToAspectRatio(float targetAspectRatio)
         {
             if (rawImage == null)
             {
@@ -60,20 +60,21 @@ namespace ReadyPlayerMe.AvatarCreator
                 return;
             }
 
-            var sizeDelta = rawImage.rectTransform.sizeDelta;
-            var targetAspectRatio = texture.width / (float) texture.height;
+            rawImageRectTransform.pivot = new Vector2(0.5f, 0.5f);
+            rawImageRectTransform.anchorMin = new Vector2(0.5f, 0.5f);
+            rawImageRectTransform.anchorMax = new Vector2(0.5f, 0.5f);
+            rawImageRectTransform.sizeDelta = CalculateNewSize(rawImageRectTransform.rect.size, targetAspectRatio);
+        }
 
-            var currentAspectRatio = sizeDelta.x / sizeDelta.y;
+        private Vector2 CalculateNewSize(Vector2 currentSize, float targetAspectRatio)
+        {
+            var currentAspectRatio = currentSize.x / currentSize.y;
+
             if (currentAspectRatio > targetAspectRatio)
             {
-                sizeDelta.y = sizeDelta.x / targetAspectRatio;
+                return new Vector2(currentSize.y * targetAspectRatio, currentSize.y);
             }
-            else
-            {
-                sizeDelta.x = sizeDelta.y * targetAspectRatio;
-            }
-
-            rawImage.rectTransform.sizeDelta = sizeDelta;
+            return new Vector2(currentSize.x, currentSize.x / targetAspectRatio);
         }
 
         public void SetColor(string hexColor)
