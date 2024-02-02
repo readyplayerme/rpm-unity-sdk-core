@@ -59,11 +59,11 @@ namespace ReadyPlayerMe.AvatarCreator
                 Debug.LogWarning("RawImage reference is missing.");
                 return;
             }
-
+            var newSize = CalculateNewSize(rawImageRectTransform.rect.size, targetAspectRatio);
             rawImageRectTransform.pivot = new Vector2(0.5f, 0.5f);
             rawImageRectTransform.anchorMin = new Vector2(0.5f, 0.5f);
             rawImageRectTransform.anchorMax = new Vector2(0.5f, 0.5f);
-            rawImageRectTransform.sizeDelta = CalculateNewSize(rawImageRectTransform.rect.size, targetAspectRatio);
+            rawImageRectTransform.sizeDelta = newSize;
         }
 
         private Vector2 CalculateNewSize(Vector2 currentSize, float targetAspectRatio)
