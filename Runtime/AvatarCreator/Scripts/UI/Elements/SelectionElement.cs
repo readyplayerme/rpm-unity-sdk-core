@@ -27,7 +27,7 @@ namespace ReadyPlayerMe.AvatarCreator
 
         private void Start()
         {
-            selectedIcon = Instantiate(selectedIconPrefab, transform);
+            selectedIcon = Instantiate(selectedIconPrefab, buttonContainer);
             selectedIcon.SetActive(false);
         }
 
@@ -97,7 +97,7 @@ namespace ReadyPlayerMe.AvatarCreator
 
         private void ResetSelectIcon()
         {
-            selectedIcon.transform.SetParent(transform);
+            selectedIcon.transform.SetParent(buttonContainer);
             selectedIcon.SetActive(false);
         }
 
