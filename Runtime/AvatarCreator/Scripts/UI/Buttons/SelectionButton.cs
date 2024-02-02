@@ -28,8 +28,8 @@ namespace ReadyPlayerMe.AvatarCreator
         /// Sets the icon on the rawImage component
         /// </summary>
         /// <param name="texture">The texture to be assigned to the RawImage component</param>
-        /// <param name="sizeToParent">If true the icon will resize itself to fit inside the parent RectTransform</param>
-        public void SetIcon(Texture texture, bool sizeToParent = false)
+        /// <param name="keepAspectRatio">If true the icon will resize to match the texture's aspect ratio</param>
+        public void SetIcon(Texture texture, bool keepAspectRatio = false)
         {
             if (rawImageRectTransform == null)
             {
@@ -38,12 +38,42 @@ namespace ReadyPlayerMe.AvatarCreator
 
             var previousSize = rawImageRectTransform.sizeDelta;
             rawImage.texture = texture;
-            if (sizeToParent)
+
+            if (keepAspectRatio)
             {
-                rawImage.SizeToParent();
-                return;
+                var currentAspectRatio = previousSize.x / previousSize.y;
+                var targetAspectRatio = texture.width / (float) texture.height;
+                if (Mathf.Abs(currentAspectRatio - targetAspectRatio) > 0.01f)
+                {
+                    AdjustRectTransformToAspectRatio(texture);
+                    return;
+                }
             }
             rawImageRectTransform.sizeDelta = previousSize;
+        }
+
+        private void AdjustRectTransformToAspectRatio(Texture texture)
+        {
+            if (rawImage == null)
+            {
+                Debug.LogWarning("RawImage reference is missing.");
+                return;
+            }
+
+            var sizeDelta = rawImage.rectTransform.sizeDelta;
+            var targetAspectRatio = texture.width / (float) texture.height;
+
+            var currentAspectRatio = sizeDelta.x / sizeDelta.y;
+            if (currentAspectRatio > targetAspectRatio)
+            {
+                sizeDelta.y = sizeDelta.x / targetAspectRatio;
+            }
+            else
+            {
+                sizeDelta.x = sizeDelta.y * targetAspectRatio;
+            }
+
+            rawImage.rectTransform.sizeDelta = sizeDelta;
         }
 
         public void SetColor(string hexColor)
