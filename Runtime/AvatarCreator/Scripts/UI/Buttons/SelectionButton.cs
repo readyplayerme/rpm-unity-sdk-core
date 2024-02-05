@@ -12,7 +12,7 @@ namespace ReadyPlayerMe.AvatarCreator
     {
         [SerializeField] private Button button;
         [SerializeField] private RawImage rawImage;
-
+        [SerializeField] private AspectRatioFitter aspectRatioFitter;
         private RectTransform rawImageRectTransform;
 
         /// <summary>
@@ -29,52 +29,17 @@ namespace ReadyPlayerMe.AvatarCreator
         /// </summary>
         /// <param name="texture">The texture to be assigned to the RawImage component</param>
         /// <param name="keepAspectRatio">If true the icon will resize to match the texture's aspect ratio</param>
-        public void SetIcon(Texture texture, bool keepAspectRatio = false)
+        public void SetIcon(Texture texture)
         {
             if (rawImageRectTransform == null)
             {
                 rawImageRectTransform = rawImage.GetComponent<RectTransform>();
             }
-
-            var previousSizeDelta = rawImageRectTransform.sizeDelta;
             rawImage.texture = texture;
-            if (keepAspectRatio)
+            if (aspectRatioFitter != null)
             {
-                var rect = rawImageRectTransform.rect;
-                var currentRatio = rect.size.x / rect.size.y;
-                var targetAspectRatio = texture.width / (float) texture.height;
-                if (Mathf.Abs(currentRatio - targetAspectRatio) > Mathf.Epsilon)
-                {
-                    AdjustRectTransformToAspectRatio(targetAspectRatio);
-                    return;
-                }
+                aspectRatioFitter.aspectRatio = (float) texture.width / texture.height;
             }
-            rawImageRectTransform.sizeDelta = previousSizeDelta;
-        }
-
-        private void AdjustRectTransformToAspectRatio(float targetAspectRatio)
-        {
-            if (rawImage == null)
-            {
-                Debug.LogWarning("RawImage reference is missing.");
-                return;
-            }
-            var newSize = CalculateNewSize(rawImageRectTransform.rect.size, targetAspectRatio);
-            rawImageRectTransform.pivot = new Vector2(0.5f, 0.5f);
-            rawImageRectTransform.anchorMin = new Vector2(0.5f, 0.5f);
-            rawImageRectTransform.anchorMax = new Vector2(0.5f, 0.5f);
-            rawImageRectTransform.sizeDelta = newSize;
-        }
-
-        private Vector2 CalculateNewSize(Vector2 currentSize, float targetAspectRatio)
-        {
-            var currentAspectRatio = currentSize.x / currentSize.y;
-
-            if (currentAspectRatio > targetAspectRatio)
-            {
-                return new Vector2(currentSize.y * targetAspectRatio, currentSize.y);
-            }
-            return new Vector2(currentSize.x, currentSize.x / targetAspectRatio);
         }
 
         public void SetColor(string hexColor)
