@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -18,6 +19,7 @@ namespace ReadyPlayerMe.AvatarCreator
 
         private const string COLOR_PARAMETERS = "colors?type=skin,beard,hair,eyebrow";
         private const string FULL_BODY = "fullbody";
+        private const string FULL_BODY_XR = "fullbody-xr";
         private const string HALF_BODY = "halfbody";
         private const string PARTNER = "partner";
         private const string DATA = "data";
@@ -68,10 +70,18 @@ namespace ReadyPlayerMe.AvatarCreator
 
         public async Task<AvatarProperties> CreateFromTemplateAvatar(string templateId, string partner, BodyType bodyType)
         {
+            var body = bodyType switch
+            {
+                BodyType.FullBody => FULL_BODY,
+                BodyType.XRFullbody => FULL_BODY_XR,
+                BodyType.HalfBody => HALF_BODY,
+                _ => throw new ArgumentOutOfRangeException(nameof(bodyType), bodyType, null)
+            };
+
             var payloadData = new Dictionary<string, string>
             {
                 { nameof(partner), partner },
-                { nameof(bodyType), bodyType == BodyType.FullBody ? FULL_BODY : HALF_BODY }
+                { nameof(bodyType), body }
             };
 
             var payload = AuthDataConverter.CreatePayload(payloadData);
