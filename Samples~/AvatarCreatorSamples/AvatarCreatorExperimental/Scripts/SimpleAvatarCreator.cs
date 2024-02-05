@@ -16,7 +16,7 @@ namespace ReadyPlayerMe.Samples.AvatarCreatorExperimental
         [SerializeField] private RuntimeAnimatorController animationController;
         [SerializeField] private GameObject loading;
 
-        private readonly BodyType bodyType = BodyType.FullBody;
+        [SerializeField] private BodyType bodyType = BodyType.FullBody;
         private readonly OutfitGender gender = OutfitGender.Masculine;
 
         private AvatarManager avatarManager;
