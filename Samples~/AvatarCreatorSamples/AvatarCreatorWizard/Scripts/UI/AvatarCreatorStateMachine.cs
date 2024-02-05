@@ -11,7 +11,7 @@ namespace ReadyPlayerMe.Samples.AvatarCreatorWizard
     public class AvatarCreatorStateMachine : StateMachine
     {
         private const string TAG = nameof(AvatarCreatorStateMachine);
-        
+
         [SerializeField] private List<State> states;
         [SerializeField] private Button backButton;
         [SerializeField] private Button saveButton;
@@ -25,7 +25,7 @@ namespace ReadyPlayerMe.Samples.AvatarCreatorWizard
         private void Start()
         {
             AnalyticsRuntimeLogger.EventLogger.LogAvatarCreatorSample(CoreSettingsHandler.CoreSettings.AppId);
-            
+
             if (string.IsNullOrEmpty(CoreSettingsHandler.CoreSettings.AppId))
             {
                 Debug.LogError("App ID is missing. " +
@@ -37,7 +37,7 @@ namespace ReadyPlayerMe.Samples.AvatarCreatorWizard
 
             avatarCreatorData.AvatarProperties.Partner = CoreSettingsHandler.CoreSettings.Subdomain;
             Initialize();
-            
+
             SetState(profileManager.LoadSession() ? StateType.AvatarSelection : startingState);
         }
 
@@ -58,7 +58,7 @@ namespace ReadyPlayerMe.Samples.AvatarCreatorWizard
             AuthManager.OnSessionRefreshed -= OnSessionRefreshed;
             backButton.onClick.RemoveListener(GoToPreviousState);
         }
-        
+
         private void OnSignedIn(UserSession userSession)
         {
             profileManager.SaveSession(userSession);
@@ -70,7 +70,7 @@ namespace ReadyPlayerMe.Samples.AvatarCreatorWizard
             SetState(startingState);
             ClearPreviousStates();
         }
-        
+
         private void OnSessionRefreshed(UserSession userSession)
         {
             profileManager.SaveSession(userSession);
@@ -99,7 +99,7 @@ namespace ReadyPlayerMe.Samples.AvatarCreatorWizard
 
         private bool CanShowBackButton(StateType current)
         {
-            return current == StateType.BodyTypeSelection || current == StateType.LoginWithCodeFromEmail || current == StateType.AvatarSelection;
+            return current == StateType.LoginWithCodeFromEmail || current == StateType.AvatarSelection;
         }
     }
 }
