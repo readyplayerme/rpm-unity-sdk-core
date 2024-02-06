@@ -11,7 +11,7 @@ namespace ReadyPlayerMe.Samples.AvatarLoading
     public class MultipleAvatarLoadingExample : MonoBehaviour
     {
         private const int RADIUS = 1;
-        [SerializeField][Tooltip("Set this to the URL or shortcodes of the Ready Player Me Avatar you want to load.")]
+        [SerializeField] [Tooltip("Set this to the URL or shortcodes of the Ready Player Me Avatar you want to load.")]
         private string[] avatarUrls =
         {
             "https://models.readyplayer.me/638df5fc5a7d322604bb3a58.glb",
@@ -31,7 +31,6 @@ namespace ReadyPlayerMe.Samples.AvatarLoading
             StartCoroutine(LoadAvatars(urlSet));
         }
 
-
         /// This method is used to cleanup/destroy avatar <c>GameObject</c>'s when they are no longer needed.
         private void OnDestroy()
         {
@@ -47,7 +46,6 @@ namespace ReadyPlayerMe.Samples.AvatarLoading
             }
         }
 
-
         /// Loops through all the avatar urls in the <paramref name="urlSet"/> and loads them one after the other.
         private IEnumerator LoadAvatars(HashSet<string> urlSet)
         {
@@ -61,7 +59,7 @@ namespace ReadyPlayerMe.Samples.AvatarLoading
                 loader.OnCompleted += (sender, args) =>
                 {
                     loading = false;
-                    AvatarAnimatorHelper.SetupAnimator(args.Metadata.BodyType, args.Avatar);
+                    AvatarAnimationHelper.SetupAnimator(args.Metadata.BodyType, args.Avatar);
                     OnAvatarLoaded(args.Avatar);
                 };
                 loader.LoadAvatar(url);

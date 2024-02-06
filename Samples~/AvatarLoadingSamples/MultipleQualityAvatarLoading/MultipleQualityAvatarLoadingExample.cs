@@ -51,7 +51,7 @@ namespace ReadyPlayerMe.Samples.AvatarLoading
                 loader.OnCompleted += (sender, args) =>
                 {
                     loading = false;
-                    AvatarAnimatorHelper.SetupAnimator(args.Metadata.BodyType, args.Avatar);
+                    AvatarAnimationHelper.SetupAnimator(args.Metadata.BodyType, args.Avatar);
                     OnAvatarLoaded(args.Avatar, config);
                 };
                 loader.AvatarConfig = config.Config;
