@@ -170,7 +170,7 @@ This element is useful for creating Ready Player Me login UI.
 This element is useful for creating Ready Player Me user logging out UI.
 
 **Prefab Location:**
-`Runtime/AvatarCreator//Prefabs/LogoutElement.prefab`.
+`Runtime/AvatarCreator/Prefabs/LogoutElement.prefab`.
 
 **Key features include:**
 - a button, that user can click to log them out

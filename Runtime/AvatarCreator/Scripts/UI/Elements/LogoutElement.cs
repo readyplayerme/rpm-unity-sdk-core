@@ -12,8 +12,8 @@ namespace ReadyPlayerMe.AvatarCreator
     public class LogoutElement : MonoBehaviour
     {
         private const string TAG = nameof(LoginElement);
-        [SerializeField] private UnityEvent OnLogoutSuccess;
-        [SerializeField] private UnityEvent<string> OnLogoutFailed;
+        public UnityEvent OnLogoutSuccess;
+        public UnityEvent<string> OnLogoutFailed;
         public async void Logout()
         {
             AuthManager.Logout();
