@@ -73,7 +73,7 @@ namespace ReadyPlayerMe.Core
             return bodyType switch
             {
                 BodyType.FullBody => GetFullbodyAvatarPath(outfitGender),
-                BodyType.XRFullbody => GetFullbodyXrAvatarPath(outfitGender),
+                BodyType.FullbodyXR => GetFullbodyXrAvatarPath(outfitGender),
                 _ => null
             };
         }

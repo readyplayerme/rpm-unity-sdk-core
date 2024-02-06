@@ -73,7 +73,7 @@ namespace ReadyPlayerMe.AvatarCreator
             var body = bodyType switch
             {
                 BodyType.FullBody => FULL_BODY,
-                BodyType.XRFullbody => FULL_BODY_XR,
+                BodyType.FullbodyXR => FULL_BODY_XR,
                 BodyType.HalfBody => HALF_BODY,
                 _ => throw new ArgumentOutOfRangeException(nameof(bodyType), bodyType, null)
             };

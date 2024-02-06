@@ -76,7 +76,7 @@ namespace ReadyPlayerMe.Core
                     AddArmatureBone(avatar);
                 }
 
-                if (avatarMetadata.BodyType == BodyType.FullBody || avatarMetadata.BodyType == BodyType.XRFullbody)
+                if (avatarMetadata.BodyType == BodyType.FullBody || avatarMetadata.BodyType == BodyType.FullbodyXR)
                 {
                     var animationAvatar = AvatarAnimationHelper.GetAnimationAvatar(avatarMetadata.OutfitGender, avatarMetadata.BodyType);
                     SetupAnimator(avatar, animationAvatar);

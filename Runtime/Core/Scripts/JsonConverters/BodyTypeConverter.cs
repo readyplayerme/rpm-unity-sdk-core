@@ -1,10 +1,9 @@
 ﻿using System;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
-using ReadyPlayerMe.Core;
 using UnityEngine.Scripting;
 
-namespace ReadyPlayerMe.AvatarCreator
+namespace ReadyPlayerMe.Core
 {
     [Preserve]
     public class BodyTypeConverter : JsonConverter<BodyType>
@@ -24,11 +23,12 @@ namespace ReadyPlayerMe.AvatarCreator
             var token = JToken.Load(reader);
             if (token.Type == JTokenType.String)
             {
+
                 return token.ToString() switch
                 {
                     FULL_BODY => BodyType.FullBody,
                     HALF_BODY => BodyType.HalfBody,
-                    FULL_BODY_XR => BodyType.XRFullbody,
+                    FULL_BODY_XR => BodyType.FullbodyXR,
                     _ => BodyType.None
                 };
             }

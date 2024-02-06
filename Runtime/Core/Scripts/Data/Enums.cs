@@ -11,7 +11,7 @@ namespace ReadyPlayerMe.Core
         None,
         [Description("fullbody")] FullBody,
         [Description("halfbody")] HalfBody,
-        [Description("fullbody-xr")] XRFullbody
+        [Description("fullbody-xr")] FullbodyXR
     }
 
     /// <summary>
