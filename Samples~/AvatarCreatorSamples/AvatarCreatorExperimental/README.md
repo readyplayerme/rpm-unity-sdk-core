@@ -165,6 +165,18 @@ This element is useful for creating Ready Player Me login UI.
 - OnLoginSuccess event that can be subscribed to in the inspector
 - OnLoginFailed event that can be subscribed to in the inspector and passes a string containing the error message
 
+## Logout Element
+
+This element is useful for creating Ready Player Me user logging out UI.
+
+**Prefab Location:**
+`Runtime/AvatarCreator//Prefabs/LogoutElement.prefab`.
+
+**Key features include:**
+- a button, that user can click to log them out
+- OnLogoutSuccess event that can be subscribed to in the inspector
+- OnLogoutFailed event that can be subscribed to in the inspector and passes a string containing the error message
+
 ## Photo Capture Element
 
 This element is useful for creating a photo capture UI and returning the image (selfie) of the user as a Texture2D so

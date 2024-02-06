@@ -12,8 +12,8 @@ namespace ReadyPlayerMe.AvatarCreator
     public class LogoutElement : MonoBehaviour
     {
         private const string TAG = nameof(LoginElement);
-        [SerializeField] private UnityEvent OnLogout;
-        [SerializeField] private UnityEvent<string> OnLogoutFail;
+        [SerializeField] private UnityEvent OnLogoutSuccess;
+        [SerializeField] private UnityEvent<string> OnLogoutFailed;
         public async void Logout()
         {
             AuthManager.Logout();
@@ -31,13 +31,13 @@ namespace ReadyPlayerMe.AvatarCreator
         private void LogOutFailed(string error)
         {
             SDKLogger.Log(TAG, $"Login failed with error: {error}");
-            OnLogoutFail?.Invoke(error);
+            OnLogoutFailed?.Invoke(error);
         }
 
         private void LogOutSucceeded()
         {
             SDKLogger.Log(TAG, "Log out successful");
-            OnLogout?.Invoke();
+            OnLogoutSuccess?.Invoke();
         }
     }
 }
