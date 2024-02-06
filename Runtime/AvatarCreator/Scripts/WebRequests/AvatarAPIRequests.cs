@@ -182,6 +182,24 @@ namespace ReadyPlayerMe.AvatarCreator
             return response.Data;
         }
 
+        public async Task<AvatarProperties> GetAvatarProperties(string avatarId)
+        {
+            var url = $"{RPM_AVATAR_V2_BASE_URL}/{avatarId}.json?";
+
+            var response = await authorizedRequest.SendRequest<Response>(
+                new RequestData
+                {
+                    Url = url,
+                    Method = HttpMethod.GET
+                },
+                ctx: ctx);
+
+            response.ThrowIfError();
+            var json = JObject.Parse(response.Text);
+            var data = json[DATA]!.ToString();
+            return JsonConvert.DeserializeObject<AvatarProperties>(data);
+        }
+
         public async Task<byte[]> UpdateAvatar(string avatarId, AvatarProperties avatarProperties, string parameters = null)
         {
             var url = $"{RPM_AVATAR_V2_BASE_URL}/{avatarId}?responseType=glb&{parameters}";
