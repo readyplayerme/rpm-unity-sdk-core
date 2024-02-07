@@ -145,7 +145,7 @@ The AvatarPreviewElement is prefab that can be used to load an avatar during the
 This element is useful for creating a gender selection UI. 
 
 **Prefab Location:**
-`Runtime/AvatarCreator//Prefabs/GenderSelectionElement.prefab`.
+`Runtime/AvatarCreator/Prefabs/GenderSelectionElement.prefab`.
 
 **Key features include:**
 - 2 buttons (male, female)
@@ -156,7 +156,7 @@ This element is useful for creating a gender selection UI.
 This element is useful for creating Ready Player Me login UI.
 
 **Prefab Location:**
-`Runtime/AvatarCreator//Prefabs/LoginElement.prefab`.
+`Runtime/AvatarCreator/Prefabs/LoginElement.prefab`.
 
 **Key features include:**
 - an input field for the user to enter their email address
@@ -185,6 +185,35 @@ that it can later be used to create a new avatar.
 **Prefab Location:**
 `Runtime/AvatarCreator/Prefabs/PhotoCaptureElement.prefab`.
 
+## Avatar List Element
+
+This element is useful for creating Ready Player Me UI for showing user avatars.
+
+**Prefab Location:**
+`Runtime/AvatarCreator/Prefabs/AvatarListElement.prefab`.
+
+**Key features include:**
+- A script, that will create prefabs with AvatarListItem script to the specific container (Example contains scrollview container)
+- Filter, that allows you to select, if you want to see all of the avatars or only avatars created under the application
+- OnAvatarSelect event that passes an avatar string, that was selected
+- OnAvatarModify event that passes an avatar string, that was selected for modification
+- OnAvatarDeletionStarted event that passes an avatar string, that was selected for deletion (On this element, we have also attached the DeleteAvatarElement, so when the user click on delete, then it shows avatarDeletionElement)
+- public function RemoveItem, that deletes item with specific avatar id, that was initialized
+
+## Avatar Deletion Element
+
+This element is useful for creating Ready Player Me UI for popup to delete specific user avatars.
+
+**Prefab Location:**
+`Runtime/AvatarCreator/Prefabs/DeleteAvatarElement.prefab`.
+
+**Key features include:**
+- a Button to confirm the deletion
+- a Button to cancel the deletion
+- OnCancel event that passes the avatar string
+- OnConfirm event that passes the avatar string after deleting the avatar
+- OnError event that passes the error string, when something went wrong with deletion
+
 ## Selfie To Avatar Element
 
 This a higher level element is useful for creating a UI that not only enables photo capture, it also uses the selected
@@ -210,4 +239,15 @@ The ColorButton prefab has the image set to white circle icon, it is white so th
 using the SetColor function on the SelectionButton script. 
 
 
+## AvatarListItem
 
+This element is used in the avatar list to show avatar in the AvatarListElement. 
+This element contains 4 fields:
+
+- Customize Avatar Button - Button
+- Select Avatar Button - Button
+- Delete Avatar Button - Button
+- Avatar Image - RawImage
+
+This prefab is initialized in the AvatarListElement and it listens to the onclick events for the buttons above.
+This is fully customizable. For example if you don't need deletion functionality, then you can just set the field value to null and the button click events are not registered for listening and AvatarListElement doesn't send out OnAvatarDeletionStared events.

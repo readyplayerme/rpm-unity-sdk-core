@@ -134,7 +134,7 @@ GameObject:
   - component: {fileID: 457763424174805498}
   - component: {fileID: 3637599188725053185}
   m_Layer: 5
-  m_Name: AvatarListButton
+  m_Name: AvatarListItem
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

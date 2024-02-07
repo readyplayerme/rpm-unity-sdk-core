@@ -17,7 +17,8 @@ namespace ReadyPlayerMe.AvatarCreator
         private Button cancelButton;
 
         public UnityEvent<string> onCancel;
-        public UnityEvent<string> onDeletion;
+        public UnityEvent<string> onConfirm;
+        public UnityEvent<string> onError;
 
         private string avatarId;
         private AvatarAPIRequests avatarAPIRequests;
@@ -47,9 +48,17 @@ namespace ReadyPlayerMe.AvatarCreator
                 SDKLogger.LogWarning(TAG, "AvatarId is not set");
                 return;
             }
-            await avatarAPIRequests.DeleteAvatar(avatarId);
-            onDeletion?.Invoke(avatarId);
-            avatarId = null;
+            try
+            {
+                await avatarAPIRequests.DeleteAvatar(avatarId);
+                onConfirm?.Invoke(avatarId);
+                avatarId = null;
+            }
+            catch (Exception e)
+            {
+                onError?.Invoke(e.Message);
+            }
+
         }
     }
 }
