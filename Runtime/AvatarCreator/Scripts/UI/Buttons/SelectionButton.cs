@@ -28,7 +28,6 @@ namespace ReadyPlayerMe.AvatarCreator
         /// Sets the icon on the rawImage component
         /// </summary>
         /// <param name="texture">The texture to be assigned to the RawImage component</param>
-        /// <param name="keepAspectRatio">If true the icon will resize to match the texture's aspect ratio</param>
         public void SetIcon(Texture texture)
         {
             if (rawImageRectTransform == null)
