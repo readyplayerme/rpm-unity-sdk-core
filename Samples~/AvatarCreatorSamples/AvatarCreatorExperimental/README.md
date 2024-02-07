@@ -198,6 +198,7 @@ This element is useful for creating Ready Player Me UI for showing user avatars.
 - OnAvatarSelect event that passes an avatar string, that was selected
 - OnAvatarModify event that passes an avatar string, that was selected for modification
 - OnAvatarDeletionStarted event that passes an avatar string, that was selected for deletion (On this element, we have also attached the DeleteAvatarElement, so when the user click on delete, then it shows avatarDeletionElement)
+- onAvatarsLoaded event which passes an array of avatarIds, that were loaded
 - public function RemoveItem, that deletes item with specific avatar id, that was initialized
 
 ## Avatar Deletion Element
