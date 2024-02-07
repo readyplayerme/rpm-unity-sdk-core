@@ -2,7 +2,6 @@
 using ReadyPlayerMe.Core;
 using UnityEngine;
 using UnityEngine.Events;
-using UnityEngine.Serialization;
 using UnityEngine.UI;
 
 namespace ReadyPlayerMe.AvatarCreator
@@ -26,16 +25,16 @@ namespace ReadyPlayerMe.AvatarCreator
         private void Awake()
         {
             confirmButton.onClick.AddListener(DeleteAvatar);
-            cancelButton.onClick.AddListener(CancelDeletion);
+            cancelButton.onClick.AddListener(Cancel);
             avatarAPIRequests = new AvatarAPIRequests();
         }
 
-        public void SetupDeletion(string avatarId)
+        public void SetAvatarId(string avatarId)
         {
             this.avatarId = avatarId;
         }
 
-        private void CancelDeletion()
+        private void Cancel()
         {
             avatarId = null;
             onCancel?.Invoke(this.avatarId);

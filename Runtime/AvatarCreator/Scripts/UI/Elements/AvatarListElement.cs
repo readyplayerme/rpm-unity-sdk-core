@@ -1,12 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using ReadyPlayerMe.Core;
 using UnityEngine;
 using UnityEngine.Events;
-using UnityEngine.Serialization;
-using UnityEngine.UIElements;
-using Button = UnityEngine.UI.Button;
 
 namespace ReadyPlayerMe.AvatarCreator
 {
@@ -21,16 +17,17 @@ namespace ReadyPlayerMe.AvatarCreator
         private const string TAG = nameof(AvatarListElement);
 
         [SerializeField] private Transform avatarsContainer;
-        [FormerlySerializedAs("avatarListButton")]
         [SerializeField] private AvatarListItem avatarListItem;
         [SerializeField] private AvatarListFilter avatarListFilter;
+
         public UnityEvent<string> onAvatarSelect;
         public UnityEvent<string> onAvatarModify;
         public UnityEvent<string> onAvatarDeletionStarted;
+        public UnityEvent<IEnumerable<string>> onAvatarsLoaded;
 
         private AvatarAPIRequests avatarAPIRequests;
 
-        private readonly Dictionary<string, AvatarListItem> avatarListItems = new Dictionary<string, AvatarListItem>();
+        private readonly Dictionary<string, AvatarListItem> partnerByAvatarId = new Dictionary<string, AvatarListItem>();
 
         public async void LoadAndCreateUserAvatars()
         {
@@ -58,13 +55,13 @@ namespace ReadyPlayerMe.AvatarCreator
 
         public void RemoveItem(string avatarId)
         {
-            if (!avatarListItems.ContainsKey(avatarId))
+            if (!partnerByAvatarId.ContainsKey(avatarId))
             {
                 return;
             }
 
-            Destroy(avatarListItems[avatarId].gameObject);
-            avatarListItems.Remove(avatarId);
+            Destroy(partnerByAvatarId[avatarId].gameObject);
+            partnerByAvatarId.Remove(avatarId);
         }
 
         private void CreateButtons(IEnumerable<string> avatars)
@@ -74,19 +71,19 @@ namespace ReadyPlayerMe.AvatarCreator
             {
                 CreateButton(avatarId);
             }
-
+            onAvatarsLoaded?.Invoke(avatars);
         }
 
         private void ClearButtons()
         {
-            if (avatarListItems.Count > 0)
+            if (partnerByAvatarId.Count > 0)
             {
-                foreach (var avatarListItem in avatarListItems)
+                foreach (var avatarListItem in partnerByAvatarId)
                 {
                     Destroy(avatarListItem.Value.gameObject);
                 }
             }
-            avatarListItems.Clear();
+            partnerByAvatarId.Clear();
         }
 
         private void CreateButton(string avatarId)
@@ -94,7 +91,7 @@ namespace ReadyPlayerMe.AvatarCreator
             var avatarListElement = Instantiate(avatarListItem, avatarsContainer).GetComponent<AvatarListItem>();
             avatarListElement.AddListener(() => OnAvatarModified(avatarId), () => OnAvatarSelected(avatarId), () => onAvatarDeletionStarted.Invoke(avatarId));
             avatarListElement.SetIcon(avatarId);
-            avatarListItems.Add(avatarId, avatarListElement);
+            partnerByAvatarId.Add(avatarId, avatarListElement);
         }
 
         private void OnAvatarModified(string avatarId)
