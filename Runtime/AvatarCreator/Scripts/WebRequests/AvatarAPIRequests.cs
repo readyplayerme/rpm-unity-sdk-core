@@ -70,18 +70,10 @@ namespace ReadyPlayerMe.AvatarCreator
 
         public async Task<AvatarProperties> CreateFromTemplateAvatar(string templateId, string partner, BodyType bodyType)
         {
-            var body = bodyType switch
-            {
-                BodyType.FullBody => FULL_BODY,
-                BodyType.FullbodyXR => FULL_BODY_XR,
-                BodyType.HalfBody => HALF_BODY,
-                _ => throw new ArgumentOutOfRangeException(nameof(bodyType), bodyType, null)
-            };
-
             var payloadData = new Dictionary<string, string>
             {
                 { nameof(partner), partner },
-                { nameof(bodyType), body }
+                { nameof(bodyType), GetBodyTypeValue(bodyType) }
             };
 
             var payload = AuthDataConverter.CreatePayload(payloadData);
@@ -101,6 +93,19 @@ namespace ReadyPlayerMe.AvatarCreator
             var json = JObject.Parse(response.Text);
             var data = json[DATA]!.ToString();
             return JsonConvert.DeserializeObject<AvatarProperties>(data);
+        }
+
+        private static string GetBodyTypeValue(BodyType bodyType)
+        {
+
+            var body = bodyType switch
+            {
+                BodyType.FullBody => FULL_BODY,
+                BodyType.FullbodyXR => FULL_BODY_XR,
+                BodyType.HalfBody => HALF_BODY,
+                _ => throw new ArgumentOutOfRangeException(nameof(bodyType), bodyType, null)
+            };
+            return body;
         }
 
         public async Task<AssetColor[]> GetAvatarColors(string avatarId, AssetType assetType = AssetType.None)
