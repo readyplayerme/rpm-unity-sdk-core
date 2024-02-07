@@ -65,7 +65,7 @@ namespace ReadyPlayerMe.Samples.AvatarCreatorWizard
 
             avatarManager = new AvatarManager(
                 inCreatorConfig,
-                ctxSource.Token, 
+                ctxSource.Token,
                 AvatarCreatorData.AvatarProperties.Gender);
             avatarManager.OnError += OnErrorCallback;
 
