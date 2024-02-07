@@ -14,9 +14,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   AvatarProperties:
     Id: 
-    Partner: bernhardfercher-jyjfhe
-    Gender: 1
-    BodyType: 3
+    Partner: 
+    Gender: 0
+    BodyType: 1
     Base64Image: 
-    isDraft: 1
+    isDraft: 0
   IsExistingAvatar: 0
