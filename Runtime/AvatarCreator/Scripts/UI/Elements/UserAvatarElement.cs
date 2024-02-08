@@ -5,7 +5,7 @@ using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.UI;
 
-public class AvatarListItem : MonoBehaviour
+public class UserAvatarElement : MonoBehaviour
 {
     [SerializeField]
     private AvatarElementButton[] buttonActions;

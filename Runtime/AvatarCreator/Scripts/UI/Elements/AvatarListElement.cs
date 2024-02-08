@@ -3,6 +3,7 @@ using System.Linq;
 using ReadyPlayerMe.Core;
 using UnityEngine;
 using UnityEngine.Events;
+using UnityEngine.Serialization;
 
 namespace ReadyPlayerMe.AvatarCreator
 {
@@ -17,7 +18,7 @@ namespace ReadyPlayerMe.AvatarCreator
         private const string TAG = nameof(AvatarListElement);
 
         [SerializeField] private Transform avatarsContainer;
-        [SerializeField] private AvatarListItem avatarListItem;
+        [SerializeField] private UserAvatarElement userAvatarElement;
         [SerializeField] private AvatarListFilter avatarListFilter;
 
         public UnityEvent<string> onAvatarSelect;
@@ -27,7 +28,7 @@ namespace ReadyPlayerMe.AvatarCreator
 
         private AvatarAPIRequests avatarAPIRequests;
 
-        private readonly Dictionary<string, AvatarListItem> partnerByAvatarId = new Dictionary<string, AvatarListItem>();
+        private readonly Dictionary<string, UserAvatarElement> partnerByAvatarId = new Dictionary<string, UserAvatarElement>();
 
         public async void LoadAndCreateUserAvatars()
         {
@@ -88,11 +89,11 @@ namespace ReadyPlayerMe.AvatarCreator
 
         private void CreateButton(string avatarId)
         {
-            var avatarListElement = Instantiate(avatarListItem, avatarsContainer).GetComponent<AvatarListItem>();
+            var avatarListElement = Instantiate(userAvatarElement, avatarsContainer).GetComponent<UserAvatarElement>();
             avatarListElement.SetupButton(avatarId,
-                new AvatarListItem.AvatarListItemAction { actionToPerform = () => OnAvatarModified(avatarId), actionType = AvatarListItem.ButtonAction.Customize },
-                new AvatarListItem.AvatarListItemAction { actionToPerform = () => OnAvatarSelected(avatarId), actionType = AvatarListItem.ButtonAction.Select },
-                new AvatarListItem.AvatarListItemAction { actionToPerform = () => onAvatarDeletionStarted?.Invoke(avatarId), actionType = AvatarListItem.ButtonAction.Delete });
+                new UserAvatarElement.AvatarListItemAction { actionToPerform = () => OnAvatarModified(avatarId), actionType = UserAvatarElement.ButtonAction.Customize },
+                new UserAvatarElement.AvatarListItemAction { actionToPerform = () => OnAvatarSelected(avatarId), actionType = UserAvatarElement.ButtonAction.Select },
+                new UserAvatarElement.AvatarListItemAction { actionToPerform = () => onAvatarDeletionStarted?.Invoke(avatarId), actionType = UserAvatarElement.ButtonAction.Delete });
             partnerByAvatarId.Add(avatarId, avatarListElement);
         }
 
