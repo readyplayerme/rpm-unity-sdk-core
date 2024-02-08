@@ -89,8 +89,10 @@ namespace ReadyPlayerMe.AvatarCreator
         private void CreateButton(string avatarId)
         {
             var avatarListElement = Instantiate(avatarListItem, avatarsContainer).GetComponent<AvatarListItem>();
-            avatarListElement.AddListener(() => OnAvatarModified(avatarId), () => OnAvatarSelected(avatarId), () => onAvatarDeletionStarted.Invoke(avatarId));
-            avatarListElement.SetIcon(avatarId);
+            avatarListElement.SetupButton(avatarId,
+                new AvatarListItem.AvatarListItemAction { actionToPerform = () => OnAvatarModified(avatarId), actionType = AvatarListItem.ButtonAction.Customize },
+                new AvatarListItem.AvatarListItemAction { actionToPerform = () => OnAvatarSelected(avatarId), actionType = AvatarListItem.ButtonAction.Select },
+                new AvatarListItem.AvatarListItemAction { actionToPerform = () => onAvatarDeletionStarted?.Invoke(avatarId), actionType = AvatarListItem.ButtonAction.Delete });
             partnerByAvatarId.Add(avatarId, avatarListElement);
         }
 

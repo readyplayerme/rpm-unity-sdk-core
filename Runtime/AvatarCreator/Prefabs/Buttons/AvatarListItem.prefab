@@ -213,9 +213,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 29101a69b0c2ab64fa39fc7fad726ef7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  customizeAvatarButton: {fileID: 8929250483784900500}
-  selectAvatarButton: {fileID: 5298822311902294428}
-  deleteAvatarButton: {fileID: 5498293966669708334}
+  buttonActions:
+  - button: {fileID: 5498293966669708334}
+    actionType: 0
+  - button: {fileID: 5298822311902294428}
+    actionType: 1
+  - button: {fileID: 8929250483784900500}
+    actionType: 2
   avatarImage: {fileID: 1345863437468324835}
   onImageLoaded:
     m_PersistentCalls:

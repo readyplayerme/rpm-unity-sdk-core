@@ -1,4 +1,5 @@
 using System;
+using System.Linq;
 using ReadyPlayerMe.AvatarCreator;
 using UnityEngine;
 using UnityEngine.Events;
@@ -6,42 +7,35 @@ using UnityEngine.UI;
 
 public class AvatarListItem : MonoBehaviour
 {
-    [SerializeField] private Button customizeAvatarButton;
-    [SerializeField] private Button selectAvatarButton;
-    [SerializeField] private Button deleteAvatarButton;
+    [SerializeField]
+    private AvatarElementButton[] buttonActions;
     public RawImage avatarImage;
     public UnityEvent onImageLoaded;
 
     /// <summary>
     /// Adds the listeners to the button's onClick event.
     /// </summary>
-    /// <param name="customizeAvatar">A function to run when the customize button is clicked</param>
-    /// <param name="selectAvatar">A function to run when the select button is clicked</param>
-    /// <param name="deleteAvatar">A function to run when the delete button is clicked</param>
-    public void AddListener(Action customizeAvatar, Action selectAvatar, Action deleteAvatar)
+    /// <param name="avatarId">An avatar Id. This is needed to download the avatar image</param>
+    /// <param name="actions">An operator, that has a list of AvatarListItem actions, that can be listened</param>
+    public void SetupButton(string avatarId, params AvatarListItemAction[] actions)
     {
-        if (customizeAvatarButton != null)
+        foreach (AvatarListItemAction avatarElementAction in actions)
         {
-            customizeAvatarButton.onClick.AddListener(customizeAvatar.Invoke);
+            if (buttonActions.Any((buttonAction) => buttonAction.actionType == avatarElementAction.actionType))
+            {
+                var button = buttonActions.First((button => button.actionType == avatarElementAction.actionType)).button;
+                button.onClick.AddListener(avatarElementAction.actionToPerform.Invoke);
+            }
         }
 
-        if (selectAvatarButton != null)
-        {
-            selectAvatarButton.onClick.AddListener(selectAvatar.Invoke);
-        }
-
-        if (deleteAvatarButton != null)
-        {
-            deleteAvatarButton.onClick.AddListener(deleteAvatar.Invoke);
-        }
+        SetIcon(avatarId);
     }
 
     /// <summary>
     /// Sets the icon of the avatar component
     /// </summary>
-    /// <param name="texture">The texture to be assigned to the RawImage component</param>
-    /// <param name="sizeToParent">If true the icon will resize itself to fit inside the parent RectTransform</param>
-    public async void SetIcon(string avatarId)
+    /// <param name="avatarId">ID of the avatar</param>
+    private async void SetIcon(string avatarId)
     {
         if (avatarImage == null)
         {
@@ -55,5 +49,23 @@ public class AvatarListItem : MonoBehaviour
         avatarImage.texture = texture;
         avatarRectTransform.sizeDelta = previousSize;
         onImageLoaded?.Invoke();
+    }
+
+    public enum ButtonAction
+    {
+        Delete,
+        Select,
+        Customize
+    };
+    [Serializable]
+    public struct AvatarElementButton
+    {
+        public Button button;
+        public ButtonAction actionType;
+    }
+    public struct AvatarListItemAction
+    {
+        public ButtonAction actionType;
+        public Action actionToPerform;
     }
 }
