@@ -162,6 +162,7 @@ This element is useful for creating Ready Player Me login UI.
 - an input field for the user to enter their email address
 - an input field for the user to enter in their 1 time login code
 - functionality to automatically send a login code to the user after they enter their email address
+- functionality to merge user session to their Ready Player Me account
 - OnLoginSuccess event that can be subscribed to in the inspector
 - OnLoginFailed event that can be subscribed to in the inspector and passes a string containing the error message
 
