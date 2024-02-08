@@ -1,47 +1,31 @@
-﻿using UnityEngine;
+﻿using System.Collections.Generic;
+using UnityEngine;
 
 namespace ReadyPlayerMe.Core
 {
     /// <summary>
-    /// This static class contains useful helper functions used in the <see cref="ReadyPlayerMe" /> API.
+    /// This static class contains useful helper functions for setting up Animators on Ready Player Me Avatars.
     /// </summary>
     public static class AvatarAnimationHelper
     {
         private const string TAG = nameof(AvatarProcessor);
 
-        private const string ANIMATOR_CONTROLLER_NAME = "Animation/Avatar Animator";
         private const string MASCULINE_ANIMATION_AVATAR_NAME = "AnimationAvatars/Masculine";
         private const string FEMININE_ANIMATION_AVATAR_NAME = "AnimationAvatars/Feminine";
         private const string XR_MASCULINE_ANIMATION_AVATAR_NAME = "AnimationAvatars/Masculine_XR";
         private const string XR_FEMININE_ANIMATION_AVATAR_NAME = "AnimationAvatars/Feminine_XR";
 
-        private static RuntimeAnimatorController animatorController;
+        private static readonly Dictionary<string, Avatar> AnimationAvatarCache = new Dictionary<string, Avatar>();
 
-        /// <summary>
-        /// Loads and sets the <see cref="RuntimeAnimatorController" /> property of the <c>GameObjects</c>'s
-        /// <see cref="Animator" /> component.
-        /// </summary>
-        /// <param name="bodyType">
-        /// The avatar body type. E.g. <see cref="BodyType.FullBody" /> or <see cref="BodyType.HalfBody" />
-        /// </param>
-        /// <param name="avatar"></param>
-        public static void SetupAnimator(BodyType bodyType, GameObject avatar)
+        public static void SetupAnimator(AvatarMetadata avatarMetadata, GameObject avatar)
         {
-            if (bodyType != BodyType.FullBody || avatar == null)
-            {
-                return;
-            }
+            var animator = avatar.GetComponent<Animator>() ?? avatar.AddComponent<Animator>();
+            SetupAnimator(avatarMetadata, animator);
+        }
 
-            if (animatorController == null)
-            {
-                animatorController = Resources.Load<RuntimeAnimatorController>(ANIMATOR_CONTROLLER_NAME);
-            }
-
-            var animator = avatar.GetComponent<Animator>();
-            if (animator != null)
-            {
-                animator.runtimeAnimatorController = animatorController;
-            }
+        public static void SetupAnimator(AvatarMetadata avatarMetadata, Animator animator)
+        {
+            animator.avatar = GetAnimationAvatar(avatarMetadata.OutfitGender, avatarMetadata.BodyType);
         }
 
         public static Avatar GetAnimationAvatar(OutfitGender outfitGender, BodyType bodyType)
@@ -49,23 +33,25 @@ namespace ReadyPlayerMe.Core
             var path = GetAvatarPath(outfitGender, bodyType);
             if (path == null)
             {
-                SDKLogger.LogWarning(TAG, $"Avatar path for body type {bodyType} and gender {outfitGender} not found.");
                 return null;
             }
 
-            var model = Resources.Load<GameObject>(path);
-            if (model == null)
+            if (!AnimationAvatarCache.TryGetValue(path, out var avatar))
             {
-                SDKLogger.LogWarning(TAG, $"Failed to load avatar model from path: {path}");
-                return null;
+                var model = Resources.Load<GameObject>(path);
+                if (model == null)
+                {
+                    return null;
+                }
+
+                if (model.TryGetComponent(out Animator animator))
+                {
+                    avatar = animator.avatar;
+                    AnimationAvatarCache[path] = avatar;
+                }
             }
 
-            if (model.TryGetComponent<Animator>(out Animator animator))
-            {
-                return animator.avatar;
-            }
-            SDKLogger.LogWarning(TAG, $"Animator component not found on model loaded from path: {path}");
-            return null;
+            return avatar;
         }
 
         private static string GetAvatarPath(OutfitGender outfitGender, BodyType bodyType)
@@ -73,7 +59,7 @@ namespace ReadyPlayerMe.Core
             return bodyType switch
             {
                 BodyType.FullBody => GetFullbodyAvatarPath(outfitGender),
-                BodyType.FullbodyXR => GetFullbodyXrAvatarPath(outfitGender),
+                BodyType.FullBodyXR => GetFullbodyXrAvatarPath(outfitGender),
                 _ => null
             };
         }

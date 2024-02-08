@@ -28,7 +28,7 @@ namespace ReadyPlayerMe.Core
                 {
                     FULL_BODY => BodyType.FullBody,
                     HALF_BODY => BodyType.HalfBody,
-                    FULL_BODY_XR => BodyType.FullbodyXR,
+                    FULL_BODY_XR => BodyType.FullBodyXR,
                     _ => BodyType.None
                 };
             }

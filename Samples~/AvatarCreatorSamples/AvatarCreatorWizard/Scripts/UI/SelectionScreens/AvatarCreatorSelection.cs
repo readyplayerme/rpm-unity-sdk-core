@@ -65,7 +65,7 @@ namespace ReadyPlayerMe.Samples.AvatarCreatorWizard
 
             avatarManager = new AvatarManager(
                 inCreatorConfig,
-                ctxSource.Token, 
+                ctxSource.Token,
                 AvatarCreatorData.AvatarProperties.Gender);
             avatarManager.OnError += OnErrorCallback;
 
@@ -301,7 +301,7 @@ namespace ReadyPlayerMe.Samples.AvatarCreatorWizard
 
         private void ProcessAvatar(GameObject avatar)
         {
-            if (AvatarCreatorData.AvatarProperties.BodyType == BodyType.FullBody)
+            if (AvatarCreatorData.AvatarProperties.BodyType != BodyType.None && AvatarCreatorData.AvatarProperties.BodyType != BodyType.HalfBody)
             {
                 avatar.GetComponent<Animator>().runtimeAnimatorController = animator;
             }

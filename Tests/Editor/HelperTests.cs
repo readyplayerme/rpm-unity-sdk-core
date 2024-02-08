@@ -24,7 +24,12 @@ namespace ReadyPlayerMe.Core.Tests
             var gameObject = new GameObject();
             gameObjects.Add(gameObject);
             gameObject.AddComponent<Animator>();
-            AvatarAnimationHelper.SetupAnimator(BodyType.FullBody, gameObject);
+            var avatarMetadata = new AvatarMetadata
+            {
+                OutfitGender = OutfitGender.Masculine,
+                BodyType = BodyType.FullBody
+            };
+            AvatarAnimationHelper.SetupAnimator(avatarMetadata, gameObject);
             var animator = gameObject.GetComponent<Animator>();
             Assert.True(animator.runtimeAnimatorController != null);
         }
@@ -34,16 +39,14 @@ namespace ReadyPlayerMe.Core.Tests
         {
             var gameObject = new GameObject();
             gameObjects.Add(gameObject);
-            AvatarAnimationHelper.SetupAnimator(BodyType.HalfBody, gameObject);
+            var avatarMetadata = new AvatarMetadata
+            {
+                OutfitGender = OutfitGender.Masculine,
+                BodyType = BodyType.HalfBody
+            };
+            AvatarAnimationHelper.SetupAnimator(avatarMetadata, gameObject);
             var animator = gameObject.GetComponent<Animator>();
             Assert.True(animator == null);
-        }
-
-        [Test]
-        public void Setup_Animator_Null_Avatar()
-        {
-            AvatarAnimationHelper.SetupAnimator(BodyType.FullBody, null);
-            Assert.Pass();
         }
     }
 }

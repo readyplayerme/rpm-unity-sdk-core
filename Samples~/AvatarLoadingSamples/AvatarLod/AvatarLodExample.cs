@@ -36,13 +36,13 @@ namespace ReadyPlayerMe.Samples.AvatarLoading
         ///  Loads all the avatar LOD's as per the lodConfigs length and configuration
         private async void LoadLodAvatar()
         {
-            var bodyType = BodyType.None;
+            var avatarMetadata = new AvatarMetadata();
 
             foreach (var config in lodConfigs)
             {
                 var lodLevel = (int) config.Lod;
 
-                AvatarObjectLoader loader = new AvatarObjectLoader();
+                var loader = new AvatarObjectLoader();
                 loader.AvatarConfig = config;
                 loader.LoadAvatar(avatarUrl);
                 // use the OnCompleted event to setup the mesh renderers
@@ -50,7 +50,7 @@ namespace ReadyPlayerMe.Samples.AvatarLoading
                 {
                     if (mainAvatar == null)
                     {
-                        bodyType = args.Metadata.BodyType;
+                        avatarMetadata = args.Metadata;
                         mainAvatar = Instantiate(args.Avatar);
                         mainAvatar.name = args.Avatar.name + LOD_MESH_SUFFIX;
 
@@ -85,7 +85,7 @@ namespace ReadyPlayerMe.Samples.AvatarLoading
             }
 
             AddLodGroup();
-            AvatarAnimationHelper.SetupAnimator(bodyType, mainAvatar);
+            AvatarAnimationHelper.SetupAnimator(avatarMetadata, mainAvatar);
             if (lodExampleUI) lodExampleUI.Show();
         }
 

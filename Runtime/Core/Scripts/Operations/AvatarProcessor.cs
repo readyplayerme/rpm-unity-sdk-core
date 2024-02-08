@@ -76,10 +76,14 @@ namespace ReadyPlayerMe.Core
                     AddArmatureBone(avatar);
                 }
 
-                if (avatarMetadata.BodyType == BodyType.FullBody || avatarMetadata.BodyType == BodyType.FullbodyXR)
+                if (avatarMetadata.BodyType == BodyType.FullBody || avatarMetadata.BodyType == BodyType.FullBodyXR)
                 {
-                    var animationAvatar = AvatarAnimationHelper.GetAnimationAvatar(avatarMetadata.OutfitGender, avatarMetadata.BodyType);
-                    SetupAnimator(avatar, animationAvatar);
+                    var animator = avatar.GetComponent<Animator>();
+                    if (animator == null)
+                    {
+                        animator = avatar.AddComponent<Animator>();
+                    }
+                    AvatarAnimationHelper.SetupAnimator(avatarMetadata, animator);
                 }
 
                 RenameChildMeshes(avatar, avatarConfig);
@@ -93,12 +97,6 @@ namespace ReadyPlayerMe.Core
         }
 
         #region Setup Armature and Animations
-
-        // Animation avatars resource paths
-        private const string MASCULINE_ANIMATION_AVATAR_NAME = "AnimationAvatars/Masculine";
-        private const string FEMININE_ANIMATION_AVATAR_NAME = "AnimationAvatars/Feminine";
-        private const string XR_MASCULINE_ANIMATION_AVATAR_NAME = "AnimationAvatars/Masculine_XR";
-        private const string XR_FEMININE_ANIMATION_AVATAR_NAME = "AnimationAvatars/Feminine_XR";
 
         // Bone names
         private const string BONE_HIPS = "Hips";
@@ -135,19 +133,6 @@ namespace ReadyPlayerMe.Core
             if (hips) hips.parent = armature.transform;
         }
 
-        /// <summary>
-        /// Adds an <see cref="Animator" /> component and sets the target <see cref="UnityEngine.Avatar" />.
-        /// </summary>
-        /// <param name="avatar">The <see cref="GameObject" /> to update.</param>
-        /// <param name="gender">Get gender of the Avatar.</param>
-        private void SetupAnimator(GameObject avatar, Avatar animationAvatar)
-        {
-            SDKLogger.Log(TAG, SETTING_UP_ANIMATOR);
-            var animator = avatar.AddComponent<Animator>();
-            animator.avatar = animationAvatar;
-            animator.applyRootMotion = true;
-        }
-
         #endregion
 
         #region Set Component Names
@@ -162,7 +147,6 @@ namespace ReadyPlayerMe.Core
         private const string SKINNED_MESH_PREFIX = "SkinnedMesh";
         private const string PROCESSING_AVATAR = "Processing avatar.";
         private const string ADDING_ARMATURE_BONE = "Adding armature bone";
-        private const string SETTING_UP_ANIMATOR = "Setting up animator";
 
         // Shader properties by TextureChannel
         private static readonly Dictionary<TextureChannel, string> ShaderProperties = new Dictionary<TextureChannel, string>

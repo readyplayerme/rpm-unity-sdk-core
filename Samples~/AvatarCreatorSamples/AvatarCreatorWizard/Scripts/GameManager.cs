@@ -31,7 +31,7 @@ namespace ReadyPlayerMe.Samples.AvatarCreatorWizard
             avatarObjectLoader.AvatarConfig = inGameConfig;
             avatarObjectLoader.OnCompleted += (sender, args) =>
             {
-                AvatarAnimationHelper.SetupAnimator(args.Metadata.BodyType, args.Avatar);
+                AvatarAnimationHelper.SetupAnimator(args.Metadata, args.Avatar);
                 DebugPanel.AddLogWithDuration("Created avatar loaded", Time.time - startTime);
             };
 
