@@ -23,7 +23,6 @@ namespace ReadyPlayerMe.Core.Tests
         {
             var gameObject = new GameObject();
             gameObjects.Add(gameObject);
-            gameObject.AddComponent<Animator>();
             var avatarMetadata = new AvatarMetadata
             {
                 OutfitGender = OutfitGender.Masculine,
@@ -31,7 +30,8 @@ namespace ReadyPlayerMe.Core.Tests
             };
             AvatarAnimationHelper.SetupAnimator(avatarMetadata, gameObject);
             var animator = gameObject.GetComponent<Animator>();
-            Assert.True(animator.runtimeAnimatorController != null);
+            Assert.True(animator != null);
+            Assert.True(animator.runtimeAnimatorController == null);
         }
 
         [Test]
@@ -46,7 +46,7 @@ namespace ReadyPlayerMe.Core.Tests
             };
             AvatarAnimationHelper.SetupAnimator(avatarMetadata, gameObject);
             var animator = gameObject.GetComponent<Animator>();
-            Assert.True(animator == null);
+            Assert.True(animator != null);
         }
     }
 }

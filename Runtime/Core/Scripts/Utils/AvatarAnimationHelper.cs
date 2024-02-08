@@ -19,7 +19,11 @@ namespace ReadyPlayerMe.Core
 
         public static void SetupAnimator(AvatarMetadata avatarMetadata, GameObject avatar)
         {
-            var animator = avatar.GetComponent<Animator>() ?? avatar.AddComponent<Animator>();
+            var animator = avatar.GetComponent<Animator>();
+            if (animator == null)
+            {
+                animator = avatar.AddComponent<Animator>();
+            }
             SetupAnimator(avatarMetadata, animator);
         }
 
