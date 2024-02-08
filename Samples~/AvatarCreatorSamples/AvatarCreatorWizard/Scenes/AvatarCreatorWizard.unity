@@ -10725,7 +10725,7 @@ PrefabInstance:
     - target: {fileID: 306229398391325336, guid: 10d97ac1344a09f4f9e12fec987d4f02,
         type: 3}
       propertyPath: m_RootOrder
-      value: 7
+      value: 6
       objectReference: {fileID: 0}
     - target: {fileID: 306229398391325336, guid: 10d97ac1344a09f4f9e12fec987d4f02,
         type: 3}
@@ -12891,6 +12891,8 @@ MonoBehaviour:
   startingState: 3
   avatarCreatorData: {fileID: 11400000, guid: b641399742edb414380c1d690dbd37df, type: 2}
   profileManager: {fileID: 1705717799}
+  defaultBodyType: 1
+  defaultGender: 0
 --- !u!1 &1734583953
 GameObject:
   m_ObjectHideFlags: 0
@@ -16450,7 +16452,7 @@ PrefabInstance:
     - target: {fileID: 57378948363611732, guid: 94e6adc5c795ff348bce129db0368b1f,
         type: 3}
       propertyPath: m_RootOrder
-      value: 6
+      value: 5
       objectReference: {fileID: 0}
     - target: {fileID: 57378948363611732, guid: 94e6adc5c795ff348bce129db0368b1f,
         type: 3}
@@ -17238,7 +17240,7 @@ PrefabInstance:
     - target: {fileID: 9218963702183330276, guid: c281e86ff452ab846a890afd9a0589e9,
         type: 3}
       propertyPath: m_RootOrder
-      value: 5
+      value: 4
       objectReference: {fileID: 0}
     - target: {fileID: 9218963702183330276, guid: c281e86ff452ab846a890afd9a0589e9,
         type: 3}
@@ -17616,7 +17618,7 @@ PrefabInstance:
     - target: {fileID: 3744792394692467585, guid: 4edd2656839805243b0ea7ebb80ab9b8,
         type: 3}
       propertyPath: m_RootOrder
-      value: 4
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 3744792394692467585, guid: 4edd2656839805243b0ea7ebb80ab9b8,
         type: 3}
@@ -18081,7 +18083,7 @@ PrefabInstance:
     - target: {fileID: 8469975100563333849, guid: 761fa8ab120b56d4c838893d263acbfa,
         type: 3}
       propertyPath: m_RootOrder
-      value: 3
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 8469975100563333849, guid: 761fa8ab120b56d4c838893d263acbfa,
         type: 3}

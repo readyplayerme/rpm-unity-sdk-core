@@ -19,7 +19,8 @@ namespace ReadyPlayerMe.Samples.AvatarCreatorWizard
         [SerializeField] private StateType startingState;
         [SerializeField] public AvatarCreatorData avatarCreatorData;
         [SerializeField] private ProfileManager profileManager;
-
+        [SerializeField] private BodyType defaultBodyType = BodyType.FullBody;
+        [SerializeField] private OutfitGender defaultGender = OutfitGender.None;
         public Action<string> AvatarSaved;
 
         private void Start()
@@ -34,8 +35,9 @@ namespace ReadyPlayerMe.Samples.AvatarCreatorWizard
                                "You can find your App ID and Subdomain in your Studio account at https://studio.readyplayer.me");
                 return;
             }
-
             avatarCreatorData.AvatarProperties.Partner = CoreSettingsHandler.CoreSettings.Subdomain;
+            avatarCreatorData.AvatarProperties.BodyType = defaultBodyType;
+            avatarCreatorData.AvatarProperties.Gender = defaultGender;
             Initialize();
 
             SetState(profileManager.LoadSession() ? StateType.AvatarSelection : startingState);
