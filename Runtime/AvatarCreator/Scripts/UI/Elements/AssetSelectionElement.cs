@@ -35,7 +35,7 @@ namespace ReadyPlayerMe.AvatarCreator
             var clearButton = Instantiate(clearSelectionButton, ButtonContainer);
             clearButton.transform.SetAsFirstSibling();
             var assetData = new PartnerAsset { Id = "0", AssetType = assetType };
-            clearButton.GetComponent<SelectionButton>().AddListener(() => onAssetSelected?.Invoke(assetData));
+            clearButton.GetComponent<SelectionButton>().AddListener(() => OnAssetSelected?.Invoke(assetData));
         }
 
         public void SetBodyType(BodyType bodyType)

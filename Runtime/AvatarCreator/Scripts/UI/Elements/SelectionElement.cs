@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using ReadyPlayerMe.Core;
 using UnityEngine;
 using UnityEngine.Events;
+using UnityEngine.Serialization;
 
 namespace ReadyPlayerMe.AvatarCreator
 {
@@ -20,7 +21,7 @@ namespace ReadyPlayerMe.AvatarCreator
         [SerializeField] private Transform buttonContainer;
         private GameObject selectedIcon;
 
-        public UnityEvent<IAssetData> onAssetSelected;
+        public UnityEvent<IAssetData> OnAssetSelected;
         private readonly Dictionary<string, SelectionButton> buttonElementById = new Dictionary<string, SelectionButton>();
 
         protected Transform ButtonContainer => buttonContainer;
@@ -51,7 +52,7 @@ namespace ReadyPlayerMe.AvatarCreator
             {
                 var button = CreateButton(assets[i].Id);
                 var asset = assets[i];
-                button.AddListener(() => onAssetSelected?.Invoke(asset));
+                button.AddListener(() => OnAssetSelected?.Invoke(asset));
                 onButtonCreated?.Invoke(button, asset);
             }
         }
@@ -78,7 +79,7 @@ namespace ReadyPlayerMe.AvatarCreator
                 clearButton.transform.SetAsFirstSibling();
             }
             var assetData = new PartnerAsset { Id = "0", AssetType = assetType };
-            clearButton.AddListener(() => onAssetSelected?.Invoke(assetData));
+            clearButton.AddListener(() => OnAssetSelected?.Invoke(assetData));
             clearButton.AddListener(() => SetButtonSelected(clearButton.transform));
         }
 

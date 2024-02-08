@@ -15,10 +15,10 @@ namespace ReadyPlayerMe.AvatarCreator
         [SerializeField] private Button continueWithoutSignupButton;
 
         // Event invoked when the "Send Email" button is clicked with the entered email address.
-        public UnityEvent<string> onSendEmail;
+        public UnityEvent<string> OnSendEmail;
 
         // Event invoked when the "Continue Without Signup" button is clicked.
-        public UnityEvent onContinueWithoutSignup;
+        public UnityEvent OnContinueWithoutSignup;
 
         private void Update()
         {
@@ -41,13 +41,13 @@ namespace ReadyPlayerMe.AvatarCreator
         private void OnSendEmailButton()
         {
             var email = emailField.text;
-            onSendEmail?.Invoke(email);
+            OnSendEmail?.Invoke(email);
             gameObject.SetActive(false);
         }
 
         private void OnContinueWithoutSignupButton()
         {
-            onContinueWithoutSignup?.Invoke();
+            OnContinueWithoutSignup?.Invoke();
             gameObject.SetActive(false);
         }
     }

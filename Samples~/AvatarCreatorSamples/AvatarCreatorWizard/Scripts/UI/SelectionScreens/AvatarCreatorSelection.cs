@@ -43,8 +43,8 @@ namespace ReadyPlayerMe.Samples.AvatarCreatorWizard
         public override void ActivateState()
         {
             saveButton.onClick.AddListener(OnSaveButton);
-            accountCreationElement.onSendEmail.AddListener(OnSendEmail);
-            accountCreationElement.onContinueWithoutSignup.AddListener(Save);
+            accountCreationElement.OnSendEmail.AddListener(OnSendEmail);
+            accountCreationElement.OnContinueWithoutSignup.AddListener(Save);
             categoryUICreator.OnCategorySelected += OnCategorySelected;
             Setup();
         }
@@ -52,8 +52,8 @@ namespace ReadyPlayerMe.Samples.AvatarCreatorWizard
         public override void DeactivateState()
         {
             saveButton.onClick.RemoveListener(OnSaveButton);
-            accountCreationElement.onSendEmail.RemoveListener(OnSendEmail);
-            accountCreationElement.onContinueWithoutSignup.RemoveListener(Save);
+            accountCreationElement.OnSendEmail.RemoveListener(OnSendEmail);
+            accountCreationElement.OnContinueWithoutSignup.RemoveListener(Save);
             categoryUICreator.OnCategorySelected -= OnCategorySelected;
             Cleanup();
         }
