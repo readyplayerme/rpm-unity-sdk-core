@@ -43,11 +43,7 @@ public class AvatarListItem : MonoBehaviour
         }
         var texture = await AvatarRenderHelper.GetPortrait(avatarId);
 
-        var avatarRectTransform = avatarImage.GetComponent<RectTransform>();
-
-        var previousSize = avatarRectTransform.sizeDelta;
         avatarImage.texture = texture;
-        avatarRectTransform.sizeDelta = previousSize;
         onImageLoaded?.Invoke();
     }
 
