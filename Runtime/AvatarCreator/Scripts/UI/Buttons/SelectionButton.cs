@@ -12,7 +12,7 @@ namespace ReadyPlayerMe.AvatarCreator
     {
         [SerializeField] private Button button;
         [SerializeField] private RawImage rawImage;
-
+        [SerializeField] private AspectRatioFitter aspectRatioFitter;
         private RectTransform rawImageRectTransform;
 
         /// <summary>
@@ -28,17 +28,17 @@ namespace ReadyPlayerMe.AvatarCreator
         /// Sets the icon on the rawImage component
         /// </summary>
         /// <param name="texture">The texture to be assigned to the RawImage component</param>
-        /// <param name="sizeToParent">If true the icon will resize itself to fit inside the parent RectTransform</param>
         public void SetIcon(Texture texture)
         {
             if (rawImageRectTransform == null)
             {
                 rawImageRectTransform = rawImage.GetComponent<RectTransform>();
             }
-
-            var previousSize = rawImageRectTransform.sizeDelta;
             rawImage.texture = texture;
-            rawImageRectTransform.sizeDelta = previousSize;
+            if (aspectRatioFitter != null)
+            {
+                aspectRatioFitter.aspectRatio = (float) texture.width / texture.height;
+            }
         }
 
         public void SetColor(string hexColor)
