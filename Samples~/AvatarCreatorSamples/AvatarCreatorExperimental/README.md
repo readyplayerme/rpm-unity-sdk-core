@@ -241,15 +241,13 @@ The ColorButton prefab has the image set to white circle icon, it is white so th
 using the SetColor function on the SelectionButton script. 
 
 
-## AvatarListItem
+## UserAvatarElement
 
 This element is used in the avatar list to show avatar in the AvatarListElement. 
-This element contains 4 fields:
+This element contains 2 fields:
 
-- Customize Avatar Button - Button
-- Select Avatar Button - Button
-- Delete Avatar Button - Button
+- Button Actions - Array of actions for the buttons, that the avatarListElement is listening to. Currently, it has Delete, Select, and Customize actions.
 - Avatar Image - RawImage
 
 This prefab is initialized in the AvatarListElement and it listens to the onclick events for the buttons above.
-This is fully customizable. For example if you don't need deletion functionality, then you can just set the field value to null and the button click events are not registered for listening and AvatarListElement doesn't send out OnAvatarDeletionStared events.
+This is fully customizable. For example, if you don't need the deletion functionality, then you don't add the delete button to the button actions list and the button click events are not registered for listening and AvatarListElement doesn't send out OnAvatarDeletionStared events.
