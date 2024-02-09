@@ -14,7 +14,6 @@ namespace ReadyPlayerMe.Core.WebView
         private const string CLEAR_CACHE_PARAM = "clearCache";
         private const string FRAME_API_PARAM = "frameApi";
         private const string SOURCE_PARAM = "source";
-        private const string QUICK_START_PARAM = "quickStart";
         private const string SELECT_BODY_PARAM = "selectBodyType";
         private const string LOGIN_TOKEN_PARAM = "token";
 
@@ -23,9 +22,6 @@ namespace ReadyPlayerMe.Core.WebView
 
         [Tooltip("Check if you want user to create a new avatar every visit. If not checked, avatar editor will continue from previously created avatar.")]
         public bool clearCache;
-
-        [Tooltip("Start with preset full-body avatars. Checking this option makes avatar editor ignore Gender and Body Type options.")]
-        public bool quickStart;
 
         [Tooltip("Skip gender selection and create avatars with selected gender. Ignored if Quick Start is checked.")]
         public Gender gender = Gender.None;
@@ -55,15 +51,8 @@ namespace ReadyPlayerMe.Core.WebView
                 builder.Append($"&{LOGIN_TOKEN_PARAM}={loginToken}");
             }
 
-            if (quickStart)
-            {
-                builder.Append($"&{QUICK_START_PARAM}");
-            }
-            else
-            {
-                builder.Append(gender != Gender.None ? $"&gender={gender.GetValue()}" : string.Empty);
-                builder.Append(bodyTypeOption == BodyTypeOption.Selectable ? $"&{SELECT_BODY_PARAM}" : $"&bodyType={bodyTypeOption.GetValue()}");
-            }
+            builder.Append(gender != Gender.None ? $"&gender={gender.GetValue()}" : string.Empty);
+            builder.Append(bodyTypeOption == BodyTypeOption.Selectable ? $"&{SELECT_BODY_PARAM}" : $"&bodyType={bodyTypeOption.GetValue()}");
 
             var url = builder.ToString();
             SDKLogger.AvatarLoaderLogger.Log(TAG, url);
