@@ -3,7 +3,6 @@ using System.Linq;
 using ReadyPlayerMe.Core;
 using UnityEngine;
 using UnityEngine.Events;
-using UnityEngine.Serialization;
 
 namespace ReadyPlayerMe.AvatarCreator
 {
@@ -21,10 +20,10 @@ namespace ReadyPlayerMe.AvatarCreator
         [SerializeField] private UserAvatarElement userAvatarElement;
         [SerializeField] private AvatarListFilter avatarListFilter;
 
-        public UnityEvent<string> onAvatarSelect;
-        public UnityEvent<string> onAvatarModify;
-        public UnityEvent<string> onAvatarDeletionStarted;
-        public UnityEvent<IEnumerable<string>> onAvatarsLoaded;
+        public UnityEvent<string> OnAvatarSelect;
+        public UnityEvent<string> OnAvatarModify;
+        public UnityEvent<string> OnAvatarDeletionStarted;
+        public UnityEvent<IEnumerable<string>> OnAvatarsLoaded;
 
         private AvatarAPIRequests avatarAPIRequests;
 
@@ -72,7 +71,7 @@ namespace ReadyPlayerMe.AvatarCreator
             {
                 CreateButton(avatarId);
             }
-            onAvatarsLoaded?.Invoke(avatars);
+            OnAvatarsLoaded?.Invoke(avatars);
         }
 
         private void ClearButtons()
@@ -90,23 +89,36 @@ namespace ReadyPlayerMe.AvatarCreator
         private void CreateButton(string avatarId)
         {
             var avatarListElement = Instantiate(userAvatarElement, avatarsContainer).GetComponent<UserAvatarElement>();
-            avatarListElement.SetupButton(avatarId,
-                new UserAvatarElement.AvatarListItemAction { actionToPerform = () => OnAvatarModified(avatarId), actionType = UserAvatarElement.ButtonAction.Customize },
-                new UserAvatarElement.AvatarListItemAction { actionToPerform = () => OnAvatarSelected(avatarId), actionType = UserAvatarElement.ButtonAction.Select },
-                new UserAvatarElement.AvatarListItemAction { actionToPerform = () => onAvatarDeletionStarted?.Invoke(avatarId), actionType = UserAvatarElement.ButtonAction.Delete });
+            avatarListElement.SetupButton(avatarId, OnAvatarElementButtonClicked);
             partnerByAvatarId.Add(avatarId, avatarListElement);
+        }
+
+        private void OnAvatarElementButtonClicked(UserAvatarElement.AvatarListItemAction action)
+        {
+            switch (action.ActionType)
+            {
+                case UserAvatarElement.ButtonAction.Customize:
+                    OnAvatarModified(action.AvatarId);
+                    break;
+                case UserAvatarElement.ButtonAction.Delete:
+                    OnAvatarDeletionStarted?.Invoke(action.AvatarId);
+                    break;
+                case UserAvatarElement.ButtonAction.Select:
+                    OnAvatarSelected(action.AvatarId);
+                    break;
+            }
         }
 
         private void OnAvatarModified(string avatarId)
         {
             SDKLogger.Log(TAG, $"Started modifying avatar with id {avatarId}");
-            onAvatarModify?.Invoke(avatarId);
+            OnAvatarModify?.Invoke(avatarId);
         }
 
         private void OnAvatarSelected(string avatarId)
         {
             SDKLogger.Log(TAG, $"Selected avatar with id {avatarId}");
-            onAvatarSelect?.Invoke(avatarId);
+            OnAvatarSelect?.Invoke(avatarId);
         }
     }
 }

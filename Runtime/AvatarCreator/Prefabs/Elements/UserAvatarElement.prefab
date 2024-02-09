@@ -220,8 +220,8 @@ MonoBehaviour:
     actionType: 1
   - button: {fileID: 8929250483784900500}
     actionType: 2
-  avatarImage: {fileID: 1345863437468324835}
-  onImageLoaded:
+  AvatarImage: {fileID: 1345863437468324835}
+  OnImageLoaded:
     m_PersistentCalls:
       m_Calls: []
 --- !u!1 &2037633585832117590

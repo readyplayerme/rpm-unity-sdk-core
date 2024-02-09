@@ -60,30 +60,18 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   avatarsContainer: {fileID: 5829083304718077512}
-  avatarListItem: {fileID: 3637599188725053185, guid: 7f0b810a030ec6548bf0a47f24da5060,
+  userAvatarElement: {fileID: 3637599188725053185, guid: 7f0b810a030ec6548bf0a47f24da5060,
     type: 3}
   avatarListFilter: 0
-  onAvatarSelect:
+  OnAvatarSelect:
     m_PersistentCalls:
       m_Calls: []
-  onAvatarModify:
+  OnAvatarModify:
     m_PersistentCalls:
       m_Calls: []
-  onAvatarDeletionStarted:
+  OnAvatarDeletionStarted:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 5790786412361595657}
-        m_TargetAssemblyTypeName: UnityEngine.GameObject, UnityEngine
-        m_MethodName: SetActive
-        m_Mode: 6
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 1
-        m_CallState: 2
       - m_Target: {fileID: 6971762966348902480}
         m_TargetAssemblyTypeName: ReadyPlayerMe.AvatarCreator.DeleteAvatarElement,
           ReadyPlayerMe.AvatarCreator
@@ -97,7 +85,19 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
-  onAvatarsLoaded:
+      - m_Target: {fileID: 5790786412361595657}
+        m_TargetAssemblyTypeName: UnityEngine.GameObject, UnityEngine
+        m_MethodName: SetActive
+        m_Mode: 6
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 1
+        m_CallState: 2
+  OnAvatarsLoaded:
     m_PersistentCalls:
       m_Calls: []
 --- !u!1 &3646727120633471726

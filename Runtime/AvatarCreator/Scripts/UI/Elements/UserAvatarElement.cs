@@ -1,5 +1,4 @@
 using System;
-using System.Linq;
 using ReadyPlayerMe.AvatarCreator;
 using UnityEngine;
 using UnityEngine.Events;
@@ -9,23 +8,23 @@ public class UserAvatarElement : MonoBehaviour
 {
     [SerializeField]
     private AvatarElementButton[] buttonActions;
-    public RawImage avatarImage;
-    public UnityEvent onImageLoaded;
+    public RawImage AvatarImage;
+    public UnityEvent OnImageLoaded;
 
     /// <summary>
     /// Adds the listeners to the button's onClick event.
     /// </summary>
     /// <param name="avatarId">An avatar Id. This is needed to download the avatar image</param>
-    /// <param name="actions">An operator, that has a list of AvatarListItem actions, that can be listened</param>
-    public void SetupButton(string avatarId, params AvatarListItemAction[] actions)
+    /// <param name="action">An operator, that has a list of AvatarListItemAction actions, that can be listened</param>
+    public void SetupButton(string avatarId, Action<AvatarListItemAction> action)
     {
-        foreach (AvatarListItemAction avatarElementAction in actions)
+        foreach (AvatarElementButton avatarElementAction in buttonActions)
         {
-            if (buttonActions.Any((buttonAction) => buttonAction.actionType == avatarElementAction.actionType))
+            avatarElementAction.button.onClick.AddListener(() => action?.Invoke(new AvatarListItemAction()
             {
-                var button = buttonActions.First((button => button.actionType == avatarElementAction.actionType)).button;
-                button.onClick.AddListener(avatarElementAction.actionToPerform.Invoke);
-            }
+                ActionType = avatarElementAction.actionType,
+                AvatarId = avatarId
+            }));
         }
 
         SetIcon(avatarId);
@@ -37,14 +36,14 @@ public class UserAvatarElement : MonoBehaviour
     /// <param name="avatarId">ID of the avatar</param>
     private async void SetIcon(string avatarId)
     {
-        if (avatarImage == null)
+        if (AvatarImage == null)
         {
             return;
         }
         var texture = await AvatarRenderHelper.GetPortrait(avatarId);
 
-        avatarImage.texture = texture;
-        onImageLoaded?.Invoke();
+        AvatarImage.texture = texture;
+        OnImageLoaded?.Invoke();
     }
 
     public enum ButtonAction
@@ -61,7 +60,7 @@ public class UserAvatarElement : MonoBehaviour
     }
     public struct AvatarListItemAction
     {
-        public ButtonAction actionType;
-        public Action actionToPerform;
+        public ButtonAction ActionType;
+        public string AvatarId;
     }
 }
