@@ -7,7 +7,6 @@ namespace ReadyPlayerMe.Samples.AvatarCreatorWizard
         None,
         LoginWithCodeFromEmail,
         AvatarSelection,
-        BodyTypeSelection,
         GenderSelection,
         SelfieSelection,
         CameraPhoto,
@@ -27,7 +26,7 @@ namespace ReadyPlayerMe.Samples.AvatarCreatorWizard
 
         public abstract void ActivateState();
         public abstract void DeactivateState();
-        
+
         public void Initialize(StateMachine stateMachine, AvatarCreatorData avatarCreatorData, LoadingManager loadingManager)
         {
             StateMachine = stateMachine;

@@ -11,7 +11,7 @@ namespace ReadyPlayerMe.Samples.AvatarCreatorWizard
     public class AvatarCreatorStateMachine : StateMachine
     {
         private const string TAG = nameof(AvatarCreatorStateMachine);
-        
+
         [SerializeField] private List<State> states;
         [SerializeField] private Button backButton;
         [SerializeField] private Button saveButton;
@@ -19,13 +19,14 @@ namespace ReadyPlayerMe.Samples.AvatarCreatorWizard
         [SerializeField] private StateType startingState;
         [SerializeField] public AvatarCreatorData avatarCreatorData;
         [SerializeField] private ProfileManager profileManager;
-
+        [SerializeField] private BodyType defaultBodyType = BodyType.FullBody;
+        [SerializeField] private OutfitGender defaultGender = OutfitGender.None;
         public Action<string> AvatarSaved;
 
         private void Start()
         {
             AnalyticsRuntimeLogger.EventLogger.LogAvatarCreatorSample(CoreSettingsHandler.CoreSettings.AppId);
-            
+
             if (string.IsNullOrEmpty(CoreSettingsHandler.CoreSettings.AppId))
             {
                 Debug.LogError("App ID is missing. " +
@@ -34,10 +35,11 @@ namespace ReadyPlayerMe.Samples.AvatarCreatorWizard
                                "You can find your App ID and Subdomain in your Studio account at https://studio.readyplayer.me");
                 return;
             }
-
             avatarCreatorData.AvatarProperties.Partner = CoreSettingsHandler.CoreSettings.Subdomain;
+            avatarCreatorData.AvatarProperties.BodyType = defaultBodyType;
+            avatarCreatorData.AvatarProperties.Gender = defaultGender;
             Initialize();
-            
+
             SetState(profileManager.LoadSession() ? StateType.AvatarSelection : startingState);
         }
 
@@ -58,7 +60,7 @@ namespace ReadyPlayerMe.Samples.AvatarCreatorWizard
             AuthManager.OnSessionRefreshed -= OnSessionRefreshed;
             backButton.onClick.RemoveListener(GoToPreviousState);
         }
-        
+
         private void OnSignedIn(UserSession userSession)
         {
             profileManager.SaveSession(userSession);
@@ -70,7 +72,7 @@ namespace ReadyPlayerMe.Samples.AvatarCreatorWizard
             SetState(startingState);
             ClearPreviousStates();
         }
-        
+
         private void OnSessionRefreshed(UserSession userSession)
         {
             profileManager.SaveSession(userSession);
@@ -99,7 +101,7 @@ namespace ReadyPlayerMe.Samples.AvatarCreatorWizard
 
         private bool CanShowBackButton(StateType current)
         {
-            return current == StateType.BodyTypeSelection || current == StateType.LoginWithCodeFromEmail || current == StateType.AvatarSelection;
+            return current == StateType.LoginWithCodeFromEmail || current == StateType.AvatarSelection;
         }
     }
 }

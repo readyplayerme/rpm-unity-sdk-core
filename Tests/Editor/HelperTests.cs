@@ -17,16 +17,21 @@ namespace ReadyPlayerMe.Core.Tests
             }
             gameObjects.Clear();
         }
-        
+
         [Test]
         public void Setup_Animator_Fullbody()
         {
             var gameObject = new GameObject();
             gameObjects.Add(gameObject);
-            gameObject.AddComponent<Animator>();
-            AvatarAnimatorHelper.SetupAnimator(BodyType.FullBody, gameObject);
+            var avatarMetadata = new AvatarMetadata
+            {
+                OutfitGender = OutfitGender.Masculine,
+                BodyType = BodyType.FullBody
+            };
+            AvatarAnimationHelper.SetupAnimator(avatarMetadata, gameObject);
             var animator = gameObject.GetComponent<Animator>();
-            Assert.True(animator.runtimeAnimatorController != null);
+            Assert.True(animator != null);
+            Assert.True(animator.runtimeAnimatorController == null);
         }
 
         [Test]
@@ -34,16 +39,14 @@ namespace ReadyPlayerMe.Core.Tests
         {
             var gameObject = new GameObject();
             gameObjects.Add(gameObject);
-            AvatarAnimatorHelper.SetupAnimator(BodyType.HalfBody, gameObject);
+            var avatarMetadata = new AvatarMetadata
+            {
+                OutfitGender = OutfitGender.Masculine,
+                BodyType = BodyType.HalfBody
+            };
+            AvatarAnimationHelper.SetupAnimator(avatarMetadata, gameObject);
             var animator = gameObject.GetComponent<Animator>();
-            Assert.True(animator == null);
-        }
-        
-        [Test]
-        public void Setup_Animator_Null_Avatar()
-        {
-            AvatarAnimatorHelper.SetupAnimator(BodyType.FullBody, null);
-            Assert.Pass();
+            Assert.True(animator != null);
         }
     }
 }

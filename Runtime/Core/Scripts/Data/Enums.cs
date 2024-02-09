@@ -10,7 +10,8 @@ namespace ReadyPlayerMe.Core
     {
         None,
         [Description("fullbody")] FullBody,
-        [Description("halfbody")] HalfBody
+        [Description("halfbody")] HalfBody,
+        [Description("fullbody-xr")] FullBodyXR
     }
 
     /// <summary>
@@ -99,7 +100,7 @@ namespace ReadyPlayerMe.Core
         AvatarRenderError,
         OperationCancelled
     }
-    
+
     public enum Expression
     {
         None,
