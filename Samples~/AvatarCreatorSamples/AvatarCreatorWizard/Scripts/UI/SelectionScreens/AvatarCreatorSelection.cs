@@ -22,7 +22,6 @@ namespace ReadyPlayerMe.Samples.AvatarCreatorWizard
         [SerializeField] private AvatarConfig inCreatorConfig;
         [SerializeField] private RuntimeAnimatorController animator;
         [SerializeField] private AccountCreationElement accountCreationElement;
-
         private PartnerAssetsManager partnerAssetManager;
         private AvatarManager avatarManager;
 
@@ -119,6 +118,11 @@ namespace ReadyPlayerMe.Samples.AvatarCreatorWizard
 
         private void OnErrorCallback(string error)
         {
+            if (error.Equals("Avatar draft not found"))
+            {
+                return;
+            }
+
             SDKLogger.Log(TAG, $"An error occured: {error}");
             avatarManager.OnError -= OnErrorCallback;
             partnerAssetManager.OnError -= OnErrorCallback;
@@ -283,9 +287,17 @@ namespace ReadyPlayerMe.Samples.AvatarCreatorWizard
                 Assets = new Dictionary<AssetType, object>()
             };
 
+
+
             payload.Assets.Add(category, assetId);
             lastRotation = currentAvatar.transform.rotation;
             LoadingManager.EnableLoading(UPDATING_YOUR_AVATAR_LOADING_TEXT, LoadingManager.LoadingType.Popup);
+
+            if (!AvatarCreatorData.AvatarProperties.isDraft)
+            {
+                await avatarManager.Delete(true);
+            }
+
             var avatar = await avatarManager.UpdateAsset(category, AvatarCreatorData.AvatarProperties.BodyType, assetId);
             if (avatar == null)
             {
