@@ -287,14 +287,17 @@ namespace ReadyPlayerMe.Samples.AvatarCreatorWizard
                 Assets = new Dictionary<AssetType, object>()
             };
 
+
+
+            payload.Assets.Add(category, assetId);
+            lastRotation = currentAvatar.transform.rotation;
+            LoadingManager.EnableLoading(UPDATING_YOUR_AVATAR_LOADING_TEXT, LoadingManager.LoadingType.Popup);
+
             if (!AvatarCreatorData.AvatarProperties.isDraft)
             {
                 await avatarManager.Delete(true);
             }
 
-            payload.Assets.Add(category, assetId);
-            lastRotation = currentAvatar.transform.rotation;
-            LoadingManager.EnableLoading(UPDATING_YOUR_AVATAR_LOADING_TEXT, LoadingManager.LoadingType.Popup);
             var avatar = await avatarManager.UpdateAsset(category, AvatarCreatorData.AvatarProperties.BodyType, assetId);
             if (avatar == null)
             {
