@@ -40,14 +40,9 @@ namespace ReadyPlayerMe.AvatarCreator
             AuthManager.SendEmailCode(emailField.text);
         }
 
-        public void MergeCurrentUserToRpmAccount()
+        public void MergeCurrentUserToRpmAccount(bool merge)
         {
-            mergeCurrentSession = true;
-        }
-
-        public void DontMergeCurrentUserToRpmAccount()
-        {
-            mergeCurrentSession = false;
+            mergeCurrentSession = merge;
         }
 
         /// <summary>
