@@ -88,14 +88,6 @@ namespace ReadyPlayerMe.Core.Tests
         }
 
         [Test]
-        public void Url_QuickStart_Change()
-        {
-            config.quickStart = true;
-            var res = config.BuildUrl();
-            Assert.AreEqual(URL_QUICK_START, res);
-        }
-
-        [Test]
         public void Url_With_Token()
         {
             var testConfig = new UrlConfig();
