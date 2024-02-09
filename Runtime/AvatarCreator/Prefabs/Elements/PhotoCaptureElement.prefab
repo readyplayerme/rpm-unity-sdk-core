@@ -106,11 +106,11 @@ RectTransform:
   m_Father: {fileID: 587931286270194032}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 0, y: -501}
-  m_SizeDelta: {x: -1039, y: -541}
-  m_Pivot: {x: 0.5, y: 1}
+  m_AnchorMin: {x: 0.5, y: 0}
+  m_AnchorMax: {x: 0.5, y: 0}
+  m_AnchoredPosition: {x: 0, y: 80}
+  m_SizeDelta: {x: 80, y: 80}
+  m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &587931286161632652
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -401,8 +401,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 0, y: -60}
-  m_SizeDelta: {x: -340, y: -240}
+  m_AnchoredPosition: {x: 0, y: -22.5541}
+  m_SizeDelta: {x: -99.4387, y: -202.5541}
   m_Pivot: {x: 0.5, y: 1}
 --- !u!114 &1402454468050823384
 MonoBehaviour:
@@ -531,11 +531,11 @@ RectTransform:
   m_Father: {fileID: 8697743729124379431}
   m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: -100, y: -517}
-  m_SizeDelta: {x: -979, y: -581}
-  m_Pivot: {x: 0.5, y: 1}
+  m_AnchorMin: {x: 0.5, y: 0}
+  m_AnchorMax: {x: 0.5, y: 0}
+  m_AnchoredPosition: {x: -140, y: 80}
+  m_SizeDelta: {x: 180, y: 50}
+  m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &8697743728154652216
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -664,11 +664,11 @@ RectTransform:
   m_Father: {fileID: 8697743729124379431}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 100, y: -517}
-  m_SizeDelta: {x: -979, y: -581}
-  m_Pivot: {x: 0.5, y: 1}
+  m_AnchorMin: {x: 0.5, y: 0}
+  m_AnchorMax: {x: 0.5, y: 0}
+  m_AnchoredPosition: {x: 140, y: 80}
+  m_SizeDelta: {x: 180, y: 50}
+  m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &8697743728157890453
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -998,7 +998,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 696f4cf6c3c6d434b8ab068afc2a8758, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  photoTextureTarget: {fileID: 0}
+  photoTextureTarget: {fileID: 8697743728774678111}
   OnPhotoConfirmed:
     m_PersistentCalls:
       m_Calls: []
@@ -1115,8 +1115,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 0, y: -60}
-  m_SizeDelta: {x: -340, y: -240}
+  m_AnchoredPosition: {x: 0, y: -22.5541}
+  m_SizeDelta: {x: -99.4387, y: -202.5541}
   m_Pivot: {x: 0.5, y: 1}
 --- !u!114 &8697743729874582676
 MonoBehaviour:
