@@ -14,7 +14,7 @@ namespace ReadyPlayerMe.AvatarCreator
         [SerializeField] private RawImage imageTextureTarget;
 
         [Header("Events")]
-        public UnityEvent<Texture2D> onImageConfirmed;
+        public UnityEvent<Texture2D> OnImageConfirmed;
 
         /// <summary>
         /// Sets the texture to be displayed in the element.
@@ -30,7 +30,7 @@ namespace ReadyPlayerMe.AvatarCreator
         /// </summary>
         public void ConfirmPhoto()
         {
-            onImageConfirmed?.Invoke((Texture2D) imageTextureTarget.texture);
+            OnImageConfirmed?.Invoke((Texture2D) imageTextureTarget.texture);
         }
     }
 }

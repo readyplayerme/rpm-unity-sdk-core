@@ -20,7 +20,7 @@ namespace ReadyPlayerMe.AvatarCreator
 
         [Space(5)]
         [Header("Events")]
-        public UnityEvent<GameObject, AvatarProperties> onAvatarCreated;
+        public UnityEvent<GameObject, AvatarProperties> OnAvatarCreated;
 
         /// <summary>
         /// Called when a photo is captured. Converts the photo to an avatar based on provided settings.
@@ -47,7 +47,7 @@ namespace ReadyPlayerMe.AvatarCreator
             var avatarManager = new AvatarManager(avatarConfig);
             var avatar = await avatarManager.CreateAvatar(avatarProperties);
 
-            onAvatarCreated?.Invoke(avatar.avatarGameObject, avatar.avatarProperties);
+            OnAvatarCreated?.Invoke(avatar.avatarGameObject, avatar.avatarProperties);
         }
     }
 }

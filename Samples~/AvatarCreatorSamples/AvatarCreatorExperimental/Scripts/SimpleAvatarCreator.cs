@@ -22,7 +22,7 @@ namespace ReadyPlayerMe.Samples.AvatarCreatorExperimental
         [SerializeField] private RuntimeAnimatorController animationController;
         [SerializeField] private GameObject loading;
 
-        private readonly BodyType bodyType = BodyType.FullBody;
+        [SerializeField] private BodyType bodyType = BodyType.FullBody;
         private readonly OutfitGender gender = OutfitGender.Masculine;
 
         private AvatarManager avatarManager;
@@ -48,12 +48,12 @@ namespace ReadyPlayerMe.Samples.AvatarCreatorExperimental
             // Subscribes to asset selection events when this component is enabled.
             foreach (var element in assetSelectionElements)
             {
-                element.onAssetSelected.AddListener(OnAssetSelection);
+                element.OnAssetSelected.AddListener(OnAssetSelection);
             }
 
             foreach (var element in colorSelectionElements)
             {
-                element.onAssetSelected.AddListener(OnAssetSelection);
+                element.OnAssetSelected.AddListener(OnAssetSelection);
             }
         }
 
@@ -62,12 +62,12 @@ namespace ReadyPlayerMe.Samples.AvatarCreatorExperimental
             // Unsubscribes from asset selection events when this component is disabled.
             foreach (var element in assetSelectionElements)
             {
-                element.onAssetSelected.RemoveListener(OnAssetSelection);
+                element.OnAssetSelected.RemoveListener(OnAssetSelection);
             }
 
             foreach (var element in colorSelectionElements)
             {
-                element.onAssetSelected.RemoveListener(OnAssetSelection);
+                element.OnAssetSelected.RemoveListener(OnAssetSelection);
             }
         }
 

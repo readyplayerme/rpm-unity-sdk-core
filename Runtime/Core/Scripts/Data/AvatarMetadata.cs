@@ -10,6 +10,7 @@ namespace ReadyPlayerMe.Core
     [Serializable]
     public struct AvatarMetadata
     {
+        [JsonConverter(typeof(BodyTypeConverter))]
         public BodyType BodyType;
         public OutfitGender OutfitGender;
         public DateTime UpdatedAt;
@@ -27,13 +28,9 @@ namespace ReadyPlayerMe.Core
         /// <returns>The loaded <see cref="AvatarMetadata" />.</returns>
         public static AvatarMetadata LoadFromFile(string path)
         {
-            if (File.Exists(path))
-            {
-                var json = File.ReadAllText(path);
-                return JsonConvert.DeserializeObject<AvatarMetadata>(json);
-            }
-
-            return new AvatarMetadata();
+            if (!File.Exists(path)) return new AvatarMetadata();
+            var json = File.ReadAllText(path);
+            return JsonConvert.DeserializeObject<AvatarMetadata>(json);
         }
     }
 }

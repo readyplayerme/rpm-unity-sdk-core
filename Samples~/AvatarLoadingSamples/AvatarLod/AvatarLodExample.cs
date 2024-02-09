@@ -12,12 +12,12 @@ namespace ReadyPlayerMe.Samples.AvatarLoading
     {
         private const string LOD_MESH_SUFFIX = "_LOD";
         private const float CULL_TRANSITION = 0.05f;
-        
-        [SerializeField] 
+
+        [SerializeField]
         private AvatarLodExampleUI lodExampleUI;
-        [SerializeField][Tooltip("Set this to the URL or shortcode of the Ready Player Me Avatar you want to load.")]
+        [SerializeField] [Tooltip("Set this to the URL or shortcode of the Ready Player Me Avatar you want to load.")]
         private string avatarUrl;
-        [SerializeField] 
+        [SerializeField]
         private AvatarConfig[] lodConfigs;
 
         private LODGroup lodGroup;
@@ -32,17 +32,17 @@ namespace ReadyPlayerMe.Samples.AvatarLoading
             if (lodExampleUI) lodExampleUI.Init();
             LoadLodAvatar();
         }
-        
+
         ///  Loads all the avatar LOD's as per the lodConfigs length and configuration
         private async void LoadLodAvatar()
         {
-            var bodyType = BodyType.None;
-            
+            var avatarMetadata = new AvatarMetadata();
+
             foreach (var config in lodConfigs)
             {
                 var lodLevel = (int) config.Lod;
 
-                AvatarObjectLoader loader = new AvatarObjectLoader();
+                var loader = new AvatarObjectLoader();
                 loader.AvatarConfig = config;
                 loader.LoadAvatar(avatarUrl);
                 // use the OnCompleted event to setup the mesh renderers
@@ -50,7 +50,7 @@ namespace ReadyPlayerMe.Samples.AvatarLoading
                 {
                     if (mainAvatar == null)
                     {
-                        bodyType = args.Metadata.BodyType;
+                        avatarMetadata = args.Metadata;
                         mainAvatar = Instantiate(args.Avatar);
                         mainAvatar.name = args.Avatar.name + LOD_MESH_SUFFIX;
 
@@ -85,10 +85,10 @@ namespace ReadyPlayerMe.Samples.AvatarLoading
             }
 
             AddLodGroup();
-            AvatarAnimatorHelper.SetupAnimator(bodyType, mainAvatar);
+            AvatarAnimationHelper.SetupAnimator(avatarMetadata, mainAvatar);
             if (lodExampleUI) lodExampleUI.Show();
         }
-    
+
         /// Adds and configures the LODGroup component
         private void AddLodGroup()
         {
@@ -104,8 +104,7 @@ namespace ReadyPlayerMe.Samples.AvatarLoading
 
             lodExampleUI.LodGroup = lodGroup;
         }
-        
-        
+
         private float CalculateTransitionHeight(int lodConfig)
         {
             var lodTransition = (lodConfig + 1f) / lodConfigs.Length;
@@ -121,4 +120,3 @@ namespace ReadyPlayerMe.Samples.AvatarLoading
         }
     }
 }
-

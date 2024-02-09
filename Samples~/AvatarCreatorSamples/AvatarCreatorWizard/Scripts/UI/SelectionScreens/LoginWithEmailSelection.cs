@@ -33,7 +33,7 @@ namespace ReadyPlayerMe.Samples.AvatarCreatorWizard
         [SerializeField] private GameObject transferAssetsPanel;
 
         public override StateType StateType => StateType.LoginWithCodeFromEmail;
-        public override StateType NextState => StateType.BodyTypeSelection;
+        public override StateType NextState => StateType.GenderSelection;
 
         private bool transferAvatarsAndAssets;
         public override void ActivateState()
