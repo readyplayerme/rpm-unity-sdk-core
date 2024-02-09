@@ -24,7 +24,7 @@ namespace ReadyPlayerMe.AvatarCreator
 
         [Space(5)]
         [Header("Events")]
-        public UnityEvent<Texture2D> onPhotoCaptured;
+        public UnityEvent<Texture2D> OnPhotoCaptured;
 
         private WebCamTexture cameraTexture;
         private bool isInitialized;
@@ -97,7 +97,7 @@ namespace ReadyPlayerMe.AvatarCreator
             texture.SetPixels(cameraTexture.GetPixels());
             texture.Apply();
 
-            onPhotoCaptured?.Invoke(texture);
+            OnPhotoCaptured?.Invoke(texture);
         }
 
         /// <summary>

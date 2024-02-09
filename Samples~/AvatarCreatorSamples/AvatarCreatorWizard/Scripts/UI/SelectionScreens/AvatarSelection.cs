@@ -10,7 +10,7 @@ namespace ReadyPlayerMe.Samples.AvatarCreatorWizard
     public class AvatarSelection : State
     {
         private const string TAG = nameof(AvatarSelection);
-        
+
         [SerializeField] private Button partnerAvatarsButton;
         [SerializeField] private Button allAvatarsButton;
         [SerializeField] private Button createAvatarButton;
@@ -22,7 +22,7 @@ namespace ReadyPlayerMe.Samples.AvatarCreatorWizard
         private Dictionary<string, string> avatarPartnerMap;
         private Dictionary<string, GameObject> avatarButtonsMap;
         private AvatarAPIRequests avatarAPIRequests;
-        
+
         public override void ActivateState()
         {
             partnerAvatarsButton.onClick.AddListener(OnPartnerAvatarsButton);
@@ -40,7 +40,7 @@ namespace ReadyPlayerMe.Samples.AvatarCreatorWizard
             createAvatarButton.onClick.RemoveListener(OnCreateAvatarButton);
             AuthManager.OnSignedOut -= OnSignedOut;
         }
-        
+
         private async void CreateAvatarButtons()
         {
             var startTime = Time.time;
@@ -76,7 +76,7 @@ namespace ReadyPlayerMe.Samples.AvatarCreatorWizard
             OnPartnerAvatarsButton();
             LoadingManager.DisableLoading();
         }
-        
+
         private void OnAllAvatarsButton()
         {
             foreach (var avatar in avatarPartnerMap)
@@ -92,11 +92,11 @@ namespace ReadyPlayerMe.Samples.AvatarCreatorWizard
                 avatarButtonsMap[avatar.Key].SetActive(avatar.Value == AvatarCreatorData.AvatarProperties.Partner);
             }
         }
-        
+
         private void OnCreateAvatarButton()
         {
             AvatarCreatorData.AvatarProperties.Id = string.Empty;
-            StateMachine.SetState(StateType.BodyTypeSelection);
+            StateMachine.SetState(StateType.GenderSelection);
         }
 
         private void OnSignedOut()
@@ -109,7 +109,7 @@ namespace ReadyPlayerMe.Samples.AvatarCreatorWizard
             avatarButtonsMap.Clear();
             avatarPartnerMap.Clear();
         }
-        
+
         private void CreateButton(string avatarId)
         {
             var button = Instantiate(buttonPrefab, parent);
@@ -125,7 +125,7 @@ namespace ReadyPlayerMe.Samples.AvatarCreatorWizard
             AvatarCreatorData.IsExistingAvatar = true;
             StateMachine.SetState(StateType.Editor);
         }
-        
+
         private void OnSelected(string avatarId)
         {
             AvatarCreatorData.AvatarProperties.Id = avatarId;

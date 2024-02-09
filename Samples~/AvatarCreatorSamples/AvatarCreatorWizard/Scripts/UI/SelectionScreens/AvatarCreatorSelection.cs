@@ -43,8 +43,8 @@ namespace ReadyPlayerMe.Samples.AvatarCreatorWizard
         public override void ActivateState()
         {
             saveButton.onClick.AddListener(OnSaveButton);
-            accountCreationElement.onSendEmail.AddListener(OnSendEmail);
-            accountCreationElement.onContinueWithoutSignup.AddListener(Save);
+            accountCreationElement.OnSendEmail.AddListener(OnSendEmail);
+            accountCreationElement.OnContinueWithoutSignup.AddListener(Save);
             categoryUICreator.OnCategorySelected += OnCategorySelected;
             Setup();
         }
@@ -52,8 +52,8 @@ namespace ReadyPlayerMe.Samples.AvatarCreatorWizard
         public override void DeactivateState()
         {
             saveButton.onClick.RemoveListener(OnSaveButton);
-            accountCreationElement.onSendEmail.RemoveListener(OnSendEmail);
-            accountCreationElement.onContinueWithoutSignup.RemoveListener(Save);
+            accountCreationElement.OnSendEmail.RemoveListener(OnSendEmail);
+            accountCreationElement.OnContinueWithoutSignup.RemoveListener(Save);
             categoryUICreator.OnCategorySelected -= OnCategorySelected;
             Cleanup();
         }
@@ -65,7 +65,7 @@ namespace ReadyPlayerMe.Samples.AvatarCreatorWizard
 
             avatarManager = new AvatarManager(
                 inCreatorConfig,
-                ctxSource.Token, 
+                ctxSource.Token,
                 AvatarCreatorData.AvatarProperties.Gender);
             avatarManager.OnError += OnErrorCallback;
 
@@ -301,7 +301,7 @@ namespace ReadyPlayerMe.Samples.AvatarCreatorWizard
 
         private void ProcessAvatar(GameObject avatar)
         {
-            if (AvatarCreatorData.AvatarProperties.BodyType == BodyType.FullBody)
+            if (AvatarCreatorData.AvatarProperties.BodyType != BodyType.None && AvatarCreatorData.AvatarProperties.BodyType != BodyType.HalfBody)
             {
                 avatar.GetComponent<Animator>().runtimeAnimatorController = animator;
             }

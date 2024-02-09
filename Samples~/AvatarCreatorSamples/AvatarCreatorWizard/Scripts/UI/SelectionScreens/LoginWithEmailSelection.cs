@@ -22,7 +22,7 @@ namespace ReadyPlayerMe.Samples.AvatarCreatorWizard
         [SerializeField] private GameObject codePanel;
 
         public override StateType StateType => StateType.LoginWithCodeFromEmail;
-        public override StateType NextState => StateType.BodyTypeSelection;
+        public override StateType NextState => StateType.GenderSelection;
 
         public override void ActivateState()
         {

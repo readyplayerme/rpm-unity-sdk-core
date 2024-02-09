@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -18,6 +19,7 @@ namespace ReadyPlayerMe.AvatarCreator
 
         private const string COLOR_PARAMETERS = "colors?type=skin,beard,hair,eyebrow";
         private const string FULL_BODY = "fullbody";
+        private const string FULL_BODY_XR = "fullbody-xr";
         private const string HALF_BODY = "halfbody";
         private const string PARTNER = "partner";
         private const string DATA = "data";
@@ -71,7 +73,7 @@ namespace ReadyPlayerMe.AvatarCreator
             var payloadData = new Dictionary<string, string>
             {
                 { nameof(partner), partner },
-                { nameof(bodyType), bodyType == BodyType.FullBody ? FULL_BODY : HALF_BODY }
+                { nameof(bodyType), GetBodyTypeValue(bodyType) }
             };
 
             var payload = AuthDataConverter.CreatePayload(payloadData);
@@ -91,6 +93,19 @@ namespace ReadyPlayerMe.AvatarCreator
             var json = JObject.Parse(response.Text);
             var data = json[DATA]!.ToString();
             return JsonConvert.DeserializeObject<AvatarProperties>(data);
+        }
+
+        private static string GetBodyTypeValue(BodyType bodyType)
+        {
+
+            var body = bodyType switch
+            {
+                BodyType.FullBody => FULL_BODY,
+                BodyType.FullBodyXR => FULL_BODY_XR,
+                BodyType.HalfBody => HALF_BODY,
+                _ => throw new ArgumentOutOfRangeException(nameof(bodyType), bodyType, null)
+            };
+            return body;
         }
 
         public async Task<AssetColor[]> GetAvatarColors(string avatarId, AssetType assetType = AssetType.None)
