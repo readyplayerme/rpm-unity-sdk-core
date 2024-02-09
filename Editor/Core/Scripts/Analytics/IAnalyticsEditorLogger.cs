@@ -1,5 +1,3 @@
-using ReadyPlayerMe.Core.Editor;
-
 namespace ReadyPlayerMe.Core.Analytics
 {
     public interface IAnalyticsEditorLogger
