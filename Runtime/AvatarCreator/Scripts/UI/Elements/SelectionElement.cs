@@ -21,6 +21,8 @@ namespace ReadyPlayerMe.AvatarCreator
         [SerializeField] private Transform buttonContainer;
         private GameObject selectedIcon;
 
+        [Space(5)]
+        [Header("Events")]
         public UnityEvent<IAssetData> OnAssetSelected;
         private readonly Dictionary<string, SelectionButton> buttonElementById = new Dictionary<string, SelectionButton>();
 
