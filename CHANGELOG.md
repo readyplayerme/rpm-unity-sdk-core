@@ -42,7 +42,7 @@ may require updates to existing references in your projects._
 - Removed "I don't have an account" checkbox from setup
   guide [#184](https://github.com/readyplayerme/rpm-unity-sdk-core/pull/184)
 - Restructure of avatar creator samples  [#185](https://github.com/readyplayerme/rpm-unity-sdk-core/pull/185)
-- Rlass and folder restructure to match Unity package
+- Class and folder restructure to match Unity package
   standards [#190](https://github.com/readyplayerme/rpm-unity-sdk-core/pull/190)
 - Namespaces added to some scripts to meet asset store
   requirements [#195](https://github.com/readyplayerme/rpm-unity-sdk-core/pull/195)
