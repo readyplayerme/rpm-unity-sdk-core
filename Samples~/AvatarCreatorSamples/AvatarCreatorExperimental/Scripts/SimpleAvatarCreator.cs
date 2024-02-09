@@ -48,6 +48,7 @@ namespace ReadyPlayerMe.Samples.AvatarCreatorExperimental
             // Subscribes to asset selection events when this component is enabled.
             foreach (var element in assetSelectionElements)
             {
+                element.SetBodyType(bodyType);
                 element.OnAssetSelected.AddListener(OnAssetSelection);
             }
 
