@@ -9,15 +9,15 @@ namespace ReadyPlayerMe.Core.Editor
     {
         private const string PROJECT_RELATIVE_ASSET_PATH = "Assets/Ready Player Me/Resources/Settings/CoreSettings.asset";
         private const string SETTINGS_SAVE_FOLDER = "Ready Player Me/Resources/Settings";
-        
+
         static CoreSettingsLoader()
         {
             EnsureSettingsExist();
         }
-        
+
         public static void EnsureSettingsExist()
         {
-            if (CoreSettingsHandler.CoreSettings == null)
+            if (CoreSettingsHandler.CoreSettings == null && AssetDatabase.LoadAssetAtPath<CoreSettings>(PROJECT_RELATIVE_ASSET_PATH) == null)
             {
                 CreateSettings();
             }
