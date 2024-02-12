@@ -188,8 +188,8 @@ namespace ReadyPlayerMe.Samples.AvatarCreatorExperimental
             avatar.AddComponent<MouseRotationHandler>();
             avatar.AddComponent<AvatarRotator>();
             var animator = avatar.GetComponent<Animator>();
-            animator.runtimeAnimatorController = animationController;
             AvatarAnimationHelper.SetupAnimator(new AvatarMetadata() { BodyType = bodyType, OutfitGender = gender }, animator);
+            animator.runtimeAnimatorController = animationController;
         }
     }
 }
