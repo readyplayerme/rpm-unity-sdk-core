@@ -1854,7 +1854,7 @@ PrefabInstance:
     - target: {fileID: 2446701059891602275, guid: fb94ab01fd78f3e4186b20015d0aa4e2,
         type: 3}
       propertyPath: OnLogoutSuccess.m_PersistentCalls.m_Calls.Array.size
-      value: 2
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 2446701059891602275, guid: fb94ab01fd78f3e4186b20015d0aa4e2,
         type: 3}
@@ -1869,7 +1869,7 @@ PrefabInstance:
     - target: {fileID: 2446701059891602275, guid: fb94ab01fd78f3e4186b20015d0aa4e2,
         type: 3}
       propertyPath: OnLogoutSuccess.m_PersistentCalls.m_Calls.Array.data[2].m_Mode
-      value: 6
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 2446701059891602275, guid: fb94ab01fd78f3e4186b20015d0aa4e2,
         type: 3}
@@ -1885,7 +1885,7 @@ PrefabInstance:
         type: 3}
       propertyPath: OnLogoutSuccess.m_PersistentCalls.m_Calls.Array.data[2].m_Target
       value: 
-      objectReference: {fileID: 1685216162}
+      objectReference: {fileID: 1442581552}
     - target: {fileID: 2446701059891602275, guid: fb94ab01fd78f3e4186b20015d0aa4e2,
         type: 3}
       propertyPath: OnLogoutSuccess.m_PersistentCalls.m_Calls.Array.data[0].m_CallState
@@ -1914,7 +1914,7 @@ PrefabInstance:
     - target: {fileID: 2446701059891602275, guid: fb94ab01fd78f3e4186b20015d0aa4e2,
         type: 3}
       propertyPath: OnLogoutSuccess.m_PersistentCalls.m_Calls.Array.data[2].m_MethodName
-      value: SetActive
+      value: CreateSecondTemplateAvatar
       objectReference: {fileID: 0}
     - target: {fileID: 2446701059891602275, guid: fb94ab01fd78f3e4186b20015d0aa4e2,
         type: 3}
@@ -1929,7 +1929,8 @@ PrefabInstance:
     - target: {fileID: 2446701059891602275, guid: fb94ab01fd78f3e4186b20015d0aa4e2,
         type: 3}
       propertyPath: OnLogoutSuccess.m_PersistentCalls.m_Calls.Array.data[2].m_TargetAssemblyTypeName
-      value: UnityEngine.GameObject, UnityEngine
+      value: ReadyPlayerMe.Samples.AvatarCreatorExperimental.SimpleAvatarCreator,
+        ReadyPlayerMe.Samples.AvatarCreatorExperimental
       objectReference: {fileID: 0}
     - target: {fileID: 2446701059891602275, guid: fb94ab01fd78f3e4186b20015d0aa4e2,
         type: 3}
@@ -5572,7 +5573,7 @@ PrefabInstance:
     - target: {fileID: 4316720321970040648, guid: c4fdc89107e2a0e45b8d5c08e54b6250,
         type: 3}
       propertyPath: OnLoginSuccess.m_PersistentCalls.m_Calls.Array.size
-      value: 3
+      value: 4
       objectReference: {fileID: 0}
     - target: {fileID: 4316720321970040648, guid: c4fdc89107e2a0e45b8d5c08e54b6250,
         type: 3}
@@ -5592,7 +5593,7 @@ PrefabInstance:
     - target: {fileID: 4316720321970040648, guid: c4fdc89107e2a0e45b8d5c08e54b6250,
         type: 3}
       propertyPath: OnLoginSuccess.m_PersistentCalls.m_Calls.Array.data[3].m_Mode
-      value: 6
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 4316720321970040648, guid: c4fdc89107e2a0e45b8d5c08e54b6250,
         type: 3}
@@ -5613,7 +5614,7 @@ PrefabInstance:
         type: 3}
       propertyPath: OnLoginSuccess.m_PersistentCalls.m_Calls.Array.data[3].m_Target
       value: 
-      objectReference: {fileID: 1680727531}
+      objectReference: {fileID: 1442581552}
     - target: {fileID: 4316720321970040648, guid: c4fdc89107e2a0e45b8d5c08e54b6250,
         type: 3}
       propertyPath: OnLoginSuccess.m_PersistentCalls.m_Calls.Array.data[0].m_CallState
@@ -5652,7 +5653,7 @@ PrefabInstance:
     - target: {fileID: 4316720321970040648, guid: c4fdc89107e2a0e45b8d5c08e54b6250,
         type: 3}
       propertyPath: OnLoginSuccess.m_PersistentCalls.m_Calls.Array.data[3].m_MethodName
-      value: SetActive
+      value: CreateSecondTemplateAvatar
       objectReference: {fileID: 0}
     - target: {fileID: 4316720321970040648, guid: c4fdc89107e2a0e45b8d5c08e54b6250,
         type: 3}
@@ -5672,7 +5673,8 @@ PrefabInstance:
     - target: {fileID: 4316720321970040648, guid: c4fdc89107e2a0e45b8d5c08e54b6250,
         type: 3}
       propertyPath: OnLoginSuccess.m_PersistentCalls.m_Calls.Array.data[3].m_TargetAssemblyTypeName
-      value: UnityEngine.GameObject, UnityEngine
+      value: ReadyPlayerMe.Samples.AvatarCreatorExperimental.SimpleAvatarCreator,
+        ReadyPlayerMe.Samples.AvatarCreatorExperimental
       objectReference: {fileID: 0}
     - target: {fileID: 4316720321970040648, guid: c4fdc89107e2a0e45b8d5c08e54b6250,
         type: 3}
@@ -5682,7 +5684,7 @@ PrefabInstance:
     - target: {fileID: 4316720321970040648, guid: c4fdc89107e2a0e45b8d5c08e54b6250,
         type: 3}
       propertyPath: OnLoginSuccess.m_PersistentCalls.m_Calls.Array.data[3].m_Arguments.m_BoolArgument
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 4316720321970040648, guid: c4fdc89107e2a0e45b8d5c08e54b6250,
         type: 3}
