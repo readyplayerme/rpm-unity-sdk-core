@@ -10,12 +10,14 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 - **BREAKING: Renamed Avatar Create Samples** [#210](https://github.com/readyplayerme/rpm-unity-sdk-core/pull/210) _This change
 may require updates to existing references in your projects._
 - small fix for button icon resizing [#215](https://github.com/readyplayerme/rpm-unity-sdk-core/pull/215)
+- LoginWithCode can now merge avatars into RPM account [#219](https://github.com/readyplayerme/rpm-unity-sdk-core/pull/219)
 
 ### Added
 
 - Logout Element for Avatar Creator [#216](https://github.com/readyplayerme/rpm-unity-sdk-core/pull/216)
 - New iFrame Events to WebFrameHandler [#212](https://github.com/readyplayerme/rpm-unity-sdk-core/pull/212)
 - Added support for XR Avatar skeleton [#217](https://github.com/readyplayerme/rpm-unity-sdk-core/pull/217)
+- Added Avatar List element [#218](https://github.com/readyplayerme/rpm-unity-sdk-core/pull/218)
 
 ### Removed
 

@@ -9,13 +9,15 @@ namespace ReadyPlayerMe.Core
         private readonly StringBuilder query = new StringBuilder();
         public string Query => query.ToString();
 
-        public QueryBuilder()
+        public QueryBuilder(bool includeStartingCharacter = true)
         {
+            if (!includeStartingCharacter) return;
             query.Append(STARTING_CHARACTER);
         }
 
-        public QueryBuilder(string keyName, string value)
+        public QueryBuilder(string keyName, string value, bool includeStartingCharacter = true)
         {
+            if (!includeStartingCharacter) return;
             query.Append(STARTING_CHARACTER);
             AddKeyValue(keyName, value);
         }

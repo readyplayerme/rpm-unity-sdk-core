@@ -209,9 +209,6 @@ namespace ReadyPlayerMe.AvatarCreator
         {
             var url = $"{RPM_AVATAR_V2_BASE_URL}/{avatarId}?responseType=glb&{parameters}";
 
-            if (!string.IsNullOrEmpty(parameters))
-                url += parameters?.Substring(1);
-
             var response = await authorizedRequest.SendRequest<Response>(
                 new RequestData
                 {

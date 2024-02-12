@@ -1,6 +1,6 @@
 {
   "name": "com.readyplayerme.core",
-  "version": "5.0.0",
+  "version": "6.0.0",
   "displayName": "Ready Player Me Core",
   "description": "This Module contains all the core functionality required for using Ready Player Me avatars in Unity, including features such as: \n - Module management and automatic package setup logic\n - Avatar loading from .glb files \n - Avatar creation \n - Avatar and 2D render requests \n - Optional Analytics\n - Custom editor windows\n - Sample scenes and assets",
   "unity": "2020.3",

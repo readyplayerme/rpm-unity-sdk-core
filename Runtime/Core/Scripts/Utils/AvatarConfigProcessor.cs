@@ -19,12 +19,13 @@ namespace ReadyPlayerMe.Core
         /// an avatar URL.
         /// </summary>
         /// <param name="avatarConfig">Stores the settings of the <see cref="AvatarConfig" /> to use when requesting the avatar.</param>
+        /// <param name="includeStartingCharacter">If true it will include a "?" as the first character</param>
         /// <returns>The <see cref="AvatarConfig" /> parameters combined as a <c>string</c>.</returns>
-        public static string ProcessAvatarConfiguration(AvatarConfig avatarConfig)
+        public static string ProcessAvatarConfiguration(AvatarConfig avatarConfig, bool includeStartingCharacter = true)
         {
             SDKLogger.Log(TAG, PROCESSING_AVATAR_CONFIGURATION);
 
-            var queryBuilder = new QueryBuilder();
+            var queryBuilder = new QueryBuilder(includeStartingCharacter);
             queryBuilder.AddKeyValue(AvatarAPIParameters.POSE, AvatarConfigMap.Pose[avatarConfig.Pose]);
             queryBuilder.AddKeyValue(AvatarAPIParameters.LOD, ((int) avatarConfig.Lod).ToString());
             queryBuilder.AddKeyValue(AvatarAPIParameters.TEXTURE_ATLAS, AvatarConfigMap.TextureAtlas[avatarConfig.TextureAtlas]);
