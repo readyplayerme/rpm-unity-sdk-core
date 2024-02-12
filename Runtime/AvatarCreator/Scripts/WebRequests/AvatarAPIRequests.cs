@@ -207,7 +207,10 @@ namespace ReadyPlayerMe.AvatarCreator
 
         public async Task<byte[]> UpdateAvatar(string avatarId, AvatarProperties avatarProperties, string parameters = null)
         {
-            var url = $"{RPM_AVATAR_V2_BASE_URL}/{avatarId}?responseType=glb&{parameters}";
+            var url = $"{RPM_AVATAR_V2_BASE_URL}/{avatarId}?responseType=glb&";
+            // remove initial symbol
+            if (!string.IsNullOrEmpty(parameters))
+                url += parameters.Substring(1);
 
             var response = await authorizedRequest.SendRequest<Response>(
                 new RequestData
