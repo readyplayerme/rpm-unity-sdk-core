@@ -4,7 +4,7 @@ namespace ReadyPlayerMe.Core
     {
         public static string GetRenderUrl(AvatarContext avatarContext)
         {
-            return $"{avatarContext.AvatarUri.ImageUrl}{avatarContext.RenderSettings.GetParametersAsString()}";
+            return $"{avatarContext.AvatarUri.ImageUrl}?{avatarContext.RenderSettings.GetParametersAsString()}";
         }
     }
 }

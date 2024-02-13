@@ -32,7 +32,7 @@ namespace ReadyPlayerMe.AvatarCreator
             this.gender = gender;
             if (avatarConfig != null)
             {
-                avatarConfigParameters = AvatarConfigProcessor.ProcessAvatarConfiguration(avatarConfig, false);
+                avatarConfigParameters = AvatarConfigProcessor.ProcessAvatarConfiguration(avatarConfig);
             }
 
             ctxSource = CancellationTokenSource.CreateLinkedTokenSource(token);
