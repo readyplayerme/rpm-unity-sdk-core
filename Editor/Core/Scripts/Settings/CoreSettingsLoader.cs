@@ -18,7 +18,7 @@ namespace ReadyPlayerMe.Core.Editor
 
         public static void EnsureSettingsExist()
         {
-            if (CoreSettingsHandler.CoreSettings == null && AssetDatabase.LoadAssetAtPath<CoreSettings>(PROJECT_RELATIVE_ASSET_PATH) == null)
+            if (CoreSettingsHandler.CoreSettings == null && !File.Exists($"{Application.dataPath}/Ready Player Me/Resources/Settings/CoreSettings.asset"))
             {
                 CreateSettings();
             }
@@ -26,14 +26,6 @@ namespace ReadyPlayerMe.Core.Editor
 
         private static void CreateSettings()
         {
-
-            if (Directory.Exists($"{Application.dataPath}/{SETTINGS_SAVE_FOLDER}"))
-            {
-                Debug.Log($"Settings exist {PROJECT_RELATIVE_ASSET_PATH} skipping");
-                return;
-            }
-            Debug.Log($"Settings not found at {Application.dataPath}/{PROJECT_RELATIVE_ASSET_PATH}");
-
             DirectoryUtility.ValidateDirectory($"{Application.dataPath}/{SETTINGS_SAVE_FOLDER}");
             var newSettings = ScriptableObject.CreateInstance<CoreSettings>();
             AssetDatabase.CreateAsset(newSettings, PROJECT_RELATIVE_ASSET_PATH);
