@@ -18,6 +18,7 @@ namespace ReadyPlayerMe.Samples.AvatarCreatorWizard
 
         private string filePath;
         private string directoryPath;
+        private string lastModifiedAvatarId;
 
         private void Awake()
         {
@@ -33,6 +34,10 @@ namespace ReadyPlayerMe.Samples.AvatarCreatorWizard
 
         private void OnDisable()
         {
+            if (AuthManager.IsSignedIn)
+            {
+                SaveSession(AuthManager.UserSession);
+            }
             profileUI.SignedOut -= AuthManager.Logout;
             AuthManager.OnSignedOut -= DeleteSession;
         }
