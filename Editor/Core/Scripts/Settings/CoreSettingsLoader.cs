@@ -25,6 +25,7 @@ namespace ReadyPlayerMe.Core.Editor
 
         private static void CreateSettings()
         {
+            Debug.Log($"Create Seed Settings at {PROJECT_RELATIVE_ASSET_PATH}");
             DirectoryUtility.ValidateDirectory($"{Application.dataPath}/{SETTINGS_SAVE_FOLDER}");
             var newSettings = ScriptableObject.CreateInstance<CoreSettings>();
             AssetDatabase.CreateAsset(newSettings, PROJECT_RELATIVE_ASSET_PATH);
