@@ -129,12 +129,17 @@ namespace ReadyPlayerMe.AvatarCreator
             return ColorResponseHandler.GetColorsFromResponse(response.Text);
         }
 
-        public async Task<AvatarProperties> GetAvatarMetadata(string avatarId)
+        public async Task<AvatarProperties> GetAvatarMetadata(string avatarId, bool isDraft = false)
         {
+            var url = $"{RPM_AVATAR_V2_BASE_URL}/{avatarId}.json?";
+
+            if (isDraft)
+                url += "preview=true";
+
             var response = await authorizedRequest.SendRequest<Response>(
                 new RequestData
                 {
-                    Url = $"{RPM_AVATAR_V2_BASE_URL}/{avatarId}.json",
+                    Url = url,
                     Method = HttpMethod.GET
                 },
                 ctx: ctx

@@ -126,7 +126,7 @@ namespace ReadyPlayerMe.Samples.AvatarCreatorWizard
         {
             loadingManager.EnableLoading();
             avatarCreatorData.AvatarProperties.Id = avatarId;
-            avatarCreatorData.AvatarProperties = await new AvatarAPIRequests().GetAvatarMetadata(avatarId);
+            avatarCreatorData.AvatarProperties = await new AvatarAPIRequests().GetAvatarMetadata(avatarId, isDraft);
             avatarCreatorData.IsExistingAvatar = true;
             avatarCreatorData.AvatarProperties.isDraft = isDraft;
             loadingManager.DisableLoading();
