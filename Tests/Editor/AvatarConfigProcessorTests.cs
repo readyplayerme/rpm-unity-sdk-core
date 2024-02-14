@@ -11,7 +11,7 @@ namespace ReadyPlayerMe.Core.Tests
         private const string MORPHTARGETS_EXPECTED_DEFAULT = "mouthOpen,mouthSmile";
         private const string MORPHTARGETS_EXPECTED_NONE = "none";
         private const string AVATAR_QUERY_PARAMS_ACTUAL =
-            "?pose=A&lod=0&textureAtlas=none&textureSizeLimit=1024&textureChannels=baseColor,normal,metallicRoughness,emissive,occlusion&useHands=false&useDracoMeshCompression=false&useMeshOptCompression=false";
+            "pose=A&lod=0&textureAtlas=none&textureSizeLimit=1024&textureChannels=baseColor,normal,metallicRoughness,emissive,occlusion&useHands=false&useDracoMeshCompression=false&useMeshOptCompression=false";
         private readonly string[] morphTargetsDefault = { "mouthOpen", "mouthSmile" };
         private readonly string[] morphTargetsNone = { "none" };
         private readonly TextureChannel[] textureChannelsAll =

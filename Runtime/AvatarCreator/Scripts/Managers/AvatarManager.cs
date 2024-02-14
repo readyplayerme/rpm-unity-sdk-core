@@ -32,7 +32,7 @@ namespace ReadyPlayerMe.AvatarCreator
             this.gender = gender;
             if (avatarConfig != null)
             {
-                avatarConfigParameters = AvatarConfigProcessor.ProcessAvatarConfiguration(avatarConfig, false);
+                avatarConfigParameters = AvatarConfigProcessor.ProcessAvatarConfiguration(avatarConfig);
             }
 
             ctxSource = CancellationTokenSource.CreateLinkedTokenSource(token);
@@ -141,7 +141,6 @@ namespace ReadyPlayerMe.AvatarCreator
         {
             avatarId = id;
             byte[] data;
-            Debug.Log($"GetAvatar: Avatar config parameters: {avatarConfigParameters}");
             try
             {
                 data = await avatarAPIRequests.GetAvatar(avatarId, isPreview, avatarConfigParameters);

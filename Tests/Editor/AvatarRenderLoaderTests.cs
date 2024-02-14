@@ -10,7 +10,7 @@ namespace ReadyPlayerMe.Core.Tests
         private const RenderCamera RENDER_SCENE = RenderCamera.FullBody;
         private const string RENDER_BLENDSHAPE = "mouthSmile";
         private const float BLENDSHAPE_VALUE = 0.5f;
-        private const string RENDER_STRING = "?pose=relaxed&blendShapes[mouthSmile]=0.5&camera=portrait&size=800&background=255,255,255";
+        private const string RENDER_STRING = "pose=relaxed&blendShapes[mouthSmile]=0.5&camera=portrait&size=800&background=255,255,255";
 
         [Test]
         public async Task RenderLoader_Load()

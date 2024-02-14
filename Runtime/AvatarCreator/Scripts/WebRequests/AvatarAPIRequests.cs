@@ -225,10 +225,11 @@ namespace ReadyPlayerMe.AvatarCreator
         public async Task PrecompileAvatar(string avatarId, PrecompileData precompileData, string parameters = null)
         {
             var json = JsonConvert.SerializeObject(precompileData);
+
             var response = await authorizedRequest.SendRequest<Response>(
                 new RequestData
                 {
-                    Url = $"{RPM_AVATAR_V2_BASE_URL}/{avatarId}/precompile{parameters ?? string.Empty}",
+                    Url = $"{RPM_AVATAR_V2_BASE_URL}/{avatarId}/precompile?{parameters ?? string.Empty}",
                     Method = HttpMethod.POST,
                     Payload = json
                 },
