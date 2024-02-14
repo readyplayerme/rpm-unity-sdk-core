@@ -1,3 +1,4 @@
+using System.IO;
 using ReadyPlayerMe.Core.Data;
 using UnityEditor;
 using UnityEngine;
@@ -25,7 +26,14 @@ namespace ReadyPlayerMe.Core.Editor
 
         private static void CreateSettings()
         {
-            Debug.Log($"Create Seed Settings at {PROJECT_RELATIVE_ASSET_PATH}");
+
+            if (Directory.Exists($"{Application.dataPath}/{SETTINGS_SAVE_FOLDER}"))
+            {
+                Debug.Log($"Settings exist {PROJECT_RELATIVE_ASSET_PATH} skipping");
+                return;
+            }
+            Debug.Log($"Settings not found at {Application.dataPath}/{PROJECT_RELATIVE_ASSET_PATH}");
+
             DirectoryUtility.ValidateDirectory($"{Application.dataPath}/{SETTINGS_SAVE_FOLDER}");
             var newSettings = ScriptableObject.CreateInstance<CoreSettings>();
             AssetDatabase.CreateAsset(newSettings, PROJECT_RELATIVE_ASSET_PATH);
