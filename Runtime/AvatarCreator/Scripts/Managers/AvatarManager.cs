@@ -141,7 +141,6 @@ namespace ReadyPlayerMe.AvatarCreator
         {
             avatarId = id;
             byte[] data;
-            Debug.Log($"GetAvatar: Avatar config parameters: {avatarConfigParameters}");
             try
             {
                 data = await avatarAPIRequests.GetAvatar(avatarId, isPreview, avatarConfigParameters);
