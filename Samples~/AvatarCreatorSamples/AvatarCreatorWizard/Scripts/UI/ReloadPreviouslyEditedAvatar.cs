@@ -15,8 +15,9 @@ namespace ReadyPlayerMe.Samples.AvatarCreatorWizard
         [SerializeField] private Button cancelEditingAvatar;
 
         private string avatarId;
-        public UnityEvent<string> onSaveAvatar;
-        public UnityEvent onCancel;
+        public UnityEvent<string> OnContinueEditingAvatar;
+        public UnityEvent OnCancel;
+        
         public async void Show(string avatarId)
         {
             this.avatarId = avatarId;
@@ -31,24 +32,28 @@ namespace ReadyPlayerMe.Samples.AvatarCreatorWizard
                 SDKLogger.Log(TAG, $"Failed to load draft avatar with id ${avatarId}. {e.Message}");
             }
         }
+
         private void OnEnable()
         {
             continueEditingAvatar.onClick.AddListener(OnContinueEditing);
             cancelEditingAvatar.onClick.AddListener(OnCancelEditing);
         }
+
         private void OnDisable()
         {
             continueEditingAvatar.onClick.RemoveListener(OnContinueEditing);
             cancelEditingAvatar.onClick.RemoveListener(OnCancelEditing);
         }
+
         private void OnCancelEditing()
         {
-            onCancel?.Invoke();
+            OnCancel?.Invoke();
             ClearAvatarId();
         }
+        
         private void OnContinueEditing()
         {
-            onSaveAvatar?.Invoke(avatarId);
+            OnContinueEditingAvatar?.Invoke(avatarId);
             ClearAvatarId();
         }
 
@@ -57,7 +62,5 @@ namespace ReadyPlayerMe.Samples.AvatarCreatorWizard
             AuthManager.StoreLastModifiedAvatar(null);
             avatarId = null;
         }
-
-
     }
 }
