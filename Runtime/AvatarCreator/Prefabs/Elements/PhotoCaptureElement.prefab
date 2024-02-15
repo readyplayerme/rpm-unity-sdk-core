@@ -695,10 +695,9 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: 'By clicking "Take a photo!" or "Continue without a photo"
+  m_Text: 'By clicking "Take a photo" you
 
-    you confirm
-    you have read and accept our
+    confirm you have read and accept our
 
     and'
 --- !u!1 &5440144353248873775
