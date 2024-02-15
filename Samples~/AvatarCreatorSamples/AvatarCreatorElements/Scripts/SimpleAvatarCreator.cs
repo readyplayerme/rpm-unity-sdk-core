@@ -8,7 +8,7 @@ using UnityEngine.Events;
 #pragma warning disable CS4014
 #pragma warning disable CS1998
 
-namespace ReadyPlayerMe.Samples.AvatarCreatorExperimental
+namespace ReadyPlayerMe.Samples.AvatarCreatorElements
 {
 
     /// <summary>
