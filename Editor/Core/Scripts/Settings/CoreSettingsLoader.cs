@@ -1,3 +1,4 @@
+using System.IO;
 using ReadyPlayerMe.Core.Data;
 using UnityEditor;
 using UnityEngine;
@@ -9,15 +10,15 @@ namespace ReadyPlayerMe.Core.Editor
     {
         private const string PROJECT_RELATIVE_ASSET_PATH = "Assets/Ready Player Me/Resources/Settings/CoreSettings.asset";
         private const string SETTINGS_SAVE_FOLDER = "Ready Player Me/Resources/Settings";
-        
+
         static CoreSettingsLoader()
         {
             EnsureSettingsExist();
         }
-        
+
         public static void EnsureSettingsExist()
         {
-            if (CoreSettingsHandler.CoreSettings == null)
+            if (CoreSettingsHandler.CoreSettings == null && !File.Exists($"{Application.dataPath}/Ready Player Me/Resources/Settings/CoreSettings.asset"))
             {
                 CreateSettings();
             }
