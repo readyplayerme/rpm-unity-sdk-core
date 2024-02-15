@@ -41,6 +41,7 @@ namespace ReadyPlayerMe.AvatarCreator
         private void OnSendEmailButton()
         {
             var email = emailField.text;
+            AuthManager.Signup(email);
             OnSendEmail?.Invoke(email);
             gameObject.SetActive(false);
         }
