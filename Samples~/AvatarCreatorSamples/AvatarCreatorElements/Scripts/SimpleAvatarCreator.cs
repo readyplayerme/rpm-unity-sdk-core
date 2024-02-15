@@ -23,6 +23,7 @@ namespace ReadyPlayerMe.Samples.AvatarCreatorExperimental
         [SerializeField] private GameObject loading;
 
         [SerializeField] private BodyType bodyType = BodyType.FullBody;
+        [SerializeField] private GameObject createRPMAccount;
         private OutfitGender gender = OutfitGender.Masculine;
 
         private AvatarManager avatarManager;
@@ -59,6 +60,16 @@ namespace ReadyPlayerMe.Samples.AvatarCreatorExperimental
 
             onAvatarCreated?.Invoke(avatarProperties);
             loading.SetActive(false);
+        }
+
+        public async void SignupAndSaveAvatar()
+        {
+            if (!AuthManager.IsSignedIn)
+            {
+                createRPMAccount.SetActive(true);
+                return;
+            }
+            SaveAvatar();
         }
 
         public async void SaveAvatar()

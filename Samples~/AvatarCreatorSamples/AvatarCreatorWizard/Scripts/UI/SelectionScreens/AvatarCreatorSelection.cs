@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using ReadyPlayerMe.AvatarCreator;
 using ReadyPlayerMe.Core;
 using UnityEngine;
+using UnityEngine.Serialization;
 using UnityEngine.UI;
 
 namespace ReadyPlayerMe.Samples.AvatarCreatorWizard
@@ -21,7 +22,7 @@ namespace ReadyPlayerMe.Samples.AvatarCreatorWizard
         [SerializeField] private Button saveButton;
         [SerializeField] private AvatarConfig inCreatorConfig;
         [SerializeField] private RuntimeAnimatorController animator;
-        [SerializeField] private AccountCreationElement accountCreationElement;
+        [SerializeField] private SignupElement signupElement;
         private PartnerAssetsManager partnerAssetManager;
         private AvatarManager avatarManager;
 
@@ -42,8 +43,8 @@ namespace ReadyPlayerMe.Samples.AvatarCreatorWizard
         public override void ActivateState()
         {
             saveButton.onClick.AddListener(OnSaveButton);
-            accountCreationElement.OnSendEmail.AddListener(OnSendEmail);
-            accountCreationElement.OnContinueWithoutSignup.AddListener(Save);
+            signupElement.OnSendEmail.AddListener(OnSendEmail);
+            signupElement.OnContinueWithoutSignup.AddListener(Save);
             categoryUICreator.OnCategorySelected += OnCategorySelected;
             Setup();
         }
@@ -51,8 +52,8 @@ namespace ReadyPlayerMe.Samples.AvatarCreatorWizard
         public override void DeactivateState()
         {
             saveButton.onClick.RemoveListener(OnSaveButton);
-            accountCreationElement.OnSendEmail.RemoveListener(OnSendEmail);
-            accountCreationElement.OnContinueWithoutSignup.RemoveListener(Save);
+            signupElement.OnSendEmail.RemoveListener(OnSendEmail);
+            signupElement.OnContinueWithoutSignup.RemoveListener(Save);
             categoryUICreator.OnCategorySelected -= OnCategorySelected;
             Cleanup();
         }
@@ -241,7 +242,7 @@ namespace ReadyPlayerMe.Samples.AvatarCreatorWizard
             }
             else
             {
-                accountCreationElement.gameObject.SetActive(true);
+                signupElement.gameObject.SetActive(true);
             }
         }
 
