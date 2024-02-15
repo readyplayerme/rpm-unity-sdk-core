@@ -80,7 +80,7 @@ namespace ReadyPlayerMe.AvatarCreator
             {
                 clearButton.transform.SetAsFirstSibling();
             }
-            var assetData = new PartnerAsset { Id = "0", AssetType = assetType };
+            var assetData = new PartnerAsset { Id = "", AssetType = assetType };
             clearButton.AddListener(() => OnAssetSelected?.Invoke(assetData));
             clearButton.AddListener(() => SetButtonSelected(clearButton.transform));
         }

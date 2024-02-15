@@ -21,7 +21,10 @@ namespace ReadyPlayerMe.Samples.AvatarCreatorWizard
         [SerializeField] private ProfileManager profileManager;
         [SerializeField] private BodyType defaultBodyType = BodyType.FullBody;
         [SerializeField] private OutfitGender defaultGender = OutfitGender.None;
+        [SerializeField] private ReloadPreviouslyEditedAvatar loadPreviousAvatar;
         public Action<string> AvatarSaved;
+
+        private AvatarAPIRequests avatarAPIRequests;
 
         private void Start()
         {
@@ -41,6 +44,16 @@ namespace ReadyPlayerMe.Samples.AvatarCreatorWizard
             Initialize();
 
             SetState(profileManager.LoadSession() ? StateType.AvatarSelection : startingState);
+            ShowLoadPreviousAvatarPopup();
+        }
+
+        private void ShowLoadPreviousAvatarPopup()
+        {
+            if (loadPreviousAvatar && !AuthManager.IsSignedIn || AuthManager.UserSession.LastModifiedAvatarId == null)
+            {
+                return;
+            }
+            loadPreviousAvatar.Show(AuthManager.UserSession.LastModifiedAvatarId);
         }
 
         private void OnEnable()
@@ -102,6 +115,22 @@ namespace ReadyPlayerMe.Samples.AvatarCreatorWizard
         private bool CanShowBackButton(StateType current)
         {
             return current == StateType.LoginWithCodeFromEmail || current == StateType.AvatarSelection;
+        }
+
+        public void OnCustomizeDraft(string avatarId)
+        {
+            StartOnCustomize(avatarId, true);
+        }
+
+        private async void StartOnCustomize(string avatarId, bool isDraft)
+        {
+            loadingManager.EnableLoading();
+            avatarCreatorData.AvatarProperties.Id = avatarId;
+            avatarCreatorData.AvatarProperties = await new AvatarAPIRequests().GetAvatarMetadata(avatarId, isDraft);
+            avatarCreatorData.IsExistingAvatar = true;
+            avatarCreatorData.AvatarProperties.isDraft = isDraft;
+            loadingManager.DisableLoading();
+            SetState(StateType.Editor);
         }
     }
 }

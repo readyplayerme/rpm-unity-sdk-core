@@ -252,7 +252,7 @@ namespace ReadyPlayerMe.AvatarCreator
         /// <summary>
         /// This will delete the avatar draft which have not been saved. 
         /// </summary>
-        public async void Delete(bool isDraft)
+        public async Task Delete(bool isDraft)
         {
             try
             {

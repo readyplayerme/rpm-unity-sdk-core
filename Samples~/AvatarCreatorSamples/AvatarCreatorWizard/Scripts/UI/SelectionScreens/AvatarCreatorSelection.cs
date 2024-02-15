@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using ReadyPlayerMe.AvatarCreator;
 using ReadyPlayerMe.Core;
 using UnityEngine;
+using UnityEngine.Serialization;
 using UnityEngine.UI;
 
 namespace ReadyPlayerMe.Samples.AvatarCreatorWizard
@@ -21,8 +22,7 @@ namespace ReadyPlayerMe.Samples.AvatarCreatorWizard
         [SerializeField] private Button saveButton;
         [SerializeField] private AvatarConfig inCreatorConfig;
         [SerializeField] private RuntimeAnimatorController animator;
-        [SerializeField] private AccountCreationElement accountCreationElement;
-
+        [SerializeField] private SignupElement signupElement;
         private PartnerAssetsManager partnerAssetManager;
         private AvatarManager avatarManager;
 
@@ -43,8 +43,8 @@ namespace ReadyPlayerMe.Samples.AvatarCreatorWizard
         public override void ActivateState()
         {
             saveButton.onClick.AddListener(OnSaveButton);
-            accountCreationElement.OnSendEmail.AddListener(OnSendEmail);
-            accountCreationElement.OnContinueWithoutSignup.AddListener(Save);
+            signupElement.OnSendEmail.AddListener(OnSendEmail);
+            signupElement.OnContinueWithoutSignup.AddListener(Save);
             categoryUICreator.OnCategorySelected += OnCategorySelected;
             Setup();
         }
@@ -52,8 +52,8 @@ namespace ReadyPlayerMe.Samples.AvatarCreatorWizard
         public override void DeactivateState()
         {
             saveButton.onClick.RemoveListener(OnSaveButton);
-            accountCreationElement.OnSendEmail.RemoveListener(OnSendEmail);
-            accountCreationElement.OnContinueWithoutSignup.RemoveListener(Save);
+            signupElement.OnSendEmail.RemoveListener(OnSendEmail);
+            signupElement.OnContinueWithoutSignup.RemoveListener(Save);
             categoryUICreator.OnCategorySelected -= OnCategorySelected;
             Cleanup();
         }
@@ -119,6 +119,11 @@ namespace ReadyPlayerMe.Samples.AvatarCreatorWizard
 
         private void OnErrorCallback(string error)
         {
+            if (error.Equals("Avatar draft not found"))
+            {
+                return;
+            }
+
             SDKLogger.Log(TAG, $"An error occured: {error}");
             avatarManager.OnError -= OnErrorCallback;
             partnerAssetManager.OnError -= OnErrorCallback;
@@ -169,7 +174,7 @@ namespace ReadyPlayerMe.Samples.AvatarCreatorWizard
                 }
                 else
                 {
-                    avatar = await avatarManager.GetAvatar(id, bodyType);
+                    avatar = await avatarManager.GetAvatar(id, bodyType, AvatarCreatorData.AvatarProperties.isDraft);
                 }
             }
 
@@ -237,7 +242,7 @@ namespace ReadyPlayerMe.Samples.AvatarCreatorWizard
             }
             else
             {
-                accountCreationElement.gameObject.SetActive(true);
+                signupElement.gameObject.SetActive(true);
             }
         }
 
@@ -249,6 +254,7 @@ namespace ReadyPlayerMe.Samples.AvatarCreatorWizard
 
         private async void Save()
         {
+            AuthManager.StoreLastModifiedAvatar(null);
             var startTime = Time.time;
 
             LoadingManager.EnableLoading("Saving avatar...", LoadingManager.LoadingType.Popup);
@@ -283,15 +289,24 @@ namespace ReadyPlayerMe.Samples.AvatarCreatorWizard
                 Assets = new Dictionary<AssetType, object>()
             };
 
+
+
             payload.Assets.Add(category, assetId);
             lastRotation = currentAvatar.transform.rotation;
             LoadingManager.EnableLoading(UPDATING_YOUR_AVATAR_LOADING_TEXT, LoadingManager.LoadingType.Popup);
+
+            if (!AvatarCreatorData.AvatarProperties.isDraft)
+            {
+                await avatarManager.Delete(true);
+            }
+
             var avatar = await avatarManager.UpdateAsset(category, AvatarCreatorData.AvatarProperties.BodyType, assetId);
             if (avatar == null)
             {
                 return;
             }
             AvatarCreatorData.AvatarProperties.isDraft = true;
+            AuthManager.StoreLastModifiedAvatar(AvatarCreatorData.AvatarProperties.Id);
             ProcessAvatar(avatar);
             Destroy(currentAvatar);
             currentAvatar = avatar;
