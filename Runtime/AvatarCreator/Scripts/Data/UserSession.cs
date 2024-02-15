@@ -10,5 +10,6 @@ namespace ReadyPlayerMe.AvatarCreator
         public string Email;
         public string Token;
         public string RefreshToken;
+        public string LastModifiedAvatarId;
     }
 }

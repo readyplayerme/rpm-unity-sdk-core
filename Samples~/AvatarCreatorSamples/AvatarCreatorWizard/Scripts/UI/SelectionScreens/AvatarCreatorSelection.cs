@@ -174,7 +174,7 @@ namespace ReadyPlayerMe.Samples.AvatarCreatorWizard
                 }
                 else
                 {
-                    avatar = await avatarManager.GetAvatar(id, bodyType);
+                    avatar = await avatarManager.GetAvatar(id, bodyType, AvatarCreatorData.AvatarProperties.isDraft);
                 }
             }
 
@@ -254,6 +254,7 @@ namespace ReadyPlayerMe.Samples.AvatarCreatorWizard
 
         private async void Save()
         {
+            AuthManager.StoreLastModifiedAvatar(null);
             var startTime = Time.time;
 
             LoadingManager.EnableLoading("Saving avatar...", LoadingManager.LoadingType.Popup);
@@ -305,6 +306,7 @@ namespace ReadyPlayerMe.Samples.AvatarCreatorWizard
                 return;
             }
             AvatarCreatorData.AvatarProperties.isDraft = true;
+            AuthManager.StoreLastModifiedAvatar(AvatarCreatorData.AvatarProperties.Id);
             ProcessAvatar(avatar);
             Destroy(currentAvatar);
             currentAvatar = avatar;

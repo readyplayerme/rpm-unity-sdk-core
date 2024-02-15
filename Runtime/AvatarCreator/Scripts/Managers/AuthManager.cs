@@ -91,5 +91,10 @@ namespace ReadyPlayerMe.AvatarCreator
             userSession = new UserSession();
             OnSignedOut?.Invoke();
         }
+
+        public static void StoreLastModifiedAvatar(string avatarId)
+        {
+            userSession.LastModifiedAvatarId = avatarId;
+        }
     }
 }
