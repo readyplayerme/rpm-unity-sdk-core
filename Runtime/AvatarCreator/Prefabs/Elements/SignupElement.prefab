@@ -620,7 +620,7 @@ GameObject:
   - component: {fileID: 4327177122894400620}
   - component: {fileID: 5256582479882088306}
   m_Layer: 5
-  m_Name: AccountCreationElement
+  m_Name: SignupElement
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

@@ -8,7 +8,7 @@ namespace ReadyPlayerMe.AvatarCreator
     /// This class provides all the functionality required to create a basic Account Creation UI element
     /// It allows users to input an email address, send an email, and continue without signup.
     /// </summary>
-    public class AccountCreationElement : MonoBehaviour
+    public class SignupElement : MonoBehaviour
     {
         [SerializeField] private InputField emailField;
         [SerializeField] private Button sendEmailButton;
