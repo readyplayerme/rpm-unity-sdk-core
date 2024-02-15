@@ -20,22 +20,23 @@ namespace ReadyPlayerMe.AvatarCreator
         // Event invoked when the "Continue Without Signup" button is clicked.
         public UnityEvent OnContinueWithoutSignup;
 
-        private void Update()
-        {
-            var email = emailField.text;
-            sendEmailButton.interactable = !string.IsNullOrEmpty(email) && ValidatorUtil.IsValidEmail(email);
-        }
-
         private void OnEnable()
         {
+            emailField.onValueChanged.AddListener(OnEmailChanged);
             sendEmailButton.onClick.AddListener(OnSendEmailButton);
             continueWithoutSignupButton.onClick.AddListener(OnContinueWithoutSignupButton);
         }
 
         private void OnDisable()
         {
+            emailField.onValueChanged.RemoveListener(OnEmailChanged);
             sendEmailButton.onClick.RemoveListener(OnSendEmailButton);
             continueWithoutSignupButton.onClick.RemoveListener(OnContinueWithoutSignupButton);
+        }
+
+        private void OnEmailChanged(string newEmailValue)
+        {
+            sendEmailButton.interactable = !string.IsNullOrEmpty(newEmailValue) && ValidatorUtil.IsValidEmail(newEmailValue);
         }
 
         private void OnSendEmailButton()

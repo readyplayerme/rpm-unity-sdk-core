@@ -1736,7 +1736,7 @@ PrefabInstance:
     - target: {fileID: 5256582479882088306, guid: 2cfd0a41e844b744dabe80ed7818a884,
         type: 3}
       propertyPath: OnSendEmail.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
-      value: SaveWithoutLoginCheck
+      value: SaveAvatar
       objectReference: {fileID: 0}
     - target: {fileID: 5256582479882088306, guid: 2cfd0a41e844b744dabe80ed7818a884,
         type: 3}
@@ -1756,7 +1756,7 @@ PrefabInstance:
     - target: {fileID: 5256582479882088306, guid: 2cfd0a41e844b744dabe80ed7818a884,
         type: 3}
       propertyPath: OnContinueWithoutSignup.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
-      value: SaveWithoutLoginCheck
+      value: SaveAvatar
       objectReference: {fileID: 0}
     - target: {fileID: 5256582479882088306, guid: 2cfd0a41e844b744dabe80ed7818a884,
         type: 3}
@@ -1986,7 +1986,7 @@ MonoBehaviour:
       - m_Target: {fileID: 1442581552}
         m_TargetAssemblyTypeName: ReadyPlayerMe.Samples.AvatarCreatorExperimental.SimpleAvatarCreator,
           ReadyPlayerMe.Samples.AvatarCreatorExperimental
-        m_MethodName: SaveAvatar
+        m_MethodName: SignupAndSaveAvatar
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}

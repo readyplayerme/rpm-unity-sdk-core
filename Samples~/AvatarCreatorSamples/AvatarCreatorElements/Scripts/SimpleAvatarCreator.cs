@@ -62,17 +62,17 @@ namespace ReadyPlayerMe.Samples.AvatarCreatorExperimental
             loading.SetActive(false);
         }
 
-        public async void SaveAvatar()
+        public async void SignupAndSaveAvatar()
         {
             if (!AuthManager.IsSignedIn)
             {
                 createRPMAccount.SetActive(true);
                 return;
             }
-            SaveWithoutLoginCheck();
+            SaveAvatar();
         }
 
-        public async void SaveWithoutLoginCheck()
+        public async void SaveAvatar()
         {
             loading.SetActive(true);
             await avatarManager.Save();
