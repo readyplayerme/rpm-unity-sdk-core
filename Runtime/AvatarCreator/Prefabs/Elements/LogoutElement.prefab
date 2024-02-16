@@ -130,6 +130,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: df7135eaf64348dcb20000ff65e8c32e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  OnLogoutSuccess:
+    m_PersistentCalls:
+      m_Calls: []
+  OnLogoutFailed:
+    m_PersistentCalls:
+      m_Calls: []
+  logoutButton: {fileID: 7964929306702452488}
 --- !u!1 &9222255910065165744
 GameObject:
   m_ObjectHideFlags: 0
