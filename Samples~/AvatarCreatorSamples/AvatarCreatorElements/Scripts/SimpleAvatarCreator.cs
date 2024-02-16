@@ -190,8 +190,13 @@ namespace ReadyPlayerMe.Samples.AvatarCreatorElements
             {
                 Destroy(avatar);
             }
+            var previousGender = gender;
             avatar = templateAvatarProps.Item1;
             gender = templateAvatarProps.Item2.Gender;
+            if (gender != previousGender)
+            {
+                LoadAssets();
+            }
             SetupAvatar();
 
             onAvatarCreated?.Invoke(templateAvatarProps.Item2);
