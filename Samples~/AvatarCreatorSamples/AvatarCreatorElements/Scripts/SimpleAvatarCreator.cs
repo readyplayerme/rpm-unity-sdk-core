@@ -56,6 +56,13 @@ namespace ReadyPlayerMe.Samples.AvatarCreatorElements
             avatar = newAvatar;
             var avatarProperties = await avatarManager.GetAvatarProperties(avatarId);
 
+            var previousGender = gender;
+            gender = avatarProperties.Gender;
+            if (avatarProperties.Gender != previousGender)
+            {
+                LoadAssets();
+            }
+
             SetupAvatar();
 
             onAvatarCreated?.Invoke(avatarProperties);
