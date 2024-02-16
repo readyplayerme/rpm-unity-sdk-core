@@ -26,6 +26,7 @@ namespace ReadyPlayerMe.AvatarCreator
         {
             logoutButton.onClick.RemoveListener(Logout);
         }
+
         private async void Logout()
         {
             AuthManager.Logout();
