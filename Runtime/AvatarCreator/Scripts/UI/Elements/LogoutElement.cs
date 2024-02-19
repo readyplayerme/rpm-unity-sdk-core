@@ -2,6 +2,7 @@
 using ReadyPlayerMe.Core;
 using UnityEngine;
 using UnityEngine.Events;
+using UnityEngine.UI;
 
 namespace ReadyPlayerMe.AvatarCreator
 {
@@ -14,7 +15,19 @@ namespace ReadyPlayerMe.AvatarCreator
         private const string TAG = nameof(LoginElement);
         public UnityEvent OnLogoutSuccess;
         public UnityEvent<string> OnLogoutFailed;
-        public async void Logout()
+        [SerializeField] private Button logoutButton;
+
+        private void OnEnable()
+        {
+            logoutButton.onClick.AddListener(Logout);
+        }
+
+        private void OnDisable()
+        {
+            logoutButton.onClick.RemoveListener(Logout);
+        }
+
+        private async void Logout()
         {
             AuthManager.Logout();
             try

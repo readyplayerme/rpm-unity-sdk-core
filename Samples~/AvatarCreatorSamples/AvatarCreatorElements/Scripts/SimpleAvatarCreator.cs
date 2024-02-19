@@ -56,6 +56,13 @@ namespace ReadyPlayerMe.Samples.AvatarCreatorElements
             avatar = newAvatar;
             var avatarProperties = await avatarManager.GetAvatarProperties(avatarId);
 
+            var previousGender = gender;
+            gender = avatarProperties.Gender;
+            if (avatarProperties.Gender != previousGender)
+            {
+                LoadAssets();
+            }
+
             SetupAvatar();
 
             onAvatarCreated?.Invoke(avatarProperties);
@@ -183,8 +190,13 @@ namespace ReadyPlayerMe.Samples.AvatarCreatorElements
             {
                 Destroy(avatar);
             }
+            var previousGender = gender;
             avatar = templateAvatarProps.Item1;
             gender = templateAvatarProps.Item2.Gender;
+            if (gender != previousGender)
+            {
+                LoadAssets();
+            }
             SetupAvatar();
 
             onAvatarCreated?.Invoke(templateAvatarProps.Item2);

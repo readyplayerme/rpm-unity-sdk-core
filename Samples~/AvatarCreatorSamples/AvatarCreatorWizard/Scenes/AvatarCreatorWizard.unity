@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.44457042, g: 0.49407542, b: 0.57334924, a: 1}
+  m_IndirectSpecularColor: {r: 0.4445709, g: 0.494076, b: 0.57335085, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -16556,6 +16556,11 @@ PrefabInstance:
       propertyPath: saveButton
       value: 
       objectReference: {fileID: 854279430}
+    - target: {fileID: 57378948363611735, guid: 94e6adc5c795ff348bce129db0368b1f,
+        type: 3}
+      propertyPath: signupElement
+      value: 
+      objectReference: {fileID: 1181375370}
     - target: {fileID: 57378948363611735, guid: 94e6adc5c795ff348bce129db0368b1f,
         type: 3}
       propertyPath: accountCreationPopup
