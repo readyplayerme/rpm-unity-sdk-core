@@ -19,5 +19,7 @@ namespace ReadyPlayerMe.Core.WebView
         public const string USER_SET = "v1.user.set";
         public const string USER_AUTHORIZED = "v1.user.authorized";
         public const string ASSET_UNLOCK = "v1.asset.unlock";
+        public const string USER_UPDATED = "v1.user.updated";
+        public const string USER_LOGOUT = "v1.user.logout";
     }
 }

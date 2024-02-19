@@ -45,11 +45,11 @@ namespace ReadyPlayerMe.AvatarCreator
             await AuthAPIRequests.SendCodeToEmail(email, userSession.Id);
         }
 
-        public static async Task<bool> LoginWithCode(string otp)
+        public static async Task<bool> LoginWithCode(string otp, string userIdToMerge = null)
         {
             try
             {
-                userSession = await AuthAPIRequests.LoginWithCode(otp);
+                userSession = await AuthAPIRequests.LoginWithCode(otp, userIdToMerge);
                 IsSignedIn = true;
                 OnSignedIn?.Invoke(userSession);
                 return true;
@@ -90,6 +90,11 @@ namespace ReadyPlayerMe.AvatarCreator
             IsSignedInAnonymously = false;
             userSession = new UserSession();
             OnSignedOut?.Invoke();
+        }
+
+        public static void StoreLastModifiedAvatar(string avatarId)
+        {
+            userSession.LastModifiedAvatarId = avatarId;
         }
     }
 }

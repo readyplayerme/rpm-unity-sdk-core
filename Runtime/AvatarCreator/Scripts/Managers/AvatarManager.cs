@@ -159,6 +159,22 @@ namespace ReadyPlayerMe.AvatarCreator
             return await inCreatorAvatarLoader.Load(avatarId, bodyType, gender, data);
         }
 
+        public async Task<AvatarProperties> GetAvatarProperties(string id)
+        {
+            avatarId = id;
+            var avatarProperties = new AvatarProperties();
+            try
+            {
+                avatarProperties = await avatarAPIRequests.GetAvatarProperties(avatarId);
+            }
+            catch (Exception e)
+            {
+                OnError?.Invoke(e.Message);
+            }
+
+            return avatarProperties;
+        }
+
         /// <summary>
         /// Update an asset of the avatar.
         /// </summary>
@@ -178,7 +194,6 @@ namespace ReadyPlayerMe.AvatarCreator
             }
 
             payload.Assets.Add(assetType, assetId);
-
             byte[] data;
             try
             {
@@ -237,7 +252,7 @@ namespace ReadyPlayerMe.AvatarCreator
         /// <summary>
         /// This will delete the avatar draft which have not been saved. 
         /// </summary>
-        public async void Delete(bool isDraft)
+        public async Task Delete(bool isDraft)
         {
             try
             {

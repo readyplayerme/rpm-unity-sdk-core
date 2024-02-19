@@ -94,7 +94,7 @@ namespace ReadyPlayerMe.Core
             if (avatarConfig)
             {
                 var parameters = AvatarConfigProcessor.ProcessAvatarConfiguration(avatarConfig);
-                url += parameters;
+                url += $"?{parameters}";
                 SDKLogger.Log(TAG, $"Download URL with parameters: {url}");
             }
 
@@ -135,7 +135,7 @@ namespace ReadyPlayerMe.Core
             if (avatarConfig)
             {
                 var parameters = AvatarConfigProcessor.ProcessAvatarConfiguration(avatarConfig);
-                url += parameters;
+                url += $"?{parameters}";
                 SDKLogger.Log(TAG, $"Download URL with parameters: {url}");
             }
 
@@ -146,7 +146,7 @@ namespace ReadyPlayerMe.Core
 
             try
             {
-                ResponseFile response = await dispatcher.DownloadIntoFile(url, path, token, Timeout);
+                var response = await dispatcher.DownloadIntoFile(url, path, token, Timeout);
                 return response.Data;
             }
             catch (CustomException exception)

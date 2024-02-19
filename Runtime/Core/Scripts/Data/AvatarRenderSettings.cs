@@ -9,6 +9,7 @@ namespace ReadyPlayerMe.Core
     {
         public string Name;
         public float Value;
+
         public BlendShape(string name, float value)
         {
             Name = name;
@@ -53,13 +54,6 @@ namespace ReadyPlayerMe.Core
 
             queryBuilder.AddKeyValue(nameof(Camera).ToCamelCase(), Camera.ToString().ToLower());
 
-            // TODO Quality is only supported by jpg. Find better approach for this. 
-            // if (Quality == 0)
-            // {
-            // Quality = 100;
-            // }
-            // queryBuilder.AddKeyValue(nameof(Quality).ToCamelCase(), Quality.ToString());
-
             if (Size == 0)
             {
                 Size = 800;
@@ -74,6 +68,6 @@ namespace ReadyPlayerMe.Core
 
             return queryBuilder.Query;
         }
-        
+
     }
 }

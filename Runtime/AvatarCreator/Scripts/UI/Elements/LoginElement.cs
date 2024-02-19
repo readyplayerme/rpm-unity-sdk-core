@@ -21,6 +21,7 @@ namespace ReadyPlayerMe.AvatarCreator
         [SerializeField] private UnityEvent OnLoginSuccess;
         [SerializeField] private UnityEvent<string> OnLoginFail;
 
+        private bool mergeCurrentSession;
         private void OnEnable()
         {
             AuthManager.OnSignInError += LoginFailed;
@@ -31,16 +32,28 @@ namespace ReadyPlayerMe.AvatarCreator
             AuthManager.OnSignInError -= LoginFailed;
         }
 
+        /// <summary>
+        /// Sends a verification code to the email address that was entered into the email InputField.
+        /// </summary>
         public void SendVerificationCode()
         {
             AuthManager.SendEmailCode(emailField.text);
         }
 
+        public void MergeCurrentUserToRpmAccount(bool merge)
+        {
+            mergeCurrentSession = merge;
+        }
+
+        /// <summary>
+        /// Attempts to login with the verification code that was entered into the code InputField.
+        /// </summary>
         public async void LoginWithCode()
         {
             try
             {
-                if (await AuthManager.LoginWithCode(codeField.text))
+                var userIdToMerge = mergeCurrentSession && AuthManager.IsSignedInAnonymously ? AuthManager.UserSession.Id : null;
+                if (await AuthManager.LoginWithCode(codeField.text, userIdToMerge))
                 {
                     LoginSuccess();
                 }

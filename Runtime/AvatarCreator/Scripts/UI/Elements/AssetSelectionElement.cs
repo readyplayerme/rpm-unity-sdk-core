@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using ReadyPlayerMe.Core;
@@ -14,6 +15,7 @@ namespace ReadyPlayerMe.AvatarCreator
     public class AssetSelectionElement : SelectionElement
     {
         [Header("Properties")]
+        [SerializeField] private SelectionButton clearSelectionButton;
         [SerializeField] private BodyType bodyType = BodyType.FullBody;
         [SerializeField, AssetTypeFilter(AssetFilter.Style)] private AssetType assetType;
         [SerializeField] private int iconSize = 64;
@@ -24,6 +26,16 @@ namespace ReadyPlayerMe.AvatarCreator
         private void Awake()
         {
             assetsRequests = new AssetAPIRequests(CoreSettingsHandler.CoreSettings.AppId);
+            if (clearSelectionButton == null) return;
+            AddClearButton(clearSelectionButton, assetType);
+        }
+
+        private void CreateClearButton()
+        {
+            var clearButton = Instantiate(clearSelectionButton, ButtonContainer);
+            clearButton.transform.SetAsFirstSibling();
+            var assetData = new PartnerAsset { Id = "0", AssetType = assetType };
+            clearButton.GetComponent<SelectionButton>().AddListener(() => OnAssetSelected?.Invoke(assetData));
         }
 
         public void SetBodyType(BodyType bodyType)
@@ -59,6 +71,22 @@ namespace ReadyPlayerMe.AvatarCreator
             var url = iconSize > 0 ? $"{asset.ImageUrl}?w={iconSize}" : asset.ImageUrl;
             var texture = await webRequestDispatcher.DownloadTexture(url);
             button.SetIcon(texture);
+        }
+
+        public void SetAssetSelected(AvatarProperties avatarProperties)
+        {
+            if (!avatarProperties.Assets.ContainsKey(assetType))
+            {
+                Debug.Log($"Avatar properties does not contain asset type {assetType}");
+                return;
+            }
+            var assetId = avatarProperties.Assets[assetType] as string;
+            if (string.IsNullOrEmpty(assetId))
+            {
+                Debug.Log($"Asset id is null or empty {assetId} on type {assetType}");
+                return;
+            }
+            SetButtonSelected(assetId);
         }
     }
 }

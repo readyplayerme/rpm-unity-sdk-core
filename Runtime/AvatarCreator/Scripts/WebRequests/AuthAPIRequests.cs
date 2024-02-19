@@ -17,7 +17,7 @@ namespace ReadyPlayerMe.AvatarCreator
         {
             this.domain = domain;
             webRequestDispatcher = new WebRequestDispatcher();
-            
+
             rpmAuthBaseUrl = string.Format(Env.RPM_SUBDOMAIN_BASE_URL, domain);
         }
 
@@ -49,14 +49,19 @@ namespace ReadyPlayerMe.AvatarCreator
             response.ThrowIfError();
         }
 
-        public async Task<UserSession> LoginWithCode(string code)
+        public async Task<UserSession> LoginWithCode(string code, string userIdToMerge = null)
         {
-            var payload = AuthDataConverter.CreatePayload(new Dictionary<string, string>
+            var body = new Dictionary<string, string>
             {
                 { AuthConstants.AUTH_TYPE_CODE, code }
-            });
+            };
+            if (userIdToMerge != null)
+            {
+                body.Add(AuthConstants.USER_ID, userIdToMerge);
+            }
+            var payload = AuthDataConverter.CreatePayload(body);
 
-            var response = await webRequestDispatcher.SendRequest<Response>( $"{rpmAuthBaseUrl}/auth/login", HttpMethod.POST, headers, payload);
+            var response = await webRequestDispatcher.SendRequest<Response>($"{rpmAuthBaseUrl}/auth/login", HttpMethod.POST, headers, payload);
             response.ThrowIfError();
 
             var data = AuthDataConverter.ParseResponse(response.Text);

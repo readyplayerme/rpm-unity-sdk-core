@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -18,6 +19,7 @@ namespace ReadyPlayerMe.AvatarCreator
 
         private const string COLOR_PARAMETERS = "colors?type=skin,beard,hair,eyebrow";
         private const string FULL_BODY = "fullbody";
+        private const string FULL_BODY_XR = "fullbody-xr";
         private const string HALF_BODY = "halfbody";
         private const string PARTNER = "partner";
         private const string DATA = "data";
@@ -71,7 +73,7 @@ namespace ReadyPlayerMe.AvatarCreator
             var payloadData = new Dictionary<string, string>
             {
                 { nameof(partner), partner },
-                { nameof(bodyType), bodyType == BodyType.FullBody ? FULL_BODY : HALF_BODY }
+                { nameof(bodyType), GetBodyTypeValue(bodyType) }
             };
 
             var payload = AuthDataConverter.CreatePayload(payloadData);
@@ -91,6 +93,19 @@ namespace ReadyPlayerMe.AvatarCreator
             var json = JObject.Parse(response.Text);
             var data = json[DATA]!.ToString();
             return JsonConvert.DeserializeObject<AvatarProperties>(data);
+        }
+
+        private static string GetBodyTypeValue(BodyType bodyType)
+        {
+
+            var body = bodyType switch
+            {
+                BodyType.FullBody => FULL_BODY,
+                BodyType.FullBodyXR => FULL_BODY_XR,
+                BodyType.HalfBody => HALF_BODY,
+                _ => throw new ArgumentOutOfRangeException(nameof(bodyType), bodyType, null)
+            };
+            return body;
         }
 
         public async Task<AssetColor[]> GetAvatarColors(string avatarId, AssetType assetType = AssetType.None)
@@ -114,12 +129,17 @@ namespace ReadyPlayerMe.AvatarCreator
             return ColorResponseHandler.GetColorsFromResponse(response.Text);
         }
 
-        public async Task<AvatarProperties> GetAvatarMetadata(string avatarId)
+        public async Task<AvatarProperties> GetAvatarMetadata(string avatarId, bool isDraft = false)
         {
+            var url = $"{RPM_AVATAR_V2_BASE_URL}/{avatarId}.json?";
+
+            if (isDraft)
+                url += "preview=true";
+
             var response = await authorizedRequest.SendRequest<Response>(
                 new RequestData
                 {
-                    Url = $"{RPM_AVATAR_V2_BASE_URL}/{avatarId}.json",
+                    Url = url,
                     Method = HttpMethod.GET
                 },
                 ctx: ctx
@@ -172,12 +192,27 @@ namespace ReadyPlayerMe.AvatarCreator
             return response.Data;
         }
 
+        public async Task<AvatarProperties> GetAvatarProperties(string avatarId)
+        {
+            var url = $"{RPM_AVATAR_V2_BASE_URL}/{avatarId}.json?";
+
+            var response = await authorizedRequest.SendRequest<Response>(
+                new RequestData
+                {
+                    Url = url,
+                    Method = HttpMethod.GET
+                },
+                ctx: ctx);
+
+            response.ThrowIfError();
+            var json = JObject.Parse(response.Text);
+            var data = json[DATA]!.ToString();
+            return JsonConvert.DeserializeObject<AvatarProperties>(data);
+        }
+
         public async Task<byte[]> UpdateAvatar(string avatarId, AvatarProperties avatarProperties, string parameters = null)
         {
             var url = $"{RPM_AVATAR_V2_BASE_URL}/{avatarId}?responseType=glb&{parameters}";
-
-            if (!string.IsNullOrEmpty(parameters))
-                url += parameters?.Substring(1);
 
             var response = await authorizedRequest.SendRequest<Response>(
                 new RequestData
@@ -195,10 +230,11 @@ namespace ReadyPlayerMe.AvatarCreator
         public async Task PrecompileAvatar(string avatarId, PrecompileData precompileData, string parameters = null)
         {
             var json = JsonConvert.SerializeObject(precompileData);
+
             var response = await authorizedRequest.SendRequest<Response>(
                 new RequestData
                 {
-                    Url = $"{RPM_AVATAR_V2_BASE_URL}/{avatarId}/precompile{parameters ?? string.Empty}",
+                    Url = $"{RPM_AVATAR_V2_BASE_URL}/{avatarId}/precompile?{parameters ?? string.Empty}",
                     Method = HttpMethod.POST,
                     Payload = json
                 },
