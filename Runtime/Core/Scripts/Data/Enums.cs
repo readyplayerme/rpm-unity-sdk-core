@@ -113,7 +113,7 @@ namespace ReadyPlayerMe.Core
 
     public enum RenderPose
     {
-        None,
+        None = -1,
         Relaxed,
         PowerStance,
         Standing,
