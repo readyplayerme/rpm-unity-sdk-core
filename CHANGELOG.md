@@ -7,7 +7,7 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 
 ### Updated
 
-- updated default render settings to fix an issue causing incorrect halfbody avatar renders
+- updated default render settings to fix an issue causing incorrect halfbody avatar renders [#238](https://github.com/readyplayerme/rpm-unity-sdk-core/pull/238)
 
 ## [6.0.0] - 2024.02.19
 
