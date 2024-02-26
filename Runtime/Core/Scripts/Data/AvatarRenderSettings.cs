@@ -24,7 +24,7 @@ namespace ReadyPlayerMe.Core
     public class AvatarRenderSettings
     {
         public Expression Expression = Expression.None;
-        public RenderPose Pose = RenderPose.Relaxed;
+        public RenderPose Pose = RenderPose.None;
         public RenderCamera Camera = RenderCamera.Portrait;
         public int Quality = 100;
         public int Size = 800;
@@ -39,8 +39,10 @@ namespace ReadyPlayerMe.Core
             {
                 queryBuilder.AddKeyValue(nameof(Core.Expression).ToCamelCase(), Expression.ToString().ToCamelCase());
             }
-
-            queryBuilder.AddKeyValue(nameof(Pose).ToCamelCase(), RenderSettingsHelper.RenderPoseMap[Pose]);
+            if (Pose != RenderPose.None)
+            {
+                queryBuilder.AddKeyValue(nameof(Pose).ToCamelCase(), RenderSettingsHelper.RenderPoseMap[Pose]);
+            }
 
             if (BlendShapes != null)
             {
