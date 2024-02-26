@@ -111,8 +111,13 @@ namespace ReadyPlayerMe.Core
         Rage,
     }
 
+    /// <summary>
+    /// This enumeration describes the different types of render poses.
+    /// These poses are only supported for fullbody avatars, for halfbody avatars this should be set to None.
+    /// </summary>
     public enum RenderPose
     {
+        None = -1,
         Relaxed,
         PowerStance,
         Standing,
