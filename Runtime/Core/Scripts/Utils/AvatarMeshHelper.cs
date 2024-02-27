@@ -13,29 +13,28 @@ namespace ReadyPlayerMe.Core
         public static void TransferMesh(GameObject source, GameObject target)
         {
             // store the relevant data of the source (downloaded) avatar
-            var dataDict = new Dictionary<string, (Material, Mesh, Transform[])>();
+            var rendererDict = new Dictionary<string, SkinnedMeshRenderer>();
             
             var sourceRenderers = source.GetComponentsInChildren<SkinnedMeshRenderer>();
             var targetRenderers = target.GetComponentsInChildren<SkinnedMeshRenderer>();
             
             foreach (var renderer in sourceRenderers)
             {
-                dataDict.Add(renderer.name, (renderer.materials[0], renderer.sharedMesh, renderer.bones));
+                rendererDict.Add(renderer.name, renderer);
             }
             
             // transfer the data to the target skinning mesh renderers
             foreach (var renderer in targetRenderers)
             {
-                if (dataDict.TryGetValue(renderer.name, out var data))
+                if (rendererDict.TryGetValue(renderer.name, out var sourceRenderer))
                 {
-                    var (sourceMaterial, sourceMesh, sourceBones) = data;
-                    renderer.material = sourceMaterial;
-                    renderer.sharedMesh = sourceMesh;
+                    renderer.material = sourceRenderer.materials[0];
+                    renderer.sharedMesh = sourceRenderer.sharedMesh;
                     
                     // transfer the bone data
                     foreach (var targetBone in renderer.bones)
                     {
-                        foreach (var sourceBone in sourceBones)
+                        foreach (var sourceBone in sourceRenderer.bones)
                         {
                             if (sourceBone.name == targetBone.name)
                             {
