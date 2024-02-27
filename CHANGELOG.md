@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 This project adheres to [Semantic Versioning](http://semver.org/).
 
+
+## [6.0.2] - 2024.MM.DD
+
+### Updated
+- AvatarMeshHelper now supports multiple mesh and material transfer. [#241](https://github.com/readyplayerme/rpm-unity-sdk-core/pull/241)
+
 ## [6.0.1] - 2024.02.26
 
 ### Updated
