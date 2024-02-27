@@ -5,6 +5,12 @@ namespace ReadyPlayerMe.Core
 {
     public static class AvatarMeshHelper
     {
+        [Obsolete("Use TransferMesh(GameObject source, GameObject target) instead.")]
+        public static void TransferMesh(GameObject source, SkinnedMeshRenderer[] targetMeshes, Animator targetAnimator)
+        {
+            TransferMesh(source, targetMeshes[0].transform.parent.gameObject);
+        }
+        
         /// <summary>
         ///     Transfers the mesh and material data from the source to the target avatar.
         /// </summary>
