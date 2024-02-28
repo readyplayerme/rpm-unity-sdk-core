@@ -19,7 +19,22 @@ namespace ReadyPlayerMe.AvatarCreator
         [SerializeField] private SelectionButton buttonElementPrefab;
         [SerializeField] private GameObject selectedIconPrefab;
         [SerializeField] private Transform buttonContainer;
-        private GameObject selectedIcon;
+
+        private GameObject _selectedIcon;
+        private GameObject selectedIcon
+        {
+            get
+            {
+                if (_selectedIcon)
+                {
+                    return _selectedIcon;
+                }
+                _selectedIcon = Instantiate(selectedIconPrefab, buttonContainer);
+                selectedIcon.SetActive(false);
+                return _selectedIcon;
+            }
+        }
+        
 
         [Space(5)]
         [Header("Events")]
@@ -27,12 +42,6 @@ namespace ReadyPlayerMe.AvatarCreator
         private readonly Dictionary<string, SelectionButton> buttonElementById = new Dictionary<string, SelectionButton>();
 
         protected Transform ButtonContainer => buttonContainer;
-
-        private void Start()
-        {
-            selectedIcon = Instantiate(selectedIconPrefab, buttonContainer);
-            selectedIcon.SetActive(false);
-        }
 
         /// <summary>
         /// Creates button elements for each asset in the provided array.
