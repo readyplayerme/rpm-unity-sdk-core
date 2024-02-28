@@ -66,6 +66,11 @@ namespace ReadyPlayerMe.Core
                         }
                     }
                 }
+                else
+                {
+                    renderer.sharedMesh = null;
+                    renderer.material = null;
+                }
             }
             
             // transfer the animation avatar
