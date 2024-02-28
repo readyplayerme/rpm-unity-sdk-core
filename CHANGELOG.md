@@ -9,6 +9,9 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 ### Updated
 - AvatarMeshHelper now supports multiple mesh and material transfer. [#241](https://github.com/readyplayerme/rpm-unity-sdk-core/pull/241)
 
+### Added
+- GetHeadMeshes method to AvatarMeshHelper to get head related meshes from an avatar. [#242](https://github.com/readyplayerme/rpm-unity-sdk-core/pull/242)
+
 ## [6.0.1] - 2024.02.26
 
 ### Updated
