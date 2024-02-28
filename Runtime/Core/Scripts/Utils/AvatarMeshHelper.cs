@@ -66,11 +66,6 @@ namespace ReadyPlayerMe.Core
                         }
                     }
                 }
-                else
-                {
-                    // remove the renderer if it's not found in the source avatar
-                    Object.Destroy(renderer.gameObject);
-                }
             }
             
             // transfer the animation avatar
