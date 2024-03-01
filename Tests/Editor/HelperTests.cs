@@ -75,6 +75,8 @@ namespace ReadyPlayerMe.Core.Tests
             
             var meshes = target.GetComponentsInChildren<SkinnedMeshRenderer>();
             
+            Task.Delay(1000).Wait();
+            
             Assert.IsNotNull(source, "Source avatar is null");
             Assert.IsNotNull(target, "Target avatar is null");
             
