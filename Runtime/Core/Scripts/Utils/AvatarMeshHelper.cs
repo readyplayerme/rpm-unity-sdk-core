@@ -48,8 +48,8 @@ namespace ReadyPlayerMe.Core
             {
                 if (rendererDict.TryGetValue(renderer.name, out var sourceRenderer))
                 {
-                    renderer.material = sourceRenderer.materials[0];
                     renderer.sharedMesh = sourceRenderer.sharedMesh;
+                    renderer.sharedMaterial = sourceRenderer.sharedMaterial;
                     
                     // transfer the bone data
                     foreach (var targetBone in renderer.bones)
