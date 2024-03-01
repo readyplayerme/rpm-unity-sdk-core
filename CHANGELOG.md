@@ -10,6 +10,7 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 
 ### Added
 - GetHeadMeshes method to AvatarMeshHelper to get head related meshes from an avatar. [#242](https://github.com/readyplayerme/rpm-unity-sdk-core/pull/242)
+- Template avatar with all possible meshes is added to the Resources folder.
 
 ## [6.0.1] - 2024.02.26
 
