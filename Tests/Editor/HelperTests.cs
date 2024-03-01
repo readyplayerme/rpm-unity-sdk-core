@@ -75,13 +75,16 @@ namespace ReadyPlayerMe.Core.Tests
             
             var meshes = target.GetComponentsInChildren<SkinnedMeshRenderer>();
             
+            Assert.IsNotNull(source, "Source avatar is null");
+            Assert.IsNotNull(target, "Target avatar is null");
+            
             // Left eye
-            Assert.True(meshes[0].sharedMesh != null);
-            Assert.True(meshes[0].sharedMaterial != null);
+            Assert.True(meshes[0].sharedMesh != null, "Left eye mesh is null");
+            Assert.True(meshes[0].sharedMaterial != null, "Left eye material is null");
             
             // Hair
-            Assert.True(meshes[4].sharedMesh != null);
-            Assert.True(meshes[4].sharedMaterial != null);
+            Assert.True(meshes[4].sharedMesh != null, "Hair mesh is null");
+            Assert.True(meshes[4].sharedMaterial != null, "Hair material is null");
         }
     }
 }
