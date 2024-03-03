@@ -10,7 +10,7 @@ namespace ReadyPlayerMe.Core.Tests
     {
         private const string PREFAB_ASSET_NAME = "t:prefab glTFast-TimeBudgetPerFramDeferAgent";
         private const string INCORRECT_ASSET_NAME = "t:prefab asdaasdas";
-        private const string NEW_PREFAB_PATH = "Assets/Tests/TestPrefab.prefab";
+        private const string NEW_PREFAB_PATH = "Assets/TestPrefab.prefab";
 
         [OneTimeTearDown]
         public void Cleanup()
