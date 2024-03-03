@@ -17,7 +17,7 @@ jobs:
         testMode:
           - editmode
         unityVersion:
-          - 2020.3.16f1
+          - 2020.3.32f1
     steps:
       - name: Checkout empty unity project repository
         uses: actions/checkout@v4
