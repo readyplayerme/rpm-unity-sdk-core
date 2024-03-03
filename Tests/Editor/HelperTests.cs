@@ -65,6 +65,7 @@ namespace ReadyPlayerMe.Core.Tests
             GameObject source = null;
             var loader = new AvatarObjectLoader();
             loader.OnCompleted += (sender, args) => { source = args.Avatar; };
+            loader.AvatarConfig = new AvatarConfig() { TextureAtlas = TextureAtlas.None };
             loader.LoadAvatar(TestAvatarData.DefaultAvatarUri.ModelUrl);
         
             while (source == null) await Task.Yield();
