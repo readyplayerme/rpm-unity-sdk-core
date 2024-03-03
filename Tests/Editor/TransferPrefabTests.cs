@@ -1,5 +1,6 @@
 using NUnit.Framework;
 using ReadyPlayerMe.Core.Editor;
+using System;
 using UnityEditor;
 using UnityEngine;
 
@@ -29,13 +30,20 @@ namespace ReadyPlayerMe.Core.Tests
                 Assert.Fail("No prefab found with the given name.");
             }
             PrefabHelper.TransferPrefabByGuid(guids[0], NEW_PREFAB_PATH);
-            if (AssetDatabase.LoadAssetAtPath(NEW_PREFAB_PATH, typeof(GameObject)) != null)
+            try
             {
-                Assert.Pass();
+                if (AssetDatabase.LoadAssetAtPath(NEW_PREFAB_PATH, typeof(GameObject)) != null)
+                {
+                    Assert.Pass();
+                }
+                else
+                {
+                    Assert.Fail("Could not transfer prefab.");
+                }
             }
-            else
+            catch (Exception e)
             {
-                Assert.Fail("Could not transfer prefab.");
+                Assert.Fail($"[Caught Error] {e.Message}");
             }
         }
 
