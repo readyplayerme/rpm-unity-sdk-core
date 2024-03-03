@@ -26,7 +26,7 @@ namespace ReadyPlayerMe.Core.Tests
             var guids = AssetDatabase.FindAssets(PREFAB_ASSET_NAME);
             if (guids.Length == 0)
             {
-                Assert.Fail();
+                Assert.Fail("No prefab found with the given name.");
             }
             PrefabHelper.TransferPrefabByGuid(guids[0], NEW_PREFAB_PATH);
             if (AssetDatabase.LoadAssetAtPath(NEW_PREFAB_PATH, typeof(GameObject)) != null)
@@ -35,7 +35,7 @@ namespace ReadyPlayerMe.Core.Tests
             }
             else
             {
-                Assert.Fail();
+                Assert.Fail("Could not transfer prefab.");
             }
         }
 
