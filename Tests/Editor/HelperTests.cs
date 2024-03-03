@@ -69,16 +69,12 @@ namespace ReadyPlayerMe.Core.Tests
         
             while (source == null) await Task.Yield();
             
-            GameObject target = Resources.Load<GameObject>("RPM_Template_Avatar");
+            var prefab = Resources.Load<GameObject>("RPM_Template_Avatar");
+            var target = Object.Instantiate(prefab);
             
             AvatarMeshHelper.TransferMesh(source, target);
             
             var meshes = target.GetComponentsInChildren<SkinnedMeshRenderer>();
-            
-            Task.Delay(1000).Wait();
-            
-            Assert.IsNotNull(source, "Source avatar is null");
-            Assert.IsNotNull(target, "Target avatar is null");
             
             // Left eye
             Assert.True(meshes[0].sharedMesh != null, "Left eye mesh is null");
