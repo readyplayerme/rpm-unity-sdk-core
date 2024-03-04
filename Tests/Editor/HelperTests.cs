@@ -56,7 +56,7 @@ namespace ReadyPlayerMe.Core.Tests
             GameObject prefab = Resources.Load<GameObject>("RPM_Template_Avatar");
             var meshes = prefab.GetComponentsInChildren<SkinnedMeshRenderer>();
 
-            Assert.True(meshes.Length == 14);
+            Assert.True(meshes.Length == 15);
         }
 
         [Test]
