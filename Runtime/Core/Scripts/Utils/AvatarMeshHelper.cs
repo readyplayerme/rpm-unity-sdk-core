@@ -2,7 +2,6 @@ using System;
 using UnityEngine;
 using System.Linq;
 using System.Collections.Generic;
-using Object = UnityEngine.Object;
 
 namespace ReadyPlayerMe.Core
 {
@@ -10,6 +9,7 @@ namespace ReadyPlayerMe.Core
     {
         private static readonly string[] headMeshNames = {
             "Renderer_Head",
+            "Renderer_Hair",
             "Renderer_Hair",
             "Renderer_Teeth",
             "Renderer_Glasses",
