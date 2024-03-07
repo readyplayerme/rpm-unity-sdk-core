@@ -50,5 +50,4 @@ jobs:
             -Dsonar.organization=readyplayerme
             -Dsonar.projectKey=readyplayerme_rpm-unity-sdk-core
             -Dsonar.sources=.
-            -Dsonar.tests=Tests/
             -Dsonar.token=${{ secrets.SONAR_TOKEN }}
