@@ -98,7 +98,8 @@ namespace ReadyPlayerMe.Core
         DirectoryAccessError,
         AvatarProcessError,
         AvatarRenderError,
-        OperationCancelled
+        OperationCancelled,
+        Unknown
     }
 
     public enum Expression
