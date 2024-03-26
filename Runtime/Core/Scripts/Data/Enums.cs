@@ -13,6 +13,15 @@ namespace ReadyPlayerMe.Core
         [Description("halfbody")] HalfBody,
         [Description("fullbody-xr")] FullBodyXR
     }
+    
+    public enum BodyShape
+    {
+        None,
+        [Description("average")] Average,
+        [Description("athletic")] Athletic,
+        [Description("heavyset")] Heavyset,
+        [Description("plussize")] Plussize,
+    }
 
     /// <summary>
     /// This enumeration describes the avatars OutfitGender which is used for setting the correct skeleton.
