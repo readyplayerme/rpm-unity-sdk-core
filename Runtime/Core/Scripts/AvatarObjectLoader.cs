@@ -144,6 +144,11 @@ namespace ReadyPlayerMe.Core
                 Failed(executor.IsCancelled ? FailureType.OperationCancelled : exception.FailureType, exception.Message);
                 return;
             }
+            catch (Exception e)
+            {
+                Failed(FailureType.Unknown, e.Message);
+                return;
+            }
 
             var avatar = (GameObject) context.Data;
             avatar.SetActive(true);
