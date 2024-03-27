@@ -2854,11 +2854,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   elementSections:
   - button: {fileID: 1777145418}
-    selectionElement: {fileID: 729649019}
+    element: {fileID: 729649019}
   - button: {fileID: 13700472}
-    selectionElement: {fileID: 1528640350}
+    element: {fileID: 1528640350}
   - button: {fileID: 1817295269}
-    selectionElement: {fileID: 1894432394}
+    element: {fileID: 1894432394}
 --- !u!1 &551969182
 GameObject:
   m_ObjectHideFlags: 0
@@ -5667,9 +5667,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   elementSections:
   - button: {fileID: 901117076}
-    selectionElement: {fileID: 713799764}
+    element: {fileID: 713799764}
   - button: {fileID: 785656481}
-    selectionElement: {fileID: 1624350961}
+    element: {fileID: 1624350961}
 --- !u!1 &822671252
 GameObject:
   m_ObjectHideFlags: 0
@@ -7158,7 +7158,7 @@ PrefabInstance:
     - target: {fileID: 1536621870556083727, guid: 2bb6b08b8e48b2d4ca36bf901b0b1a2e,
         type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: 99.999985
+      value: 0.000015258789
       objectReference: {fileID: 0}
     - target: {fileID: 1536621870556083728, guid: 2bb6b08b8e48b2d4ca36bf901b0b1a2e,
         type: 3}
