@@ -17,7 +17,7 @@ jobs:
           - playmode
           - editmode
         unityVersion:
-          - 2020.3.16f1
+          - 2021.3.32f1
     steps:
       - name: Checkout Unity-SDK Repository
         uses: actions/checkout@v4
