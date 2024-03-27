@@ -15,6 +15,7 @@ namespace ReadyPlayerMe.Core.Editor
                 return;
             }
             AssetDatabase.CopyAsset(path, newPath);
+            AssetDatabase.Refresh();
             Selection.activeObject = AssetDatabase.LoadAssetAtPath(newPath, typeof(GameObject));
         }
         
