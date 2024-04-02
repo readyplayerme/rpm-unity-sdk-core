@@ -11,10 +11,10 @@ namespace ReadyPlayerMe.Samples.AvatarCreatorWizard
         [SerializeField] private RawImage rawImage;
         [SerializeField] private Button cameraButton;
 
+        private WebCamTexture camTexture;
+
         public override StateType StateType => StateType.CameraPhoto;
         public override StateType NextState => StateType.Editor;
-
-        private WebCamTexture camTexture;
 
         public override async void ActivateState()
         {
@@ -34,7 +34,7 @@ namespace ReadyPlayerMe.Samples.AvatarCreatorWizard
 
         private void OpenCamera()
         {
-            WebCamDevice[] devices = WebCamTexture.devices;
+            var devices = WebCamTexture.devices;
             if (devices.Length == 0)
             {
                 return;
@@ -42,14 +42,14 @@ namespace ReadyPlayerMe.Samples.AvatarCreatorWizard
 
             rawImage.color = Color.white;
 
-            WebCamDevice webCamDevice = devices.FirstOrDefault(device => device.isFrontFacing);
+            var webCamDevice = devices.FirstOrDefault(device => device.isFrontFacing);
             if (webCamDevice.Equals(default(WebCamDevice)))
             {
                 webCamDevice = devices[0];
             }
 
-            Vector2 size = rawImage.rectTransform.sizeDelta;
-            camTexture = new WebCamTexture(webCamDevice.name, (int)size.x, (int)size.y);
+            var size = rawImage.rectTransform.sizeDelta;
+            camTexture = new WebCamTexture(webCamDevice.name, (int) size.x, (int) size.y);
             camTexture.Play();
             rawImage.texture = camTexture;
             rawImage.SizeToParent();
@@ -79,6 +79,7 @@ namespace ReadyPlayerMe.Samples.AvatarCreatorWizard
 
             AvatarCreatorData.AvatarProperties.Id = string.Empty;
             AvatarCreatorData.AvatarProperties.Base64Image = Convert.ToBase64String(bytes);
+            AvatarCreatorData.AvatarProperties.isDraft = true;
             AvatarCreatorData.IsExistingAvatar = false;
 
             StateMachine.SetState(StateType.Editor);
