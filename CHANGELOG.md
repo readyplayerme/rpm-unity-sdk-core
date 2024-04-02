@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 This project adheres to [Semantic Versioning](http://semver.org/).
 
+## [6.1.1] - 2024.02.26
+
+### Updated
+
+- avatars done with a photo are now added as a draft avatars [#254](https://github.com/readyplayerme/rpm-unity-sdk-core/pull/254)
+
 ## [6.1.0] - 2024.03.04
 
 ### Updated
