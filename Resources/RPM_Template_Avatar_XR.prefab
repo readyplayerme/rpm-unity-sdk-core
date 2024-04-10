@@ -42,7 +42,6 @@ GameObject:
   m_Component:
   - component: {fileID: 8986000388822665933}
   - component: {fileID: 5146282451150060434}
-  - component: {fileID: 6570866043429923619}
   m_Layer: 0
   m_Name: RPM_Template_Avatar_XR
   m_TagString: Untagged
@@ -102,23 +101,6 @@ Animator:
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
   m_WriteDefaultValuesOnDisable: 0
---- !u!114 &6570866043429923619
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 192729429878031319}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 247fc36ca2524089b3dc351f824e6a3e, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  AvatarId: 66165d1182179d0f63d08319
-  AvatarMetadata:
-    BodyType: 3
-    OutfitGender: 1
-    SkinTone: '#be8677'
 --- !u!1 &260670083106467611
 GameObject:
   m_ObjectHideFlags: 0
