@@ -9,8 +9,8 @@ namespace ReadyPlayerMe.AvatarCreator
 {
     public struct RefreshTokenResponse
     {
-        public string Token;
-        public string RefreshToken;
+        public string Token { get; private set; }
+        public string RefreshToken { get; private set; }
 
         public RefreshTokenResponse(JToken data)
         {

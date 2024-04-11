@@ -10,12 +10,12 @@ namespace ReadyPlayerMe.AvatarCreator
 {
     public class AvatarCreationResponse
     {
-        public GameObject Avatar { get; set; }
-        public AvatarProperties Properties { get; set; }
+        public GameObject AvatarObject { get; private set; }
+        public AvatarProperties Properties { get; private set; }
 
-        public AvatarCreationResponse(GameObject avatar, AvatarProperties properties)
+        public AvatarCreationResponse(GameObject avatarObject, AvatarProperties properties)
         {
-            Avatar = avatar;
+            AvatarObject = avatarObject;
             Properties = properties;
         }
     }
