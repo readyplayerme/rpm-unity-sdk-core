@@ -8,6 +8,18 @@ using UnityEngine;
 
 namespace ReadyPlayerMe.AvatarCreator
 {
+    public class AvatarCreationResponse
+    {
+        public GameObject Avatar { get; set; }
+        public AvatarProperties Properties { get; set; }
+
+        public AvatarCreationResponse(GameObject avatar, AvatarProperties properties)
+        {
+            Avatar = avatar;
+            Properties = properties;
+        }
+    }
+
     /// <summary>
     /// It is responsible for creating a new avatar, updating and deleting an avatar.
     /// </summary>
@@ -44,7 +56,37 @@ namespace ReadyPlayerMe.AvatarCreator
         /// Create a new avatar.
         /// </summary>
         /// <param name="avatarProperties">Properties which describes avatar</param>
-        /// <returns>Avatar gameObject</returns>
+        /// <returns>AvatarCreationResponse: Result of avatar creation including the GameObject and its properties</returns>
+        public async Task<AvatarCreationResponse> CreateAvatarAsync(AvatarProperties avatarProperties)
+        {
+            GameObject avatar = null;
+            try
+            {
+                avatarProperties = await avatarAPIRequests.CreateNewAvatar(avatarProperties);
+                gender = avatarProperties.Gender;
+                if (ctxSource.IsCancellationRequested)
+                {
+                    return new AvatarCreationResponse(null, avatarProperties);
+                }
+
+                avatarId = avatarProperties.Id;
+                avatar = await GetAvatar(avatarId, avatarProperties.BodyType, true);
+            }
+            catch (Exception e)
+            {
+                OnError?.Invoke(e.Message);
+                return new AvatarCreationResponse(avatar, avatarProperties);
+            }
+
+            return new AvatarCreationResponse(avatar, avatarProperties);
+        }
+
+        /// <summary>
+        /// Create a new avatar.
+        /// </summary>
+        /// <param name="avatarProperties">Properties which describes avatar</param>
+        /// <returns>A tuple in the form of (GameObject, AvatarProperties)</returns>
+        [Obsolete("This method is deprecated. Use CreateAvatarAsync instead.")]
         public async Task<(GameObject avatarGameObject, AvatarProperties avatarProperties)> CreateAvatar(AvatarProperties avatarProperties)
         {
             GameObject avatar = null;
@@ -73,7 +115,9 @@ namespace ReadyPlayerMe.AvatarCreator
         /// Create a new avatar from a provided template.
         /// </summary>
         /// <param name="id">Template id</param>
-        /// <returns>Avatar gameObject</returns>
+        /// <param name="bodyType">Avatar body type</param>
+        /// <returns>A tuple in the form of (GameObject, AvatarProperties)</returns>
+        [Obsolete("This method is deprecated. Use CreateAvatarFromTemplateAsync instead.")]
         public async Task<(GameObject, AvatarProperties)> CreateAvatarFromTemplate(string id, BodyType bodyType)
         {
             GameObject avatar = null;
@@ -101,6 +145,39 @@ namespace ReadyPlayerMe.AvatarCreator
             }
 
             return (avatar, avatarProperties);
+        }
+
+        /// <summary>
+        /// Create a new avatar from a provided template.
+        /// </summary>
+        /// <param name="id">Template id</param>
+        /// <param name="bodyType">Avatar body type</param>
+        /// <returns>AvatarCreationResponse: Result of avatar creation including the GameObject and its properties</returns>
+        public async Task<AvatarCreationResponse> CreateAvatarFromTemplateAsync(string id, BodyType bodyType)
+        {
+            GameObject avatar = null;
+            var avatarProperties = new AvatarProperties();
+            try
+            {
+                avatarProperties = await avatarAPIRequests.CreateFromTemplateAvatar(
+                    id,
+                    CoreSettingsHandler.CoreSettings.Subdomain,
+                    bodyType
+                );
+                if (ctxSource.IsCancellationRequested)
+                {
+                    return new AvatarCreationResponse(null, avatarProperties);
+                }
+                avatarProperties.isDraft = true;
+                avatar = await GetAvatar(avatarProperties.Id, bodyType, true);
+            }
+            catch (Exception e)
+            {
+                OnError?.Invoke(e.Message);
+                return new AvatarCreationResponse(avatar, avatarProperties);
+            }
+
+            return new AvatarCreationResponse(avatar, avatarProperties);
         }
 
         /// <summary>
