@@ -9,6 +9,8 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 
 - XR template avatar added to the Resources folder
 - Avatar Creator now supports body shapes
+- support for unknown exceptions
+- Simple PanelManager script 
 
 ## [6.1.2] - 2024.04.03
 
