@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 This project adheres to [Semantic Versioning](http://semver.org/).
 
+## [6.2.0] - 2024.04.12
+
+### Added
+
+- XR template avatar added to the Resources folder
+
 ## [6.1.2] - 2024.04.03
 
 ### Updated
