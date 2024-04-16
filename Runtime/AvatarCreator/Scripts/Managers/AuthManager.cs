@@ -68,10 +68,10 @@ namespace ReadyPlayerMe.AvatarCreator
 
         public static async Task RefreshToken()
         {
-            (string, string) newTokens;
+            RefreshTokenResponse newTokens;
             try
             {
-                newTokens = await AuthAPIRequests.RefreshToken(userSession.Token, userSession.RefreshToken);
+                newTokens = await AuthAPIRequests.GetRefreshToken(userSession.Token, userSession.RefreshToken);
             }
             catch (Exception e)
             {
@@ -79,8 +79,8 @@ namespace ReadyPlayerMe.AvatarCreator
                 throw;
             }
 
-            userSession.Token = newTokens.Item1;
-            userSession.RefreshToken = newTokens.Item2;
+            userSession.Token = newTokens.Token;
+            userSession.RefreshToken = newTokens.RefreshToken;
             OnSessionRefreshed?.Invoke(userSession);
         }
 
