@@ -1,7 +1,6 @@
 using System;
 using System.Linq;
 using ReadyPlayerMe.Core.Analytics;
-using ReadyPlayerMe.Core.Data;
 using UnityEditor;
 using UnityEngine;
 using UnityEngine.UIElements;
@@ -92,10 +91,9 @@ namespace ReadyPlayerMe.Core.Editor
                     return hostParts[0];
                 }
             }
-            
+
             return url;
         }
-
 
         private bool IsValidSubdomain()
         {
