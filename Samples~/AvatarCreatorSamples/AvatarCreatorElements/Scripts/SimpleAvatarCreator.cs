@@ -85,7 +85,7 @@ namespace ReadyPlayerMe.Samples.AvatarCreatorElements
         public async Task<AvatarProperties> LoadAvatarFromTemplate(string templateId)
         {
             loading.SetActive(true);
-            var templateAvatarProps = await avatarManager.CreateAvatarFromTemplate(templateId, bodyType);
+            var templateAvatarResponse = await avatarManager.CreateAvatarFromTemplateAsync(templateId, bodyType);
 
             // Destroy the old avatar and replace it with the new one.
             if (avatar != null)
@@ -93,17 +93,17 @@ namespace ReadyPlayerMe.Samples.AvatarCreatorElements
                 Destroy(avatar);
             }
             var previousGender = gender;
-            avatar = templateAvatarProps.Item1;
-            gender = templateAvatarProps.Item2.Gender;
+            avatar = templateAvatarResponse.AvatarObject;
+            gender = templateAvatarResponse.Properties.Gender;
             if (gender != previousGender)
             {
                 LoadAssets();
             }
             SetupAvatar();
 
-            onAvatarCreated?.Invoke(templateAvatarProps.Item2);
+            onAvatarCreated?.Invoke(templateAvatarResponse.Properties);
             loading.SetActive(false);
-            return templateAvatarProps.Item2;
+            return templateAvatarResponse.Properties;
         }
 
         /// <summary>
