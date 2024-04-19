@@ -18,7 +18,7 @@ namespace ReadyPlayerMe.AvatarCreator
     /// </summary>
     public class PhotoCaptureElement : MonoBehaviour
     {
-#if !RPM_DISABLE_CAMERA
+#if !RPM_DISABLE_CAMERA_PERMISSION
         [Header("Settings")]
         [SerializeField] private RawImage cameraTextureTarget;
         [SerializeField] private bool initializeOnEnable = true;
