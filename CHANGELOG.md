@@ -3,18 +3,19 @@
 All notable changes to this project will be documented in this file.
 This project adheres to [Semantic Versioning](http://semver.org/).
 
-## [6.2.0] - 2024.04.19
+## [6.2.0] - 2024.04.22
 
 ### Added
 
 - XR template avatar added to the Resources folder [#258](https://github.com/readyplayerme/rpm-unity-sdk-core/pull/258)
 - Avatar Creator now supports body shapes [#252](https://github.com/readyplayerme/rpm-unity-sdk-core/pull/252)
 - support for unknown exceptions [#251](https://github.com/readyplayerme/rpm-unity-sdk-core/pull/251)
-- Simple PanelManager script 
+- Simple PanelManager script
+- Optional define symbol to remove camera permissions from the Android manifest [#259](https://github.com/readyplayerme/rpm-unity-sdk-core/pull/259)
 
 ## Updated
 
-- removed use of tuples anf deprecated old methods [#257](https://github.com/readyplayerme/rpm-unity-sdk-core/pull/257)
+- removed use of tuples and deprecated old methods [#257](https://github.com/readyplayerme/rpm-unity-sdk-core/pull/257)
 
 ## [6.1.2] - 2024.04.03
 
