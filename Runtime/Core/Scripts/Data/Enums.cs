@@ -4,7 +4,7 @@ using UnityEngine;
 namespace ReadyPlayerMe.Core
 {
     /// <summary>
-    /// This enumeration describes the body type of the avatar.
+    ///     This enumeration describes the body type of the avatar.
     /// </summary>
     public enum BodyType
     {
@@ -14,8 +14,17 @@ namespace ReadyPlayerMe.Core
         [Description("fullbody-xr")] FullBodyXR
     }
 
+    public enum BodyShape
+    {
+        None,
+        [Description("average")] Average,
+        [Description("athletic")] Athletic,
+        [Description("heavyset")] HeavySet,
+        [Description("plussize")] PlusSize
+    }
+
     /// <summary>
-    /// This enumeration describes the avatars OutfitGender which is used for setting the correct skeleton.
+    ///     This enumeration describes the avatars OutfitGender which is used for setting the correct skeleton.
     /// </summary>
     public enum OutfitGender
     {
@@ -26,7 +35,7 @@ namespace ReadyPlayerMe.Core
     }
 
     /// <summary>
-    /// This enumeration describes the type of mesh.
+    ///     This enumeration describes the type of mesh.
     /// </summary>
     public enum MeshType
     {
@@ -36,7 +45,7 @@ namespace ReadyPlayerMe.Core
     }
 
     /// <summary>
-    /// This enumeration describes the pose options for the avatar skeleton.
+    ///     This enumeration describes the pose options for the avatar skeleton.
     /// </summary>
     public enum Pose
     {
@@ -45,7 +54,7 @@ namespace ReadyPlayerMe.Core
     }
 
     /// <summary>
-    /// This enumeration describes the avatar mesh LOD (Level of Detail) options.
+    ///     This enumeration describes the avatar mesh LOD (Level of Detail) options.
     /// </summary>
     public enum Lod
     {
@@ -58,7 +67,7 @@ namespace ReadyPlayerMe.Core
     }
 
     /// <summary>
-    /// This enumeration describes the TextureAtlas setting options.
+    ///     This enumeration describes the TextureAtlas setting options.
     /// </summary>
     /// <remarks>If set to <c>None</c> the avatar meshes, materials and textures will NOT be combined.</remarks>
     public enum TextureAtlas
@@ -82,7 +91,7 @@ namespace ReadyPlayerMe.Core
     }
 
     /// <summary>
-    /// This enumeration describes the different types of failures.
+    ///     This enumeration describes the different types of failures.
     /// </summary>
     public enum FailureType
     {
@@ -98,7 +107,8 @@ namespace ReadyPlayerMe.Core
         DirectoryAccessError,
         AvatarProcessError,
         AvatarRenderError,
-        OperationCancelled
+        OperationCancelled,
+        Unknown
     }
 
     public enum Expression
@@ -108,12 +118,12 @@ namespace ReadyPlayerMe.Core
         Lol,
         Sad,
         Scared,
-        Rage,
+        Rage
     }
 
     /// <summary>
-    /// This enumeration describes the different types of render poses.
-    /// These poses are only supported for fullbody avatars, for halfbody avatars this should be set to None.
+    ///     This enumeration describes the different types of render poses.
+    ///     These poses are only supported for fullbody avatars, for halfbody avatars this should be set to None.
     /// </summary>
     public enum RenderPose
     {
@@ -121,7 +131,7 @@ namespace ReadyPlayerMe.Core
         Relaxed,
         PowerStance,
         Standing,
-        ThumbsUp,
+        ThumbsUp
     }
 
     public enum RenderCamera

@@ -1,10 +1,24 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 using ReadyPlayerMe.Core;
 
 namespace ReadyPlayerMe.AvatarCreator
 {
+    public struct RefreshTokenResponse
+    {
+        public string Token { get; private set; }
+        public string RefreshToken { get; private set; }
+
+        public RefreshTokenResponse(JToken data)
+        {
+            Token = data[AuthConstants.TOKEN]!.ToString();
+            RefreshToken = data[AuthConstants.REFRESH_TOKEN]!.ToString();
+        }
+    }
+
     public class AuthAPIRequests
     {
         private readonly string domain;
@@ -82,7 +96,22 @@ namespace ReadyPlayerMe.AvatarCreator
             response.ThrowIfError();
         }
 
+        [Obsolete("This method is deprecated. Use GetRefreshToken instead.")]
         public async Task<(string, string)> RefreshToken(string token, string refreshToken)
+        {
+            var data = await RefreshRequest(token, refreshToken);
+            var newToken = data[AuthConstants.TOKEN]!.ToString();
+            var newRefreshToken = data[AuthConstants.REFRESH_TOKEN]!.ToString();
+            return (newToken, newRefreshToken);
+        }
+
+        public async Task<RefreshTokenResponse> GetRefreshToken(string token, string refreshToken)
+        {
+            var data = await RefreshRequest(token, refreshToken);
+            return new RefreshTokenResponse(data);
+        }
+
+        private async Task<JToken> RefreshRequest(string token, string refreshToken)
         {
             var url = $"{rpmAuthBaseUrl}/auth/refresh";
 
@@ -95,11 +124,7 @@ namespace ReadyPlayerMe.AvatarCreator
             var response = await webRequestDispatcher.SendRequest<Response>(url, HttpMethod.POST, headers, payload);
             response.ThrowIfError();
 
-            var data = AuthDataConverter.ParseResponse(response.Text);
-            var newToken = data[AuthConstants.TOKEN]!.ToString();
-            var newRefreshToken = data[AuthConstants.REFRESH_TOKEN]!.ToString();
-            return (newToken, newRefreshToken);
+            return AuthDataConverter.ParseResponse(response.Text);
         }
-
     }
 }

@@ -18,6 +18,7 @@ namespace ReadyPlayerMe.AvatarCreator
     /// </summary>
     public class PhotoCaptureElement : MonoBehaviour
     {
+#if !RPM_DISABLE_CAMERA_PERMISSION
         [Header("Settings")]
         [SerializeField] private RawImage cameraTextureTarget;
         [SerializeField] private bool initializeOnEnable = true;
@@ -27,6 +28,7 @@ namespace ReadyPlayerMe.AvatarCreator
         public UnityEvent<Texture2D> OnPhotoCaptured;
 
         private WebCamTexture cameraTexture;
+
         private bool isInitialized;
 
         private int videoRotationAngle;
@@ -168,5 +170,6 @@ namespace ReadyPlayerMe.AvatarCreator
 
             return webCamDevice.Equals(default(WebCamDevice)) ? devices[0] : webCamDevice;
         }
+#endif
     }
 }

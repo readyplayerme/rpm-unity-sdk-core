@@ -11,11 +11,11 @@ namespace ReadyPlayerMe.Samples.AvatarCreatorWizard
         [SerializeField] private RawImage rawImage;
         [SerializeField] private Button cameraButton;
 
-        private WebCamTexture camTexture;
-
         public override StateType StateType => StateType.CameraPhoto;
         public override StateType NextState => StateType.Editor;
-
+#if !RPM_DISABLE_CAMERA_PERMISSION
+      private WebCamTexture camTexture;
+#endif
         public override async void ActivateState()
         {
             cameraButton.onClick.AddListener(OnCameraButton);
@@ -34,6 +34,7 @@ namespace ReadyPlayerMe.Samples.AvatarCreatorWizard
 
         private void OpenCamera()
         {
+#if !RPM_DISABLE_CAMERA_PERMISSION
             var devices = WebCamTexture.devices;
             if (devices.Length == 0)
             {
@@ -53,18 +54,22 @@ namespace ReadyPlayerMe.Samples.AvatarCreatorWizard
             camTexture.Play();
             rawImage.texture = camTexture;
             rawImage.SizeToParent();
+#endif
         }
 
         private void CloseCamera()
         {
+#if !RPM_DISABLE_CAMERA_PERMISSION
             if (camTexture != null && camTexture.isPlaying)
             {
                 camTexture.Stop();
             }
+#endif
         }
 
         private void OnCameraButton()
         {
+#if !RPM_DISABLE_CAMERA_PERMISSION
             if (camTexture == null || !camTexture.isPlaying)
             {
                 LoadingManager.EnableLoading("Camera is not available.", LoadingManager.LoadingType.Popup, false);
@@ -83,6 +88,7 @@ namespace ReadyPlayerMe.Samples.AvatarCreatorWizard
             AvatarCreatorData.IsExistingAvatar = false;
 
             StateMachine.SetState(StateType.Editor);
+#endif
         }
     }
 }

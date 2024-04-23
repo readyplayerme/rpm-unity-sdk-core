@@ -162,7 +162,9 @@ namespace ReadyPlayerMe.Samples.AvatarCreatorWizard
             if (string.IsNullOrEmpty(AvatarCreatorData.AvatarProperties.Id))
             {
                 AvatarCreatorData.AvatarProperties.Assets ??= GetDefaultAssets();
-                (avatar, _) = await avatarManager.CreateAvatar(AvatarCreatorData.AvatarProperties);
+                var avatarResponse = await avatarManager.CreateAvatarAsync(AvatarCreatorData.AvatarProperties);
+                avatar = avatarResponse.AvatarObject;
+                AvatarCreatorData.AvatarProperties = avatarResponse.Properties;
             }
             else
             {
@@ -170,7 +172,9 @@ namespace ReadyPlayerMe.Samples.AvatarCreatorWizard
                 var bodyType = AvatarCreatorData.AvatarProperties.BodyType;
                 if (!AvatarCreatorData.IsExistingAvatar)
                 {
-                    (avatar, AvatarCreatorData.AvatarProperties) = await avatarManager.CreateAvatarFromTemplate(id, bodyType);
+                    var avatarTemplateResponse = await avatarManager.CreateAvatarFromTemplateAsync(id, bodyType);
+                    avatar = avatarTemplateResponse.AvatarObject;
+                    AvatarCreatorData.AvatarProperties = avatarTemplateResponse.Properties;
                 }
                 else
                 {
@@ -288,8 +292,6 @@ namespace ReadyPlayerMe.Samples.AvatarCreatorWizard
             {
                 Assets = new Dictionary<AssetType, object>()
             };
-
-
 
             payload.Assets.Add(category, assetId);
             lastRotation = currentAvatar.transform.rotation;
