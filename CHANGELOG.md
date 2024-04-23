@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 This project adheres to [Semantic Versioning](http://semver.org/).
 
+## [6.2.1] - 2024.04.23
+
+### Fixed
+
+- An issue with gender and avatarID not to be set in AvatarManager [#260](https://github.com/readyplayerme/rpm-unity-sdk-core/pull/260)
+
 ## [6.2.0] - 2024.04.22
 
 ### Added
