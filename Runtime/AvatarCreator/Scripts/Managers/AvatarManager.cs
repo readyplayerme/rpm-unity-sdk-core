@@ -164,11 +164,13 @@ namespace ReadyPlayerMe.AvatarCreator
                     CoreSettingsHandler.CoreSettings.Subdomain,
                     bodyType
                 );
+                gender = avatarProperties.Gender;
                 if (ctxSource.IsCancellationRequested)
                 {
                     return new AvatarCreationResponse(null, avatarProperties);
                 }
                 avatarProperties.isDraft = true;
+                avatarId = avatarProperties.Id;
                 avatar = await GetAvatar(avatarProperties.Id, bodyType, true);
             }
             catch (Exception e)
