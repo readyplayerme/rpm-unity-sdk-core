@@ -59,32 +59,34 @@ namespace ReadyPlayerMe.Core
         /// <returns>The <see cref="SkinnedMeshRenderer" /> if found.</returns>
         public static SkinnedMeshRenderer GetMeshRenderer(this GameObject gameObject, MeshType meshType)
         {
-            SkinnedMeshRenderer mesh;
-            List<SkinnedMeshRenderer> children = gameObject.GetComponentsInChildren<SkinnedMeshRenderer>().ToList();
-
-            if (children.Count == 0)
+            SkinnedMeshRenderer meshRenderer;
+            var childMeshes = gameObject.GetComponentsInChildren<SkinnedMeshRenderer>()
+                .Where(mesh => mesh.sharedMesh != null) // Filter out any SkinnedMeshRenderer with no mesh
+                .ToArray();
+            if (childMeshes.Length == 0)
             {
 
                 SDKLogger.AvatarLoaderLogger.Log(TAG, $"No SkinnedMeshRenderer found on the Game Object {gameObject.name}.");
                 return null;
             }
-
+            
+            
             switch (meshType)
             {
                 case MeshType.BeardMesh:
-                    mesh = children.FirstOrDefault(child => BEARD_MESH_NAME_FILTER == child.name);
+                    meshRenderer = childMeshes.FirstOrDefault(child => BEARD_MESH_NAME_FILTER == child.name);
                     break;
                 case MeshType.TeethMesh:
-                    mesh = children.FirstOrDefault(child => TEETH_MESH_NAME_FILTER == child.name);
+                    meshRenderer = childMeshes.FirstOrDefault(child => TEETH_MESH_NAME_FILTER == child.name);
                     break;
                 case MeshType.HeadMesh:
-                    mesh = children.FirstOrDefault(child => HeadMeshNameFilter.Contains(child.name));
+                    meshRenderer = childMeshes.FirstOrDefault(child => HeadMeshNameFilter.Contains(child.name));
                     break;
                 default:
                     throw new ArgumentOutOfRangeException(nameof(meshType), meshType, null);
             }
 
-            if (mesh != null) return mesh;
+            if (meshRenderer != null) return meshRenderer;
 
             SDKLogger.AvatarLoaderLogger.Log(TAG, $"Mesh type {meshType} not found on the Game Object {gameObject.name}.");
 
