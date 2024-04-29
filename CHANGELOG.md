@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 This project adheres to [Semantic Versioning](http://semver.org/).
 
+## [6.2.3] - 2024.04.29
+
+### Fixed
+
+- reverted update to GetMeshRenderer method  [#264](https://github.com/readyplayerme/rpm-unity-sdk-core/pull/264)
+
 ## [6.2.2] - 2024.04.29
 
 ### Updated
