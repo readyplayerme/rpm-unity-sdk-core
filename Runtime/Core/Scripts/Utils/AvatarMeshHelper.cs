@@ -10,7 +10,7 @@ namespace ReadyPlayerMe.Core
         private static readonly string[] headMeshNames = {
             "Renderer_Head",
             "Renderer_Hair",
-            "Renderer_Hair",
+            "Renderer_Beard",
             "Renderer_Teeth",
             "Renderer_Glasses",
             "Renderer_EyeLeft",
