@@ -6,11 +6,14 @@ namespace ReadyPlayerMe.Core.Tests
 {
     public class TemplateAvatarTests
     {
+        private const string XR_TEMPLATE_AVATAR = "RPM_Template_Avatar_XR";
+        private const string TEMPLATE_AVATAR = "RPM_Template_Avatar";
+
         [Test]
         public Task Check_Template_Avatar_XR()
         {
-            var avatar = Resources.Load<GameObject>("RPM_Template_Avatar_XR");
-            Assert.IsNotNull(avatar, "Failed to load 'RPM_Template_Avatar_XR' from Resources.");
+            var avatar = Resources.Load<GameObject>(XR_TEMPLATE_AVATAR);
+            Assert.IsNotNull(avatar, $"Failed to load '{XR_TEMPLATE_AVATAR}' from Resources.");
 
             var renderers = avatar.GetComponentsInChildren<SkinnedMeshRenderer>();
             Assert.IsNotEmpty(renderers, "No SkinnedMeshRenderer components found on the avatar.");
@@ -30,8 +33,8 @@ namespace ReadyPlayerMe.Core.Tests
         [Test]
         public Task Check_Template_Avatar()
         {
-            var avatar = Resources.Load<GameObject>("RPM_Template_Avatar");
-            Assert.IsNotNull(avatar, "Failed to load 'RPM_Template_Avatar' from Resources.");
+            var avatar = Resources.Load<GameObject>(TEMPLATE_AVATAR);
+            Assert.IsNotNull(avatar, $"Failed to load '{TEMPLATE_AVATAR}' from Resources.");
 
             var renderers = avatar.GetComponentsInChildren<SkinnedMeshRenderer>();
             Assert.IsNotEmpty(renderers, "No SkinnedMeshRenderer components found on the avatar.");
