@@ -24,7 +24,6 @@ namespace ReadyPlayerMe.Core.Tests
                     Assert.IsNotNull(bone, $"A bone in SkinnedMeshRenderer on {renderer.gameObject.name} is null.");
                 }
             }
-            Resources.UnloadAsset(avatar);
             return Task.CompletedTask;
         }
 
@@ -46,7 +45,6 @@ namespace ReadyPlayerMe.Core.Tests
                     Assert.IsNotNull(bone, $"A bone in SkinnedMeshRenderer on {renderer.gameObject.name} is null.");
                 }
             }
-            Resources.UnloadAsset(avatar);
             return Task.CompletedTask;
         }
     }
