@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 This project adheres to [Semantic Versioning](http://semver.org/).
 
+## [6.2.4] - 2024.04.30
+
+### Fixed
+
+- Updated XR template prefab meshes to prevent missing bone references to fix mexh transfer [#266](https://github.com/readyplayerme/rpm-unity-sdk-core/pull/266)
+
 ## [6.2.3] - 2024.04.29
 
 ### Fixed
