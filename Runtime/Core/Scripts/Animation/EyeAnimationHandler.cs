@@ -103,7 +103,7 @@ namespace ReadyPlayerMe.Core
         public void UpdateHeadMesh()
         {
             headMesh = gameObject.GetMeshRenderer(MeshType.HeadMesh, true);
-            HasBlinkBlendshapes();
+            hasBlinkBlendShapes = HasBlinkBlendshapes();
         }
 
         private bool HasBlinkBlendshapes()

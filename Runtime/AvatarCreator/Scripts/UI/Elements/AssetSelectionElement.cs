@@ -21,11 +21,12 @@ namespace ReadyPlayerMe.AvatarCreator
         [SerializeField] private int iconSize = 64;
 
         private PartnerAsset[] assets;
+        
         private AssetAPIRequests assetsRequests;
+        private AssetAPIRequests AssetsRequests => assetsRequests ??= new AssetAPIRequests(CoreSettingsHandler.CoreSettings.AppId);
 
         private void Awake()
         {
-            assetsRequests = new AssetAPIRequests(CoreSettingsHandler.CoreSettings.AppId);
             if (clearSelectionButton == null) return;
             AddClearButton(clearSelectionButton, assetType);
         }
@@ -52,7 +53,7 @@ namespace ReadyPlayerMe.AvatarCreator
         /// <returns>A Task representing the asynchronous operation of fetching and loading the partner asset data.</returns>
         public async Task LoadAssetData(OutfitGender gender)
         {
-            assets = await assetsRequests.Get(assetType, bodyType, gender);
+            assets = await AssetsRequests.Get(assetType, bodyType, gender);
         }
 
         /// <summary>
