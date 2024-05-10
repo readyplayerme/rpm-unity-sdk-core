@@ -1535,6 +1535,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6589403854911528366, guid: f50201018cf1fde428ce508968a48aab,
         type: 3}
+      propertyPath: templateVersions
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 6589403854911528366, guid: f50201018cf1fde428ce508968a48aab,
+        type: 3}
       propertyPath: OnAssetSelected.m_PersistentCalls.m_Calls.Array.size
       value: 3
       objectReference: {fileID: 0}
@@ -7202,7 +7207,7 @@ PrefabInstance:
     - target: {fileID: 1536621870556083727, guid: 2bb6b08b8e48b2d4ca36bf901b0b1a2e,
         type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: 100.00006
+      value: 99.999985
       objectReference: {fileID: 0}
     - target: {fileID: 1536621870556083728, guid: 2bb6b08b8e48b2d4ca36bf901b0b1a2e,
         type: 3}

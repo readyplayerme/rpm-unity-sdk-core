@@ -7,11 +7,11 @@ using ReadyPlayerMe.Core;
 
 namespace ReadyPlayerMe.AvatarCreator
 {
-    public enum TemplateUsageType
+    public enum TemplateVersions
     {
         All,
-        Onboarding,
-        Randomize
+        V1,
+        V2
     }
 
     /// <summary>
@@ -23,12 +23,12 @@ namespace ReadyPlayerMe.AvatarCreator
         private readonly AvatarAPIRequests avatarAPIRequests;
         private const string TEMPLATE_ONBOARDING_USAGE_TYPE = "onboarding";
         private const string TEMPLATE_RANDOMIZE_USAGE_TYPE = "randomize";
-        private readonly TemplateUsageType templateUsageType;
+        private readonly TemplateVersions templateVersions;
 
-        public AvatarTemplateFetcher(CancellationToken ctx = default, TemplateUsageType templateUsageType = TemplateUsageType.Onboarding)
+        public AvatarTemplateFetcher(CancellationToken ctx = default, TemplateVersions templateVersions = TemplateVersions.V2)
         {
             this.ctx = ctx;
-            this.templateUsageType = templateUsageType;
+            this.templateVersions = templateVersions;
             avatarAPIRequests = new AvatarAPIRequests(ctx);
         }
 
@@ -39,14 +39,14 @@ namespace ReadyPlayerMe.AvatarCreator
         public async Task<List<AvatarTemplateData>> GetTemplates()
         {
             var templates = await avatarAPIRequests.GetAvatarTemplates();
-            switch (templateUsageType)
+            switch (templateVersions)
             {
-                case TemplateUsageType.Onboarding:
+                case TemplateVersions.V2:
                     return templates.Where(template => template.UsageType.Contains(TEMPLATE_ONBOARDING_USAGE_TYPE)).ToList();
-                case TemplateUsageType.Randomize:
-                    var filteredTemplates = templates.Where(template => template.UsageType.Contains(TEMPLATE_ONBOARDING_USAGE_TYPE)).ToList();
+                case TemplateVersions.V1:
+                    var filteredTemplates = templates.Where(template => template.UsageType.Contains(TEMPLATE_RANDOMIZE_USAGE_TYPE)).ToList();
                     return filteredTemplates;
-                case TemplateUsageType.All:
+                case TemplateVersions.All:
                 default:
                     return templates;
             }

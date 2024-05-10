@@ -1,6 +1,9 @@
 using System.Collections.Generic;
+using System.Threading;
 using System.Threading.Tasks;
 using ReadyPlayerMe.Core;
+using UnityEngine;
+using UnityEngine.Serialization;
 
 namespace ReadyPlayerMe.AvatarCreator
 {
@@ -13,12 +16,14 @@ namespace ReadyPlayerMe.AvatarCreator
     public class TemplateSelectionElement : SelectionElement
     {
         private const string TAG = nameof(TemplateSelectionElement);
+        [SerializeField] private TemplateVersions templateVersions = TemplateVersions.V2;
         private List<AvatarTemplateData> avatarTemplates;
         private AvatarTemplateFetcher avatarTemplateFetcher;
+        private CancellationToken ctx;
 
         private void Awake()
         {
-            avatarTemplateFetcher = new AvatarTemplateFetcher();
+            avatarTemplateFetcher = new AvatarTemplateFetcher(ctx, templateVersions);
         }
 
         /// <summary>
