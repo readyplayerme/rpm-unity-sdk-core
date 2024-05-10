@@ -7,6 +7,13 @@ using ReadyPlayerMe.Core;
 
 namespace ReadyPlayerMe.AvatarCreator
 {
+    public enum TemplateUsageType
+    {
+        All,
+        Onboarding,
+        Randomize
+    }
+
     /// <summary>
     /// This class can be used to fetch avatar template data including icon renders from the avatarAPI.
     /// </summary>
@@ -14,10 +21,14 @@ namespace ReadyPlayerMe.AvatarCreator
     {
         private readonly CancellationToken ctx;
         private readonly AvatarAPIRequests avatarAPIRequests;
+        private const string TEMPLATE_ONBOARDING_USAGE_TYPE = "onboarding";
+        private const string TEMPLATE_RANDOMIZE_USAGE_TYPE = "randomize";
+        private readonly TemplateUsageType templateUsageType;
 
-        public AvatarTemplateFetcher(CancellationToken ctx = default)
+        public AvatarTemplateFetcher(CancellationToken ctx = default, TemplateUsageType templateUsageType = TemplateUsageType.Onboarding)
         {
             this.ctx = ctx;
+            this.templateUsageType = templateUsageType;
             avatarAPIRequests = new AvatarAPIRequests(ctx);
         }
 
@@ -27,7 +38,18 @@ namespace ReadyPlayerMe.AvatarCreator
         /// <returns></returns>
         public async Task<List<AvatarTemplateData>> GetTemplates()
         {
-            return await avatarAPIRequests.GetAvatarTemplates();
+            var templates = await avatarAPIRequests.GetAvatarTemplates();
+            switch (templateUsageType)
+            {
+                case TemplateUsageType.Onboarding:
+                    return templates.Where(template => template.UsageType.Contains(TEMPLATE_ONBOARDING_USAGE_TYPE)).ToList();
+                case TemplateUsageType.Randomize:
+                    var filteredTemplates = templates.Where(template => template.UsageType.Contains(TEMPLATE_ONBOARDING_USAGE_TYPE)).ToList();
+                    return filteredTemplates;
+                case TemplateUsageType.All:
+                default:
+                    return templates;
+            }
         }
 
         /// <summary>
