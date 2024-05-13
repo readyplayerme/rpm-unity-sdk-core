@@ -14,5 +14,6 @@ namespace ReadyPlayerMe.AvatarCreator
         [JsonConverter(typeof(GenderConverter))]
         public OutfitGender Gender;
         public Texture Texture;
+        public string UsageType;
     }
 }
