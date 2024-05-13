@@ -21,8 +21,8 @@ namespace ReadyPlayerMe.AvatarCreator
     {
         private readonly CancellationToken ctx;
         private readonly AvatarAPIRequests avatarAPIRequests;
-        private const string TEMPLATE_ONBOARDING_USAGE_TYPE = "onboarding";
-        private const string TEMPLATE_RANDOMIZE_USAGE_TYPE = "randomize";
+        private const string TEMPLATE_V2_USAGE_TYPE = "onboarding";
+        private const string TEMPLATE_V1_USAGE_TYPE = "randomize";
         private readonly TemplateVersions templateVersions;
 
         public AvatarTemplateFetcher(CancellationToken ctx = default, TemplateVersions templateVersions = TemplateVersions.V2)
@@ -42,9 +42,9 @@ namespace ReadyPlayerMe.AvatarCreator
             switch (templateVersions)
             {
                 case TemplateVersions.V2:
-                    return templates.Where(template => template.UsageType.Contains(TEMPLATE_ONBOARDING_USAGE_TYPE)).ToList();
+                    return templates.Where(template => template.UsageType.Contains(TEMPLATE_V2_USAGE_TYPE)).ToList();
                 case TemplateVersions.V1:
-                    var filteredTemplates = templates.Where(template => template.UsageType.Contains(TEMPLATE_RANDOMIZE_USAGE_TYPE)).ToList();
+                    var filteredTemplates = templates.Where(template => template.UsageType.Contains(TEMPLATE_V1_USAGE_TYPE)).ToList();
                     return filteredTemplates;
                 case TemplateVersions.All:
                 default:

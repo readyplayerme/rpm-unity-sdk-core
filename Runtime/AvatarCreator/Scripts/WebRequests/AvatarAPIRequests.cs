@@ -1,14 +1,11 @@
 using System;
 using System.Collections.Generic;
-using System.IO;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using ReadyPlayerMe.Core;
-using UnityEngine;
-using UnityEngine.Networking;
 
 namespace ReadyPlayerMe.AvatarCreator
 {
@@ -24,7 +21,6 @@ namespace ReadyPlayerMe.AvatarCreator
         private const string PARTNER = "partner";
         private const string DATA = "data";
         private const string ID = "id";
-        private const string TEMPLATE_ONBOARDING_USAGE_TYPE = "onboarding";
 
         private readonly AuthorizedRequest authorizedRequest;
         private readonly CancellationToken ctx;
