@@ -36,19 +36,32 @@ namespace ReadyPlayerMe.AvatarCreator
         /// Fetches all avatar templates without the icon renders via the avatarAPI.
         /// </summary>
         /// <returns></returns>
-        public async Task<List<AvatarTemplateData>> GetTemplates()
+        public async Task<List<AvatarTemplateData>> GetTemplates(OutfitGender gender = OutfitGender.None)
         {
             var templates = await avatarAPIRequests.GetAvatarTemplates();
-            switch (templateVersions)
+            return templates.Where(template => HasCorrectTemplateVersion(template) && HasCorrectGender(template)).ToList();
+
+            bool HasCorrectGender(AvatarTemplateData template)
             {
-                case TemplateVersions.V2:
-                    return templates.Where(template => template.UsageType.Contains(TEMPLATE_V2_USAGE_TYPE)).ToList();
-                case TemplateVersions.V1:
-                    var filteredTemplates = templates.Where(template => template.UsageType.Contains(TEMPLATE_V1_USAGE_TYPE)).ToList();
-                    return filteredTemplates;
-                case TemplateVersions.All:
-                default:
-                    return templates;
+                if (gender == OutfitGender.None || template.Gender == OutfitGender.None)
+                {
+                    return true;
+                }
+                return gender == template.Gender;
+            }
+
+            bool HasCorrectTemplateVersion(AvatarTemplateData template)
+            {
+                switch (templateVersions)
+                {
+                    case TemplateVersions.V2:
+                        return template.UsageType.Contains(TEMPLATE_V2_USAGE_TYPE);
+                    case TemplateVersions.V1:
+                        return template.UsageType.Contains(TEMPLATE_V1_USAGE_TYPE);
+                    case TemplateVersions.All:
+                    default:
+                        return true;
+                }
             }
         }
 

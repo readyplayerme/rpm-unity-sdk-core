@@ -16,6 +16,7 @@ namespace ReadyPlayerMe.AvatarCreator
     {
         private const string TAG = nameof(TemplateSelectionElement);
         [SerializeField] private TemplateVersions templateVersions = TemplateVersions.V2;
+        [SerializeField] private OutfitGender gender = OutfitGender.None;
         private List<AvatarTemplateData> avatarTemplates;
         private AvatarTemplateFetcher avatarTemplateFetcher;
         private CancellationToken ctx;
@@ -48,7 +49,7 @@ namespace ReadyPlayerMe.AvatarCreator
         /// <returns>A Task representing the asynchronous operation of loading avatar template data.</returns>
         public async Task LoadTemplateData()
         {
-            avatarTemplates = await avatarTemplateFetcher.GetTemplates();
+            avatarTemplates = await avatarTemplateFetcher.GetTemplates(gender);
             if (avatarTemplates == null || avatarTemplates.Count == 0)
             {
                 SDKLogger.LogWarning(TAG, "No templates found");
