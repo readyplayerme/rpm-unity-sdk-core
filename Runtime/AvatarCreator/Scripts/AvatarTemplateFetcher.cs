@@ -21,14 +21,10 @@ namespace ReadyPlayerMe.AvatarCreator
     {
         private readonly CancellationToken ctx;
         private readonly AvatarAPIRequests avatarAPIRequests;
-        private const string TEMPLATE_V2_USAGE_TYPE = "onboarding";
-        private const string TEMPLATE_V1_USAGE_TYPE = "randomize";
-        private readonly TemplateVersions templateVersions;
 
-        public AvatarTemplateFetcher(CancellationToken ctx = default, TemplateVersions templateVersions = TemplateVersions.V2)
+        public AvatarTemplateFetcher(CancellationToken ctx = default)
         {
             this.ctx = ctx;
-            this.templateVersions = templateVersions;
             avatarAPIRequests = new AvatarAPIRequests(ctx);
         }
 
@@ -38,18 +34,7 @@ namespace ReadyPlayerMe.AvatarCreator
         /// <returns></returns>
         public async Task<List<AvatarTemplateData>> GetTemplates()
         {
-            var templates = await avatarAPIRequests.GetAvatarTemplates();
-            switch (templateVersions)
-            {
-                case TemplateVersions.V2:
-                    return templates.Where(template => template.UsageType.Contains(TEMPLATE_V2_USAGE_TYPE)).ToList();
-                case TemplateVersions.V1:
-                    var filteredTemplates = templates.Where(template => template.UsageType.Contains(TEMPLATE_V1_USAGE_TYPE)).ToList();
-                    return filteredTemplates;
-                case TemplateVersions.All:
-                default:
-                    return templates;
-            }
+            return await avatarAPIRequests.GetAvatarTemplates();
         }
 
         /// <summary>
