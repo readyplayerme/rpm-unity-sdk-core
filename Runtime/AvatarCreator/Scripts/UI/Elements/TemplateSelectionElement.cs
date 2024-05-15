@@ -17,7 +17,7 @@ namespace ReadyPlayerMe.AvatarCreator
     {
         private const string TAG = nameof(TemplateSelectionElement);
         [SerializeField] private TemplateVersions templateVersions = TemplateVersions.V2;
-        [SerializeField] private OutfitGender gender = OutfitGender.None;
+        public OutfitGender gender = OutfitGender.None;
         private List<AvatarTemplateData> avatarTemplates;
         private AvatarTemplateFetcher avatarTemplateFetcher;
         private CancellationToken ctx;
@@ -60,6 +60,7 @@ namespace ReadyPlayerMe.AvatarCreator
                 button.SetIcon(texture);
             });
         }
+        
         private bool HasCorrectTemplateVersion(AvatarTemplateData template)
         {
             switch (templateVersions)
