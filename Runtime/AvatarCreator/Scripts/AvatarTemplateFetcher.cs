@@ -21,14 +21,10 @@ namespace ReadyPlayerMe.AvatarCreator
     {
         private readonly CancellationToken ctx;
         private readonly AvatarAPIRequests avatarAPIRequests;
-        private const string TEMPLATE_V2_USAGE_TYPE = "onboarding";
-        private const string TEMPLATE_V1_USAGE_TYPE = "randomize";
-        private readonly TemplateVersions templateVersions;
 
-        public AvatarTemplateFetcher(CancellationToken ctx = default, TemplateVersions templateVersions = TemplateVersions.V2)
+        public AvatarTemplateFetcher(CancellationToken ctx = default)
         {
             this.ctx = ctx;
-            this.templateVersions = templateVersions;
             avatarAPIRequests = new AvatarAPIRequests(ctx);
         }
 
@@ -36,33 +32,9 @@ namespace ReadyPlayerMe.AvatarCreator
         /// Fetches all avatar templates without the icon renders via the avatarAPI.
         /// </summary>
         /// <returns></returns>
-        public async Task<List<AvatarTemplateData>> GetTemplates(OutfitGender gender = OutfitGender.None)
+        public async Task<List<AvatarTemplateData>> GetTemplates()
         {
-            var templates = await avatarAPIRequests.GetAvatarTemplates();
-            return templates.Where(template => HasCorrectTemplateVersion(template) && HasCorrectGender(template)).ToList();
-
-            bool HasCorrectGender(AvatarTemplateData template)
-            {
-                if (gender == OutfitGender.None || template.Gender == OutfitGender.None)
-                {
-                    return true;
-                }
-                return gender == template.Gender;
-            }
-
-            bool HasCorrectTemplateVersion(AvatarTemplateData template)
-            {
-                switch (templateVersions)
-                {
-                    case TemplateVersions.V2:
-                        return template.UsageType.Contains(TEMPLATE_V2_USAGE_TYPE);
-                    case TemplateVersions.V1:
-                        return template.UsageType.Contains(TEMPLATE_V1_USAGE_TYPE);
-                    case TemplateVersions.All:
-                    default:
-                        return true;
-                }
-            }
+            return await avatarAPIRequests.GetAvatarTemplates();
         }
 
         /// <summary>

@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using ReadyPlayerMe.Core;
@@ -20,10 +21,13 @@ namespace ReadyPlayerMe.AvatarCreator
         private List<AvatarTemplateData> avatarTemplates;
         private AvatarTemplateFetcher avatarTemplateFetcher;
         private CancellationToken ctx;
+        
+        private const string TEMPLATE_V2_USAGE_TYPE = "onboarding";
+        private const string TEMPLATE_V1_USAGE_TYPE = "randomize";
 
         private void Awake()
         {
-            avatarTemplateFetcher = new AvatarTemplateFetcher(ctx, templateVersions);
+            avatarTemplateFetcher = new AvatarTemplateFetcher(ctx);
         }
 
         /// <summary>
@@ -32,14 +36,51 @@ namespace ReadyPlayerMe.AvatarCreator
         /// </summary>
         public async void LoadAndCreateButtons()
         {
-            await LoadTemplateData();
-            CreateButtons(avatarTemplates.ToArray(), async (button, asset) =>
+            await LoadAndCreateButtons(false);
+        }
+        
+        /// <summary>
+        /// Asynchronously loads avatar template data and creates button elements for each template.
+        /// Each button is created with an icon fetched from the template's image URL.
+        /// </summary>
+        public async Task LoadAndCreateButtons(bool useCachedResponse)
+        {
+            if (!useCachedResponse || avatarTemplates == null)
+            {
+                await LoadTemplateData();
+            }
+
+            var filteredTemplates = avatarTemplates!.Where(template => HasCorrectTemplateVersion(template) && HasCorrectGender(template)).ToList();
+            
+            CreateButtons(filteredTemplates!.ToArray(), async (button, asset) =>
             {
                 var webRequestDispatcher = new WebRequestDispatcher();
                 var url = $"{asset.ImageUrl}";
                 var texture = await webRequestDispatcher.DownloadTexture(url);
                 button.SetIcon(texture);
             });
+        }
+        private bool HasCorrectTemplateVersion(AvatarTemplateData template)
+        {
+            switch (templateVersions)
+            {
+                case TemplateVersions.V2:
+                    return template.UsageType.Contains(TEMPLATE_V2_USAGE_TYPE);
+                case TemplateVersions.V1:
+                    return template.UsageType.Contains(TEMPLATE_V1_USAGE_TYPE);
+                case TemplateVersions.All:
+                default:
+                    return true;
+            }
+        }
+        
+        private bool HasCorrectGender(AvatarTemplateData template)
+        {
+            if (gender == OutfitGender.None || template.Gender == OutfitGender.None)
+            {
+                return true;
+            }
+            return gender == template.Gender;
         }
 
         /// <summary>
@@ -49,7 +90,7 @@ namespace ReadyPlayerMe.AvatarCreator
         /// <returns>A Task representing the asynchronous operation of loading avatar template data.</returns>
         public async Task LoadTemplateData()
         {
-            avatarTemplates = await avatarTemplateFetcher.GetTemplates(gender);
+            avatarTemplates = await avatarTemplateFetcher.GetTemplates();
             if (avatarTemplates == null || avatarTemplates.Count == 0)
             {
                 SDKLogger.LogWarning(TAG, "No templates found");
