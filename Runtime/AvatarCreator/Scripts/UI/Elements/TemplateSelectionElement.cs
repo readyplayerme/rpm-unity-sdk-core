@@ -17,7 +17,6 @@ namespace ReadyPlayerMe.AvatarCreator
     {
         private const string TAG = nameof(TemplateSelectionElement);
         [SerializeField] private TemplateVersions templateVersions = TemplateVersions.V2;
-        [SerializeField] private OutfitGender gender = OutfitGender.None;
         private List<AvatarTemplateData> avatarTemplates;
         private AvatarTemplateFetcher avatarTemplateFetcher;
         private CancellationToken ctx;
@@ -30,27 +29,26 @@ namespace ReadyPlayerMe.AvatarCreator
             avatarTemplateFetcher = new AvatarTemplateFetcher(ctx);
         }
 
+        
         /// <summary>
         /// Asynchronously loads avatar template data and creates button elements for each template.
         /// Each button is created with an icon fetched from the template's image URL.
         /// </summary>
         public async void LoadAndCreateButtons()
         {
-            await LoadAndCreateButtons(false);
+            await LoadAndCreateButtons(OutfitGender.None);
         }
         
         /// <summary>
-        /// Asynchronously loads avatar template data and creates button elements for each template.
+        /// Asynchronously loads avatar template data and creates button elements for each template based on the gender.
         /// Each button is created with an icon fetched from the template's image URL.
+        /// <param name="gender">Gender for which the templates are loaded for</param>
         /// </summary>
-        public async Task LoadAndCreateButtons(bool useCachedResponse)
+        public async Task LoadAndCreateButtons(OutfitGender gender)
         {
-            if (!useCachedResponse || avatarTemplates == null)
-            {
-                await LoadTemplateData();
-            }
+            await LoadTemplateData();
 
-            var filteredTemplates = avatarTemplates!.Where(template => HasCorrectTemplateVersion(template) && HasCorrectGender(template)).ToList();
+            var filteredTemplates = avatarTemplates!.Where(template => HasCorrectTemplateVersion(template) && HasCorrectGender(template, gender)).ToList();
             
             CreateButtons(filteredTemplates!.ToArray(), async (button, asset) =>
             {
@@ -60,6 +58,7 @@ namespace ReadyPlayerMe.AvatarCreator
                 button.SetIcon(texture);
             });
         }
+        
         private bool HasCorrectTemplateVersion(AvatarTemplateData template)
         {
             switch (templateVersions)
@@ -74,7 +73,7 @@ namespace ReadyPlayerMe.AvatarCreator
             }
         }
         
-        private bool HasCorrectGender(AvatarTemplateData template)
+        private bool HasCorrectGender(AvatarTemplateData template, OutfitGender gender)
         {
             if (gender == OutfitGender.None || template.Gender == OutfitGender.None)
             {
