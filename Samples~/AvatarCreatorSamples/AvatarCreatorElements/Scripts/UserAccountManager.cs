@@ -5,10 +5,11 @@ using UnityEngine.Events;
 
 namespace ReadyPlayerMe.Samples.AvatarCreatorElements
 {
-    public class UserAccountManager:MonoBehaviour
+    public class UserAccountManager : MonoBehaviour
     {
         public UnityEvent OnStartLogin;
         public UnityEvent<UserSession> OnLogin;
+        
         private async void Start()
         {
             OnStartLogin?.Invoke();
