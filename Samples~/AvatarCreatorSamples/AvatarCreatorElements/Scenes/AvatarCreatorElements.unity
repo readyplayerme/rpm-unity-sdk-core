@@ -2624,8 +2624,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -665.50867, y: 444.17505}
-  m_SizeDelta: {x: 235.624, y: 70}
+  m_AnchoredPosition: {x: -731.3081, y: 488.90512}
+  m_SizeDelta: {x: 261.3677, y: 76.8145}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!1 &592317074
 GameObject:
@@ -5613,7 +5613,7 @@ PrefabInstance:
     - target: {fileID: 1536621870556083727, guid: 2bb6b08b8e48b2d4ca36bf901b0b1a2e,
         type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: -0.0000038146973
+      value: -0.000019073486
       objectReference: {fileID: 0}
     - target: {fileID: 1536621870556083728, guid: 2bb6b08b8e48b2d4ca36bf901b0b1a2e,
         type: 3}
@@ -6637,7 +6637,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f5c8c0dceba52dc439e98eb49fdee50f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  onAvatarCreated:
+  OnAvatarCreated:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 713799765}
@@ -6717,7 +6717,7 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
-  onAvatarSaved:
+  OnAvatarSaved:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 1645673754}
@@ -6733,7 +6733,7 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
-  onAvatarSelected:
+  OnAvatarSelected:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 1645673754}
@@ -8457,10 +8457,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0cd44c1031e13a943bb63640046fad76, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_UiScaleMode: 0
+  m_UiScaleMode: 1
   m_ReferencePixelsPerUnit: 100
   m_ScaleFactor: 1
-  m_ReferenceResolution: {x: 800, y: 600}
+  m_ReferenceResolution: {x: 1920, y: 1080}
   m_ScreenMatchMode: 0
   m_MatchWidthOrHeight: 0
   m_PhysicalUnit: 3

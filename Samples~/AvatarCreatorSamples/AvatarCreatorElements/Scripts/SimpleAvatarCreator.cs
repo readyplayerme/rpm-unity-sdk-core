@@ -17,9 +17,9 @@ namespace ReadyPlayerMe.Samples.AvatarCreatorElements
     [RequireComponent(typeof(UserAccountManager))]
     public class SimpleAvatarCreator : MonoBehaviour
     {
-        public UnityEvent<AvatarProperties> onAvatarCreated;
-        public UnityEvent onAvatarSaved;
-        public UnityEvent onAvatarSelected;
+        public UnityEvent<AvatarProperties> OnAvatarCreated;
+        public UnityEvent OnAvatarSaved;
+        public UnityEvent OnAvatarSelected;
         
         [SerializeField] private List<AssetSelectionElement> assetSelectionElements;
         [SerializeField] private List<ColorSelectionElement> colorSelectionElements;
@@ -37,7 +37,7 @@ namespace ReadyPlayerMe.Samples.AvatarCreatorElements
         public async void SelectAvatar(string avatarId)
         {
             await LoadAvatarWithId(avatarId);
-            onAvatarSelected?.Invoke();
+            OnAvatarSelected?.Invoke();
         }
         
         public async void LoadAvatar(string avatarId)
@@ -66,7 +66,7 @@ namespace ReadyPlayerMe.Samples.AvatarCreatorElements
 
             SetupAvatar();
 
-            onAvatarCreated?.Invoke(avatarProperties);
+            OnAvatarCreated?.Invoke(avatarProperties);
             AuthManager.StoreLastModifiedAvatar(avatarId);
             loading.SetActive(false);
 
@@ -89,7 +89,7 @@ namespace ReadyPlayerMe.Samples.AvatarCreatorElements
             loading.SetActive(true);
             await avatarManager.Save();
             loading.SetActive(false);
-            onAvatarSaved?.Invoke();
+            OnAvatarSaved?.Invoke();
             AuthManager.StoreLastModifiedAvatar(avatarManager.AvatarId);
         }
 
@@ -122,7 +122,7 @@ namespace ReadyPlayerMe.Samples.AvatarCreatorElements
             }
             SetupAvatar();
 
-            onAvatarCreated?.Invoke(templateAvatarResponse.Properties);
+            OnAvatarCreated?.Invoke(templateAvatarResponse.Properties);
             loading.SetActive(false);
             
             return templateAvatarResponse.Properties;
