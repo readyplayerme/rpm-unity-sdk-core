@@ -14,9 +14,13 @@ namespace ReadyPlayerMe.Samples.AvatarCreatorElements
     /// <summary>
     ///     A class responsible for creating and customizing avatars using asset and color selections.
     /// </summary>
+    [RequireComponent(typeof(UserAccountManager))]
     public class SimpleAvatarCreator : MonoBehaviour
     {
         public UnityEvent<AvatarProperties> onAvatarCreated;
+        public UnityEvent onAvatarSaved;
+        public UnityEvent onAvatarSelected;
+        
         [SerializeField] private List<AssetSelectionElement> assetSelectionElements;
         [SerializeField] private List<ColorSelectionElement> colorSelectionElements;
         [SerializeField] private BodyShapeSelectionElement bodyShapeSelectionElement;
@@ -30,7 +34,18 @@ namespace ReadyPlayerMe.Samples.AvatarCreatorElements
         private AvatarManager avatarManager;
         private GameObject avatar;
 
+        public async void SelectAvatar(string avatarId)
+        {
+            await LoadAvatarWithId(avatarId);
+            onAvatarSelected?.Invoke();
+        }
+        
         public async void LoadAvatar(string avatarId)
+        {
+            await LoadAvatarWithId(avatarId);
+        }
+
+        private async Task<AvatarProperties> LoadAvatarWithId(string avatarId)
         {
             loading.SetActive(true);
             var newAvatar = await avatarManager.GetAvatar(avatarId, bodyType);
@@ -52,7 +67,11 @@ namespace ReadyPlayerMe.Samples.AvatarCreatorElements
             SetupAvatar();
 
             onAvatarCreated?.Invoke(avatarProperties);
+            AuthManager.StoreLastModifiedAvatar(avatarId);
             loading.SetActive(false);
+
+            return avatarProperties;
+            
         }
 
         public async void SignupAndSaveAvatar()
@@ -70,6 +89,8 @@ namespace ReadyPlayerMe.Samples.AvatarCreatorElements
             loading.SetActive(true);
             await avatarManager.Save();
             loading.SetActive(false);
+            onAvatarSaved?.Invoke();
+            AuthManager.StoreLastModifiedAvatar(avatarManager.AvatarId);
         }
 
         public void CreateSecondTemplateAvatar()
@@ -103,27 +124,31 @@ namespace ReadyPlayerMe.Samples.AvatarCreatorElements
 
             onAvatarCreated?.Invoke(templateAvatarResponse.Properties);
             loading.SetActive(false);
+            
             return templateAvatarResponse.Properties;
         }
 
-        /// <summary>
-        ///     Start is used to initialize the avatar creator and loads initial avatar assets.
-        /// </summary>
-        private async void Start()
+        private void Awake()
         {
-            await AuthManager.LoginAsAnonymous();
             avatarManager = new AvatarManager();
+        }
 
+
+        /// <summary>
+        ///     LoadUser is used to initialize the avatar creator and loads initial avatar assets.
+        /// </summary>
+        public async void LoadUserAssets(UserSession session)
+        {
             loading.SetActive(true);
             LoadAssets();
-            var avatarProperties = await CreateTemplateAvatar();
+            
+            var avatarProperties = string.IsNullOrEmpty(session.LastModifiedAvatarId) ? await CreateTemplateAvatar(): await LoadAvatarWithId(session.LastModifiedAvatarId);
             GetColors(avatarProperties);
             loading.SetActive(false);
         }
 
         private void OnEnable()
         {
-            bodyShapeSelectionElement.OnAssetSelected.AddListener(OnAssetSelection);
             // Subscribes to asset selection events when this component is enabled.
             foreach (var element in assetSelectionElements)
             {
@@ -204,7 +229,6 @@ namespace ReadyPlayerMe.Samples.AvatarCreatorElements
             var avatarTemplateFetcher = new AvatarTemplateFetcher();
             var templates = await avatarTemplateFetcher.GetTemplates();
             var avatarTemplate = templates[1];
-
             return await LoadAvatarFromTemplate(avatarTemplate.Id);
         }
 
@@ -219,6 +243,20 @@ namespace ReadyPlayerMe.Samples.AvatarCreatorElements
             AvatarAnimationHelper.SetupAnimator(new AvatarMetadata
                 { BodyType = bodyType, OutfitGender = gender }, animator);
             animator.runtimeAnimatorController = animationController;
+        }
+
+        public async void OnAvatarDeletion(string avatarId)
+        {
+            if (AuthManager.UserSession.LastModifiedAvatarId == avatarId)
+            {
+                AuthManager.StoreLastModifiedAvatar(null);
+            }
+            if (avatarManager.AvatarId == avatarId)
+            {
+                loading.SetActive(true);
+                await CreateTemplateAvatar();
+                loading.SetActive(false);
+            }
         }
     }
 }
