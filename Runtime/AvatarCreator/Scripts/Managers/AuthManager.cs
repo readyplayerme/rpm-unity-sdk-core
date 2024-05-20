@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Threading.Tasks;
 using ReadyPlayerMe.Core;
 
@@ -70,7 +70,7 @@ namespace ReadyPlayerMe.AvatarCreator
 
         public static async void Signup(string email)
         {
-        try
+            try
             {
                 await AuthAPIRequests.Signup(email, userSession.Id);
             }
