@@ -9,12 +9,10 @@ namespace ReadyPlayerMe.Samples.AvatarCreatorElements
     {
         private readonly string sessionStoreKey = "StoredSession";
         
-        public UnityEvent OnStartLogin;
         public UnityEvent<UserSession> OnLogin;
         
         private async void Start()
         {
-            OnStartLogin?.Invoke();
             if (PlayerPrefs.HasKey(sessionStoreKey))
             {
                 AuthManager.SetUser(JsonUtility.FromJson<UserSession>(PlayerPrefs.GetString(sessionStoreKey)));
