@@ -11,6 +11,8 @@ namespace ReadyPlayerMe.AvatarCreator
 {
     public class AvatarAPIRequests
     {
+        private const string INVALID_AVATAR_ID_ERROR_MESSAGE = "Avatar ID is null or empty. Please provide a valid avatar ID.";
+        
         private const string RPM_AVATAR_V1_BASE_URL = Env.RPM_API_V1_BASE_URL + "avatars";
         private const string RPM_AVATAR_V2_BASE_URL = Env.RPM_API_V2_BASE_URL + "avatars";
 
@@ -107,6 +109,7 @@ namespace ReadyPlayerMe.AvatarCreator
 
         public async Task<AssetColor[]> GetAvatarColors(string avatarId, AssetType assetType = AssetType.None)
         {
+            ValidateAvatarId(avatarId);
             var colorParameters = assetType.GetColorProperty();
             if (string.IsNullOrEmpty(colorParameters))
             {
@@ -128,6 +131,7 @@ namespace ReadyPlayerMe.AvatarCreator
 
         public async Task<AvatarProperties> GetAvatarMetadata(string avatarId, bool isDraft = false)
         {
+            ValidateAvatarId(avatarId);
             var url = $"{RPM_AVATAR_V2_BASE_URL}/{avatarId}.json?";
 
             if (isDraft)
@@ -169,6 +173,7 @@ namespace ReadyPlayerMe.AvatarCreator
 
         public async Task<byte[]> GetAvatar(string avatarId, bool isPreview = false, string parameters = null)
         {
+            ValidateAvatarId(avatarId);
             var url = $"{RPM_AVATAR_V2_BASE_URL}/{avatarId}.glb?";
 
             if (!string.IsNullOrEmpty(parameters))
@@ -191,6 +196,7 @@ namespace ReadyPlayerMe.AvatarCreator
 
         public async Task<AvatarProperties> GetAvatarProperties(string avatarId)
         {
+            ValidateAvatarId(avatarId);
             var url = $"{RPM_AVATAR_V2_BASE_URL}/{avatarId}.json?";
 
             var response = await authorizedRequest.SendRequest<Response>(
@@ -209,6 +215,7 @@ namespace ReadyPlayerMe.AvatarCreator
 
         public async Task<byte[]> UpdateAvatar(string avatarId, AvatarProperties avatarProperties, string parameters = null)
         {
+            ValidateAvatarId(avatarId);
             var url = $"{RPM_AVATAR_V2_BASE_URL}/{avatarId}?responseType=glb&{parameters}";
 
             var response = await authorizedRequest.SendRequest<Response>(
@@ -226,6 +233,7 @@ namespace ReadyPlayerMe.AvatarCreator
 
         public async Task PrecompileAvatar(string avatarId, PrecompileData precompileData, string parameters = null)
         {
+            ValidateAvatarId(avatarId);
             var json = JsonConvert.SerializeObject(precompileData);
 
             var response = await authorizedRequest.SendRequest<Response>(
@@ -242,6 +250,7 @@ namespace ReadyPlayerMe.AvatarCreator
 
         public async Task<string> SaveAvatar(string avatarId)
         {
+            ValidateAvatarId(avatarId);
             var response = await authorizedRequest.SendRequest<Response>(
                 new RequestData
                 {
@@ -256,6 +265,7 @@ namespace ReadyPlayerMe.AvatarCreator
 
         public async Task DeleteAvatar(string avatarId, bool isDraft = false)
         {
+            ValidateAvatarId(avatarId);
             var url = $"{RPM_AVATAR_V2_BASE_URL}/{avatarId}/";
 
             if (isDraft)
@@ -270,6 +280,14 @@ namespace ReadyPlayerMe.AvatarCreator
                 ctx: ctx);
 
             response.ThrowIfError();
+        }
+
+        private void ValidateAvatarId(string avatarId)
+        {
+            if (string.IsNullOrEmpty(avatarId))
+            {
+                throw new Exception(INVALID_AVATAR_ID_ERROR_MESSAGE);
+            }
         }
     }
 }
