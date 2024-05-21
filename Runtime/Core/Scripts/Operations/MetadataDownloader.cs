@@ -138,8 +138,8 @@ namespace ReadyPlayerMe.Core
             {
                 return true;
             }
-            var avatarFileUpdateTime = File.GetLastWriteTime(context.AvatarUri.LocalModelPath);
-            return avatarFileUpdateTime < context.Metadata.UpdatedAt.ToLocalTime();
+            var avatarFileUpdateTime = File.GetLastWriteTimeUtc(context.AvatarUri.LocalModelPath);
+            return avatarFileUpdateTime < context.Metadata.UpdatedAt;
         }
 
         /// <summary>
