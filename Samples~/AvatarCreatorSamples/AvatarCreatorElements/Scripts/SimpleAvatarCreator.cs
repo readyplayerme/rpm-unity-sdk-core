@@ -4,6 +4,7 @@ using ReadyPlayerMe.AvatarCreator;
 using ReadyPlayerMe.Core;
 using UnityEngine;
 using UnityEngine.Events;
+using UnityEngine.Serialization;
 
 #pragma warning disable CS4014
 #pragma warning disable CS1998
@@ -14,11 +15,10 @@ namespace ReadyPlayerMe.Samples.AvatarCreatorElements
     /// <summary>
     ///     A class responsible for creating and customizing avatars using asset and color selections.
     /// </summary>
-    [RequireComponent(typeof(UserAccountManager))]
+    [RequireComponent(typeof(SessionHandler))]
     public class SimpleAvatarCreator : MonoBehaviour
     {
-        public UnityEvent<AvatarProperties> OnAvatarCreated;
-        public UnityEvent OnAvatarSaved;
+        public UnityEvent<AvatarProperties> OnAvatarLoaded;
         public UnityEvent OnAvatarSelected;
         
         [SerializeField] private List<AssetSelectionElement> assetSelectionElements;
@@ -66,7 +66,7 @@ namespace ReadyPlayerMe.Samples.AvatarCreatorElements
 
             SetupAvatar();
 
-            OnAvatarCreated?.Invoke(avatarProperties);
+            OnAvatarLoaded?.Invoke(avatarProperties);
             AuthManager.StoreLastModifiedAvatar(avatarId);
             loading.SetActive(false);
 
@@ -89,7 +89,7 @@ namespace ReadyPlayerMe.Samples.AvatarCreatorElements
             loading.SetActive(true);
             await avatarManager.Save();
             loading.SetActive(false);
-            OnAvatarSaved?.Invoke();
+            OnAvatarSelected?.Invoke();
             AuthManager.StoreLastModifiedAvatar(avatarManager.AvatarId);
         }
 
@@ -122,7 +122,7 @@ namespace ReadyPlayerMe.Samples.AvatarCreatorElements
             }
             SetupAvatar();
 
-            OnAvatarCreated?.Invoke(templateAvatarResponse.Properties);
+            OnAvatarLoaded?.Invoke(templateAvatarResponse.Properties);
             loading.SetActive(false);
             
             return templateAvatarResponse.Properties;
@@ -149,6 +149,7 @@ namespace ReadyPlayerMe.Samples.AvatarCreatorElements
 
         private void OnEnable()
         {
+            bodyShapeSelectionElement.OnAssetSelected.AddListener(OnAssetSelection);
             // Subscribes to asset selection events when this component is enabled.
             foreach (var element in assetSelectionElements)
             {
@@ -245,7 +246,7 @@ namespace ReadyPlayerMe.Samples.AvatarCreatorElements
             animator.runtimeAnimatorController = animationController;
         }
 
-        public async void OnAvatarDeletion(string avatarId)
+        public async void OnAvatarDeleted(string avatarId)
         {
             if (AuthManager.UserSession.LastModifiedAvatarId == avatarId)
             {

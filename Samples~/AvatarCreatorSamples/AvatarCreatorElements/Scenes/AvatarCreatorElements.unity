@@ -614,7 +614,7 @@ PrefabInstance:
     - target: {fileID: 6971762966348902480, guid: a971aed4fd9f07e4b871f63d09014f72,
         type: 3}
       propertyPath: onConfirm.m_PersistentCalls.m_Calls.Array.data[2].m_MethodName
-      value: OnAvatarDeletion
+      value: OnAvatarDeleted
       objectReference: {fileID: 0}
     - target: {fileID: 6971762966348902480, guid: a971aed4fd9f07e4b871f63d09014f72,
         type: 3}
@@ -705,7 +705,7 @@ PrefabInstance:
     - target: {fileID: 7172957237380152881, guid: a971aed4fd9f07e4b871f63d09014f72,
         type: 3}
       propertyPath: OnAvatarDeletionStarted.m_PersistentCalls.m_Calls.Array.data[2].m_MethodName
-      value: OnAvatarDeletion
+      value: OnAvatarDeleted
       objectReference: {fileID: 0}
     - target: {fileID: 7172957237380152881, guid: a971aed4fd9f07e4b871f63d09014f72,
         type: 3}
