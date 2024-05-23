@@ -34,6 +34,7 @@ jobs:
           git fetch -a
           git checkout develop
           git pull origin develop
+          mv Samples~ Samples
       - name: Cache Project
         uses: actions/cache@v3
         with:
