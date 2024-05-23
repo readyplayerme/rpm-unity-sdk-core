@@ -25,15 +25,15 @@ jobs:
           repository: "readyplayerme/Unity-SDK"
           submodules: true
           fetch-depth: 0
-          ref: develop
+          ref: feature/add-automated-QA-tests
           token: ${{ secrets.DEV_SDK_TOKEN }}
 
       - name: Checkout submodule branch
         run: |
           cd Assets/Ready\ Player\ Me/Core
           git fetch -a
-          git checkout ${{ github.event.pull_request.head.ref }}
-          git pull origin ${{ github.event.pull_request.head.ref }}
+          git checkout develop
+          git pull origin develop
       - name: Cache Project
         uses: actions/cache@v3
         with:
