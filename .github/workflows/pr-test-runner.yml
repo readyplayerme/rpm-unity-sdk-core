@@ -25,7 +25,7 @@ jobs:
           repository: "readyplayerme/Unity-SDK"
           submodules: true
           fetch-depth: 0
-          ref: develop
+          ref: feature/add-automated-QA-tests
           token: ${{ secrets.DEV_SDK_TOKEN }}
 
       - name: Checkout submodule branch
