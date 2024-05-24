@@ -25,6 +25,8 @@ namespace ReadyPlayerMe.AvatarCreator
     /// </summary>
     public class AvatarManager : IDisposable
     {
+        private const string ERROR_BODYSHAPES_NOT_ENABLED = "Failed to apply body shapes to the avatar. Please ensure body shapes are enabled in your studio application.";
+        
         private const string TAG = nameof(AvatarManager);
         private readonly AvatarAPIRequests avatarAPIRequests;
         private readonly string avatarConfigParameters;
@@ -288,9 +290,32 @@ namespace ReadyPlayerMe.AvatarCreator
             {
                 return null;
             }
+            
+#if UNITY_EDITOR
+            await ValidateAssetUpdate(assetType, assetId);
+#endif
 
             return await inCreatorAvatarLoader.Load(avatarId, bodyType, gender, data);
         }
+        
+#if UNITY_EDITOR
+        private async Task ValidateAssetUpdate(AssetType assetType, object assetId)
+        {
+            if (assetType != AssetType.BodyShape)
+            {
+                return;
+            }
+            
+            var data = await avatarAPIRequests.GetAvatarMetadata(avatarId, true);
+            var hasUpdatedAvatarWithAsset = data.Assets.ContainsKey(assetType) && data.Assets[assetType] == assetId;
+            if (hasUpdatedAvatarWithAsset)
+            {
+                return;
+            }
+            Debug.LogError(ERROR_BODYSHAPES_NOT_ENABLED);
+        }
+#endif
+        
 
         public async Task<Dictionary<AssetType, AssetColor[]>> LoadAvatarColors()
         {
