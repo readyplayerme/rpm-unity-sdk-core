@@ -290,17 +290,22 @@ namespace ReadyPlayerMe.AvatarCreator
             {
                 return null;
             }
-            
-#if UNITY_EDITOR
-            await ValidateAssetUpdate(assetType, assetId);
-#endif
+            await ValidateBodyShapeUpdate(assetType, assetId);
+
 
             return await inCreatorAvatarLoader.Load(avatarId, bodyType, gender, data);
         }
         
-#if UNITY_EDITOR
-        private async Task ValidateAssetUpdate(AssetType assetType, object assetId)
+        /// <summary>
+        /// Function that checks if body shapes are enabled in the studio. This validation is performed only in the editor.
+        /// </summary>
+        /// <param name="assetType">Assets type that was updated</param>
+        /// <param name="assetId">Asset ID</param>
+        private async Task ValidateBodyShapeUpdate(AssetType assetType, object assetId)
         {
+#if !UNITY_EDITOR
+            return;               
+#endif
             if (assetType != AssetType.BodyShape)
             {
                 return;
@@ -314,7 +319,6 @@ namespace ReadyPlayerMe.AvatarCreator
             }
             Debug.LogError(ERROR_BODYSHAPES_NOT_ENABLED);
         }
-#endif
         
 
         public async Task<Dictionary<AssetType, AssetColor[]>> LoadAvatarColors()
