@@ -303,9 +303,6 @@ namespace ReadyPlayerMe.AvatarCreator
         /// <param name="assetId">Asset ID</param>
         private async Task ValidateBodyShapeUpdate(AssetType assetType, object assetId)
         {
-#if !UNITY_EDITOR
-            return;               
-#endif
             if (assetType != AssetType.BodyShape)
             {
                 return;
