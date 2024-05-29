@@ -21,7 +21,7 @@ namespace ReadyPlayerMe.Core.Editor
         private const string LOGGING_ENABLED_TOGGLE = "LoggingEnabledToggle";
         private const string DOCUMENTATION_BUTTON = "DocumentationButton";
         private const string FAQ_BUTTON = "FaqButton";
-        private const string DISCORD_BUTTON = "DiscordButton";
+        private const string FORUM_BUTTON = "ForumButton";
         private const string CLEAR_CACHE = "Clear Cache";
         private const string CACHE_IS_ALREADY_EMPTY = "Cache is already empty";
         private const string OK = "OK";
@@ -39,7 +39,7 @@ namespace ReadyPlayerMe.Core.Editor
 
         private const string DOCS_URL = "https://docs.readyplayer.me/ready-player-me/integration-guides/unity";
         private const string FAQ_URL = "https://docs.readyplayer.me/ready-player-me/integration-guides/unity/faq-for-unity";
-        private const string DISCORD_URL = "https://bit.ly/UnitySDKDiscord";
+        private const string FORUM_URL = "https://forum.readyplayer.me/";
         private const string PRIVACY_POLICY_LABEL = "PrivacyPolicyLabel";
 
         [SerializeField] private VisualTreeAsset visualTreeAsset;
@@ -94,7 +94,7 @@ namespace ReadyPlayerMe.Core.Editor
 
             rootVisualElement.Q<Button>(DOCUMENTATION_BUTTON).clicked += () => Application.OpenURL(DOCS_URL);
             rootVisualElement.Q<Button>(FAQ_BUTTON).clicked += () => Application.OpenURL(FAQ_URL);
-            rootVisualElement.Q<Button>(DISCORD_BUTTON).clicked += () => Application.OpenURL(DISCORD_URL);
+            rootVisualElement.Q<Button>(FORUM_BUTTON).clicked += () => Application.OpenURL(FORUM_URL);
         }
 
         private void OnCachingHelpClick()
