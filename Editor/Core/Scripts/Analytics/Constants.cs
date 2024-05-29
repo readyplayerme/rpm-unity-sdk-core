@@ -64,7 +64,7 @@ namespace ReadyPlayerMe.Core.Analytics
         {
             public const string DOCS_PARTNERS_LINK = "https://docs.readyplayer.me/ready-player-me/what-is-ready-player-me#url";
             public const string DOCS_DEFER_AGENT_LINK = "https://docs.readyplayer.me/ready-player-me/integration-guides/unity/optimize/defer-agents";
-            public const string DOCS_LOAD_AVATAR = "https://docs.readyplayer.me/ready-player-me/integration-guides/unity/load-avatars#save-avatars-as-npcs-in-your-project";
+            public const string DOCS_AVATAR_LOADER_WINDOW = "https://docs.readyplayer.me/ready-player-me/integration-guides/unity/avatar-loader-window";
             public const string DOCS_AVATAR_CONFIG_LINK = "https://docs.readyplayer.me/ready-player-me/integration-guides/unity/optimize/avatar-configuration";
             public const string DOCS_AVATAR_CACHING = "https://docs.readyplayer.me/ready-player-me/integration-guides/unity/optimize/avatar-caching";
             public const string APP_ID = "https://docs.readyplayer.me/ready-player-me/integration-guides/unity/avatar-creator/custom-avatar-creator#prerequisites";
