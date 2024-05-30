@@ -48,7 +48,7 @@ namespace ReadyPlayerMe.Core.Editor
             helpButton.clicked += () =>
             {
                 AnalyticsEditorLogger.EventLogger.LogFindOutMore(HelpSubject.LoadingAvatars);
-                Application.OpenURL(Constants.Links.DOCS_LOAD_AVATAR);
+                Application.OpenURL(Constants.Links.DOCS_AVATAR_LOADER_WINDOW);
             };
         }
 
