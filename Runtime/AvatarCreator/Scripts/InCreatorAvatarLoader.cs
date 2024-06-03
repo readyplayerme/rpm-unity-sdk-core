@@ -13,7 +13,7 @@ namespace ReadyPlayerMe.AvatarCreator
         
         public InCreatorAvatarLoader(AvatarConfig avatarConfig = null)
         {
-            if (avatarConfig != null)
+            if (avatarConfig == null)
             {
                 avatarConfig = AvatarLoaderSettings.LoadSettings().AvatarConfig;
             }
