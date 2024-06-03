@@ -50,7 +50,7 @@ namespace ReadyPlayerMe.AvatarCreator
             }
 
             ctxSource = CancellationTokenSource.CreateLinkedTokenSource(token);
-            inCreatorAvatarLoader = new InCreatorAvatarLoader();
+            inCreatorAvatarLoader = new InCreatorAvatarLoader(avatarConfig);
             avatarAPIRequests = new AvatarAPIRequests(ctxSource.Token);
         }
 
