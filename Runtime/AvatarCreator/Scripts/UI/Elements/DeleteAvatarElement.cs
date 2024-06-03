@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Threading;
 using ReadyPlayerMe.Core;
 using UnityEngine;
 using UnityEngine.Events;
@@ -21,12 +22,20 @@ namespace ReadyPlayerMe.AvatarCreator
 
         private string avatarId;
         private AvatarAPIRequests avatarAPIRequests;
+        private CancellationTokenSource cancellationTokenSource;
 
         private void Awake()
         {
             confirmButton.onClick.AddListener(DeleteAvatar);
             cancelButton.onClick.AddListener(Cancel);
-            avatarAPIRequests = new AvatarAPIRequests();
+            cancellationTokenSource = new CancellationTokenSource();
+            avatarAPIRequests = new AvatarAPIRequests(cancellationTokenSource.Token);
+        }
+
+        private void OnDestroy()
+        {
+            cancellationTokenSource.Cancel();
+            cancellationTokenSource.Dispose();
         }
 
         public void SetAvatarId(string avatarId)
@@ -55,6 +64,10 @@ namespace ReadyPlayerMe.AvatarCreator
             }
             catch (Exception e)
             {
+                if (e.Message == TaskExtensions.ON_REQUEST_CANCELLED_MESSAGE)
+                {
+                    return;
+                }
                 onError?.Invoke(e.Message);
             }
 

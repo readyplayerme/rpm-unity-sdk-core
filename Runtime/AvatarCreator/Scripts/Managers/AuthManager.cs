@@ -41,7 +41,7 @@ namespace ReadyPlayerMe.AvatarCreator
             OnSignedIn?.Invoke(userSession);
         }
 
-        public static async void SendEmailCode(string email, CancellationToken cancellationToken = default)
+        public static async Task SendEmailCode(string email, CancellationToken cancellationToken = default)
         {
             try
             {
@@ -69,7 +69,7 @@ namespace ReadyPlayerMe.AvatarCreator
             }
         }
 
-        public static async void Signup(string email, CancellationToken cancellationToken = default)
+        public static async Task Signup(string email, CancellationToken cancellationToken = default)
         {
             try
             {

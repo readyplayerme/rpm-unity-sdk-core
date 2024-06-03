@@ -1,3 +1,5 @@
+using System;
+using System.Threading;
 using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.UI;
@@ -19,7 +21,7 @@ namespace ReadyPlayerMe.AvatarCreator
 
         // Event invoked when the "Continue Without Signup" button is clicked.
         public UnityEvent OnContinueWithoutSignup;
-
+        private readonly CancellationTokenSource cancellationTokenSource = new CancellationTokenSource();
         private void OnEnable()
         {
             emailField.onValueChanged.AddListener(OnEmailChanged);
@@ -34,15 +36,25 @@ namespace ReadyPlayerMe.AvatarCreator
             continueWithoutSignupButton.onClick.RemoveListener(OnContinueWithoutSignupButton);
         }
 
+        private void OnDestroy()
+        {
+            cancellationTokenSource.Cancel();
+            cancellationTokenSource.Dispose();
+        }
+
         private void OnEmailChanged(string newEmailValue)
         {
             sendEmailButton.interactable = !string.IsNullOrEmpty(newEmailValue) && ValidatorUtil.IsValidEmail(newEmailValue);
         }
 
-        private void OnSendEmailButton()
+        private async void OnSendEmailButton()
         {
             var email = emailField.text;
-            AuthManager.Signup(email);
+            await TaskExtensions.HandleCancellation(AuthManager.Signup(email, cancellationTokenSource.Token), () => OnEmailSent(email));
+        }
+
+        private void OnEmailSent(string email)
+        {
             OnSendEmail?.Invoke(email);
             gameObject.SetActive(false);
         }

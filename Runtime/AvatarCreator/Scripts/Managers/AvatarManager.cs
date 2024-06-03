@@ -76,6 +76,7 @@ namespace ReadyPlayerMe.AvatarCreator
             }
             catch (Exception e)
             {
+                ThrowErrIfCancellationException(e);
                 OnError?.Invoke(e.Message);
                 return new AvatarCreationResponse(avatar, avatarProperties);
             }
@@ -106,6 +107,7 @@ namespace ReadyPlayerMe.AvatarCreator
             }
             catch (Exception e)
             {
+                ThrowErrIfCancellationException(e);
                 OnError?.Invoke(e.Message);
                 return (avatar, avatarProperties);
             }
@@ -142,6 +144,7 @@ namespace ReadyPlayerMe.AvatarCreator
             }
             catch (Exception e)
             {
+                ThrowErrIfCancellationException(e);
                 OnError?.Invoke(e.Message);
                 return (avatar, avatarProperties);
             }
@@ -177,6 +180,7 @@ namespace ReadyPlayerMe.AvatarCreator
             }
             catch (Exception e)
             {
+                ThrowErrIfCancellationException(e);
                 OnError?.Invoke(e.Message);
                 return new AvatarCreationResponse(avatar, avatarProperties);
             }
@@ -202,6 +206,7 @@ namespace ReadyPlayerMe.AvatarCreator
             }
             catch (Exception e)
             {
+                ThrowErrIfCancellationException(e);
                 OnError?.Invoke(e.Message);
                 SDKLogger.LogWarning(TAG, "Precompiled avatar request failed.");
             }
@@ -228,6 +233,7 @@ namespace ReadyPlayerMe.AvatarCreator
             }
             catch (Exception e)
             {
+                ThrowErrIfCancellationException(e);
                 OnError?.Invoke(e.Message);
                 return null;
             }
@@ -250,6 +256,7 @@ namespace ReadyPlayerMe.AvatarCreator
             }
             catch (Exception e)
             {
+                ThrowErrIfCancellationException(e);
                 OnError?.Invoke(e.Message);
             }
 
@@ -282,6 +289,7 @@ namespace ReadyPlayerMe.AvatarCreator
             }
             catch (Exception e)
             {
+                ThrowErrIfCancellationException(e);
                 OnError?.Invoke(e.Message);
                 return null;
             }
@@ -330,6 +338,7 @@ namespace ReadyPlayerMe.AvatarCreator
             }
             catch (Exception e)
             {
+                ThrowErrIfCancellationException(e);
                 OnError?.Invoke(e.Message);
             }
 
@@ -347,6 +356,7 @@ namespace ReadyPlayerMe.AvatarCreator
             }
             catch (Exception e)
             {
+                ThrowErrIfCancellationException(e);
                 OnError?.Invoke(e.Message);
                 return null;
             }
@@ -365,6 +375,7 @@ namespace ReadyPlayerMe.AvatarCreator
             }
             catch (Exception e)
             {
+                ThrowErrIfCancellationException(e);
                 OnError?.Invoke(e.Message);
             }
         }
@@ -372,6 +383,14 @@ namespace ReadyPlayerMe.AvatarCreator
         public void Dispose()
         {
             ctxSource?.Cancel();
+        }
+
+        private void ThrowErrIfCancellationException(Exception e)
+        {
+            if (e.Message == TaskExtensions.ON_REQUEST_CANCELLED_MESSAGE)
+            {
+                throw e;
+            }
         }
     }
 }

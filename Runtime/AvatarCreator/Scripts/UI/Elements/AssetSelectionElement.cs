@@ -1,5 +1,7 @@
+using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading;
 using System.Threading.Tasks;
 using ReadyPlayerMe.Core;
 using UnityEngine;
@@ -25,10 +27,18 @@ namespace ReadyPlayerMe.AvatarCreator
         private AssetAPIRequests assetsRequests;
         private AssetAPIRequests AssetsRequests => assetsRequests ??= new AssetAPIRequests(CoreSettingsHandler.CoreSettings.AppId);
 
+        private readonly CancellationTokenSource cancellationTokenSource = new CancellationTokenSource();
+        
         private void Awake()
         {
             if (clearSelectionButton == null) return;
             AddClearButton(clearSelectionButton, assetType);
+        }
+
+        private void OnDestroy()
+        {
+            cancellationTokenSource.Cancel();
+            cancellationTokenSource.Dispose();
         }
 
         private void CreateClearButton()
@@ -53,7 +63,7 @@ namespace ReadyPlayerMe.AvatarCreator
         /// <returns>A Task representing the asynchronous operation of fetching and loading the partner asset data.</returns>
         public async Task LoadAssetData(OutfitGender gender)
         {
-            assets = await AssetsRequests.Get(assetType, bodyType, gender);
+            assets = await AssetsRequests.Get(assetType, bodyType, gender, cancellationTokenSource.Token);
         }
 
         /// <summary>
@@ -70,7 +80,7 @@ namespace ReadyPlayerMe.AvatarCreator
         {
             var webRequestDispatcher = new WebRequestDispatcher();
             var url = iconSize > 0 ? $"{asset.ImageUrl}?w={iconSize}" : asset.ImageUrl;
-            var texture = await webRequestDispatcher.DownloadTexture(url);
+            var texture = await webRequestDispatcher.DownloadTexture(url, token:cancellationTokenSource.Token);
             button.SetIcon(texture);
         }
 

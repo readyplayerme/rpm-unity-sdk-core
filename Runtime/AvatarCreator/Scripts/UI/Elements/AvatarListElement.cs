@@ -1,5 +1,7 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
+using System.Threading;
 using ReadyPlayerMe.Core;
 using UnityEngine;
 using UnityEngine.Events;
@@ -28,7 +30,7 @@ namespace ReadyPlayerMe.AvatarCreator
         private AvatarAPIRequests avatarAPIRequests;
 
         private readonly Dictionary<string, UserAvatarElement> partnerByAvatarId = new Dictionary<string, UserAvatarElement>();
-
+        private readonly CancellationTokenSource cancellationTokenSource = new CancellationTokenSource();
         public async void LoadAndCreateUserAvatars()
         {
             if (!AuthManager.IsSignedIn && !AuthManager.IsSignedInAnonymously)
@@ -37,10 +39,15 @@ namespace ReadyPlayerMe.AvatarCreator
                 return;
             }
 
-            avatarAPIRequests ??= new AvatarAPIRequests();
-
-            var avatarPartnerArr = await avatarAPIRequests.GetUserAvatars(AuthManager.UserSession.Id);
-
+            avatarAPIRequests ??= new AvatarAPIRequests(cancellationTokenSource.Token);
+            
+            var avatarPartnerArr = await TaskExtensions.HandleCancellation(avatarAPIRequests.GetUserAvatars(AuthManager.UserSession.Id));
+            
+            if (avatarPartnerArr == null)
+            {
+                return;
+            }
+            
             if (avatarListFilter == AvatarListFilter.Application)
             {
                 var avatars = avatarPartnerArr.Where((pair) => pair.Value == CoreSettingsHandler.CoreSettings.Subdomain).Select(pair => pair.Key);
@@ -51,6 +58,12 @@ namespace ReadyPlayerMe.AvatarCreator
                 CreateButtons(avatarPartnerArr.Keys);
             }
 
+        }
+
+        private void OnDestroy()
+        {
+            cancellationTokenSource.Cancel();
+            cancellationTokenSource.Dispose();
         }
 
         public void RemoveItem(string avatarId)
