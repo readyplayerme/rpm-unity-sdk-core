@@ -1,4 +1,5 @@
 using System;
+using System.Threading;
 using System.Threading.Tasks;
 using ReadyPlayerMe.Core;
 
@@ -27,9 +28,9 @@ namespace ReadyPlayerMe.AvatarCreator
             AuthAPIRequests = new AuthAPIRequests(CoreSettingsHandler.CoreSettings.Subdomain);
         }
 
-        public static async Task LoginAsAnonymous()
+        public static async Task LoginAsAnonymous(CancellationToken cancellationToken = default)
         {
-            userSession = await AuthAPIRequests.LoginAsAnonymous();
+            userSession = await AuthAPIRequests.LoginAsAnonymous(cancellationToken);
             IsSignedInAnonymously = true;
         }
 
@@ -40,11 +41,11 @@ namespace ReadyPlayerMe.AvatarCreator
             OnSignedIn?.Invoke(userSession);
         }
 
-        public static async void SendEmailCode(string email)
+        public static async void SendEmailCode(string email, CancellationToken cancellationToken = default)
         {
             try
             {
-                await AuthAPIRequests.SendCodeToEmail(email, userSession.Id);
+                await AuthAPIRequests.SendCodeToEmail(email, userSession.Id, cancellationToken);
             }
             catch (Exception e)
             {
@@ -52,11 +53,11 @@ namespace ReadyPlayerMe.AvatarCreator
             }
         }
 
-        public static async Task<bool> LoginWithCode(string otp, string userIdToMerge = null)
+        public static async Task<bool> LoginWithCode(string otp, string userIdToMerge = null, CancellationToken cancellationToken = default)
         {
             try
             {
-                userSession = await AuthAPIRequests.LoginWithCode(otp, userIdToMerge);
+                userSession = await AuthAPIRequests.LoginWithCode(otp, userIdToMerge, cancellationToken);
                 IsSignedIn = true;
                 OnSignedIn?.Invoke(userSession);
                 return true;
@@ -68,11 +69,11 @@ namespace ReadyPlayerMe.AvatarCreator
             }
         }
 
-        public static async void Signup(string email)
+        public static async void Signup(string email, CancellationToken cancellationToken = default)
         {
             try
             {
-                await AuthAPIRequests.Signup(email, userSession.Id);
+                await AuthAPIRequests.Signup(email, userSession.Id, cancellationToken);
             }
             catch (Exception e)
             {
@@ -80,12 +81,12 @@ namespace ReadyPlayerMe.AvatarCreator
             }
         }
 
-        public static async Task RefreshToken()
+        public static async Task RefreshToken(CancellationToken cancellationToken = default)
         {
             RefreshTokenResponse newTokens;
             try
             {
-                newTokens = await AuthAPIRequests.GetRefreshToken(userSession.Token, userSession.RefreshToken);
+                newTokens = await AuthAPIRequests.GetRefreshToken(userSession.Token, userSession.RefreshToken, cancellationToken);
             }
             catch (Exception e)
             {
