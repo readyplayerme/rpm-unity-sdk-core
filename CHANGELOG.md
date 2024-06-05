@@ -3,11 +3,18 @@
 All notable changes to this project will be documented in this file.
 This project adheres to [Semantic Versioning](http://semver.org/).
 
+## [6.3.0] - 2024.06.05
+
+### Updated
+
+- XR animation avatars now have DOF enabled by default [#270]()
+- 
+
 ## [6.2.4] - 2024.05.03
 
 ### Fixed
 
-- Updated XR template prefab meshes to prevent missing bone references to fix mexh transfer [#266](https://github.com/readyplayerme/rpm-unity-sdk-core/pull/266)
+- Updated XR template prefab meshes to prevent missing bone references to fix mesh transfer [#266](https://github.com/readyplayerme/rpm-unity-sdk-core/pull/266)
 
 ## [6.2.3] - 2024.04.29
 
