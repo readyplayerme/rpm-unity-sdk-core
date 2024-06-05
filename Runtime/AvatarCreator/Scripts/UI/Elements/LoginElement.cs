@@ -1,4 +1,5 @@
 using System;
+using System.Threading;
 using ReadyPlayerMe.Core;
 using UnityEngine;
 using UnityEngine.Events;
@@ -22,6 +23,7 @@ namespace ReadyPlayerMe.AvatarCreator
         [SerializeField] private UnityEvent<string> OnLoginFail;
 
         private bool mergeCurrentSession;
+        private CancellationTokenSource cancellationTokenSource = new CancellationTokenSource();
         private void OnEnable()
         {
             AuthManager.OnSignInError += LoginFailed;
@@ -32,12 +34,18 @@ namespace ReadyPlayerMe.AvatarCreator
             AuthManager.OnSignInError -= LoginFailed;
         }
 
+        private void OnDestroy()
+        {
+            cancellationTokenSource.Cancel();
+            cancellationTokenSource.Dispose();
+        }
+
         /// <summary>
         /// Sends a verification code to the email address that was entered into the email InputField.
         /// </summary>
-        public void SendVerificationCode()
+        public async void SendVerificationCode()
         {
-            AuthManager.SendEmailCode(emailField.text);
+            await TaskExtensions.HandleCancellation(AuthManager.SendEmailCode(emailField.text, cancellationTokenSource.Token));
         }
 
         public void MergeCurrentUserToRpmAccount(bool merge)
@@ -53,7 +61,7 @@ namespace ReadyPlayerMe.AvatarCreator
             try
             {
                 var userIdToMerge = mergeCurrentSession && AuthManager.IsSignedInAnonymously ? AuthManager.UserSession.Id : null;
-                if (await AuthManager.LoginWithCode(codeField.text, userIdToMerge))
+                if (await AuthManager.LoginWithCode(codeField.text, userIdToMerge, cancellationTokenSource.Token))
                 {
                     LoginSuccess();
                 }

@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
@@ -19,17 +20,24 @@ namespace ReadyPlayerMe.AvatarCreator
         [SerializeField] private TemplateVersions templateVersions = TemplateVersions.V2;
         private List<AvatarTemplateData> avatarTemplates;
         private AvatarTemplateFetcher avatarTemplateFetcher;
-        private CancellationToken ctx;
+        private CancellationTokenSource cancellationTokenSource;
         
         private const string TEMPLATE_V2_USAGE_TYPE = "onboarding";
         private const string TEMPLATE_V1_USAGE_TYPE = "randomize";
 
         private void Awake()
         {
-            avatarTemplateFetcher = new AvatarTemplateFetcher(ctx);
+            cancellationTokenSource = new CancellationTokenSource();
+            avatarTemplateFetcher = new AvatarTemplateFetcher(cancellationTokenSource.Token);
         }
 
-        
+        private void OnDestroy()
+        {
+            cancellationTokenSource.Cancel();
+            cancellationTokenSource.Dispose();
+        }
+
+
         /// <summary>
         /// Asynchronously loads avatar template data and creates button elements for each template.
         /// Each button is created with an icon fetched from the template's image URL.
@@ -46,15 +54,22 @@ namespace ReadyPlayerMe.AvatarCreator
         /// </summary>
         public async Task LoadAndCreateButtons(OutfitGender gender)
         {
-            await LoadTemplateData();
+            await TaskExtensions.HandleCancellation(LoadTemplateData(), () => CreateButtons(gender));
+        }
 
+        private void CreateButtons(OutfitGender gender)
+        {
             var filteredTemplates = avatarTemplates!.Where(template => HasCorrectTemplateVersion(template) && HasCorrectGender(template, gender)).ToList();
             
             CreateButtons(filteredTemplates!.ToArray(), async (button, asset) =>
             {
                 var webRequestDispatcher = new WebRequestDispatcher();
                 var url = $"{asset.ImageUrl}";
-                var texture = await webRequestDispatcher.DownloadTexture(url);
+                var texture = await TaskExtensions.HandleCancellation(webRequestDispatcher.DownloadTexture(url, cancellationTokenSource.Token));
+                if (texture == null)
+                {
+                    return;
+                }
                 button.SetIcon(texture);
             });
         }

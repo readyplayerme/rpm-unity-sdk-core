@@ -76,7 +76,7 @@ namespace ReadyPlayerMe.AvatarCreator
             }
             catch (Exception e)
             {
-                OnError?.Invoke(e.Message);
+                HandleException(e);
                 return new AvatarCreationResponse(avatar, avatarProperties);
             }
 
@@ -106,7 +106,7 @@ namespace ReadyPlayerMe.AvatarCreator
             }
             catch (Exception e)
             {
-                OnError?.Invoke(e.Message);
+                HandleException(e);
                 return (avatar, avatarProperties);
             }
 
@@ -142,7 +142,7 @@ namespace ReadyPlayerMe.AvatarCreator
             }
             catch (Exception e)
             {
-                OnError?.Invoke(e.Message);
+                HandleException(e);
                 return (avatar, avatarProperties);
             }
 
@@ -177,7 +177,7 @@ namespace ReadyPlayerMe.AvatarCreator
             }
             catch (Exception e)
             {
-                OnError?.Invoke(e.Message);
+                HandleException(e);
                 return new AvatarCreationResponse(avatar, avatarProperties);
             }
 
@@ -202,7 +202,7 @@ namespace ReadyPlayerMe.AvatarCreator
             }
             catch (Exception e)
             {
-                OnError?.Invoke(e.Message);
+                HandleException(e);
                 SDKLogger.LogWarning(TAG, "Precompiled avatar request failed.");
             }
 
@@ -228,7 +228,7 @@ namespace ReadyPlayerMe.AvatarCreator
             }
             catch (Exception e)
             {
-                OnError?.Invoke(e.Message);
+                HandleException(e);
                 return null;
             }
 
@@ -250,7 +250,7 @@ namespace ReadyPlayerMe.AvatarCreator
             }
             catch (Exception e)
             {
-                OnError?.Invoke(e.Message);
+                HandleException(e);
             }
 
             return avatarProperties;
@@ -282,7 +282,7 @@ namespace ReadyPlayerMe.AvatarCreator
             }
             catch (Exception e)
             {
-                OnError?.Invoke(e.Message);
+                HandleException(e);
                 return null;
             }
 
@@ -330,7 +330,7 @@ namespace ReadyPlayerMe.AvatarCreator
             }
             catch (Exception e)
             {
-                OnError?.Invoke(e.Message);
+                HandleException(e);
             }
 
             return assetColorsByAssetType;
@@ -347,7 +347,7 @@ namespace ReadyPlayerMe.AvatarCreator
             }
             catch (Exception e)
             {
-                OnError?.Invoke(e.Message);
+                HandleException(e);
                 return null;
             }
 
@@ -365,13 +365,22 @@ namespace ReadyPlayerMe.AvatarCreator
             }
             catch (Exception e)
             {
-                OnError?.Invoke(e.Message);
+                HandleException(e);
             }
         }
 
         public void Dispose()
         {
             ctxSource?.Cancel();
+        }
+
+        private void HandleException(Exception e)
+        {
+            if (e.Message == TaskExtensions.ON_REQUEST_CANCELLED_MESSAGE)
+            {
+                throw e;
+            }
+            OnError?.Invoke(e.Message);
         }
     }
 }

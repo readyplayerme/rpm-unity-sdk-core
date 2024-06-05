@@ -1,10 +1,11 @@
 using System.Collections.Generic;
+using System.Threading;
 using System.Threading.Tasks;
 using ReadyPlayerMe.AvatarCreator;
 using ReadyPlayerMe.Core;
 using UnityEngine;
 using UnityEngine.Events;
-using UnityEngine.Serialization;
+using TaskExtensions = ReadyPlayerMe.AvatarCreator.TaskExtensions;
 
 #pragma warning disable CS4014
 #pragma warning disable CS1998
@@ -34,15 +35,19 @@ namespace ReadyPlayerMe.Samples.AvatarCreatorElements
         private AvatarManager avatarManager;
         private GameObject avatar;
 
+        private CancellationTokenSource cancellationTokenSource;
+
         public async void SelectAvatar(string avatarId)
         {
-            await LoadAvatarWithId(avatarId);
-            OnAvatarSelected?.Invoke();
+            await TaskExtensions.HandleCancellation(LoadAvatarWithId(avatarId), () =>
+            {
+                OnAvatarSelected?.Invoke();
+            });
         }
         
         public async void LoadAvatar(string avatarId)
         {
-            await LoadAvatarWithId(avatarId);
+            await TaskExtensions.HandleCancellation(LoadAvatarWithId(avatarId));
         }
 
         private async Task<AvatarProperties> LoadAvatarWithId(string avatarId)
@@ -74,7 +79,7 @@ namespace ReadyPlayerMe.Samples.AvatarCreatorElements
             
         }
 
-        public async void SignupAndSaveAvatar()
+        public void SignupAndSaveAvatar()
         {
             if (!AuthManager.IsSignedIn)
             {
@@ -87,20 +92,22 @@ namespace ReadyPlayerMe.Samples.AvatarCreatorElements
         public async void SaveAvatar()
         {
             loading.SetActive(true);
-            await avatarManager.Save();
-            loading.SetActive(false);
-            OnAvatarSelected?.Invoke();
-            AuthManager.StoreLastModifiedAvatar(avatarManager.AvatarId);
+            await TaskExtensions.HandleCancellation(avatarManager.Save(), () =>
+            {
+                loading.SetActive(false);
+                OnAvatarSelected?.Invoke();
+                AuthManager.StoreLastModifiedAvatar(avatarManager.AvatarId);
+            });
         }
 
         public void CreateSecondTemplateAvatar()
         {
-            CreateTemplateAvatar();
+            TaskExtensions.HandleCancellation(CreateTemplateAvatar());
         }
 
-        public void LoadAvatarFromTemplate(IAssetData template)
+        public async void LoadAvatarFromTemplate(IAssetData template)
         {
-            LoadAvatarFromTemplate(template.Id);
+            await TaskExtensions.HandleCancellation(LoadAvatarFromTemplate(template.Id));
         }
 
         public async Task<AvatarProperties> LoadAvatarFromTemplate(string templateId)
@@ -130,7 +137,14 @@ namespace ReadyPlayerMe.Samples.AvatarCreatorElements
 
         private void Awake()
         {
-            avatarManager = new AvatarManager();
+            cancellationTokenSource = new CancellationTokenSource();
+            avatarManager = new AvatarManager(token:cancellationTokenSource.Token);
+        }
+
+        private void OnDestroy()
+        {
+            cancellationTokenSource.Cancel();
+            cancellationTokenSource.Dispose();
         }
 
 
@@ -142,7 +156,11 @@ namespace ReadyPlayerMe.Samples.AvatarCreatorElements
             loading.SetActive(true);
             LoadAssets();
             
-            var avatarProperties = string.IsNullOrEmpty(session.LastModifiedAvatarId) ? await CreateTemplateAvatar(): await LoadAvatarWithId(session.LastModifiedAvatarId);
+            var avatarProperties = await TaskExtensions.HandleCancellation(string.IsNullOrEmpty(session.LastModifiedAvatarId) ? CreateTemplateAvatar(): LoadAvatarWithId(session.LastModifiedAvatarId));
+            if (avatarProperties.Equals(default(AvatarProperties)))
+            {
+                return;
+            }
             GetColors(avatarProperties);
             loading.SetActive(false);
         }
@@ -205,7 +223,7 @@ namespace ReadyPlayerMe.Samples.AvatarCreatorElements
             bodyShapeSelectionElement.LoadAndCreateButtons();
             foreach (var element in assetSelectionElements)
             {
-                element.LoadAndCreateButtons(gender);
+                TaskExtensions.HandleCancellation(element.LoadAndCreateButtons(gender));
             }
         }
 
@@ -227,7 +245,7 @@ namespace ReadyPlayerMe.Samples.AvatarCreatorElements
         /// <returns>The properties of the created avatar.</returns>
         private async Task<AvatarProperties> CreateTemplateAvatar()
         {
-            var avatarTemplateFetcher = new AvatarTemplateFetcher();
+            var avatarTemplateFetcher = new AvatarTemplateFetcher(cancellationTokenSource.Token);
             var templates = await avatarTemplateFetcher.GetTemplates();
             var avatarTemplate = templates[1];
             return await LoadAvatarFromTemplate(avatarTemplate.Id);
@@ -252,12 +270,17 @@ namespace ReadyPlayerMe.Samples.AvatarCreatorElements
             {
                 AuthManager.StoreLastModifiedAvatar(null);
             }
-            if (avatarManager.AvatarId == avatarId)
+
+            if (avatarManager.AvatarId != avatarId)
             {
-                loading.SetActive(true);
-                await CreateTemplateAvatar();
-                loading.SetActive(false);
+                return;
             }
+            
+            loading.SetActive(true);
+            TaskExtensions.HandleCancellation(CreateTemplateAvatar(), () =>
+            {
+                loading.SetActive(false);
+            });
         }
     }
 }

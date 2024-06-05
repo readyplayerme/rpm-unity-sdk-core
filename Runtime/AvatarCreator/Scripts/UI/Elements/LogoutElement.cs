@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Threading;
 using ReadyPlayerMe.Core;
 using UnityEngine;
 using UnityEngine.Events;
@@ -17,6 +18,7 @@ namespace ReadyPlayerMe.AvatarCreator
         public UnityEvent<string> OnLogoutFailed;
         [SerializeField] private Button logoutButton;
 
+        private CancellationTokenSource cancellationTokenSource = new CancellationTokenSource();
         private void OnEnable()
         {
             logoutButton.onClick.AddListener(Logout);
@@ -32,11 +34,15 @@ namespace ReadyPlayerMe.AvatarCreator
             AuthManager.Logout();
             try
             {
-                await AuthManager.LoginAsAnonymous();
+                await AuthManager.LoginAsAnonymous(cancellationTokenSource.Token);
                 LogOutSucceeded();
             }
             catch (Exception e)
             {
+                if (e.Message == TaskExtensions.ON_REQUEST_CANCELLED_MESSAGE)
+                {
+                    return;
+                }
                 LogOutFailed(e.Message);
             }
         }

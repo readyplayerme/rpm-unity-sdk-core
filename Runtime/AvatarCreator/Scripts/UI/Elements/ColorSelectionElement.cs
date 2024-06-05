@@ -1,3 +1,5 @@
+using System;
+using System.Threading;
 using System.Threading.Tasks;
 using UnityEngine;
 
@@ -13,16 +15,33 @@ namespace ReadyPlayerMe.AvatarCreator
         [Header("Properties")]
         [SerializeField, AssetTypeFilter(AssetFilter.Color)] private AssetType assetType;
         private AssetColor[] colorAssets;
-        private readonly AvatarAPIRequests avatarAPIRequests = new AvatarAPIRequests();
+        private CancellationTokenSource cancellationTokenSource;
+        private AvatarAPIRequests avatarAPIRequests;
+
+        private void Awake()
+        {
+            cancellationTokenSource = new CancellationTokenSource();
+            avatarAPIRequests = new AvatarAPIRequests(cancellationTokenSource.Token);
+        }
 
         public async Task LoadColorPalette(AvatarProperties avatarProperties)
         {
             colorAssets = await avatarAPIRequests.GetAvatarColors(avatarProperties.Id, assetType);
         }
 
+        private void OnDestroy()
+        {
+            cancellationTokenSource.Cancel();
+            cancellationTokenSource.Dispose();
+        }
+
         public async void LoadAndCreateButtons(AvatarProperties avatarProperties)
         {
-            await LoadColorPalette(avatarProperties);
+            await TaskExtensions.HandleCancellation(LoadColorPalette(avatarProperties));
+            if (colorAssets == null)
+            {
+                return;
+            }
             CreateButtons(colorAssets, (button, asset) =>
             {
                 button.SetColor(asset.HexColor);
