@@ -68,10 +68,6 @@ namespace ReadyPlayerMe.AvatarCreator
             }
             catch (Exception e)
             {
-                if (e.Message == TaskExtensions.ON_REQUEST_CANCELLED_MESSAGE)
-                {
-                    return;
-                }
                 LoginFailed(e.Message);
             }
         }

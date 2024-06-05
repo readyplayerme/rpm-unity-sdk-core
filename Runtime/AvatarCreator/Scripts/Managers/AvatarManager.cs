@@ -76,8 +76,7 @@ namespace ReadyPlayerMe.AvatarCreator
             }
             catch (Exception e)
             {
-                ThrowErrIfCancellationException(e);
-                OnError?.Invoke(e.Message);
+                HandleException(e);
                 return new AvatarCreationResponse(avatar, avatarProperties);
             }
 
@@ -107,8 +106,7 @@ namespace ReadyPlayerMe.AvatarCreator
             }
             catch (Exception e)
             {
-                ThrowErrIfCancellationException(e);
-                OnError?.Invoke(e.Message);
+                HandleException(e);
                 return (avatar, avatarProperties);
             }
 
@@ -144,8 +142,7 @@ namespace ReadyPlayerMe.AvatarCreator
             }
             catch (Exception e)
             {
-                ThrowErrIfCancellationException(e);
-                OnError?.Invoke(e.Message);
+                HandleException(e);
                 return (avatar, avatarProperties);
             }
 
@@ -180,8 +177,7 @@ namespace ReadyPlayerMe.AvatarCreator
             }
             catch (Exception e)
             {
-                ThrowErrIfCancellationException(e);
-                OnError?.Invoke(e.Message);
+                HandleException(e);
                 return new AvatarCreationResponse(avatar, avatarProperties);
             }
 
@@ -206,8 +202,7 @@ namespace ReadyPlayerMe.AvatarCreator
             }
             catch (Exception e)
             {
-                ThrowErrIfCancellationException(e);
-                OnError?.Invoke(e.Message);
+                HandleException(e);
                 SDKLogger.LogWarning(TAG, "Precompiled avatar request failed.");
             }
 
@@ -233,8 +228,7 @@ namespace ReadyPlayerMe.AvatarCreator
             }
             catch (Exception e)
             {
-                ThrowErrIfCancellationException(e);
-                OnError?.Invoke(e.Message);
+                HandleException(e);
                 return null;
             }
 
@@ -256,8 +250,7 @@ namespace ReadyPlayerMe.AvatarCreator
             }
             catch (Exception e)
             {
-                ThrowErrIfCancellationException(e);
-                OnError?.Invoke(e.Message);
+                HandleException(e);
             }
 
             return avatarProperties;
@@ -289,8 +282,7 @@ namespace ReadyPlayerMe.AvatarCreator
             }
             catch (Exception e)
             {
-                ThrowErrIfCancellationException(e);
-                OnError?.Invoke(e.Message);
+                HandleException(e);
                 return null;
             }
 
@@ -338,8 +330,7 @@ namespace ReadyPlayerMe.AvatarCreator
             }
             catch (Exception e)
             {
-                ThrowErrIfCancellationException(e);
-                OnError?.Invoke(e.Message);
+                HandleException(e);
             }
 
             return assetColorsByAssetType;
@@ -356,8 +347,7 @@ namespace ReadyPlayerMe.AvatarCreator
             }
             catch (Exception e)
             {
-                ThrowErrIfCancellationException(e);
-                OnError?.Invoke(e.Message);
+                HandleException(e);
                 return null;
             }
 
@@ -375,8 +365,7 @@ namespace ReadyPlayerMe.AvatarCreator
             }
             catch (Exception e)
             {
-                ThrowErrIfCancellationException(e);
-                OnError?.Invoke(e.Message);
+                HandleException(e);
             }
         }
 
@@ -385,12 +374,13 @@ namespace ReadyPlayerMe.AvatarCreator
             ctxSource?.Cancel();
         }
 
-        private void ThrowErrIfCancellationException(Exception e)
+        private void HandleException(Exception e)
         {
             if (e.Message == TaskExtensions.ON_REQUEST_CANCELLED_MESSAGE)
             {
                 throw e;
             }
+            OnError?.Invoke(e.Message);
         }
     }
 }

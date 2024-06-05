@@ -80,7 +80,12 @@ namespace ReadyPlayerMe.AvatarCreator
         {
             var webRequestDispatcher = new WebRequestDispatcher();
             var url = iconSize > 0 ? $"{asset.ImageUrl}?w={iconSize}" : asset.ImageUrl;
-            var texture = await webRequestDispatcher.DownloadTexture(url, token:cancellationTokenSource.Token);
+            
+            var texture = await TaskExtensions.HandleCancellation(webRequestDispatcher.DownloadTexture(url, token: cancellationTokenSource.Token));
+            if (texture == null)
+            {
+                return;
+            }
             button.SetIcon(texture);
         }
 

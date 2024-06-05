@@ -22,13 +22,12 @@ namespace ReadyPlayerMe.AvatarCreator
 
         private string avatarId;
         private AvatarAPIRequests avatarAPIRequests;
-        private CancellationTokenSource cancellationTokenSource;
+        private readonly CancellationTokenSource cancellationTokenSource = new CancellationTokenSource();
 
         private void Awake()
         {
             confirmButton.onClick.AddListener(DeleteAvatar);
             cancelButton.onClick.AddListener(Cancel);
-            cancellationTokenSource = new CancellationTokenSource();
             avatarAPIRequests = new AvatarAPIRequests(cancellationTokenSource.Token);
         }
 
@@ -64,10 +63,6 @@ namespace ReadyPlayerMe.AvatarCreator
             }
             catch (Exception e)
             {
-                if (e.Message == TaskExtensions.ON_REQUEST_CANCELLED_MESSAGE)
-                {
-                    return;
-                }
                 onError?.Invoke(e.Message);
             }
 
