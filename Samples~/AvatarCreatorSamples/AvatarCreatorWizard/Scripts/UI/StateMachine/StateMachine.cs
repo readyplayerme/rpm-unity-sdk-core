@@ -54,19 +54,12 @@ namespace ReadyPlayerMe.Samples.AvatarCreatorWizard
         public void GoToPreviousState()
         {
             var previousState = currentState;
-
+            if (currentState == StateType.None || previousStates.Count == 0) return;
+            
             DeactivateState(stateTypeMap[previousState]);
-
-            if (previousStates.Count == 0)
-            {
-                return;
-            }
             currentState = previousStates.Pop();
-            if (currentState != StateType.None)
-            {
-                ActivateState(stateTypeMap[currentState]);
-                StateChanged?.Invoke(currentState, previousState);
-            }
+            ActivateState(stateTypeMap[currentState]);
+            StateChanged?.Invoke(currentState, previousState);
         }
 
         private void ActivateState(State state)
