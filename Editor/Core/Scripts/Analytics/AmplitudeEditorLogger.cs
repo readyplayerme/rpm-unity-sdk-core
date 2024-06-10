@@ -11,13 +11,16 @@ namespace ReadyPlayerMe.Core.Analytics
     {
         private const string SDK_TARGET = "Unity";
 
-        private readonly Dictionary<HelpSubject, string> helpDataMap = new Dictionary<HelpSubject, string>
+        private readonly Dictionary<HelpSubject, string> helpDataMap = new()
         {
             { HelpSubject.AvatarCaching, "avatar caching" },
             { HelpSubject.Subdomain, "subdomain" },
             { HelpSubject.AvatarConfig, "avatar config" },
             { HelpSubject.GltfDeferAgent, "gltf defer agent" },
-            { HelpSubject.LoadingAvatars, "download avatar into scene" }
+            { HelpSubject.LoadingAvatars, "download avatar into scene" },
+            {
+                HelpSubject.Avatars, "avatars body type"
+            }
         };
 
         private bool isEnabled;
@@ -238,7 +241,7 @@ namespace ReadyPlayerMe.Core.Analytics
             LogEvent(EventName.INSTALL_PACKAGE, new Dictionary<string, object>
             {
                 { "id", id },
-                { "name", name },
+                { "name", name }
             });
         }
 
@@ -256,9 +259,9 @@ namespace ReadyPlayerMe.Core.Analytics
                 { Properties.ALLOW_ANALYTICS, true }
             };
 
-            Dictionary<string, string> modules = ModuleList.GetInstalledModuleVersionDictionary();
+            var modules = ModuleList.GetInstalledModuleVersionDictionary();
 
-            foreach (KeyValuePair<string, string> module in modules)
+            foreach (var module in modules)
             {
                 userProperties.Add(module.Key, module.Value);
             }
