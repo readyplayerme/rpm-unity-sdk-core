@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using ReadyPlayerMe.AvatarCreator;
+using ReadyPlayerMe.AvatarCreator.Responses;
 using ReadyPlayerMe.Core;
 using UnityEngine;
 using UnityEngine.UI;
@@ -19,7 +20,7 @@ namespace ReadyPlayerMe.Samples.AvatarCreatorWizard
         public override StateType StateType => StateType.AvatarSelection;
         public override StateType NextState => StateType.Editor;
 
-        private Dictionary<string, string> avatarPartnerMap;
+        private List<GetUserAvatarResponse> userAvatars;
         private Dictionary<string, GameObject> avatarButtonsMap;
         private AvatarAPIRequests avatarAPIRequests;
 
@@ -44,7 +45,7 @@ namespace ReadyPlayerMe.Samples.AvatarCreatorWizard
         private async void CreateAvatarButtons()
         {
             var startTime = Time.time;
-            if (avatarPartnerMap != null && avatarPartnerMap.Count != 0)
+            if (userAvatars != null && userAvatars.Count != 0)
             {
                 return;
             }
@@ -54,7 +55,7 @@ namespace ReadyPlayerMe.Samples.AvatarCreatorWizard
             avatarAPIRequests = new AvatarAPIRequests();
             try
             {
-                avatarPartnerMap = await avatarAPIRequests.GetUserAvatars(AuthManager.UserSession.Id);
+                userAvatars = await avatarAPIRequests.GetUserAvatars(AuthManager.UserSession.Id);
             }
             catch (Exception e)
             {
@@ -68,9 +69,9 @@ namespace ReadyPlayerMe.Samples.AvatarCreatorWizard
             SDKLogger.Log(TAG, $"Fetched all users templates in {Time.time - startTime:F2}s ");
 
             avatarButtonsMap = new Dictionary<string, GameObject>();
-            foreach (var avatar in avatarPartnerMap)
+            foreach (var avatar in userAvatars)
             {
-                CreateButton(avatar.Key);
+                CreateButton(avatar.Id);
             }
 
             OnPartnerAvatarsButton();
@@ -79,17 +80,17 @@ namespace ReadyPlayerMe.Samples.AvatarCreatorWizard
 
         private void OnAllAvatarsButton()
         {
-            foreach (var avatar in avatarPartnerMap)
+            foreach (var avatar in userAvatars)
             {
-                avatarButtonsMap[avatar.Key].SetActive(true);
+                avatarButtonsMap[avatar.Id].SetActive(true);
             }
         }
 
         private void OnPartnerAvatarsButton()
         {
-            foreach (var avatar in avatarPartnerMap)
+            foreach (var avatar in userAvatars)
             {
-                avatarButtonsMap[avatar.Key].SetActive(avatar.Value == AvatarCreatorData.AvatarProperties.Partner);
+                avatarButtonsMap[avatar.Id].SetActive(avatar.Partner == AvatarCreatorData.AvatarProperties.Partner);
             }
         }
 
@@ -107,14 +108,14 @@ namespace ReadyPlayerMe.Samples.AvatarCreatorWizard
                 Destroy(avatars.Value);
             }
             avatarButtonsMap.Clear();
-            avatarPartnerMap.Clear();
+            userAvatars.Clear();
         }
 
         private void CreateButton(string avatarId)
         {
             var button = Instantiate(buttonPrefab, parent);
             button.GetComponent<AvatarButton>().Init(avatarId, () => OnCustomize(avatarId), () => OnSelected(avatarId),
-                avatarPartnerMap[avatarId] == AvatarCreatorData.AvatarProperties.Partner);
+                userAvatars.Find(avatar => avatar.Id == avatarId).Partner == AvatarCreatorData.AvatarProperties.Partner);
             avatarButtonsMap.Add(avatarId, button);
         }
 

@@ -29,8 +29,9 @@ namespace ReadyPlayerMe.AvatarCreator
 
         private AvatarAPIRequests avatarAPIRequests;
 
-        private readonly Dictionary<string, UserAvatarElement> partnerByAvatarId = new Dictionary<string, UserAvatarElement>();
-        private readonly CancellationTokenSource cancellationTokenSource = new CancellationTokenSource();
+        private readonly Dictionary<string, UserAvatarElement> partnerByAvatarId = new();
+        private readonly CancellationTokenSource cancellationTokenSource = new();
+
         public async void LoadAndCreateUserAvatars()
         {
             if (!AuthManager.IsSignedIn && !AuthManager.IsSignedInAnonymously)
@@ -40,22 +41,22 @@ namespace ReadyPlayerMe.AvatarCreator
             }
 
             avatarAPIRequests ??= new AvatarAPIRequests(cancellationTokenSource.Token);
-            
+
             var avatarPartnerArr = await TaskExtensions.HandleCancellation(avatarAPIRequests.GetUserAvatars(AuthManager.UserSession.Id));
-            
+
             if (avatarPartnerArr == null)
             {
                 return;
             }
-            
+
             if (avatarListFilter == AvatarListFilter.Application)
             {
-                var avatars = avatarPartnerArr.Where((pair) => pair.Value == CoreSettingsHandler.CoreSettings.Subdomain).Select(pair => pair.Key);
-                CreateButtons(avatars);
+                var avatarIds = avatarPartnerArr.Where((avatar) => avatar.Partner == CoreSettingsHandler.CoreSettings.Subdomain).Select(avatar => avatar.Id).ToList();
+                CreateButtons(avatarIds);
             }
             else
             {
-                CreateButtons(avatarPartnerArr.Keys);
+                CreateButtons(avatarPartnerArr.Select(avatar => avatar.Id).ToList());
             }
 
         }

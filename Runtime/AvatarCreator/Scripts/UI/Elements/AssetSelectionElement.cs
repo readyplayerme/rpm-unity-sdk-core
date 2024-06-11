@@ -16,19 +16,18 @@ namespace ReadyPlayerMe.AvatarCreator
     /// </summary>
     public class AssetSelectionElement : SelectionElement
     {
-        [Header("Properties")]
-        [SerializeField] private SelectionButton clearSelectionButton;
-        [SerializeField] private BodyType bodyType = BodyType.FullBody;
+        [Header("Properties"), SerializeField]
+        private SelectionButton clearSelectionButton;
         [SerializeField, AssetTypeFilter(AssetFilter.Style)] private AssetType assetType;
         [SerializeField] private int iconSize = 64;
 
         private PartnerAsset[] assets;
-        
+
         private AssetAPIRequests assetsRequests;
         private AssetAPIRequests AssetsRequests => assetsRequests ??= new AssetAPIRequests(CoreSettingsHandler.CoreSettings.AppId);
 
-        private readonly CancellationTokenSource cancellationTokenSource = new CancellationTokenSource();
-        
+        private readonly CancellationTokenSource cancellationTokenSource = new();
+
         private void Awake()
         {
             if (clearSelectionButton == null) return;
@@ -49,11 +48,6 @@ namespace ReadyPlayerMe.AvatarCreator
             clearButton.GetComponent<SelectionButton>().AddListener(() => OnAssetSelected?.Invoke(assetData));
         }
 
-        public void SetBodyType(BodyType bodyType)
-        {
-            this.bodyType = bodyType;
-        }
-
         /// <summary>
         /// Asynchronously loads asset data based on the specified asset type, body type, and gender.
         /// This method updates the internal partnerAssets collection with the fetched data.
@@ -63,7 +57,7 @@ namespace ReadyPlayerMe.AvatarCreator
         /// <returns>A Task representing the asynchronous operation of fetching and loading the partner asset data.</returns>
         public async Task LoadAssetData(OutfitGender gender)
         {
-            assets = await AssetsRequests.Get(assetType, bodyType, gender, cancellationTokenSource.Token);
+            assets = await AssetsRequests.Get(assetType, gender, cancellationTokenSource.Token);
         }
 
         /// <summary>
@@ -80,8 +74,8 @@ namespace ReadyPlayerMe.AvatarCreator
         {
             var webRequestDispatcher = new WebRequestDispatcher();
             var url = iconSize > 0 ? $"{asset.ImageUrl}?w={iconSize}" : asset.ImageUrl;
-            
-            var texture = await TaskExtensions.HandleCancellation(webRequestDispatcher.DownloadTexture(url, token: cancellationTokenSource.Token));
+
+            var texture = await TaskExtensions.HandleCancellation(webRequestDispatcher.DownloadTexture(url, cancellationTokenSource.Token));
             if (texture == null)
             {
                 return;

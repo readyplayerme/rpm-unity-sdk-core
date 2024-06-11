@@ -167,16 +167,15 @@ namespace ReadyPlayerMe.Samples.AvatarCreatorWizard
             else
             {
                 var id = AvatarCreatorData.AvatarProperties.Id;
-                var bodyType = AvatarCreatorData.AvatarProperties.BodyType;
                 if (!AvatarCreatorData.IsExistingAvatar)
                 {
-                    var avatarTemplateResponse = await avatarManager.CreateAvatarFromTemplateAsync(id, bodyType);
+                    var avatarTemplateResponse = await avatarManager.CreateAvatarFromTemplateAsync(id);
                     avatar = avatarTemplateResponse.AvatarObject;
                     AvatarCreatorData.AvatarProperties = avatarTemplateResponse.Properties;
                 }
                 else
                 {
-                    avatar = await avatarManager.GetAvatar(id, bodyType, AvatarCreatorData.AvatarProperties.isDraft);
+                    avatar = await avatarManager.GetAvatar(id, AvatarCreatorData.AvatarProperties.isDraft);
                 }
             }
 
@@ -299,7 +298,7 @@ namespace ReadyPlayerMe.Samples.AvatarCreatorWizard
                 await avatarManager.Delete(true);
             }
 
-            var avatar = await avatarManager.UpdateAsset(category, AvatarCreatorData.AvatarProperties.BodyType, assetId);
+            var avatar = await avatarManager.UpdateAsset(category, assetId);
             if (avatar == null)
             {
                 return;

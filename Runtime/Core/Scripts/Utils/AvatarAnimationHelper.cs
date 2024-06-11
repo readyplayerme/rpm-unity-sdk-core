@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using ReadyPlayerMe.Core.Data;
 using UnityEngine;
 
 namespace ReadyPlayerMe.Core
@@ -15,7 +16,7 @@ namespace ReadyPlayerMe.Core
         private const string XR_MASCULINE_ANIMATION_AVATAR_NAME = "AnimationAvatars/Masculine_XR";
         private const string XR_FEMININE_ANIMATION_AVATAR_NAME = "AnimationAvatars/Feminine_XR";
 
-        private static readonly Dictionary<string, Avatar> AnimationAvatarCache = new Dictionary<string, Avatar>();
+        private static readonly Dictionary<string, Avatar> AnimationAvatarCache = new();
 
         public static void SetupAnimator(AvatarMetadata avatarMetadata, GameObject avatar)
         {
@@ -29,12 +30,12 @@ namespace ReadyPlayerMe.Core
 
         public static void SetupAnimator(AvatarMetadata avatarMetadata, Animator animator)
         {
-            animator.avatar = GetAnimationAvatar(avatarMetadata.OutfitGender, avatarMetadata.BodyType);
+            animator.avatar = GetAnimationAvatar(avatarMetadata.OutfitGender);
         }
 
-        public static Avatar GetAnimationAvatar(OutfitGender outfitGender, BodyType bodyType)
+        public static Avatar GetAnimationAvatar(OutfitGender outfitGender)
         {
-            var path = GetAvatarPath(outfitGender, bodyType);
+            var path = GetAvatarPath(outfitGender);
             if (path == null)
             {
                 return null;
@@ -58,9 +59,9 @@ namespace ReadyPlayerMe.Core
             return avatar;
         }
 
-        private static string GetAvatarPath(OutfitGender outfitGender, BodyType bodyType)
+        private static string GetAvatarPath(OutfitGender outfitGender)
         {
-            return bodyType switch
+            return CoreSettingsHandler.CoreSettings.BodyType switch
             {
                 BodyType.FullBody => GetFullbodyAvatarPath(outfitGender),
                 BodyType.FullBodyXR => GetFullbodyXrAvatarPath(outfitGender),

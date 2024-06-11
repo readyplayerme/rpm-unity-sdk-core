@@ -5,14 +5,17 @@ using System.Threading;
 using System.Threading.Tasks;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
+using ReadyPlayerMe.AvatarCreator.Responses;
 using ReadyPlayerMe.Core;
+using UnityEditor.PackageManager.Requests;
+using UnityEngine;
 
 namespace ReadyPlayerMe.AvatarCreator
 {
     public class AvatarAPIRequests
     {
         private const string INVALID_AVATAR_ID_ERROR_MESSAGE = "Avatar ID is null or empty. Please provide a valid avatar ID.";
-        
+
         private const string RPM_AVATAR_V1_BASE_URL = Env.RPM_API_V1_BASE_URL + "avatars";
         private const string RPM_AVATAR_V2_BASE_URL = Env.RPM_API_V2_BASE_URL + "avatars";
 
@@ -22,6 +25,7 @@ namespace ReadyPlayerMe.AvatarCreator
         private const string HALF_BODY = "halfbody";
         private const string PARTNER = "partner";
         private const string DATA = "data";
+        private const string BODY_TYPE = "bodyType";
         private const string ID = "id";
 
         private readonly AuthorizedRequest authorizedRequest;
@@ -33,21 +37,28 @@ namespace ReadyPlayerMe.AvatarCreator
             authorizedRequest = new AuthorizedRequest();
         }
 
-        public async Task<Dictionary<string, string>> GetUserAvatars(string userId)
+        public async Task<List<GetUserAvatarResponse>> GetUserAvatars(string userId)
         {
             var response = await authorizedRequest.SendRequest<Response>(
                 new RequestData
                 {
-                    Url = $"{RPM_AVATAR_V1_BASE_URL}/?select=id,partner&userId={userId}",
+                    Url = $"{RPM_AVATAR_V1_BASE_URL}/?userId={userId}&select={ID},{PARTNER},{DATA}.{BODY_TYPE}",
                     Method = HttpMethod.GET
                 },
-                ctx: ctx
+                ctx
             );
             response.ThrowIfError();
 
             var json = JObject.Parse(response.Text);
             var data = json[DATA]!;
-            return data.ToDictionary(element => element[ID]!.ToString(), element => element[PARTNER]!.ToString());
+            var avatars = data.AsEnumerable().Select(avatarData => new GetUserAvatarResponse()
+            {
+                BodyType = EnumExtensions.GetValueFromDescription<BodyType>(avatarData[DATA][BODY_TYPE]!.ToString()),
+                Id = avatarData[ID]!.ToString(),
+                Partner = avatarData[PARTNER]!.ToString()
+            });
+
+            return avatars.Where(avatar => avatar.BodyType == CoreSettingsHandler.CoreSettings.BodyType).ToList();
         }
 
         public async Task<List<AvatarTemplateData>> GetAvatarTemplates()
@@ -58,7 +69,7 @@ namespace ReadyPlayerMe.AvatarCreator
                     Url = $"{RPM_AVATAR_V2_BASE_URL}/templates",
                     Method = HttpMethod.GET
                 },
-                ctx: ctx
+                ctx
             );
             response.ThrowIfError();
 
@@ -84,7 +95,7 @@ namespace ReadyPlayerMe.AvatarCreator
                     Method = HttpMethod.POST,
                     Payload = payload
                 },
-                ctx: ctx
+                ctx
             );
 
             response.ThrowIfError();
@@ -122,7 +133,7 @@ namespace ReadyPlayerMe.AvatarCreator
                     Url = $"{RPM_AVATAR_V2_BASE_URL}/{avatarId}/colors?type={colorParameters}",
                     Method = HttpMethod.GET
                 },
-                ctx: ctx
+                ctx
             );
 
             response.ThrowIfError();
@@ -143,7 +154,7 @@ namespace ReadyPlayerMe.AvatarCreator
                     Url = url,
                     Method = HttpMethod.GET
                 },
-                ctx: ctx
+                ctx
             );
 
             response.ThrowIfError();
@@ -162,7 +173,7 @@ namespace ReadyPlayerMe.AvatarCreator
                     Method = HttpMethod.POST,
                     Payload = avatarProperties.ToJson(true)
                 },
-                ctx: ctx
+                ctx
             );
             response.ThrowIfError();
 
@@ -188,7 +199,7 @@ namespace ReadyPlayerMe.AvatarCreator
                     Url = url,
                     Method = HttpMethod.GET
                 },
-                ctx: ctx);
+                ctx);
 
             response.ThrowIfError();
             return response.Data;
@@ -205,7 +216,7 @@ namespace ReadyPlayerMe.AvatarCreator
                     Url = url,
                     Method = HttpMethod.GET
                 },
-                ctx: ctx);
+                ctx);
 
             response.ThrowIfError();
             var json = JObject.Parse(response.Text);
@@ -225,8 +236,7 @@ namespace ReadyPlayerMe.AvatarCreator
                     Method = HttpMethod.PATCH,
                     Payload = avatarProperties.ToJson(true)
                 },
-                ctx: ctx);
-
+                ctx);
             response.ThrowIfError();
             return response.Data;
         }
@@ -243,7 +253,7 @@ namespace ReadyPlayerMe.AvatarCreator
                     Method = HttpMethod.POST,
                     Payload = json
                 },
-                ctx: ctx);
+                ctx);
 
             response.ThrowIfError();
         }
@@ -257,7 +267,7 @@ namespace ReadyPlayerMe.AvatarCreator
                     Url = $"{RPM_AVATAR_V2_BASE_URL}/{avatarId}",
                     Method = HttpMethod.PUT
                 },
-                ctx: ctx);
+                ctx);
 
             response.ThrowIfError();
             return response.Text;
@@ -277,7 +287,7 @@ namespace ReadyPlayerMe.AvatarCreator
                     Url = url,
                     Method = HttpMethod.DELETE
                 },
-                ctx: ctx);
+                ctx);
 
             response.ThrowIfError();
         }

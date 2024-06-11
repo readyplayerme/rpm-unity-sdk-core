@@ -14,7 +14,7 @@ namespace ReadyPlayerMe.AvatarCreator
     public class AssetAPIRequests
     {
         private const string RPM_ASSET_V1_BASE_URL = Env.RPM_API_V1_BASE_URL + "assets";
-        
+
         private const string TAG = nameof(AssetAPIRequests);
         private const int LIMIT = 100;
 
@@ -29,14 +29,14 @@ namespace ReadyPlayerMe.AvatarCreator
             this.appId = appId;
         }
 
-        public async Task<PartnerAsset[]> Get(BodyType bodyType, OutfitGender gender, CancellationToken ctx = new CancellationToken())
+        public async Task<PartnerAsset[]> Get(BodyType bodyType, OutfitGender gender, CancellationToken ctx = new())
         {
             var assets = new HashSet<PartnerAsset>();
             AssetLibrary assetLibrary;
 
             try
             {
-                assetLibrary = await GetRequest(LIMIT, 1, null, gender, bodyType, ctx: ctx);
+                assetLibrary = await GetRequest(LIMIT, 1, null, gender, ctx);
                 assets.UnionWith(assetLibrary.Assets);
             }
             catch (Exception)
@@ -48,7 +48,7 @@ namespace ReadyPlayerMe.AvatarCreator
 
             for (var i = 2; i <= assetLibrary.Pagination.TotalPages; i++)
             {
-                assetRequests[i - 2] = GetRequest(LIMIT, i, null, gender, bodyType, ctx: ctx);
+                assetRequests[i - 2] = GetRequest(LIMIT, i, null, gender, ctx);
             }
 
             while (!assetRequests.All(x => x.IsCompleted) && !ctx.IsCancellationRequested)
@@ -71,22 +71,22 @@ namespace ReadyPlayerMe.AvatarCreator
             return assets.ToArray();
         }
 
-        public async Task<PartnerAsset[]> Get(AssetType? category, BodyType bodyType, OutfitGender gender, CancellationToken ctx = new CancellationToken())
+        public async Task<PartnerAsset[]> Get(AssetType? category, OutfitGender gender, CancellationToken ctx = new())
         {
             var assets = new HashSet<PartnerAsset>();
-            var assetData = await GetRequest(LIMIT, 1, category, gender, bodyType, ctx: ctx);
+            var assetData = await GetRequest(LIMIT, 1, category, gender, ctx);
             assets.UnionWith(assetData.Assets);
 
             for (var i = 2; i <= assetData.Pagination.TotalPages; i++)
             {
-                assetData = await GetRequest(LIMIT, i, category, gender, bodyType, ctx: ctx);
+                assetData = await GetRequest(LIMIT, i, category, gender, ctx);
                 assets.UnionWith(assetData.Assets);
             }
 
             return assets.ToArray();
         }
 
-        private async Task<AssetLibrary> GetRequest(int limit, int pageNumber, AssetType? category, OutfitGender gender, BodyType bodyType, CancellationToken ctx = new CancellationToken())
+        private async Task<AssetLibrary> GetRequest(int limit, int pageNumber, AssetType? category, OutfitGender gender, CancellationToken ctx = new())
         {
             var startTime = Time.time;
 
@@ -125,7 +125,7 @@ namespace ReadyPlayerMe.AvatarCreator
             };
         }
 
-        public async Task<Texture> GetAssetIcon(string url, Action<Texture> completed, CancellationToken ctx = new CancellationToken())
+        public async Task<Texture> GetAssetIcon(string url, Action<Texture> completed, CancellationToken ctx = new())
         {
             if (icons.ContainsKey(url))
             {
@@ -148,14 +148,14 @@ namespace ReadyPlayerMe.AvatarCreator
             completed?.Invoke(response.Texture);
             return response.Texture;
         }
-        
+
         private static string BuildAssetListUrl(string type, int limit, int page, string userId, string appId, string gender)
         {
             const string url = RPM_ASSET_V1_BASE_URL + "?limit={0}&page={1}&filter=viewable-by-user-and-app&filterUserId={2}&filterApplicationId={3}&gender=neutral&gender={4}";
-            
+
             if (string.IsNullOrEmpty(type))
                 return string.Format(url, limit, page, userId, appId, gender);
-            
+
             return string.Format(url, limit, page, userId, appId, gender) + "&type=" + type;
         }
     }
