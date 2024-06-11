@@ -103,7 +103,7 @@ namespace ReadyPlayerMe.Samples.AvatarCreatorWizard
 
         private void OnStateChanged(StateType current, StateType previous)
         {
-            backButton.gameObject.SetActive(!CanShowBackButton(current));
+            backButton.gameObject.SetActive(CanShowBackButton(current, previous));
             saveButton.gameObject.SetActive(current == StateType.Editor);
 
             if (current == StateType.End)
@@ -112,9 +112,9 @@ namespace ReadyPlayerMe.Samples.AvatarCreatorWizard
             }
         }
 
-        private bool CanShowBackButton(StateType current)
+        private bool CanShowBackButton(StateType current, StateType previous)
         {
-            return current == StateType.LoginWithCodeFromEmail || current == StateType.AvatarSelection;
+            return current != startingState && current != previous;
         }
 
         public void OnCustomizeDraft(string avatarId)
