@@ -13,7 +13,7 @@ namespace ReadyPlayerMe.Samples.AvatarCreatorWizard
 
         protected Action<StateType, StateType> StateChanged;
         private StateType currentState;
-        
+
         protected void Initialize(List<State> states)
         {
             foreach (var state in states)
@@ -34,7 +34,7 @@ namespace ReadyPlayerMe.Samples.AvatarCreatorWizard
                     SetState(stateTypeMap[stateType].NextState);
                     return;
                 }
-                
+
                 previousStates.Push(previousState);
             }
 
@@ -54,15 +54,12 @@ namespace ReadyPlayerMe.Samples.AvatarCreatorWizard
         public void GoToPreviousState()
         {
             var previousState = currentState;
-
-            DeactivateState(stateTypeMap[previousState]);
+            if (currentState == StateType.None || previousStates.Count == 0) return;
             
+            DeactivateState(stateTypeMap[previousState]);
             currentState = previousStates.Pop();
-            if (currentState != StateType.None)
-            {
-                ActivateState(stateTypeMap[currentState]);
-                StateChanged?.Invoke(currentState, previousState);
-            }
+            ActivateState(stateTypeMap[currentState]);
+            StateChanged?.Invoke(currentState, previousState);
         }
 
         private void ActivateState(State state)
@@ -70,7 +67,7 @@ namespace ReadyPlayerMe.Samples.AvatarCreatorWizard
             state.gameObject.SetActive(true);
             state.ActivateState();
         }
-        
+
         private void DeactivateState(State state)
         {
             state.gameObject.SetActive(false);
