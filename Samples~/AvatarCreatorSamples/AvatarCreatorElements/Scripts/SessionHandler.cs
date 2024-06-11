@@ -11,8 +11,9 @@ namespace ReadyPlayerMe.Samples.AvatarCreatorElements
     public class SessionHandler : MonoBehaviour
     {
         private readonly string sessionStoreKey = "StoredSession";
-        
+
         public UnityEvent<UserSession> OnLogin;
+
         private async void Start()
         {
             using var cancellationTokenSource = new CancellationTokenSource();
@@ -36,6 +37,6 @@ namespace ReadyPlayerMe.Samples.AvatarCreatorElements
         {
             PlayerPrefs.SetString(sessionStoreKey, JsonUtility.ToJson(AuthManager.UserSession));
         }
-        
+
     }
 }
