@@ -8,6 +8,7 @@ using ReadyPlayerMe.Core;
 using UnityEngine;
 using UnityEngine.Serialization;
 using UnityEngine.UI;
+using TaskExtensions = ReadyPlayerMe.AvatarCreator.TaskExtensions;
 
 namespace ReadyPlayerMe.Samples.AvatarCreatorWizard
 {
@@ -125,11 +126,15 @@ namespace ReadyPlayerMe.Samples.AvatarCreatorWizard
             SDKLogger.Log(TAG, $"An error occured: {error}");
             avatarManager.OnError -= OnErrorCallback;
             partnerAssetManager.OnError -= OnErrorCallback;
-
-            ctxSource?.Cancel();
             StateMachine.GoToPreviousState();
             LoadingManager.EnableLoading(error, LoadingManager.LoadingType.Popup, false);
             SDKLogger.Log(TAG, "Going to previous state");
+        }
+
+        private void OnDestroy()
+        {
+            ctxSource.Cancel();
+            ctxSource.Dispose();
         }
 
         private async Task LoadAssets()
@@ -259,14 +264,29 @@ namespace ReadyPlayerMe.Samples.AvatarCreatorWizard
             var startTime = Time.time;
 
             LoadingManager.EnableLoading("Saving avatar...", LoadingManager.LoadingType.Popup);
+
             if (AvatarCreatorData.AvatarProperties.isDraft)
             {
-                var avatarId = await avatarManager.Save();
-                AvatarCreatorData.AvatarProperties.Id = avatarId;
+                var avatarId = await TaskExtensions.HandleCancellation(avatarManager.Save());
+                if (avatarId != null)
+                {
+                    AvatarCreatorData.AvatarProperties.Id = avatarId;
+                    FinishAndCloseCreator();
+                }
+
             }
+            else
+            {
+                FinishAndCloseCreator();
+            }
+
+            SDKLogger.Log(TAG, $"Avatar saved in {Time.time - startTime:F2}s");
+        }
+
+        private void FinishAndCloseCreator()
+        {
             StateMachine.SetState(StateType.End);
             LoadingManager.DisableLoading();
-            SDKLogger.Log(TAG, $"Avatar saved in {Time.time - startTime:F2}s");
         }
 
         private Dictionary<AssetType, object> GetDefaultAssets()

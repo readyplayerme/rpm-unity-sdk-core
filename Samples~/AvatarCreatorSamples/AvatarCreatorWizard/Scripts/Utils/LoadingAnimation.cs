@@ -25,18 +25,32 @@ namespace ReadyPlayerMe.Samples.AvatarCreatorWizard
             {
                 foreach (var circle in circles)
                 {
-                    await circle.LerpScale(Vector3.one * 1f, 0.1f, ctx.Token);
                     try
                     {
+                        await circle.LerpScale(Vector3.one * 1f, 0.1f, ctx.Token);
+                        if (ctx.Token.IsCancellationRequested)
+                        {
+                            return;
+                        }
                         await Task.Delay(TimeSpan.FromSeconds(0.1), ctx.Token);
+                        if (ctx.Token.IsCancellationRequested)
+                        {
+                            return;
+                        }
+                        await circle.LerpScale(Vector3.one * minScaleFactor, 0.2f, ctx.Token);
                     }
-                    catch
+                    catch (Exception e)
                     {
-                        // ignored
+                        Debug.Log($"Received exception: {e.Message} {e.GetType()}");
                     }
-                    _ = circle.LerpScale(Vector3.one * minScaleFactor, 0.2f, ctx.Token);
+
                 }
             }
+        }
+
+        private void OnDestroy()
+        {
+            ctx.Dispose();
         }
 
         private void OnDisable()
