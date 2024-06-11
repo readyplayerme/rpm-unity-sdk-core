@@ -243,7 +243,7 @@ namespace ReadyPlayerMe.AvatarCreator
             }
 
             var data = await avatarAPIRequests.GetAvatarMetadata(avatarId, true);
-            var hasUpdatedAvatarWithAsset = data.Assets.ContainsKey(assetType) && data.Assets[assetType] == assetId;
+            var hasUpdatedAvatarWithAsset = data.Assets.ContainsKey(assetType) && (string) data.Assets[assetType] == (string) assetId;
             if (hasUpdatedAvatarWithAsset)
             {
                 return;
