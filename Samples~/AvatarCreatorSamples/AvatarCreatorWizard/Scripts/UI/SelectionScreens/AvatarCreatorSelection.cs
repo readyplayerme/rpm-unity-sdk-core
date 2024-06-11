@@ -30,7 +30,7 @@ namespace ReadyPlayerMe.Samples.AvatarCreatorWizard
         private GameObject currentAvatar;
         private Quaternion lastRotation;
 
-        private CancellationTokenSource ctxSource;
+        private CancellationTokenSource ctxSource = new();
         public List<AssetType> categoriesAssetsLoaded;
 
         public override StateType StateType => StateType.Editor;
@@ -60,7 +60,6 @@ namespace ReadyPlayerMe.Samples.AvatarCreatorWizard
         private async void Setup()
         {
             LoadingManager.EnableLoading();
-            ctxSource = new CancellationTokenSource();
 
             avatarManager = new AvatarManager(
                 inCreatorConfig,

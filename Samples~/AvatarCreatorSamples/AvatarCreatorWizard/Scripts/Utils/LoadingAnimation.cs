@@ -28,20 +28,12 @@ namespace ReadyPlayerMe.Samples.AvatarCreatorWizard
                     try
                     {
                         await circle.LerpScale(Vector3.one * 1f, 0.1f, ctx.Token);
-                        if (ctx.Token.IsCancellationRequested)
-                        {
-                            return;
-                        }
                         await Task.Delay(TimeSpan.FromSeconds(0.1), ctx.Token);
-                        if (ctx.Token.IsCancellationRequested)
-                        {
-                            return;
-                        }
                         await circle.LerpScale(Vector3.one * minScaleFactor, 0.2f, ctx.Token);
                     }
-                    catch (Exception e)
+                    catch
                     {
-                        Debug.Log($"Received exception: {e.Message} {e.GetType()}");
+                        // ignored
                     }
 
                 }
