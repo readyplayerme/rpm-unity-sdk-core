@@ -27,11 +27,11 @@ namespace ReadyPlayerMe.AvatarCreator
             assetsByCategory = new Dictionary<AssetType, List<PartnerAsset>>();
         }
 
-        public async Task<Dictionary<AssetType, List<PartnerAsset>>> GetAssets(BodyType bodyType, OutfitGender gender, CancellationToken token = default)
+        public async Task<Dictionary<AssetType, List<PartnerAsset>>> GetAssets(OutfitGender gender, CancellationToken token = default)
         {
             var startTime = Time.time;
 
-            var assets = await assetAPIRequests.Get(bodyType, gender, token);
+            var assets = await assetAPIRequests.Get(gender, token);
 
             assetsByCategory = assets.GroupBy(asset => asset.AssetType).ToDictionary(
                 group => group.Key,
@@ -48,7 +48,7 @@ namespace ReadyPlayerMe.AvatarCreator
 
         public List<string> GetAssetsByCategory(AssetType assetType)
         {
-            return assetsByCategory.TryGetValue(assetType, out List<PartnerAsset> _) ? assetsByCategory[assetType].Select(x => x.Id).ToList() : new List<string>();
+            return assetsByCategory.TryGetValue(assetType, out var _) ? assetsByCategory[assetType].Select(x => x.Id).ToList() : new List<string>();
         }
 
         public async Task DownloadIconsByCategory(AssetType assetType, Action<string, Texture> onDownload, CancellationToken token = default)
@@ -115,7 +115,10 @@ namespace ReadyPlayerMe.AvatarCreator
             assetsByCategory.Clear();
         }
 
-        public void Dispose() => DeleteAssets();
+        public void Dispose()
+        {
+            DeleteAssets();
+        }
 
         public PrecompileData GetPrecompileData(AssetType[] categories, int numberOfAssetsPerCategory)
         {

@@ -29,7 +29,7 @@ namespace ReadyPlayerMe.AvatarCreator
             this.appId = appId;
         }
 
-        public async Task<PartnerAsset[]> Get(BodyType bodyType, OutfitGender gender, CancellationToken ctx = new())
+        public async Task<PartnerAsset[]> Get(OutfitGender gender, CancellationToken ctx = new())
         {
             var assets = new HashSet<PartnerAsset>();
             AssetLibrary assetLibrary;

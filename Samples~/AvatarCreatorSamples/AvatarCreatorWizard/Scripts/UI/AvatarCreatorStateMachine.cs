@@ -19,7 +19,6 @@ namespace ReadyPlayerMe.Samples.AvatarCreatorWizard
         [SerializeField] private StateType startingState;
         [SerializeField] public AvatarCreatorData avatarCreatorData;
         [SerializeField] private ProfileManager profileManager;
-        [SerializeField] private BodyType defaultBodyType = BodyType.FullBody;
         [SerializeField] private OutfitGender defaultGender = OutfitGender.None;
         [SerializeField] private ReloadPreviouslyEditedAvatar loadPreviousAvatar;
         public Action<string> AvatarSaved;
@@ -39,7 +38,7 @@ namespace ReadyPlayerMe.Samples.AvatarCreatorWizard
                 return;
             }
             avatarCreatorData.AvatarProperties.Partner = CoreSettingsHandler.CoreSettings.Subdomain;
-            avatarCreatorData.AvatarProperties.BodyType = defaultBodyType;
+            avatarCreatorData.AvatarProperties.BodyType = CoreSettingsHandler.CoreSettings.BodyType;
             avatarCreatorData.AvatarProperties.Gender = defaultGender;
             Initialize();
 

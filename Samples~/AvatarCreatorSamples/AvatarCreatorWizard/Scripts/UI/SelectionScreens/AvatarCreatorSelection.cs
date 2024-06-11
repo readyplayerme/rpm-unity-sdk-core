@@ -72,7 +72,7 @@ namespace ReadyPlayerMe.Samples.AvatarCreatorWizard
             if (string.IsNullOrEmpty(avatarManager.AvatarId))
                 return;
 
-            CreateUI(AvatarCreatorData.AvatarProperties.BodyType);
+            CreateUI();
 
             await LoadAssets();
             await LoadAvatarColors();
@@ -139,7 +139,7 @@ namespace ReadyPlayerMe.Samples.AvatarCreatorWizard
             partnerAssetManager.OnError += OnErrorCallback;
             categoriesAssetsLoaded = new List<AssetType>();
 
-            await partnerAssetManager.GetAssets(AvatarCreatorData.AvatarProperties.BodyType, AvatarCreatorData.AvatarProperties.Gender, ctxSource.Token);
+            await partnerAssetManager.GetAssets(AvatarCreatorData.AvatarProperties.Gender, ctxSource.Token);
             await CreateAssetsByCategory(AssetType.FaceShape);
 
             SDKLogger.Log(TAG, $"Loaded all partner assets {Time.time - startTime:F2}s");
@@ -198,9 +198,9 @@ namespace ReadyPlayerMe.Samples.AvatarCreatorWizard
             SDKLogger.Log(TAG, $"All colors loaded in {Time.time - startTime:F2}s");
         }
 
-        private void CreateUI(BodyType bodyType)
+        private void CreateUI()
         {
-            categoryUICreator.Setup(bodyType);
+            categoryUICreator.Setup();
             assetButtonCreator.SetSelectedAssets(AvatarCreatorData.AvatarProperties.Assets);
             assetButtonCreator.CreateClearButton(UpdateAvatar);
             saveButton.gameObject.SetActive(true);

@@ -112,11 +112,11 @@ namespace ReadyPlayerMe.Samples.AvatarCreatorElements
         {
             avatarHandler.OnAvatarLoading.AddListener(OnAvatarLoading);
             avatarHandler.OnAvatarLoaded.AddListener(OnAvatarLoadingFinished);
+            bodyShapeSelectionElement.OnAssetSelected.AddListener(OnAssetSelection);
 
             // Subscribes to asset selection events when this component is enabled.
             foreach (var element in assetSelectionElements)
             {
-                element.SetBodyType(avatarHandler.bodyType);
                 element.OnAssetSelected.AddListener(OnAssetSelection);
             }
 
