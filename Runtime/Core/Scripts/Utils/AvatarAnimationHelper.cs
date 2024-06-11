@@ -30,12 +30,12 @@ namespace ReadyPlayerMe.Core
 
         public static void SetupAnimator(AvatarMetadata avatarMetadata, Animator animator)
         {
-            animator.avatar = GetAnimationAvatar(avatarMetadata.OutfitGender);
+            animator.avatar = GetAnimationAvatar(avatarMetadata);
         }
 
-        public static Avatar GetAnimationAvatar(OutfitGender outfitGender)
+        public static Avatar GetAnimationAvatar(AvatarMetadata avatarMetadata)
         {
-            var path = GetAvatarPath(outfitGender);
+            var path = GetAvatarPath(avatarMetadata);
             if (path == null)
             {
                 return null;
@@ -59,12 +59,12 @@ namespace ReadyPlayerMe.Core
             return avatar;
         }
 
-        private static string GetAvatarPath(OutfitGender outfitGender)
+        private static string GetAvatarPath(AvatarMetadata avatarMetadata)
         {
-            return CoreSettingsHandler.CoreSettings.BodyType switch
+            return avatarMetadata.BodyType switch
             {
-                BodyType.FullBody => GetFullbodyAvatarPath(outfitGender),
-                BodyType.FullBodyXR => GetFullbodyXrAvatarPath(outfitGender),
+                BodyType.FullBody => GetFullbodyAvatarPath(avatarMetadata.OutfitGender),
+                BodyType.FullBodyXR => GetFullbodyXrAvatarPath(avatarMetadata.OutfitGender),
                 _ => null
             };
         }
