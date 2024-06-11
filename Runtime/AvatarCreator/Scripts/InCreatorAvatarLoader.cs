@@ -9,6 +9,17 @@ namespace ReadyPlayerMe.AvatarCreator
     /// </summary>
     public class InCreatorAvatarLoader
     {
+        private readonly AvatarConfig avatarConfig;
+        
+        public InCreatorAvatarLoader(AvatarConfig avatarConfig = null)
+        {
+            if (avatarConfig == null)
+            {
+                avatarConfig = AvatarLoaderSettings.LoadSettings().AvatarConfig;
+            }
+            this.avatarConfig = avatarConfig;
+        }
+        
         public async Task<GameObject> Load(string avatarId, BodyType bodyType, OutfitGender gender, byte[] data)
         {
             var avatarMetadata = new AvatarMetadata();
@@ -20,7 +31,7 @@ namespace ReadyPlayerMe.AvatarCreator
             context.AvatarUri.Guid = avatarId;
             context.AvatarCachingEnabled = false;
             context.Metadata = avatarMetadata;
-
+            context.AvatarConfig = avatarConfig;
             var executor = new OperationExecutor<AvatarContext>(new IOperation<AvatarContext>[]
             {
                 new GltFastAvatarImporter(),

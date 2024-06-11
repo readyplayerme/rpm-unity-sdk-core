@@ -129,7 +129,17 @@ namespace ReadyPlayerMe.Core
                 return true;
             }
             AvatarMetadata previousMetadata = AvatarMetadata.LoadFromFile(context.AvatarUri.LocalMetadataPath);
-            return AvatarMetadata.IsUpdated(context.Metadata, previousMetadata);
+            return AvatarMetadata.IsUpdated(context.Metadata, previousMetadata) || ShouldUpdateAvatarFile(context);
+        }
+
+        private static bool ShouldUpdateAvatarFile(AvatarContext context)
+        {
+            if (!File.Exists(context.AvatarUri.LocalModelPath))
+            {
+                return true;
+            }
+            var avatarFileUpdateTime = File.GetLastWriteTimeUtc(context.AvatarUri.LocalModelPath);
+            return avatarFileUpdateTime < context.Metadata.UpdatedAt;
         }
 
         /// <summary>

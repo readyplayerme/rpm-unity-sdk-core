@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Threading.Tasks;
 using ReadyPlayerMe.Core;
 
@@ -42,7 +42,14 @@ namespace ReadyPlayerMe.AvatarCreator
 
         public static async void SendEmailCode(string email)
         {
-            await AuthAPIRequests.SendCodeToEmail(email, userSession.Id);
+            try
+            {
+                await AuthAPIRequests.SendCodeToEmail(email, userSession.Id);
+            }
+            catch (Exception e)
+            {
+                OnSignInError?.Invoke(e.Message);
+            }
         }
 
         public static async Task<bool> LoginWithCode(string otp, string userIdToMerge = null)
@@ -63,7 +70,14 @@ namespace ReadyPlayerMe.AvatarCreator
 
         public static async void Signup(string email)
         {
-            await AuthAPIRequests.Signup(email, userSession.Id);
+            try
+            {
+                await AuthAPIRequests.Signup(email, userSession.Id);
+            }
+            catch (Exception e)
+            {
+                OnSignInError?.Invoke(e.Message);
+            }
         }
 
         public static async Task RefreshToken()

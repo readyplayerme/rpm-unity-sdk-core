@@ -20,7 +20,6 @@ namespace ReadyPlayerMe.Core
     public class WebRequestDispatcher
     {
         private const string REQUEST_CANCEL_ERROR = "Request was cancelled";
-        private const string APP_ID = "X-APP-ID";
         public int Timeout = 240;
 
         public Action<float> ProgressChanged;

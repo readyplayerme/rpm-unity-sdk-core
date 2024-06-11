@@ -7,6 +7,13 @@ using ReadyPlayerMe.Core;
 
 namespace ReadyPlayerMe.AvatarCreator
 {
+    public enum TemplateVersions
+    {
+        All,
+        V1,
+        V2
+    }
+
     /// <summary>
     /// This class can be used to fetch avatar template data including icon renders from the avatarAPI.
     /// </summary>

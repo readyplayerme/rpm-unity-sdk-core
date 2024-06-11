@@ -16,5 +16,7 @@ namespace ReadyPlayerMe.AvatarCreator
         public string ImageUrl;
         [JsonProperty("lockedCategories")]
         public string[] LockedCategories;
+        [JsonProperty("locked")]
+        public bool Locked;
     }
 }

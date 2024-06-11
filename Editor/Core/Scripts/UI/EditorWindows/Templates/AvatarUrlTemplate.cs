@@ -12,7 +12,7 @@ namespace ReadyPlayerMe.Core.Editor
         private const string URL_ELEMENT = "UrlField";
         private const string ERROR_LABEL = "ErrorLabel";
         private const string HELP_BUTTON = "HelpButton";
-        private const string ERROR_HELP_URL = "https://docs.readyplayer.me/ready-player-me/avatars/avatar-creator#avatar-url-and-data-format";
+        private const string ERROR_HELP_URL = "https://docs.readyplayer.me/ready-player-me/customizing-guides/avatar-creator/avatar-urls";
 
         public new class UxmlFactory : UxmlFactory<AvatarUrlTemplate, UxmlTraits>
         {
@@ -48,7 +48,7 @@ namespace ReadyPlayerMe.Core.Editor
             helpButton.clicked += () =>
             {
                 AnalyticsEditorLogger.EventLogger.LogFindOutMore(HelpSubject.LoadingAvatars);
-                Application.OpenURL(Constants.Links.DOCS_LOAD_AVATAR);
+                Application.OpenURL(Constants.Links.DOCS_AVATAR_LOADER_WINDOW);
             };
         }
 

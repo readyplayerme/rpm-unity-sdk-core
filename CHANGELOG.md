@@ -3,11 +3,29 @@
 All notable changes to this project will be documented in this file.
 This project adheres to [Semantic Versioning](http://semver.org/).
 
+## [6.3.0] - 2024.06.11
+
+### Updated
+
+- XR animation avatars now have DOF enabled by default [#288](https://github.com/readyplayerme/rpm-unity-sdk-core/pull/288)
+- Updated InCreatorAvatarLoader to use avatar config [#286](https://github.com/readyplayerme/rpm-unity-sdk-core/pull/286)
+- Avatar Creator Icon categories updated [#272](https://github.com/readyplayerme/rpm-unity-sdk-core/pull/272)
+
+### Fixed 
+
+- Fixed an issue preventing LOD's from updating [#277](https://github.com/readyplayerme/rpm-unity-sdk-core/pull/277)
+- An issue causing multiple signup requests [#275](https://github.com/readyplayerme/rpm-unity-sdk-core/pull/275)
+
+### Added
+- Avatar template type filter [#270](https://github.com/readyplayerme/rpm-unity-sdk-core/pull/270)
+- Handle failed body shape requests [#281](https://github.com/readyplayerme/rpm-unity-sdk-core/pull/281)
+- Option to filter Templates by gender [#273](https://github.com/readyplayerme/rpm-unity-sdk-core/pull/273)
+
 ## [6.2.4] - 2024.05.03
 
 ### Fixed
 
-- Updated XR template prefab meshes to prevent missing bone references to fix mexh transfer [#266](https://github.com/readyplayerme/rpm-unity-sdk-core/pull/266)
+- Updated XR template prefab meshes to prevent missing bone references to fix mesh transfer [#266](https://github.com/readyplayerme/rpm-unity-sdk-core/pull/266)
 
 ## [6.2.3] - 2024.04.29
 

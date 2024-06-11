@@ -1,6 +1,9 @@
 using System.Collections.Generic;
+using System.Linq;
+using System.Threading;
 using System.Threading.Tasks;
 using ReadyPlayerMe.Core;
+using UnityEngine;
 
 namespace ReadyPlayerMe.AvatarCreator
 {
@@ -13,28 +16,70 @@ namespace ReadyPlayerMe.AvatarCreator
     public class TemplateSelectionElement : SelectionElement
     {
         private const string TAG = nameof(TemplateSelectionElement);
+        [SerializeField] private TemplateVersions templateVersions = TemplateVersions.V2;
         private List<AvatarTemplateData> avatarTemplates;
         private AvatarTemplateFetcher avatarTemplateFetcher;
+        private CancellationToken ctx;
+        
+        private const string TEMPLATE_V2_USAGE_TYPE = "onboarding";
+        private const string TEMPLATE_V1_USAGE_TYPE = "randomize";
 
         private void Awake()
         {
-            avatarTemplateFetcher = new AvatarTemplateFetcher();
+            avatarTemplateFetcher = new AvatarTemplateFetcher(ctx);
         }
 
+        
         /// <summary>
         /// Asynchronously loads avatar template data and creates button elements for each template.
         /// Each button is created with an icon fetched from the template's image URL.
         /// </summary>
         public async void LoadAndCreateButtons()
         {
+            await LoadAndCreateButtons(OutfitGender.None);
+        }
+        
+        /// <summary>
+        /// Asynchronously loads avatar template data and creates button elements for each template based on the gender.
+        /// Each button is created with an icon fetched from the template's image URL.
+        /// <param name="gender">Gender for which the templates are loaded for</param>
+        /// </summary>
+        public async Task LoadAndCreateButtons(OutfitGender gender)
+        {
             await LoadTemplateData();
-            CreateButtons(avatarTemplates.ToArray(), async (button, asset) =>
+
+            var filteredTemplates = avatarTemplates!.Where(template => HasCorrectTemplateVersion(template) && HasCorrectGender(template, gender)).ToList();
+            
+            CreateButtons(filteredTemplates!.ToArray(), async (button, asset) =>
             {
                 var webRequestDispatcher = new WebRequestDispatcher();
                 var url = $"{asset.ImageUrl}";
                 var texture = await webRequestDispatcher.DownloadTexture(url);
                 button.SetIcon(texture);
             });
+        }
+        
+        private bool HasCorrectTemplateVersion(AvatarTemplateData template)
+        {
+            switch (templateVersions)
+            {
+                case TemplateVersions.V2:
+                    return template.UsageType.Contains(TEMPLATE_V2_USAGE_TYPE);
+                case TemplateVersions.V1:
+                    return template.UsageType.Contains(TEMPLATE_V1_USAGE_TYPE);
+                case TemplateVersions.All:
+                default:
+                    return true;
+            }
+        }
+        
+        private bool HasCorrectGender(AvatarTemplateData template, OutfitGender gender)
+        {
+            if (gender == OutfitGender.None || template.Gender == OutfitGender.None)
+            {
+                return true;
+            }
+            return gender == template.Gender;
         }
 
         /// <summary>

@@ -81,8 +81,7 @@ namespace ReadyPlayerMe.Core
         /// </summary>
         private void Awake()
         {
-            headMesh = gameObject.GetMeshRenderer(MeshType.HeadMesh);
-            hasBlinkBlendShapes = HasBlinkBlendshapes();
+            UpdateHeadMesh();
             ValidateSkeleton();
 
             if (!hasBlinkBlendShapes)
@@ -99,6 +98,12 @@ namespace ReadyPlayerMe.Core
                 Reset();
                 enabled = false;
             }
+        }
+
+        public void UpdateHeadMesh()
+        {
+            headMesh = gameObject.GetMeshRenderer(MeshType.HeadMesh, true);
+            hasBlinkBlendShapes = HasBlinkBlendshapes();
         }
 
         private bool HasBlinkBlendshapes()

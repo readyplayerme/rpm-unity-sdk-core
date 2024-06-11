@@ -56,12 +56,16 @@ namespace ReadyPlayerMe.Core
         /// </summary>
         /// <param name="gameObject">The <see cref="GameObject" /> to search for a <see cref="SkinnedMeshRenderer" />.</param>
         /// <param name="meshType">Determines the <see cref="MeshType" /> to search for.</param>
+        /// <param name="ignoreNullMesh">If true it will filter our <see cref="SkinnedMeshRenderers"/> with NO mesh data.</param>
         /// <returns>The <see cref="SkinnedMeshRenderer" /> if found.</returns>
-        public static SkinnedMeshRenderer GetMeshRenderer(this GameObject gameObject, MeshType meshType)
+        public static SkinnedMeshRenderer GetMeshRenderer(this GameObject gameObject, MeshType meshType, bool ignoreNullMesh = false)
         {
             SkinnedMeshRenderer mesh;
-            List<SkinnedMeshRenderer> children = gameObject.GetComponentsInChildren<SkinnedMeshRenderer>().ToList();
-
+            var children = gameObject.GetComponentsInChildren<SkinnedMeshRenderer>().ToList();
+            if (ignoreNullMesh)
+            {
+                children = children.Where(renderer => renderer.sharedMesh != null).ToList();
+            }
             if (children.Count == 0)
             {
 
