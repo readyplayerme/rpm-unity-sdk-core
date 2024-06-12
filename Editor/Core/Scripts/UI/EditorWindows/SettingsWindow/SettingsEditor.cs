@@ -105,7 +105,7 @@ namespace ReadyPlayerMe.Core.Editor
 
         private void OnAvatarCachingToggle(ChangeEvent<bool> evt)
         {
-            AvatarLoaderSettingsHelper.AvatarLoaderSettings.AvatarCachingEnabled = evt.newValue;
+            AvatarLoaderSettingsHelper.SetAvatarCaching(evt.newValue);
             AnalyticsEditorLogger.EventLogger.LogSetCachingEnabled(evt.newValue);
         }
 
