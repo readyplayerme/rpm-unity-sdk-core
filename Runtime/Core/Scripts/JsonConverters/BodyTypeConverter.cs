@@ -33,7 +33,13 @@ namespace ReadyPlayerMe.Core
                 };
             }
 
-            throw new JsonSerializationException("Expected string value, instead found: " + token.Type);
+            // This is a fallback to the previous SDK versions, where the bodyType was stored as an Integer.
+            if (token.Type == JTokenType.Integer)
+            {
+                return (BodyType) token.Value<int>();
+            }
+
+            throw new JsonSerializationException("Expected string or integer value, instead found: " + token.Type);
         }
     }
 }
