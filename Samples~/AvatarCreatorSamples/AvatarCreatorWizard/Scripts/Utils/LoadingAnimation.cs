@@ -25,18 +25,24 @@ namespace ReadyPlayerMe.Samples.AvatarCreatorWizard
             {
                 foreach (var circle in circles)
                 {
-                    await circle.LerpScale(Vector3.one * 1f, 0.1f, ctx.Token);
                     try
                     {
+                        await circle.LerpScale(Vector3.one * 1f, 0.1f, ctx.Token);
                         await Task.Delay(TimeSpan.FromSeconds(0.1), ctx.Token);
+                        await circle.LerpScale(Vector3.one * minScaleFactor, 0.2f, ctx.Token);
                     }
                     catch
                     {
                         // ignored
                     }
-                    _ = circle.LerpScale(Vector3.one * minScaleFactor, 0.2f, ctx.Token);
+
                 }
             }
+        }
+
+        private void OnDestroy()
+        {
+            ctx.Dispose();
         }
 
         private void OnDisable()
