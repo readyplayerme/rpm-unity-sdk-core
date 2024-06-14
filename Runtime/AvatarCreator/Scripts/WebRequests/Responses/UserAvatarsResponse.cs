@@ -2,7 +2,7 @@ using ReadyPlayerMe.Core;
 
 namespace ReadyPlayerMe.AvatarCreator.Responses
 {
-    public struct GetUserAvatarResponse
+    public struct UserAvatarResponse
     {
         public string Id;
         public string Partner;

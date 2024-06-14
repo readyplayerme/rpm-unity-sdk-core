@@ -185,15 +185,14 @@ namespace ReadyPlayerMe.Samples.AvatarCreatorWizard
             {
                 return;
             }
-            
+
             if (category.IsOutfitAsset())
             {
                 cameraZoom.ToFullbodyView();
+                return;
             }
-            else
-            {
-                cameraZoom.ToFaceView();
-            }
+
+            cameraZoom.ToFaceView();
         }
     }
 }

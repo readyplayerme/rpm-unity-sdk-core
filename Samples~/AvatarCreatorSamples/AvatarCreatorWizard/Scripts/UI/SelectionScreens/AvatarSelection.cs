@@ -20,7 +20,7 @@ namespace ReadyPlayerMe.Samples.AvatarCreatorWizard
         public override StateType StateType => StateType.AvatarSelection;
         public override StateType NextState => StateType.Editor;
 
-        private List<GetUserAvatarResponse> userAvatars;
+        private List<UserAvatarResponse> userAvatars;
         private Dictionary<string, GameObject> avatarButtonsMap;
         private AvatarAPIRequests avatarAPIRequests;
 

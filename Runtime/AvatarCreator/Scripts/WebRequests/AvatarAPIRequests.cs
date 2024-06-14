@@ -37,7 +37,7 @@ namespace ReadyPlayerMe.AvatarCreator
             authorizedRequest = new AuthorizedRequest();
         }
 
-        public async Task<List<GetUserAvatarResponse>> GetUserAvatars(string userId)
+        public async Task<List<UserAvatarResponse>> GetUserAvatars(string userId)
         {
             var response = await authorizedRequest.SendRequest<Response>(
                 new RequestData
@@ -51,7 +51,7 @@ namespace ReadyPlayerMe.AvatarCreator
 
             var json = JObject.Parse(response.Text);
             var data = json[DATA]!;
-            var avatars = data.AsEnumerable().Select(avatarData => new GetUserAvatarResponse()
+            var avatars = data.AsEnumerable().Select(avatarData => new UserAvatarResponse()
             {
                 BodyType = EnumExtensions.GetValueFromDescription<BodyType>(avatarData[DATA][BODY_TYPE]!.ToString()),
                 Id = avatarData[ID]!.ToString(),
