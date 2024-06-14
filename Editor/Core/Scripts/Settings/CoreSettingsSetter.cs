@@ -29,6 +29,12 @@ namespace ReadyPlayerMe.Core.Editor
             Save();
         }
 
+        public static void SaveBodyType(BodyType bodyType)
+        {
+            CoreSettingsHandler.CoreSettings.BodyType = bodyType;
+            Save();
+        }
+
         public static void Save()
         {
             EditorUtility.SetDirty(CoreSettingsHandler.CoreSettings);

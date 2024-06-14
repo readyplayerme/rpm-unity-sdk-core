@@ -10,5 +10,6 @@ namespace ReadyPlayerMe.Core.Data
         public string AppId = string.Empty;
         public bool EnableLogging;
         public bool EnableAnalytics;
+        public BodyType BodyType = BodyType.FullBody;
     }
 }

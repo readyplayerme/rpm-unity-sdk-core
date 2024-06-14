@@ -12,7 +12,6 @@ namespace ReadyPlayerMe.Samples.AvatarCreatorElements
 {
     public class AvatarHandler : MonoBehaviour
     {
-        public BodyType bodyType = BodyType.FullBody;
         [SerializeField] private RuntimeAnimatorController animationController;
 
         public UnityEvent<AvatarProperties> OnAvatarLoaded;
@@ -36,7 +35,7 @@ namespace ReadyPlayerMe.Samples.AvatarCreatorElements
         public async Task SelectAsset(IAssetData assetData)
         {
             OnAvatarLoading?.Invoke();
-            var newAvatar = await avatarManager.UpdateAsset(assetData.AssetType, bodyType, assetData.Id);
+            var newAvatar = await avatarManager.UpdateAsset(assetData.AssetType, assetData.Id);
             SetupLoadedAvatar(newAvatar, ActiveAvatarProperties);
         }
 
@@ -60,7 +59,7 @@ namespace ReadyPlayerMe.Samples.AvatarCreatorElements
         private async Task<AvatarProperties> LoadAvatarWithId(string avatarId)
         {
             OnAvatarLoading?.Invoke();
-            var newAvatar = await avatarManager.GetAvatar(avatarId, bodyType);
+            var newAvatar = await avatarManager.GetAvatar(avatarId);
             var newAvatarProperties = await avatarManager.GetAvatarProperties(avatarId);
 
             SetupLoadedAvatar(newAvatar, newAvatarProperties);
@@ -86,7 +85,7 @@ namespace ReadyPlayerMe.Samples.AvatarCreatorElements
         public async Task<AvatarProperties> LoadAvatarFromTemplate(string templateId)
         {
             OnAvatarLoading?.Invoke();
-            var templateAvatarResponse = await avatarManager.CreateAvatarFromTemplateAsync(templateId, bodyType);
+            var templateAvatarResponse = await avatarManager.CreateAvatarFromTemplateAsync(templateId);
 
             SetupLoadedAvatar(templateAvatarResponse.AvatarObject, templateAvatarResponse.Properties);
 

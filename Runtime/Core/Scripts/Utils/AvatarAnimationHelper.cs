@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using ReadyPlayerMe.Core.Data;
 using UnityEngine;
 
 namespace ReadyPlayerMe.Core
@@ -15,7 +16,7 @@ namespace ReadyPlayerMe.Core
         private const string XR_MASCULINE_ANIMATION_AVATAR_NAME = "AnimationAvatars/Masculine_XR";
         private const string XR_FEMININE_ANIMATION_AVATAR_NAME = "AnimationAvatars/Feminine_XR";
 
-        private static readonly Dictionary<string, Avatar> AnimationAvatarCache = new Dictionary<string, Avatar>();
+        private static readonly Dictionary<string, Avatar> AnimationAvatarCache = new();
 
         public static void SetupAnimator(AvatarMetadata avatarMetadata, GameObject avatar)
         {
@@ -29,12 +30,12 @@ namespace ReadyPlayerMe.Core
 
         public static void SetupAnimator(AvatarMetadata avatarMetadata, Animator animator)
         {
-            animator.avatar = GetAnimationAvatar(avatarMetadata.OutfitGender, avatarMetadata.BodyType);
+            animator.avatar = GetAnimationAvatar(avatarMetadata);
         }
 
-        public static Avatar GetAnimationAvatar(OutfitGender outfitGender, BodyType bodyType)
+        public static Avatar GetAnimationAvatar(AvatarMetadata avatarMetadata)
         {
-            var path = GetAvatarPath(outfitGender, bodyType);
+            var path = GetAvatarPath(avatarMetadata);
             if (path == null)
             {
                 return null;
@@ -58,12 +59,12 @@ namespace ReadyPlayerMe.Core
             return avatar;
         }
 
-        private static string GetAvatarPath(OutfitGender outfitGender, BodyType bodyType)
+        private static string GetAvatarPath(AvatarMetadata avatarMetadata)
         {
-            return bodyType switch
+            return avatarMetadata.BodyType switch
             {
-                BodyType.FullBody => GetFullbodyAvatarPath(outfitGender),
-                BodyType.FullBodyXR => GetFullbodyXrAvatarPath(outfitGender),
+                BodyType.FullBody => GetFullbodyAvatarPath(avatarMetadata.OutfitGender),
+                BodyType.FullBodyXR => GetFullbodyXrAvatarPath(avatarMetadata.OutfitGender),
                 _ => null
             };
         }

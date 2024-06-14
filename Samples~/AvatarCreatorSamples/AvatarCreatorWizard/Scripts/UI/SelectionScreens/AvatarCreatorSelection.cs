@@ -72,7 +72,7 @@ namespace ReadyPlayerMe.Samples.AvatarCreatorWizard
             if (string.IsNullOrEmpty(avatarManager.AvatarId))
                 return;
 
-            CreateUI(AvatarCreatorData.AvatarProperties.BodyType);
+            CreateUI();
 
             await LoadAssets();
             await LoadAvatarColors();
@@ -143,7 +143,7 @@ namespace ReadyPlayerMe.Samples.AvatarCreatorWizard
             partnerAssetManager.OnError += OnErrorCallback;
             categoriesAssetsLoaded = new List<AssetType>();
 
-            await partnerAssetManager.GetAssets(AvatarCreatorData.AvatarProperties.BodyType, AvatarCreatorData.AvatarProperties.Gender, ctxSource.Token);
+            await partnerAssetManager.GetAssets(AvatarCreatorData.AvatarProperties.Gender, ctxSource.Token);
             await CreateAssetsByCategory(AssetType.FaceShape);
 
             SDKLogger.Log(TAG, $"Loaded all partner assets {Time.time - startTime:F2}s");
@@ -171,16 +171,15 @@ namespace ReadyPlayerMe.Samples.AvatarCreatorWizard
             else
             {
                 var id = AvatarCreatorData.AvatarProperties.Id;
-                var bodyType = AvatarCreatorData.AvatarProperties.BodyType;
                 if (!AvatarCreatorData.IsExistingAvatar)
                 {
-                    var avatarTemplateResponse = await avatarManager.CreateAvatarFromTemplateAsync(id, bodyType);
+                    var avatarTemplateResponse = await avatarManager.CreateAvatarFromTemplateAsync(id);
                     avatar = avatarTemplateResponse.AvatarObject;
                     AvatarCreatorData.AvatarProperties = avatarTemplateResponse.Properties;
                 }
                 else
                 {
-                    avatar = await avatarManager.GetAvatar(id, bodyType, AvatarCreatorData.AvatarProperties.isDraft);
+                    avatar = await avatarManager.GetAvatar(id, AvatarCreatorData.AvatarProperties.isDraft);
                 }
             }
 
@@ -203,9 +202,9 @@ namespace ReadyPlayerMe.Samples.AvatarCreatorWizard
             SDKLogger.Log(TAG, $"All colors loaded in {Time.time - startTime:F2}s");
         }
 
-        private void CreateUI(BodyType bodyType)
+        private void CreateUI()
         {
-            categoryUICreator.Setup(bodyType);
+            categoryUICreator.Setup();
             assetButtonCreator.SetSelectedAssets(AvatarCreatorData.AvatarProperties.Assets);
             assetButtonCreator.CreateClearButton(UpdateAvatar);
             saveButton.gameObject.SetActive(true);
@@ -318,7 +317,7 @@ namespace ReadyPlayerMe.Samples.AvatarCreatorWizard
                 await avatarManager.Delete(true);
             }
 
-            var avatar = await avatarManager.UpdateAsset(category, AvatarCreatorData.AvatarProperties.BodyType, assetId);
+            var avatar = await avatarManager.UpdateAsset(category, assetId);
             if (avatar == null)
             {
                 return;
