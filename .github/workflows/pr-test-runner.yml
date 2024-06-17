@@ -34,6 +34,7 @@ jobs:
           git fetch -a
           git checkout ${{ github.event.pull_request.head.ref }}
           git pull origin ${{ github.event.pull_request.head.ref }}
+          mv Samples~ Samples
       - name: Cache Project
         uses: actions/cache@v3
         with:
