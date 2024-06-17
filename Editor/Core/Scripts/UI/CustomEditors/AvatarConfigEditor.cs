@@ -154,6 +154,12 @@ namespace ReadyPlayerMe.Core.Editor
                         }
                     }
                     useDracoCompression.SetValueWithoutNotify(avatarConfigTarget.UseDracoCompression);
+                    if (avatarConfigTarget.UseDracoCompression && avatarConfigTarget.UseMeshOptCompression)
+                    {
+                        Debug.LogWarning("Draco compression is not compatible with Mesh Optimization compression. Mesh Optimization compression will be disabled.");
+                        avatarConfigTarget.UseMeshOptCompression = false;
+                        useMeshOptCompression.SetValueWithoutNotify(false);
+                    }
                     Save();
                 }
             );
@@ -178,6 +184,12 @@ namespace ReadyPlayerMe.Core.Editor
                         }
                     }
                     useMeshOptCompression.SetValueWithoutNotify(avatarConfigTarget.UseMeshOptCompression);
+                    if (avatarConfigTarget.UseMeshOptCompression && avatarConfigTarget.UseDracoCompression)
+                    {
+                        Debug.LogWarning("Mesh Optimization compression is not compatible with Draco compression. Draco compression will be disabled.");
+                        avatarConfigTarget.UseDracoCompression = false;
+                        useDracoCompression.SetValueWithoutNotify(false);
+                    }
                     Save();
                 }
             );
