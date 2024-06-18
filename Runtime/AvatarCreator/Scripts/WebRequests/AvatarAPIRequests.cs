@@ -75,12 +75,12 @@ namespace ReadyPlayerMe.AvatarCreator
             return JsonConvert.DeserializeObject<List<AvatarTemplateData>>(data.ToString());
         }
 
-        public async Task<AvatarProperties> CreateFromTemplateAvatar(string templateId, string partner, BodyType bodyType)
+        public async Task<AvatarProperties> CreateFromTemplateAvatar(string templateId, string partner)
         {
             var payloadData = new Dictionary<string, string>
             {
                 { nameof(partner), partner },
-                { nameof(bodyType), bodyType.GetDescription() }
+                { BODY_TYPE, CoreSettingsHandler.CoreSettings.BodyType.GetDescription() }
             };
 
             var payload = AuthDataConverter.CreatePayload(payloadData);
