@@ -4,11 +4,11 @@
 
 This is an open source Unity plugin that contains all the core functionality required for a Ready Player Me avatar integration, and manages all the plugin updates and dependencies including Ready Player Me Avatar Loader and glTFast. 
 
-Please visit the online documentation and join our public `discord` community.
+Please visit the online documentation and join our public `forums` community.
 
 ![](https://i.imgur.com/zGamwPM.png) **[Online Documentation]( https://docs.readyplayer.me/ready-player-me/integration-guides/unity )**
 
-![](https://i.imgur.com/FgbNsPN.png) **[Discord Channel]( https://discord.gg/9veRUu2 )**
+![](https://github.com/readyplayerme/rpm-unity-sdk-webview/assets/25016626/130b50db-d6af-4277-9da3-03172bc085eb) **[Forums](https://forum.readyplayer.me/)**
 
 :octocat: **[GitHub Discussions]( https://github.com/readyplayerme/rpm-unity-sdk-core/discussions )**
 
