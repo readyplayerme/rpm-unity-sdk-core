@@ -9,7 +9,7 @@ jobs:
   runAllTests:
     name: ${{ matrix.unityVersion }} ${{ matrix.testMode }} tests
     runs-on: ubuntu-latest
-    timeout-minutes: 15
+    timeout-minutes: 25
     strategy:
       fail-fast: false
       matrix:
