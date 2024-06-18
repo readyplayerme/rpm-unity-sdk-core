@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 This project adheres to [Semantic Versioning](http://semver.org/).
 
+## [6.3.1] - 2024.05.03
+
+### Fixed
+
+- Cache can load now avatars from previous versions, that had bodytype set as an integer [#292](https://github.com/readyplayerme/rpm-unity-sdk-core/pull/292)
+
 ## [6.3.0] - 2024.06.11
 
 ### Updated
