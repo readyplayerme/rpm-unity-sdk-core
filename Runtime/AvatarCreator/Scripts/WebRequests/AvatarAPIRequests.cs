@@ -20,9 +20,6 @@ namespace ReadyPlayerMe.AvatarCreator
         private const string RPM_AVATAR_V2_BASE_URL = Env.RPM_API_V2_BASE_URL + "avatars";
 
         private const string COLOR_PARAMETERS = "colors?type=skin,beard,hair,eyebrow";
-        private const string FULL_BODY = "fullbody";
-        private const string FULL_BODY_XR = "fullbody-xr";
-        private const string HALF_BODY = "halfbody";
         private const string PARTNER = "partner";
         private const string DATA = "data";
         private const string BODY_TYPE = "bodyType";
@@ -66,7 +63,7 @@ namespace ReadyPlayerMe.AvatarCreator
             var response = await authorizedRequest.SendRequest<Response>(
                 new RequestData
                 {
-                    Url = $"{RPM_AVATAR_V2_BASE_URL}/templates",
+                    Url = $"{RPM_AVATAR_V2_BASE_URL}/templates?{BODY_TYPE}={CoreSettingsHandler.CoreSettings.BodyType.GetDescription()}",
                     Method = HttpMethod.GET
                 },
                 ctx
@@ -78,12 +75,12 @@ namespace ReadyPlayerMe.AvatarCreator
             return JsonConvert.DeserializeObject<List<AvatarTemplateData>>(data.ToString());
         }
 
-        public async Task<AvatarProperties> CreateFromTemplateAvatar(string templateId, string partner, BodyType bodyType)
+        public async Task<AvatarProperties> CreateFromTemplateAvatar(string templateId, string partner)
         {
             var payloadData = new Dictionary<string, string>
             {
                 { nameof(partner), partner },
-                { nameof(bodyType), GetBodyTypeValue(bodyType) }
+                { BODY_TYPE, CoreSettingsHandler.CoreSettings.BodyType.GetDescription() }
             };
 
             var payload = AuthDataConverter.CreatePayload(payloadData);
@@ -103,19 +100,6 @@ namespace ReadyPlayerMe.AvatarCreator
             var json = JObject.Parse(response.Text);
             var data = json[DATA]!.ToString();
             return JsonConvert.DeserializeObject<AvatarProperties>(data);
-        }
-
-        private static string GetBodyTypeValue(BodyType bodyType)
-        {
-
-            var body = bodyType switch
-            {
-                BodyType.FullBody => FULL_BODY,
-                BodyType.FullBodyXR => FULL_BODY_XR,
-                BodyType.HalfBody => HALF_BODY,
-                _ => throw new ArgumentOutOfRangeException(nameof(bodyType), bodyType, null)
-            };
-            return body;
         }
 
         public async Task<AssetColor[]> GetAvatarColors(string avatarId, AssetType assetType = AssetType.None)

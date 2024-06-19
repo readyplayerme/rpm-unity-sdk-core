@@ -97,8 +97,7 @@ namespace ReadyPlayerMe.AvatarCreator
             {
                 avatarProperties = await avatarAPIRequests.CreateFromTemplateAvatar(
                     id,
-                    CoreSettingsHandler.CoreSettings.Subdomain,
-                    CoreSettingsHandler.CoreSettings.BodyType
+                    CoreSettingsHandler.CoreSettings.Subdomain
                 );
                 gender = avatarProperties.Gender;
                 if (ctxSource.IsCancellationRequested)
