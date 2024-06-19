@@ -44,7 +44,8 @@ namespace ReadyPlayerMe.Core.Editor
             headerLabel.text = AVATAR_LOADER;
 
             var useEyeAnimationsToggle = rootVisualElement.Q<Toggle>(USE_EYE_ANIMATIONS_TOGGLE);
-            useEyeAnimationsToggle.value = EditorPrefs.GetBool(EYE_ANIMATION_SAVE_KEY);
+            useEyeAnimations = EditorPrefs.GetBool(EYE_ANIMATION_SAVE_KEY);
+            useEyeAnimationsToggle.value = useEyeAnimations;
             useEyeAnimationsToggle.RegisterCallback<ChangeEvent<bool>>(evt =>
             {
                 useEyeAnimations = evt.newValue;
@@ -52,7 +53,8 @@ namespace ReadyPlayerMe.Core.Editor
             });
 
             var useVoiceToAnimToggle = rootVisualElement.Q<Toggle>(USE_VOICE_TO_ANIMATION_TOGGLE);
-            useVoiceToAnimToggle.value = EditorPrefs.GetBool(VOICE_TO_ANIM_SAVE_KEY);
+            useVoiceToAnim = EditorPrefs.GetBool(VOICE_TO_ANIM_SAVE_KEY);
+            useVoiceToAnimToggle.value = useVoiceToAnim;
             useVoiceToAnimToggle.RegisterCallback<ChangeEvent<bool>>(evt =>
             {
                 useVoiceToAnim = evt.newValue;
