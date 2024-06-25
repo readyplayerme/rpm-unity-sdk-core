@@ -78,7 +78,11 @@ namespace ReadyPlayerMe.Samples.AvatarCreatorWizard
             {
                 rawImageRectTransform = image.GetComponent<RectTransform>();
             }
-            loading.SetActive(true);
+            if (loading != null)
+            {
+                loading.SetActive(true);
+            }
+
             ctxSource = new CancellationTokenSource();
             try
             {
@@ -88,7 +92,10 @@ namespace ReadyPlayerMe.Samples.AvatarCreatorWizard
                 {
                     image.texture = texture;
                     rawImageRectTransform.sizeDelta = previousSize;
-                    loading.SetActive(false);
+                    if (loading != null)
+                    {
+                        loading.SetActive(false);
+                    }
                 }
             }
             catch (Exception e)

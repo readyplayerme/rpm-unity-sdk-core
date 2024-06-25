@@ -35,7 +35,10 @@ namespace ReadyPlayerMe.Samples.AvatarCreatorWizard
             icon.texture = texture;
             icon.enabled = true;
             rawImageRectTransform.sizeDelta = previousSize;
-            loading.SetActive(false);
+            if (loading != null)
+            {
+                loading.SetActive(false);
+            }
         }
 
         public void SetSelect(bool isSelected)
