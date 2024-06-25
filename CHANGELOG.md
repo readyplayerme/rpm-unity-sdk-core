@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 This project adheres to [Semantic Versioning](http://semver.org/).
 
+## [6.3.2] - 2024.06.25
+
+### Added
+
+- Support for hero avatar customizations in Avatar Creator
+
+### Updated
+- Updated XR template avatar to have ARKit blendshapes
+- Refactored Template Avatar fetch logic
+- Loading icon now uses Mecanim animations for better performance
+
 ## [6.3.1] - 2024.05.03
 
 ### Fixed
