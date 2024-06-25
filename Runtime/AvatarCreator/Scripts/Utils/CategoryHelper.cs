@@ -35,7 +35,8 @@ namespace ReadyPlayerMe.AvatarCreator
             { "beardColor", AssetType.BeardColor },
             { "bottom", AssetType.Bottom },
             { "top", AssetType.Top },
-            { "footwear", AssetType.Footwear }
+            { "footwear", AssetType.Footwear },
+            { "costume", AssetType.Costume }
         };
     }
 }
