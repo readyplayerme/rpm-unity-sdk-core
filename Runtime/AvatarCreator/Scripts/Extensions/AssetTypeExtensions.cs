@@ -27,7 +27,6 @@ namespace ReadyPlayerMe.AvatarCreator
                 case AssetType.Bottom:
                 case AssetType.Top:
                 case AssetType.Footwear:
-                case AssetType.Costume:
                     return true;
                 default:
                     return false;
