@@ -55,6 +55,7 @@ namespace ReadyPlayerMe.Samples.AvatarCreatorWizard
                 case AssetType.Bottom:
                 case AssetType.Footwear:
                 case AssetType.Outfit:
+                case AssetType.Costume:
                     OutfitCategoryPanel.SetActive(true);
                     SetActivePanel(category, true);
                     break;
