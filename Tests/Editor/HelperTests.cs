@@ -2,12 +2,16 @@ using UnityEngine;
 using NUnit.Framework;
 using System.Threading.Tasks;
 using System.Collections.Generic;
+using UnityEditor;
 
 namespace ReadyPlayerMe.Core.Tests
 {
     public class HelperTests
     {
         private readonly List<GameObject> gameObjects = new List<GameObject>();
+        private const string PATH_TEMPLATE_AVATAR_XR = "Assets/Ready Player Me/Core/Runtime/Core/Prefabs/RPM_Template_Avatar_XR.prefab";
+        private const string PATH_TEMPLATE_AVATAR = "Assets/Ready Player Me/Core/Runtime/Core/Prefabs/RPM_Template_Avatar.prefab";
+
 
         [OneTimeTearDown]
         public void Cleanup()
@@ -53,7 +57,12 @@ namespace ReadyPlayerMe.Core.Tests
         [Test]
         public void AvatarMeshHelper_Check_Prefab_Meshes()
         {
-            GameObject prefab = Resources.Load<GameObject>("RPM_Template_Avatar");
+            GameObject prefab = AssetDatabase.LoadAssetAtPath<GameObject>(PATH_TEMPLATE_AVATAR);
+            for (int i = 0; i < prefab.transform.childCount; i++)
+            {
+                var child = prefab.transform.GetChild(i);
+                child.gameObject.SetActive(true);
+            }
             var meshes = prefab.GetComponentsInChildren<SkinnedMeshRenderer>();
 
             Assert.True(meshes.Length == 15);
@@ -65,12 +74,12 @@ namespace ReadyPlayerMe.Core.Tests
             GameObject source = null;
             var loader = new AvatarObjectLoader();
             loader.OnCompleted += (sender, args) => { source = args.Avatar; };
-            loader.AvatarConfig = new AvatarConfig() { TextureAtlas = TextureAtlas.None };
+            loader.AvatarConfig = ScriptableObject.CreateInstance<AvatarConfig>();
             loader.LoadAvatar(TestAvatarData.DefaultAvatarUri.ModelUrl);
         
             while (source == null) await Task.Yield();
             
-            var prefab = Resources.Load<GameObject>("RPM_Template_Avatar");
+            var prefab = AssetDatabase.LoadAssetAtPath<GameObject>(PATH_TEMPLATE_AVATAR_XR);
             var target = Object.Instantiate(prefab);
             
             AvatarMeshHelper.TransferMesh(source, target);
