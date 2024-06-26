@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: Avatar Config Standard Shader
   m_EditorClassIdentifier: 
   Lod: 0
-  Pose: 0
+  Pose: 1
   TextureAtlas: 1
   TextureSizeLimit: 1024
   TextureChannel: 0000000001000000020000000300000004000000
