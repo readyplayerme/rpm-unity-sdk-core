@@ -206,8 +206,9 @@ namespace ReadyPlayerMe.AvatarCreator
             {
                 payload.Assets.Add(AssetType.Outfit, string.Empty);
             }
+            // Convert costume to outfit
+            payload.Assets.Add(assetType == AssetType.Costume ? AssetType.Outfit : assetType, assetId);
 
-            payload.Assets.Add(assetType, assetId);
             byte[] data;
             try
             {
