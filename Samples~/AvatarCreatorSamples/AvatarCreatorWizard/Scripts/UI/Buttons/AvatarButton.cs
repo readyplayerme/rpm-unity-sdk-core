@@ -2,6 +2,7 @@
 using System.Threading;
 using System.Threading.Tasks;
 using ReadyPlayerMe.AvatarCreator;
+using ReadyPlayerMe.Core;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
@@ -22,23 +23,32 @@ namespace ReadyPlayerMe.Samples.AvatarCreatorWizard
 
         private CancellationTokenSource ctxSource;
 
-        private async void Start()
+        private void Start()
         {
-            rawImageRectTransform = image.GetComponent<RectTransform>();
-            while (string.IsNullOrEmpty(avatarId))
+            AuthManager.OnSignedOut += OnSignedOut;
+        }
+
+        private void OnSignedOut()
+        {
+            ctxSource?.Cancel();
+        }
+
+        private async void OnEnable()
+        {
+            if (!string.IsNullOrEmpty(avatarId) && image.texture == null)
             {
-                await Task.Yield();
+                await LoadImage();
             }
-            LoadImage();
-            AuthManager.OnSignedOut += () => ctxSource?.Cancel();
         }
 
         public void Init(string id, Action onCustomize, Action onSelect, bool isCurrentPartner)
         {
             avatarId = id;
+            gameObject.name = $"AvatarButton_{id}";
             customizeButton.onClick.AddListener(() => onCustomize());
             selectButton.onClick.AddListener(() => onSelect());
             showButtons = isCurrentPartner;
+            LoadImage();
         }
 
         public void OnPointerEnter(PointerEventData eventData)
@@ -62,27 +72,35 @@ namespace ReadyPlayerMe.Samples.AvatarCreatorWizard
             ctxSource?.Cancel();
         }
 
-        private async void LoadImage()
+        private async Task LoadImage()
         {
+            if (rawImageRectTransform == null)
+            {
+                rawImageRectTransform = image.GetComponent<RectTransform>();
+            }
             loading.SetActive(true);
+            ctxSource = new CancellationTokenSource();
             try
             {
-                ctxSource = new CancellationTokenSource();
                 var previousSize = rawImageRectTransform.sizeDelta;
-                image.texture = await AvatarRenderHelper.GetPortrait(avatarId, ctxSource.Token);
-                rawImageRectTransform.sizeDelta = previousSize;
+                var texture = await AvatarRenderHelper.GetPortrait(avatarId, ctxSource.Token);
+               if (!ctxSource.Token.IsCancellationRequested)
+                {
+                    image.texture = texture;
+                    rawImageRectTransform.sizeDelta = previousSize;
+                    loading.SetActive(false);
+                }
             }
-            catch (Exception)
+            catch (Exception e)
             {
-                // ignored
+                SDKLogger.LogWarning("AvatarButton", $"Failed to load image with avatar ID {avatarId}: {e.Message}");
+                gameObject.SetActive(false);
             }
+        }
 
-            if (ctxSource.IsCancellationRequested)
-            {
-                return;
-            }
-
-            loading.SetActive(false);
+        private void OnDestroy()
+        {
+            AuthManager.OnSignedOut -= OnSignedOut;
         }
     }
 }

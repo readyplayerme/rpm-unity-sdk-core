@@ -47,7 +47,9 @@
         Footwear,
         [AssetTypeFilter(AssetFilter.Template)]
         AvatarTemplate,
-        BodyShape
+        BodyShape,
+        [AssetTypeFilter(AssetFilter.Style)]
+        Costume
     }
 
     public enum AssetFilter

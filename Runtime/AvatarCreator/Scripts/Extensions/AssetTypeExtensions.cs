@@ -70,6 +70,7 @@ namespace ReadyPlayerMe.AvatarCreator
                 case AssetType.Outfit:
                 case AssetType.Shirt:
                 case AssetType.EyebrowStyle:
+                case AssetType.Costume:
                     return false;
                 default:
                     return !assetType.IsColorAsset();

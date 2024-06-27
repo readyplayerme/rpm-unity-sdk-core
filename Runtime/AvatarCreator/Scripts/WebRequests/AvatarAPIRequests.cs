@@ -7,8 +7,6 @@ using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using ReadyPlayerMe.AvatarCreator.Responses;
 using ReadyPlayerMe.Core;
-using UnityEditor.PackageManager.Requests;
-using UnityEngine;
 
 namespace ReadyPlayerMe.AvatarCreator
 {

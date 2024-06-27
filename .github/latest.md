@@ -1,18 +1,18 @@
 
 ## Changelog
 
-### Updated
+## Updated
 
-- XR animation avatars now have DOF enabled by default [#288](https://github.com/readyplayerme/rpm-unity-sdk-core/pull/288)
-- Updated InCreatorAvatarLoader to use avatar config [#286](https://github.com/readyplayerme/rpm-unity-sdk-core/pull/286)
-- Avatar Creator Icon categories updated [#272](https://github.com/readyplayerme/rpm-unity-sdk-core/pull/272)
+- loading circle animation now using MMecanim animation [#302](https://github.com/readyplayerme/rpm-unity-sdk-core/pull/302)
+- removed unnecessary assets from Resources folder [#303](https://github.com/readyplayerme/rpm-unity-sdk-core/pull/303)
+- updated Template avatar assets [#300](https://github.com/readyplayerme/rpm-unity-sdk-core/pull/300)
+- Avatar Body type now moved to CoreSettings [#290](https://github.com/readyplayerme/rpm-unity-sdk-core/pull/290)
+
+### Added
+
+- Added support for hero customization assets (costumes) [#301](https://github.com/readyplayerme/rpm-unity-sdk-core/pull/301)
+- templates can now be filtered by Bodytype [#296](https://github.com/readyplayerme/rpm-unity-sdk-core/pull/296)
 
 ### Fixed
 
-- Fixed an issue preventing LOD's from updating [#277](https://github.com/readyplayerme/rpm-unity-sdk-core/pull/277)
-- An issue causing multiple signup requests [#275](https://github.com/readyplayerme/rpm-unity-sdk-core/pull/275)
-
-### Added
-- Avatar template type filter [#270](https://github.com/readyplayerme/rpm-unity-sdk-core/pull/270)
-- Handle failed body shape requests [#281](https://github.com/readyplayerme/rpm-unity-sdk-core/pull/281)
-- Option to filter Templates by gender [#273](https://github.com/readyplayerme/rpm-unity-sdk-core/pull/273)
+- fixed an issue causing invalid load settings in Avatar Loader window [#298](https://github.com/readyplayerme/rpm-unity-sdk-core/pull/298)
