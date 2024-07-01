@@ -7,7 +7,7 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 
 ## Updated
 
-- loading circle animation now using MMecanim animation [#302](https://github.com/readyplayerme/rpm-unity-sdk-core/pull/302)
+- loading circle animation now using Mecanim animation [#302](https://github.com/readyplayerme/rpm-unity-sdk-core/pull/302)
 - removed unnecessary assets from Resources folder [#303](https://github.com/readyplayerme/rpm-unity-sdk-core/pull/303)
 - updated Template avatar assets [#300](https://github.com/readyplayerme/rpm-unity-sdk-core/pull/300)
 - Avatar Body type now moved to CoreSettings [#290](https://github.com/readyplayerme/rpm-unity-sdk-core/pull/290)
