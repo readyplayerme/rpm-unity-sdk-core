@@ -186,7 +186,7 @@ namespace ReadyPlayerMe.Samples.AvatarCreatorWizard
                 return;
             }
 
-            if (category.IsOutfitAsset())
+            if (category.IsOutfitAsset() || category == AssetType.Costume)
             {
                 cameraZoom.ToFullbodyView();
                 return;
