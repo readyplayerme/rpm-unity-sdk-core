@@ -26,7 +26,7 @@ namespace ReadyPlayerMe.AvatarCreator
     public class AvatarManager : IDisposable
     {
         private const string ERROR_BODYSHAPES_NOT_ENABLED = "Failed to apply body shapes to the avatar. Please ensure body shapes are enabled in your studio application.";
-        
+
         private const string TAG = nameof(AvatarManager);
         private readonly AvatarAPIRequests avatarAPIRequests;
         private readonly string avatarConfigParameters;
@@ -72,11 +72,11 @@ namespace ReadyPlayerMe.AvatarCreator
                 }
 
                 avatarId = avatarProperties.Id;
-                avatar = await GetAvatar(avatarId, avatarProperties.BodyType, true);
+                avatar = await GetAvatar(avatarId, true);
             }
             catch (Exception e)
             {
-                OnError?.Invoke(e.Message);
+                HandleException(e);
                 return new AvatarCreationResponse(avatar, avatarProperties);
             }
 
@@ -84,78 +84,12 @@ namespace ReadyPlayerMe.AvatarCreator
         }
 
         /// <summary>
-        /// Create a new avatar.
-        /// </summary>
-        /// <param name="avatarProperties">Properties which describes avatar</param>
-        /// <returns>A tuple in the form of (GameObject, AvatarProperties)</returns>
-        [Obsolete("This method is deprecated. Use CreateAvatarAsync instead.")]
-        public async Task<(GameObject avatarGameObject, AvatarProperties avatarProperties)> CreateAvatar(AvatarProperties avatarProperties)
-        {
-            GameObject avatar = null;
-            try
-            {
-                avatarProperties = await avatarAPIRequests.CreateNewAvatar(avatarProperties);
-                gender = avatarProperties.Gender;
-                if (ctxSource.IsCancellationRequested)
-                {
-                    return (null, avatarProperties);
-                }
-
-                avatarId = avatarProperties.Id;
-                avatar = await GetAvatar(avatarId, avatarProperties.BodyType, true);
-            }
-            catch (Exception e)
-            {
-                OnError?.Invoke(e.Message);
-                return (avatar, avatarProperties);
-            }
-
-            return (avatar, avatarProperties);
-        }
-
-        /// <summary>
         /// Create a new avatar from a provided template.
         /// </summary>
         /// <param name="id">Template id</param>
-        /// <param name="bodyType">Avatar body type</param>
-        /// <returns>A tuple in the form of (GameObject, AvatarProperties)</returns>
-        [Obsolete("This method is deprecated. Use CreateAvatarFromTemplateAsync instead.")]
-        public async Task<(GameObject, AvatarProperties)> CreateAvatarFromTemplate(string id, BodyType bodyType)
-        {
-            GameObject avatar = null;
-            var avatarProperties = new AvatarProperties();
-            try
-            {
-                avatarProperties = await avatarAPIRequests.CreateFromTemplateAvatar(
-                    id,
-                    CoreSettingsHandler.CoreSettings.Subdomain,
-                    bodyType
-                );
-                gender = avatarProperties.Gender;
-                if (ctxSource.IsCancellationRequested)
-                {
-                    return (null, avatarProperties);
-                }
-                avatarProperties.isDraft = true;
-                avatarId = avatarProperties.Id;
-                avatar = await GetAvatar(avatarId, bodyType, true);
-            }
-            catch (Exception e)
-            {
-                OnError?.Invoke(e.Message);
-                return (avatar, avatarProperties);
-            }
-
-            return (avatar, avatarProperties);
-        }
-
-        /// <summary>
-        /// Create a new avatar from a provided template.
-        /// </summary>
-        /// <param name="id">Template id</param>
-        /// <param name="bodyType">Avatar body type</param>
         /// <returns>AvatarCreationResponse: Result of avatar creation including the GameObject and its properties</returns>
-        public async Task<AvatarCreationResponse> CreateAvatarFromTemplateAsync(string id, BodyType bodyType)
+        /// 
+        public async Task<AvatarCreationResponse> CreateAvatarFromTemplateAsync(string id)
         {
             GameObject avatar = null;
             var avatarProperties = new AvatarProperties();
@@ -163,8 +97,7 @@ namespace ReadyPlayerMe.AvatarCreator
             {
                 avatarProperties = await avatarAPIRequests.CreateFromTemplateAvatar(
                     id,
-                    CoreSettingsHandler.CoreSettings.Subdomain,
-                    bodyType
+                    CoreSettingsHandler.CoreSettings.Subdomain
                 );
                 gender = avatarProperties.Gender;
                 if (ctxSource.IsCancellationRequested)
@@ -173,11 +106,11 @@ namespace ReadyPlayerMe.AvatarCreator
                 }
                 avatarProperties.isDraft = true;
                 avatarId = avatarProperties.Id;
-                avatar = await GetAvatar(avatarProperties.Id, bodyType, true);
+                avatar = await GetAvatar(avatarProperties.Id, true);
             }
             catch (Exception e)
             {
-                OnError?.Invoke(e.Message);
+                HandleException(e);
                 return new AvatarCreationResponse(avatar, avatarProperties);
             }
 
@@ -202,7 +135,7 @@ namespace ReadyPlayerMe.AvatarCreator
             }
             catch (Exception e)
             {
-                OnError?.Invoke(e.Message);
+                HandleException(e);
                 SDKLogger.LogWarning(TAG, "Precompiled avatar request failed.");
             }
 
@@ -218,7 +151,7 @@ namespace ReadyPlayerMe.AvatarCreator
         /// <param name="id">Avatar id</param>
         /// <param name="isPreview">Whether its a preview avatar</param>
         /// <returns>Avatar gameObject</returns>
-        public async Task<GameObject> GetAvatar(string id, BodyType bodyType, bool isPreview = false)
+        public async Task<GameObject> GetAvatar(string id, bool isPreview = false)
         {
             avatarId = id;
             byte[] data;
@@ -228,7 +161,7 @@ namespace ReadyPlayerMe.AvatarCreator
             }
             catch (Exception e)
             {
-                OnError?.Invoke(e.Message);
+                HandleException(e);
                 return null;
             }
 
@@ -237,7 +170,7 @@ namespace ReadyPlayerMe.AvatarCreator
                 return null;
             }
 
-            return await inCreatorAvatarLoader.Load(avatarId, bodyType, gender, data);
+            return await inCreatorAvatarLoader.Load(avatarId, gender, data);
         }
 
         public async Task<AvatarProperties> GetAvatarProperties(string id)
@@ -250,7 +183,7 @@ namespace ReadyPlayerMe.AvatarCreator
             }
             catch (Exception e)
             {
-                OnError?.Invoke(e.Message);
+                HandleException(e);
             }
 
             return avatarProperties;
@@ -262,7 +195,7 @@ namespace ReadyPlayerMe.AvatarCreator
         /// <param name="assetId"></param>
         /// <param name="assetType"></param>
         /// <returns>Avatar gameObject</returns>
-        public async Task<GameObject> UpdateAsset(AssetType assetType, BodyType bodyType, object assetId)
+        public async Task<GameObject> UpdateAsset(AssetType assetType, object assetId)
         {
             var payload = new AvatarProperties
             {
@@ -273,8 +206,9 @@ namespace ReadyPlayerMe.AvatarCreator
             {
                 payload.Assets.Add(AssetType.Outfit, string.Empty);
             }
+            // Convert costume to outfit
+            payload.Assets.Add(assetType == AssetType.Costume ? AssetType.Outfit : assetType, assetId);
 
-            payload.Assets.Add(assetType, assetId);
             byte[] data;
             try
             {
@@ -282,7 +216,7 @@ namespace ReadyPlayerMe.AvatarCreator
             }
             catch (Exception e)
             {
-                OnError?.Invoke(e.Message);
+                HandleException(e);
                 return null;
             }
 
@@ -293,9 +227,9 @@ namespace ReadyPlayerMe.AvatarCreator
             await ValidateBodyShapeUpdate(assetType, assetId);
 
 
-            return await inCreatorAvatarLoader.Load(avatarId, bodyType, gender, data);
+            return await inCreatorAvatarLoader.Load(avatarId, gender, data);
         }
-        
+
         /// <summary>
         /// Function that checks if body shapes are enabled in the studio. This validation is performed only in the editor.
         /// </summary>
@@ -307,16 +241,16 @@ namespace ReadyPlayerMe.AvatarCreator
             {
                 return;
             }
-            
+
             var data = await avatarAPIRequests.GetAvatarMetadata(avatarId, true);
-            var hasUpdatedAvatarWithAsset = data.Assets.ContainsKey(assetType) && data.Assets[assetType] == assetId;
+            var hasUpdatedAvatarWithAsset = data.Assets.ContainsKey(assetType) && (string) data.Assets[assetType] == (string) assetId;
             if (hasUpdatedAvatarWithAsset)
             {
                 return;
             }
             Debug.LogError(ERROR_BODYSHAPES_NOT_ENABLED);
         }
-        
+
 
         public async Task<Dictionary<AssetType, AssetColor[]>> LoadAvatarColors()
         {
@@ -330,7 +264,7 @@ namespace ReadyPlayerMe.AvatarCreator
             }
             catch (Exception e)
             {
-                OnError?.Invoke(e.Message);
+                HandleException(e);
             }
 
             return assetColorsByAssetType;
@@ -347,7 +281,7 @@ namespace ReadyPlayerMe.AvatarCreator
             }
             catch (Exception e)
             {
-                OnError?.Invoke(e.Message);
+                HandleException(e);
                 return null;
             }
 
@@ -365,13 +299,23 @@ namespace ReadyPlayerMe.AvatarCreator
             }
             catch (Exception e)
             {
-                OnError?.Invoke(e.Message);
+                HandleException(e);
             }
         }
 
         public void Dispose()
         {
             ctxSource?.Cancel();
+            ctxSource?.Dispose();
+        }
+
+        private void HandleException(Exception e)
+        {
+            if (e.Message == TaskExtensions.ON_REQUEST_CANCELLED_MESSAGE)
+            {
+                throw e;
+            }
+            OnError?.Invoke(e.Message);
         }
     }
 }

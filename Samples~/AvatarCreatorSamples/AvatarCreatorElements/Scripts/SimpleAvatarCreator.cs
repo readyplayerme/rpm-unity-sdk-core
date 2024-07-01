@@ -1,10 +1,11 @@
 using System.Collections.Generic;
+using System.Threading;
 using System.Threading.Tasks;
 using ReadyPlayerMe.AvatarCreator;
 using ReadyPlayerMe.Core;
 using UnityEngine;
 using UnityEngine.Events;
-using UnityEngine.Serialization;
+using TaskExtensions = ReadyPlayerMe.AvatarCreator.TaskExtensions;
 
 #pragma warning disable CS4014
 #pragma warning disable CS1998
@@ -20,61 +21,60 @@ namespace ReadyPlayerMe.Samples.AvatarCreatorElements
     {
         public UnityEvent<AvatarProperties> OnAvatarLoaded;
         public UnityEvent OnAvatarSelected;
-        
+
         [SerializeField] private List<AssetSelectionElement> assetSelectionElements;
         [SerializeField] private List<ColorSelectionElement> colorSelectionElements;
         [SerializeField] private BodyShapeSelectionElement bodyShapeSelectionElement;
-        [SerializeField] private RuntimeAnimatorController animationController;
         [SerializeField] private GameObject loading;
 
-        [SerializeField] private BodyType bodyType = BodyType.FullBody;
         [SerializeField] private GameObject createRPMAccount;
+
         private OutfitGender gender = OutfitGender.Masculine;
 
-        private AvatarManager avatarManager;
-        private GameObject avatar;
+
+        [SerializeField] private AvatarHandler avatarHandler;
+
+        public async void OnLogout()
+        {
+            avatarHandler.CreateNewAvatarFromTemplate();
+        }
+
+        public async void OnLogin()
+        {
+            avatarHandler.CreateNewAvatarFromTemplate();
+        }
+
 
         public async void SelectAvatar(string avatarId)
         {
-            await LoadAvatarWithId(avatarId);
-            OnAvatarSelected?.Invoke();
+            await TaskExtensions.HandleCancellation(avatarHandler.LoadAvatar(avatarId), () =>
+            {
+                OnAvatarSelected?.Invoke();
+            });
         }
-        
+
         public async void LoadAvatar(string avatarId)
         {
-            await LoadAvatarWithId(avatarId);
+            await TaskExtensions.HandleCancellation(avatarHandler.LoadAvatar(avatarId));
         }
 
-        private async Task<AvatarProperties> LoadAvatarWithId(string avatarId)
+        public async void OnAvatarDeleted(string avatarId)
         {
-            loading.SetActive(true);
-            var newAvatar = await avatarManager.GetAvatar(avatarId, bodyType);
-            // Destroy the old avatar and replace it with the new one.
-            if (avatar != null)
+            if (AuthManager.UserSession.LastModifiedAvatarId == avatarId)
             {
-                Destroy(avatar);
-            }
-            avatar = newAvatar;
-            var avatarProperties = await avatarManager.GetAvatarProperties(avatarId);
-
-            var previousGender = gender;
-            gender = avatarProperties.Gender;
-            if (avatarProperties.Gender != previousGender)
-            {
-                LoadAssets();
+                AuthManager.StoreLastModifiedAvatar(null);
             }
 
-            SetupAvatar();
+            if (avatarHandler.ActiveAvatarProperties.Id != avatarId)
+            {
+                return;
+            }
 
-            OnAvatarLoaded?.Invoke(avatarProperties);
-            AuthManager.StoreLastModifiedAvatar(avatarId);
-            loading.SetActive(false);
-
-            return avatarProperties;
-            
+            await TaskExtensions.HandleCancellation(avatarHandler.CreateNewAvatarFromTemplate());
         }
 
-        public async void SignupAndSaveAvatar()
+
+        public void SignupAndSaveAvatar()
         {
             if (!AuthManager.IsSignedIn)
             {
@@ -87,50 +87,16 @@ namespace ReadyPlayerMe.Samples.AvatarCreatorElements
         public async void SaveAvatar()
         {
             loading.SetActive(true);
-            await avatarManager.Save();
-            loading.SetActive(false);
-            OnAvatarSelected?.Invoke();
-            AuthManager.StoreLastModifiedAvatar(avatarManager.AvatarId);
-        }
-
-        public void CreateSecondTemplateAvatar()
-        {
-            CreateTemplateAvatar();
-        }
-
-        public void LoadAvatarFromTemplate(IAssetData template)
-        {
-            LoadAvatarFromTemplate(template.Id);
-        }
-
-        public async Task<AvatarProperties> LoadAvatarFromTemplate(string templateId)
-        {
-            loading.SetActive(true);
-            var templateAvatarResponse = await avatarManager.CreateAvatarFromTemplateAsync(templateId, bodyType);
-
-            // Destroy the old avatar and replace it with the new one.
-            if (avatar != null)
+            await TaskExtensions.HandleCancellation(avatarHandler.SaveActiveAvatar(), () =>
             {
-                Destroy(avatar);
-            }
-            var previousGender = gender;
-            avatar = templateAvatarResponse.AvatarObject;
-            gender = templateAvatarResponse.Properties.Gender;
-            if (gender != previousGender)
-            {
-                LoadAssets();
-            }
-            SetupAvatar();
-
-            OnAvatarLoaded?.Invoke(templateAvatarResponse.Properties);
-            loading.SetActive(false);
-            
-            return templateAvatarResponse.Properties;
+                OnAvatarSelected?.Invoke();
+                loading.SetActive(false);
+            });
         }
 
-        private void Awake()
+        public async void LoadAvatarFromTemplate(IAssetData template)
         {
-            avatarManager = new AvatarManager();
+            await TaskExtensions.HandleCancellation(avatarHandler.LoadAvatarFromTemplate(template.Id));
         }
 
 
@@ -139,21 +105,18 @@ namespace ReadyPlayerMe.Samples.AvatarCreatorElements
         /// </summary>
         public async void LoadUserAssets(UserSession session)
         {
-            loading.SetActive(true);
-            LoadAssets();
-            
-            var avatarProperties = string.IsNullOrEmpty(session.LastModifiedAvatarId) ? await CreateTemplateAvatar(): await LoadAvatarWithId(session.LastModifiedAvatarId);
-            GetColors(avatarProperties);
-            loading.SetActive(false);
+            UpdateButtons();
         }
 
         private void OnEnable()
         {
+            avatarHandler.OnAvatarLoading.AddListener(OnAvatarLoading);
+            avatarHandler.OnAvatarLoaded.AddListener(OnAvatarLoadingFinished);
             bodyShapeSelectionElement.OnAssetSelected.AddListener(OnAssetSelection);
+
             // Subscribes to asset selection events when this component is enabled.
             foreach (var element in assetSelectionElements)
             {
-                element.SetBodyType(bodyType);
                 element.OnAssetSelected.AddListener(OnAssetSelection);
             }
 
@@ -165,6 +128,9 @@ namespace ReadyPlayerMe.Samples.AvatarCreatorElements
 
         private void OnDisable()
         {
+            avatarHandler.OnAvatarLoading.RemoveListener(OnAvatarLoading);
+            avatarHandler.OnAvatarLoaded.RemoveListener(OnAvatarLoadingFinished);
+
             bodyShapeSelectionElement.OnAssetSelected.RemoveListener(OnAssetSelection);
             // Unsubscribes from asset selection events when this component is disabled.
             foreach (var element in assetSelectionElements)
@@ -178,34 +144,47 @@ namespace ReadyPlayerMe.Samples.AvatarCreatorElements
             }
         }
 
+        private void OnAvatarLoadingFinished(AvatarProperties properties)
+        {
+            GetColors(properties);
+            LoadAssets(properties.Gender);
+            OnAvatarLoaded?.Invoke(properties);
+            loading.SetActive(false);
+        }
+
+        private void OnAvatarLoading()
+        {
+            loading.SetActive(true);
+        }
+
         /// <summary>
         ///     Handles the selection of an asset and updates the avatar accordingly.
         /// </summary>
         /// <param name="assetData">The selected asset data.</param>
         private async void OnAssetSelection(IAssetData assetData)
         {
-            loading.SetActive(true);
-            var newAvatar = await avatarManager.UpdateAsset(assetData.AssetType, bodyType, assetData.Id);
-
-            // Destroy the old avatar and replace it with the new one.
-            if (avatar != null)
-            {
-                Destroy(avatar);
-            }
-            avatar = newAvatar;
-            SetupAvatar();
-            loading.SetActive(false);
+            await TaskExtensions.HandleCancellation(avatarHandler.SelectAsset(assetData));
         }
 
         /// <summary>
         ///     Loads and initializes asset selection elements for avatar customization.
         /// </summary>
-        private async void LoadAssets()
+        private void LoadAssets(OutfitGender newGender)
+        {
+            if (gender == newGender)
+            {
+                return;
+            }
+            gender = newGender;
+            UpdateButtons();
+        }
+
+        private void UpdateButtons()
         {
             bodyShapeSelectionElement.LoadAndCreateButtons();
             foreach (var element in assetSelectionElements)
             {
-                element.LoadAndCreateButtons(gender);
+                TaskExtensions.HandleCancellation(element.LoadAndCreateButtons(gender));
             }
         }
 
@@ -221,43 +200,5 @@ namespace ReadyPlayerMe.Samples.AvatarCreatorElements
             }
         }
 
-        /// <summary>
-        ///     Creates an avatar from a template and sets its initial properties.
-        /// </summary>
-        /// <returns>The properties of the created avatar.</returns>
-        private async Task<AvatarProperties> CreateTemplateAvatar()
-        {
-            var avatarTemplateFetcher = new AvatarTemplateFetcher();
-            var templates = await avatarTemplateFetcher.GetTemplates();
-            var avatarTemplate = templates[1];
-            return await LoadAvatarFromTemplate(avatarTemplate.Id);
-        }
-
-        /// <summary>
-        ///     Sets additional elements and components on the created avatar, such as mouse rotation and animation controller.
-        /// </summary>
-        private void SetupAvatar()
-        {
-            avatar.AddComponent<MouseRotationHandler>();
-            avatar.AddComponent<AvatarRotator>();
-            var animator = avatar.GetComponent<Animator>();
-            AvatarAnimationHelper.SetupAnimator(new AvatarMetadata
-                { BodyType = bodyType, OutfitGender = gender }, animator);
-            animator.runtimeAnimatorController = animationController;
-        }
-
-        public async void OnAvatarDeleted(string avatarId)
-        {
-            if (AuthManager.UserSession.LastModifiedAvatarId == avatarId)
-            {
-                AuthManager.StoreLastModifiedAvatar(null);
-            }
-            if (avatarManager.AvatarId == avatarId)
-            {
-                loading.SetActive(true);
-                await CreateTemplateAvatar();
-                loading.SetActive(false);
-            }
-        }
     }
 }

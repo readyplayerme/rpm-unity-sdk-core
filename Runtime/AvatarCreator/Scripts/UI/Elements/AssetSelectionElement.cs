@@ -1,5 +1,7 @@
+using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading;
 using System.Threading.Tasks;
 using ReadyPlayerMe.Core;
 using UnityEngine;
@@ -14,21 +16,28 @@ namespace ReadyPlayerMe.AvatarCreator
     /// </summary>
     public class AssetSelectionElement : SelectionElement
     {
-        [Header("Properties")]
-        [SerializeField] private SelectionButton clearSelectionButton;
-        [SerializeField] private BodyType bodyType = BodyType.FullBody;
+        [Header("Properties"), SerializeField]
+        private SelectionButton clearSelectionButton;
         [SerializeField, AssetTypeFilter(AssetFilter.Style)] private AssetType assetType;
         [SerializeField] private int iconSize = 64;
 
         private PartnerAsset[] assets;
-        
+
         private AssetAPIRequests assetsRequests;
         private AssetAPIRequests AssetsRequests => assetsRequests ??= new AssetAPIRequests(CoreSettingsHandler.CoreSettings.AppId);
+
+        private readonly CancellationTokenSource cancellationTokenSource = new();
 
         private void Awake()
         {
             if (clearSelectionButton == null) return;
             AddClearButton(clearSelectionButton, assetType);
+        }
+
+        private void OnDestroy()
+        {
+            cancellationTokenSource.Cancel();
+            cancellationTokenSource.Dispose();
         }
 
         private void CreateClearButton()
@@ -37,11 +46,6 @@ namespace ReadyPlayerMe.AvatarCreator
             clearButton.transform.SetAsFirstSibling();
             var assetData = new PartnerAsset { Id = "0", AssetType = assetType };
             clearButton.GetComponent<SelectionButton>().AddListener(() => OnAssetSelected?.Invoke(assetData));
-        }
-
-        public void SetBodyType(BodyType bodyType)
-        {
-            this.bodyType = bodyType;
         }
 
         /// <summary>
@@ -53,7 +57,7 @@ namespace ReadyPlayerMe.AvatarCreator
         /// <returns>A Task representing the asynchronous operation of fetching and loading the partner asset data.</returns>
         public async Task LoadAssetData(OutfitGender gender)
         {
-            assets = await AssetsRequests.Get(assetType, bodyType, gender);
+            assets = await AssetsRequests.Get(assetType, gender, cancellationTokenSource.Token);
         }
 
         /// <summary>
@@ -70,7 +74,12 @@ namespace ReadyPlayerMe.AvatarCreator
         {
             var webRequestDispatcher = new WebRequestDispatcher();
             var url = iconSize > 0 ? $"{asset.ImageUrl}?w={iconSize}" : asset.ImageUrl;
-            var texture = await webRequestDispatcher.DownloadTexture(url);
+
+            var texture = await TaskExtensions.HandleCancellation(webRequestDispatcher.DownloadTexture(url, cancellationTokenSource.Token));
+            if (texture == null)
+            {
+                return;
+            }
             button.SetIcon(texture);
         }
 

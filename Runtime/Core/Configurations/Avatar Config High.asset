@@ -12,11 +12,25 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3663d6a9358ae4149aad3496e56d4601, type: 3}
   m_Name: Avatar Config High
   m_EditorClassIdentifier: 
-  MeshLod: 0
-  Pose: 0
+  Lod: 0
+  Pose: 1
   TextureAtlas: 1
   TextureSizeLimit: 1024
+  TextureChannel: 0000000001000000020000000300000004000000
   UseHands: 0
   UseDracoCompression: 0
+  UseMeshOptCompression: 0
+  Shader: {fileID: 0}
+  ShaderProperties:
+  - TextureChannel: 0
+    PropertyName: _MainTex
+  - TextureChannel: 1
+    PropertyName: _BumpMap
+  - TextureChannel: 2
+    PropertyName: 
+  - TextureChannel: 3
+    PropertyName: 
+  - TextureChannel: 4
+    PropertyName: 
   MorphTargets:
   - Oculus Visemes

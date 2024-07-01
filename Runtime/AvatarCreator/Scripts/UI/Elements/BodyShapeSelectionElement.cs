@@ -28,7 +28,7 @@ namespace ReadyPlayerMe.AvatarCreator
         {
             if (!avatarProperties.Assets.ContainsKey(AssetType.BodyShape))
             {
-                SetButtonSelected(GetEnumDescription(BodyShape.Average));
+                SetButtonSelected(BodyShape.Average.GetDescription());
                 return;
             }
             var assetId = avatarProperties.Assets[AssetType.BodyShape] as string;
@@ -47,22 +47,8 @@ namespace ReadyPlayerMe.AvatarCreator
                 bodyShape = bodyShape.bodyShape,
                 AssetType = bodyShape.AssetType,
                 image = bodyShape.image,
-                Id = GetEnumDescription(bodyShape.bodyShape)
+                Id = bodyShape.bodyShape.GetDescription()
             }).ToArray();
-        }
-
-        private static string GetEnumDescription(Enum value)
-        {
-            var fieldInfo = value.GetType().GetField(value.ToString());
-
-            var attributes =
-                (DescriptionAttribute[]) fieldInfo.GetCustomAttributes(typeof(DescriptionAttribute), false);
-
-            if (attributes.Length > 0)
-            {
-                return attributes[0].Description;
-            }
-            return value.ToString();
         }
     }
 }

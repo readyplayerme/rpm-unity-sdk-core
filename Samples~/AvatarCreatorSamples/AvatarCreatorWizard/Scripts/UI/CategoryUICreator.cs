@@ -28,7 +28,6 @@ namespace ReadyPlayerMe.Samples.AvatarCreatorWizard
         private CategoryButton selectedCategoryButton;
 
         private CameraZoom cameraZoom;
-        private BodyType bodyType;
 
         private void Awake()
         {
@@ -59,7 +58,7 @@ namespace ReadyPlayerMe.Samples.AvatarCreatorWizard
             PanelSwitcher.FaceCategoryPanel = faceCategoryPanel;
             PanelSwitcher.OutfitCategoryPanel = outfitCategoryPanel;
 
-            foreach (CategoryButton categoryButton in categoryButtons)
+            foreach (var categoryButton in categoryButtons)
             {
                 ConfigureCategoryButton(categoryButton.Category, categoryButton);
             }
@@ -70,20 +69,20 @@ namespace ReadyPlayerMe.Samples.AvatarCreatorWizard
             }
         }
 
-        public void Setup(BodyType bodyType)
+        public void Setup()
         {
-            this.bodyType = bodyType;
             DefaultZoom();
 
-            if (this.bodyType == BodyType.HalfBody)
+            switch (CoreSettingsHandler.CoreSettings.BodyType)
             {
-                outfitCategoryButton.gameObject.SetActive(false);
-                categoryButtons.First(x => x.Category == AssetType.Shirt).gameObject.SetActive(true);
-            }
-            else
-            {
-                categoryButtons.First(x => x.Category == AssetType.Shirt).gameObject.SetActive(false);
-                outfitCategoryButton.gameObject.SetActive(true);
+                case BodyType.HalfBody:
+                    outfitCategoryButton.gameObject.SetActive(false);
+                    categoryButtons.First(x => x.Category == AssetType.Shirt).gameObject.SetActive(true);
+                    break;
+                default:
+                    categoryButtons.First(x => x.Category == AssetType.Shirt).gameObject.SetActive(false);
+                    outfitCategoryButton.gameObject.SetActive(true);
+                    break;
             }
 
             foreach (var category in categoryPanels)
@@ -169,29 +168,31 @@ namespace ReadyPlayerMe.Samples.AvatarCreatorWizard
 
         private void DefaultZoom()
         {
-            if (bodyType == BodyType.HalfBody)
+            switch (CoreSettingsHandler.CoreSettings.BodyType)
             {
-                cameraZoom.ToHalfBody();
-            }
-            else
-            {
-                cameraZoom.ToFullbodyView();
+                case BodyType.HalfBody:
+                    cameraZoom.ToHalfBody();
+                    break;
+                default:
+                    cameraZoom.ToFullbodyView();
+                    break;
             }
         }
 
         private void SwitchZoomByCategory(AssetType category)
         {
-            if (bodyType != BodyType.HalfBody)
+            if (CoreSettingsHandler.CoreSettings.BodyType == BodyType.HalfBody)
             {
-                if (category.IsOutfitAsset())
-                {
-                    cameraZoom.ToFullbodyView();
-                }
-                else
-                {
-                    cameraZoom.ToFaceView();
-                }
+                return;
             }
+
+            if (category.IsOutfitAsset() || category == AssetType.Costume)
+            {
+                cameraZoom.ToFullbodyView();
+                return;
+            }
+
+            cameraZoom.ToFaceView();
         }
     }
 }

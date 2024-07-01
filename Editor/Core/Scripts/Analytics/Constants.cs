@@ -67,6 +67,7 @@ namespace ReadyPlayerMe.Core.Analytics
             public const string DOCS_AVATAR_LOADER_WINDOW = "https://docs.readyplayer.me/ready-player-me/integration-guides/unity/avatar-loader-window";
             public const string DOCS_AVATAR_CONFIG_LINK = "https://docs.readyplayer.me/ready-player-me/integration-guides/unity/optimize/avatar-configuration";
             public const string DOCS_AVATAR_CACHING = "https://docs.readyplayer.me/ready-player-me/integration-guides/unity/optimize/avatar-caching";
+            public const string AVATARS = "https://docs.readyplayer.me/ready-player-me/api-reference/avatars";
             public const string APP_ID = "https://docs.readyplayer.me/ready-player-me/integration-guides/unity/avatar-creator/custom-avatar-creator#prerequisites";
         }
     }

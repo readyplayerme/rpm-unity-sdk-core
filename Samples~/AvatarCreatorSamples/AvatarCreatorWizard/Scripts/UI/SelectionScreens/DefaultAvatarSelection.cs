@@ -84,6 +84,7 @@ namespace ReadyPlayerMe.Samples.AvatarCreatorWizard
         private GameObject CreateRenderButton(string id, Texture renderImage)
         {
             var button = Instantiate(buttonPrefab, parent);
+            button.name = id;
             var rawImage = button.GetComponentInChildren<RawImage>();
             button.GetComponent<Button>().onClick.AddListener(() => OnAvatarSelected(id));
             rawImage.texture = renderImage;

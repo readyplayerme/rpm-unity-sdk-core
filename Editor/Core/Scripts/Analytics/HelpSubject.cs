@@ -6,6 +6,7 @@ namespace ReadyPlayerMe.Core.Analytics
         Subdomain,
         AvatarConfig,
         GltfDeferAgent,
-        LoadingAvatars
+        LoadingAvatars,
+        Avatars
     }
 }
