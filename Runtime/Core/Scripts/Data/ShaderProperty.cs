@@ -15,72 +15,74 @@ namespace ReadyPlayerMe.Core
             PropertyName = propertyName;
         }
     }
-    
-[Serializable]
-public class ShaderPropertyMapping
-{
-    public string SourceProperty;
-    public string TargetProperty;
-    public ShaderPropertyType Type;
-    public ShaderPropertyMapping(string textureChannel, string propertyName, ShaderPropertyType type)
-    {   
-        SourceProperty = textureChannel;
-        TargetProperty = propertyName;
-        Type = type;
-    }
-}
 
-public enum ShaderPropertyType
-{
-    Texture,
-    Float,
-    Color,
-    Vector
-}
-
-public static class ShaderMaterialOverrideHelper
-{
-    public static void ApplyOverrides(Material sourceMaterial, Material targetMaterial, ShaderPropertyMapping[] propertyMappings)
+    [Serializable]
+    public class ShaderPropertyMapping
     {
-        if (sourceMaterial == null || targetMaterial == null)
-        {
-            Debug.LogError("Source or Target Material is not set.");
-            return;
-        }
+        public string SourceProperty;
+        public string TargetProperty;
+        public ShaderPropertyType Type;
 
-        foreach (var mapping in propertyMappings)
+        public ShaderPropertyMapping(string sourceProperty, string targetProperty, ShaderPropertyType type)
         {
-            if (!sourceMaterial.HasProperty(mapping.SourceProperty) || targetMaterial.HasProperty(mapping.TargetProperty))
+            SourceProperty = sourceProperty;
+            TargetProperty = targetProperty;
+            Type = type;
+        }
+    }
+
+    public enum ShaderPropertyType
+    {
+        Texture,
+        Float,
+        Color,
+        Vector
+    }
+
+    public static class ShaderMaterialOverrideHelper
+    {
+        public static void ApplyOverrides(Material sourceMaterial, Material targetMaterial, ShaderPropertyMapping[] propertyMappings)
+        {
+            if (sourceMaterial == null || targetMaterial == null)
             {
+                Debug.LogError("Source or Target Material is not set.");
                 return;
             }
-                
-            switch (mapping.Type)
+
+            foreach (var mapping in propertyMappings)
             {
-                case ShaderPropertyType.Texture:
+                if (!sourceMaterial.HasProperty(mapping.SourceProperty) || !targetMaterial.HasProperty(mapping.TargetProperty))
+                {
+                    Debug.LogWarning("Property not found in source or target material");
+                    return;
+                }
+
+                switch (mapping.Type)
+                {
+                    case ShaderPropertyType.Texture:
                         var texture = sourceMaterial.GetTexture(mapping.SourceProperty);
                         targetMaterial.SetTexture(mapping.TargetProperty, texture);
-                    break;
+                        break;
 
-                case ShaderPropertyType.Float:
+                    case ShaderPropertyType.Float:
                         var floatValue = sourceMaterial.GetFloat(mapping.SourceProperty);
                         targetMaterial.SetFloat(mapping.TargetProperty, floatValue);
-                    break;
+                        break;
 
-                case ShaderPropertyType.Color:
+                    case ShaderPropertyType.Color:
                         var colorValue = sourceMaterial.GetColor(mapping.SourceProperty);
                         targetMaterial.SetColor(mapping.TargetProperty, colorValue);
-                    break;
+                        break;
 
-                case ShaderPropertyType.Vector:
+                    case ShaderPropertyType.Vector:
                         var vectorValue = sourceMaterial.GetVector(mapping.SourceProperty);
                         targetMaterial.SetVector(mapping.TargetProperty, vectorValue);
-                    break;
-                default:
-                    Debug.LogWarning("Unknown property type.");
-                    break;
+                        break;
+                    default:
+                        Debug.LogWarning("Unknown property type.");
+                        break;
+                }
             }
         }
     }
-}
 }

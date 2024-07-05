@@ -38,13 +38,14 @@ namespace ReadyPlayerMe.Core.Editor
         private VisualElement root;
         private Action textureChannelChanged;
 
+        private SerializedProperty shaderPropertyMappingList;
+
         public override VisualElement CreateInspectorGUI()
         {
             root = new VisualElement();
             visualTreeAsset.CloneTree(root);
-
             avatarConfigTarget = (AvatarConfig) target;
-
+            shaderPropertyMappingList = serializedObject.FindProperty("ShaderPropertyMapping");
             SetupLod();
             SetupPose();
             SetupTextureAtlas();
@@ -255,65 +256,106 @@ namespace ReadyPlayerMe.Core.Editor
             var shader = root.Q<ObjectField>("ShaderOverride");
             shader.SetValueWithoutNotify(avatarConfigTarget.Shader);
 
+            shader.RegisterValueChangedCallback(x =>
+                {
+                    avatarConfigTarget.Shader = (Shader) x.newValue;
+                    Save();
+                    SetupShader();
+                }
+            );
             var shaderPropertiesContainer = root.Q<VisualElement>("ShaderProperties");
-            CreateShaderProperties(shaderPropertiesContainer);
-
-            textureChannelChanged += () => ShowShaderProperties(shaderPropertiesContainer);
-            if (shader.value == null)
+            shaderPropertiesContainer.Clear();
+            shaderPropertiesContainer.style.display = DisplayStyle.Flex;
+            shaderPropertiesContainer.style.flexDirection = FlexDirection.Column;
+            if (avatarConfigTarget.Shader == null)
             {
                 shaderPropertiesContainer.style.display = DisplayStyle.None;
             }
             else
             {
-                ShowShaderProperties(shaderPropertiesContainer);
-            }
-
-            shader.RegisterValueChangedCallback(x =>
+                shaderPropertiesContainer.style.display = DisplayStyle.Flex;
+                shaderPropertiesContainer.style.marginTop = 10;
+                shaderPropertiesContainer.style.left = 10;
+                shaderPropertiesContainer.style.right = 10;
+                var titleRowContainer = new VisualElement();
+                titleRowContainer.style.flexDirection = FlexDirection.Row;
+                titleRowContainer.style.marginBottom = 7;
+                titleRowContainer.style.marginTop = 7;
+                titleRowContainer.style.left = 10;
+                titleRowContainer.style.right = 10;
+                var sourceTitleField = new Label("Source Property")
                 {
-                    avatarConfigTarget.Shader = (Shader) x.newValue;
-                    Save();
-                    if (x.newValue == null)
+                    style =
                     {
-                        shaderPropertiesContainer.style.display = DisplayStyle.None;
+                        width = 200, unityFontStyleAndWeight = FontStyle.Bold, // Make the text bold
+                        unityTextAlign = TextAnchor.MiddleLeft
                     }
-                    else
+                };
+                titleRowContainer.Add(sourceTitleField);
+                var targetTitleField = new Label("Target Property")
+                {
+                    style = { width = 200, marginRight = 10, flexGrow = 0.8f, unityFontStyleAndWeight = FontStyle.Bold, }
+                };
+                titleRowContainer.Add(targetTitleField);
+                var typeTitleField = new Label("Type")
+                {
+                    style = { width = 70, alignSelf = Align.FlexEnd, unityFontStyleAndWeight = FontStyle.Bold, }
+                };
+                titleRowContainer.Add(typeTitleField);
+                shaderPropertiesContainer.Add(titleRowContainer);
+                for (int i = 0; i < shaderPropertyMappingList.arraySize; i++)
+                {
+                    SerializedProperty mapping = shaderPropertyMappingList.GetArrayElementAtIndex(i);
+
+                    var propertyContainer = new VisualElement();
+                    propertyContainer.style.flexDirection = FlexDirection.Column;
+                    //propertyContainer.style.marginBottom = 10;
+
+                    var horizontalContainer = new VisualElement();
+                    horizontalContainer.style.flexDirection = FlexDirection.Row;
+                    horizontalContainer.style.marginBottom = 7;
+                    horizontalContainer.style.marginTop = 7;
+                    horizontalContainer.style.left = 10;
+                    horizontalContainer.style.right = 10;
+                    // Alternating background colors
+                    propertyContainer.style.backgroundColor = i % 2 == 0 ? new StyleColor(new Color(0.25f, 0.25f, 0.25f)) : new StyleColor(new Color(0.3f, 0.3f, 0.3f));
+
+                    var sourcePropertyField = new Label(mapping.FindPropertyRelative("SourceProperty").stringValue)
                     {
-                        ShowShaderProperties(shaderPropertiesContainer);
-                    }
-                }
-            );
-        }
+                        style =
+                        {
+                            width = 200, unityFontStyleAndWeight = FontStyle.Bold, // Make the text bold
+                            unityTextAlign = TextAnchor.MiddleLeft
+                        }
+                    };
+                    horizontalContainer.Add(sourcePropertyField);
 
-        private void ShowShaderProperties(VisualElement shaderPropertiesContainer)
-        {
-            shaderPropertiesContainer.style.display = DisplayStyle.Flex;
-            foreach (var child in shaderPropertiesContainer.Children())
-            {
-                if (avatarConfigTarget.TextureChannel.Contains((TextureChannel) Enum.Parse(typeof(TextureChannel), child.name)))
-                {
-                    child.style.display = DisplayStyle.Flex;
-                }
-                else
-                {
-                    child.style.display = DisplayStyle.None;
-                }
-            }
-        }
+                    var targetPropertyField = new TextField
+                    {
+                        value = mapping.FindPropertyRelative("TargetProperty").stringValue,
+                        //style = { flexGrow = 1, marginTop = 5 }
+                        style = { width = 200, marginRight = 10, flexGrow = 0.8f }
+                    };
+                    targetPropertyField.RegisterValueChangedCallback(evt =>
+                    {
+                        mapping.FindPropertyRelative("TargetProperty").stringValue = evt.newValue;
+                        Save();
+                    });
+                    horizontalContainer.Add(targetPropertyField);
 
-        private void CreateShaderProperties(VisualElement shaderPropertiesContainer)
-        {
-            foreach (TextureChannel textureChannel in Enum.GetValues(typeof(TextureChannel)))
-            {
-                var field = new TextField(textureChannel.ToString());
-                field.name = textureChannel.ToString();
-                var property = avatarConfigTarget.ShaderProperties.FindIndex(x => x.TextureChannel == textureChannel);
-                field.SetValueWithoutNotify(avatarConfigTarget.ShaderProperties[property].PropertyName);
-                field.RegisterValueChangedCallback(x =>
-                {
-                    avatarConfigTarget.ShaderProperties[property].PropertyName = x.newValue;
-                    Save();
-                });
-                shaderPropertiesContainer.Add(field);
+                    var propertyTypeField = new EnumField((ShaderPropertyType) mapping.FindPropertyRelative("Type").enumValueIndex)
+                    {
+                        style = { width = 70, alignSelf = Align.FlexEnd }
+                    };
+                    propertyTypeField.RegisterValueChangedCallback(evt =>
+                    {
+                        mapping.FindPropertyRelative("Type").enumValueIndex = (int) (ShaderPropertyType) evt.newValue;
+                        Save();
+                    });
+                    horizontalContainer.Add(propertyTypeField);
+                    propertyContainer.Add(horizontalContainer);
+                    shaderPropertiesContainer.Add(propertyContainer);
+                }
             }
         }
 

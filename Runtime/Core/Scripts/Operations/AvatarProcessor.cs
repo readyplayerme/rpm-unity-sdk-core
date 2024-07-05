@@ -175,71 +175,21 @@ namespace ReadyPlayerMe.Core
                 renderer.name = $"{RENDERER_PREFIX}_{assetName}";
                 renderer.sharedMaterial.name = $"{MATERIAL_PREFIX}_{assetName}";
 
-                if (avatarConfig == null || avatarConfig.Shader == null)
+                if (avatarConfig != null && avatarConfig.Shader != null)
                 {
-                    var textureByPropertyName = SetTextures(renderer, avatarConfig,  assetName);
-                    SetShader(renderer, avatarConfig, textureByPropertyName);
+                    OverrideShader(renderer, avatarConfig);
                 }
 
                 SetMeshName(renderer, assetName);
             }
         }
 
-        /// <summary>
-        /// Set the names of each <see cref="Texture" />.
-        /// </summary>
-        /// <param name="renderer">Search for textures in this renderer.</param>
-        /// <param name="assetName">Name of the asset.</param>
-        /// <param name="avatarConfig"></param>
-        /// <remarks>Naming convention is 'Avatar_PropertyName_AssetName'. This makes it easier to view them in profiler</remarks>
-        private Dictionary<TextureChannel, Texture> SetTextures(Renderer renderer, AvatarConfig avatarConfig, string assetName)
+        private void OverrideShader(Renderer renderer, AvatarConfig avatarConfig)
         {
-            var material = new Material(avatarConfig.Shader);
-            material.name = renderer.name;
-            var texturesByPropertyName = new Dictionary<TextureChannel, Texture>();
-
-            foreach (var property in ShaderProperties)
-            {
-                var propertyID = Shader.PropertyToID(property.Value);
-                var sharedMaterial = renderer.sharedMaterial;
-                if (!sharedMaterial.HasProperty(propertyID)) continue;
-                var texture = sharedMaterial.GetTexture(propertyID);
-                if (texture != null)
-                {
-                    texture.name = $"{AVATAR_PREFIX}{property}_{assetName}";
-                    texturesByPropertyName.Add(property.Key, texture);
-                    continue;
-                }
-                var value = sharedMaterial.GetFloat(propertyID);
-                material.SetFloat(propertyID, value);
-            }
-
-            foreach (var textureByName in texturesByPropertyName)
-            {
-                var shaderProperties = avatarConfig.ShaderProperties;
-                var propertyName = shaderProperties.Find(x => x.TextureChannel == textureByName.Key).PropertyName;
-                var propertyID = Shader.PropertyToID(propertyName);
-                material.SetTexture(propertyID, textureByName.Value);
-            }
-
-            renderer.sharedMaterial = material;
-            return texturesByPropertyName;
-        }
-
-        private void SetShader(Renderer renderer, AvatarConfig avatarConfig, Dictionary<TextureChannel, Texture> texturesByPropertyName)
-        {
-            var material = new Material(avatarConfig.Shader);
-            material.name = renderer.name;
-
-            foreach (var textureByName in texturesByPropertyName)
-            {
-                var shaderProperties = avatarConfig.ShaderProperties;
-                var propertyName = shaderProperties.Find(x => x.TextureChannel == textureByName.Key).PropertyName;
-                var propertyID = Shader.PropertyToID(propertyName);
-                material.SetTexture(propertyID, textureByName.Value);
-            }
-
-            renderer.sharedMaterial = material;
+            var sourceMaterial = renderer.sharedMaterial;
+            var targetMaterial = new Material(avatarConfig.Shader);
+            ShaderMaterialOverrideHelper.ApplyOverrides(sourceMaterial, targetMaterial, avatarConfig.ShaderPropertyMapping.ToArray());
+            renderer.sharedMaterial = targetMaterial;
         }
 
         /// <summary>
