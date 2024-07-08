@@ -53,8 +53,8 @@ namespace ReadyPlayerMe.Core
             {
                 if (!sourceMaterial.HasProperty(mapping.SourceProperty) || !targetMaterial.HasProperty(mapping.TargetProperty))
                 {
-                    Debug.LogWarning("Property not found in source or target material");
-                    return;
+                    Debug.LogWarning($"Property not found in source or target material. SourceProperty:{mapping.SourceProperty} TargetProperty:{mapping.TargetProperty}");
+                    continue;
                 }
 
                 switch (mapping.Type)
