@@ -28,10 +28,15 @@ namespace ReadyPlayerMe.Core.Tests
         [UnityTest]
         public IEnumerator Avatar_Loaded_Stored_And_No_Overrides()
         {
-            AvatarLoaderEditor window = EditorWindow.GetWindow<AvatarLoaderEditor>();
+            var window = EditorWindow.GetWindow<AvatarLoaderEditor>();
 
-            MethodInfo loadAvatarMethod = typeof(AvatarLoaderEditor).GetMethod("LoadAvatar", BindingFlags.NonPublic | BindingFlags.Instance);
-
+            var loadAvatarMethod = typeof(AvatarLoaderEditor).GetMethod("LoadAvatar", BindingFlags.NonPublic | BindingFlags.Instance);
+            var useEyeAnimationsToggle = typeof(AvatarLoaderEditor).GetField("useEyeAnimations", BindingFlags.NonPublic | BindingFlags.Instance);
+            var useVoiceToAnimToggle = typeof(AvatarLoaderEditor).GetField("useVoiceToAnim", BindingFlags.NonPublic | BindingFlags.Instance);
+            var previousUseEyeAnimations = (bool) useEyeAnimationsToggle.GetValue(window);
+            var previousUseVoiceToAnim = (bool) useVoiceToAnimToggle.GetValue(window);
+            useEyeAnimationsToggle.SetValue(window, false);
+            useVoiceToAnimToggle.SetValue(window, false);
             Assert.IsNotNull(loadAvatarMethod);
             loadAvatarMethod.Invoke(window, new object[] { TestAvatarData.DefaultAvatarUri.ModelUrl });
 
@@ -47,6 +52,8 @@ namespace ReadyPlayerMe.Core.Tests
             Assert.IsNotNull(avatar);
             var overrides = PrefabUtility.HasPrefabInstanceAnyOverrides(avatar.gameObject, false);
             Assert.IsFalse(overrides);
+            useVoiceToAnimToggle.SetValue(window, previousUseVoiceToAnim);
+            useEyeAnimationsToggle.SetValue(window, previousUseEyeAnimations);
         }
     }
 }
