@@ -1,12 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using ReadyPlayerMe.AvatarCreator;
 using ReadyPlayerMe.Core;
 using UnityEngine;
-using UnityEngine.Serialization;
 using UnityEngine.UI;
 using TaskExtensions = ReadyPlayerMe.AvatarCreator.TaskExtensions;
 

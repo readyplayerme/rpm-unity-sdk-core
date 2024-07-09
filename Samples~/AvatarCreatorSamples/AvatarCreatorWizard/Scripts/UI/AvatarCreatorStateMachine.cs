@@ -113,7 +113,12 @@ namespace ReadyPlayerMe.Samples.AvatarCreatorWizard
 
         private bool CanShowBackButton(StateType current, StateType previous)
         {
-            return current != startingState && current != previous;
+            return AuthManager.IsSignedIn switch
+            {
+                true => current != StateType.AvatarSelection,
+                false => current != startingState && current != previous
+            };
+
         }
 
         public void OnCustomizeDraft(string avatarId)
