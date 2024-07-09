@@ -3,6 +3,11 @@
 All notable changes to this project will be documented in this file.
 This project adheres to [Semantic Versioning](http://semver.org/).
 
+## [7.1.0] - 2024.07.08
+
+## Updated
+- reworked shader overrides to support mapping of other property types [#306](https://github.com/readyplayerme/rpm-unity-sdk-core/pull/306)
+
 ## [7.0.0] - 2024.07.01
 
 ## Updated
