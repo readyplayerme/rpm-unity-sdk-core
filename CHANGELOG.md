@@ -3,29 +3,37 @@
 All notable changes to this project will be documented in this file.
 This project adheres to [Semantic Versioning](http://semver.org/).
 
+## [7.1.0] - 2024.07.16
+
+## Updated
+- Reworked shader overrides to support mapping of other property types [#306](https://github.com/readyplayerme/rpm-unity-sdk-core/pull/306)
+
+## Fixed
+- Fixed an issue caused by missing bones on avatar template prefabs [#310](https://github.com/readyplayerme/rpm-unity-sdk-core/pull/310/)
+
 ## [7.0.0] - 2024.07.01
 
 ## Updated
 
-- loading circle animation now using MMecanim animation [#302](https://github.com/readyplayerme/rpm-unity-sdk-core/pull/302)
-- removed unnecessary assets from Resources folder [#303](https://github.com/readyplayerme/rpm-unity-sdk-core/pull/303)
-- updated Template avatar assets [#300](https://github.com/readyplayerme/rpm-unity-sdk-core/pull/300)
+- Loading circle animation now using MMecanim animation [#302](https://github.com/readyplayerme/rpm-unity-sdk-core/pull/302)
+- Removed unnecessary assets from Resources folder [#303](https://github.com/readyplayerme/rpm-unity-sdk-core/pull/303)
+- Updated Template avatar assets [#300](https://github.com/readyplayerme/rpm-unity-sdk-core/pull/300)
 - Avatar Body type now moved to CoreSettings [#290](https://github.com/readyplayerme/rpm-unity-sdk-core/pull/290)
 
 ### Added
 
 - Added support for hero customization assets (costumes) [#301](https://github.com/readyplayerme/rpm-unity-sdk-core/pull/301)
-- templates can now be filtered by Bodytype [#296](https://github.com/readyplayerme/rpm-unity-sdk-core/pull/296)
+- Templates can now be filtered by Bodytype [#296](https://github.com/readyplayerme/rpm-unity-sdk-core/pull/296)
 
 ### Fixed
 
-- fixed an issue causing invalid load settings in Avatar Loader window [#298](https://github.com/readyplayerme/rpm-unity-sdk-core/pull/298)
+- Fixed an issue causing invalid load settings in Avatar Loader window [#298](https://github.com/readyplayerme/rpm-unity-sdk-core/pull/298)
 
 ## [6.3.1] - 2024.06.18
 
 ### Fixed
 
-- allow cache to be loaded from previous versions, where bodyType was stored as an integer [#293](https://github.com/readyplayerme/rpm-unity-sdk-core/pull/293)
+- Allow cache to be loaded from previous versions, where bodyType was stored as an integer [#293](https://github.com/readyplayerme/rpm-unity-sdk-core/pull/293)
 
 ## [6.3.0] - 2024.06.11
 
@@ -55,7 +63,7 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 
 ### Fixed
 
-- reverted update to GetMeshRenderer method  [#264](https://github.com/readyplayerme/rpm-unity-sdk-core/pull/264)
+- Reverted update to GetMeshRenderer method  [#264](https://github.com/readyplayerme/rpm-unity-sdk-core/pull/264)
 
 ## [6.2.2] - 2024.04.29
 
@@ -86,19 +94,19 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 
 ## Updated
 
-- removed use of tuples and deprecated old methods [#257](https://github.com/readyplayerme/rpm-unity-sdk-core/pull/257)
+- Removed use of tuples and deprecated old methods [#257](https://github.com/readyplayerme/rpm-unity-sdk-core/pull/257)
 
 ## [6.1.2] - 2024.04.03
 
 ### Updated
 
-- xr animation avatars updated to support with latest xr avatar updates
+- XR animation avatars updated to support with latest xr avatar updates
 
 ## [6.1.1] - 2024.04.03
 
 ### Updated
 
-- avatars done with a photo are now added as a draft avatars [#254](https://github.com/readyplayerme/rpm-unity-sdk-core/pull/254)
+- Avatars done with a photo are now added as a draft avatars [#254](https://github.com/readyplayerme/rpm-unity-sdk-core/pull/254)
 
 ## [6.1.0] - 2024.03.04
 
@@ -113,7 +121,7 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 
 ### Updated
 
-- updated default render settings to fix an issue causing incorrect halfbody avatar renders [#238](https://github.com/readyplayerme/rpm-unity-sdk-core/pull/238)
+- Updated default render settings to fix an issue causing incorrect halfbody avatar renders [#238](https://github.com/readyplayerme/rpm-unity-sdk-core/pull/238)
 
 ## [6.0.0] - 2024.02.19
 

@@ -7,7 +7,8 @@ namespace ReadyPlayerMe.Core
 {
     public static class AvatarMeshHelper
     {
-        private static readonly string[] headMeshNames = {
+        private static readonly string[] headMeshNames =
+        {
             "Renderer_Head",
             "Renderer_Hair",
             "Renderer_Beard",
@@ -16,7 +17,7 @@ namespace ReadyPlayerMe.Core
             "Renderer_EyeLeft",
             "Renderer_EyeRight",
             "Renderer_Headwear",
-            "Renderer_Facewear",
+            "Renderer_Facewear"
         };
 
         [Obsolete("Use TransferMesh(GameObject source, GameObject target) instead.")]
@@ -24,7 +25,7 @@ namespace ReadyPlayerMe.Core
         {
             TransferMesh(source, targetMeshes[0].transform.parent.gameObject);
         }
-        
+
         /// <summary>
         ///     Transfers the mesh and material data from the source to the target avatar.
         /// </summary>
@@ -34,15 +35,17 @@ namespace ReadyPlayerMe.Core
         {
             // store the relevant data of the source (downloaded) avatar
             var rendererDict = new Dictionary<string, SkinnedMeshRenderer>();
-            
+
             var sourceRenderers = source.GetComponentsInChildren<SkinnedMeshRenderer>();
             var targetRenderers = target.GetComponentsInChildren<SkinnedMeshRenderer>();
-            
+
             foreach (var renderer in sourceRenderers)
             {
                 rendererDict.Add(renderer.name, renderer);
             }
-            
+
+            var meshWithBones = targetRenderers.DefaultIfEmpty(null).FirstOrDefault((renderer) => renderer.bones.Length != 0);
+
             // transfer the data to the target skinning mesh renderers
             foreach (var renderer in targetRenderers)
             {
@@ -50,7 +53,12 @@ namespace ReadyPlayerMe.Core
                 {
                     renderer.sharedMesh = sourceRenderer.sharedMesh;
                     renderer.sharedMaterial = sourceRenderer.sharedMaterial;
-                    
+
+                    if (renderer.bones.Length == 0 && meshWithBones != null)
+                    {
+                        renderer.bones = meshWithBones.bones;
+                        continue;
+                    }
                     // transfer the bone data
                     foreach (var targetBone in renderer.bones)
                     {
@@ -61,7 +69,7 @@ namespace ReadyPlayerMe.Core
                                 targetBone.position = sourceBone.position;
                                 targetBone.rotation = sourceBone.rotation;
                                 targetBone.localScale = sourceBone.localScale;
-                                break;                            
+                                break;
                             }
                         }
                     }
@@ -72,13 +80,13 @@ namespace ReadyPlayerMe.Core
                     renderer.material = null;
                 }
             }
-            
+
             // transfer the animation avatar
             var sourceAnimator = source.GetComponentInChildren<Animator>();
             var targetAnimator = target.GetComponentInChildren<Animator>();
             targetAnimator.avatar = sourceAnimator.avatar;
         }
-        
+
         /// <summary>
         ///     Returns the meshes of the head of the avatar, such as glasses, hair, teeth, etc.
         /// </summary>
@@ -88,7 +96,7 @@ namespace ReadyPlayerMe.Core
         {
             var renderers = avatar.GetComponentsInChildren<SkinnedMeshRenderer>();
             var headMeshes = new List<GameObject>();
-            
+
             foreach (var renderer in renderers)
             {
                 if (headMeshNames.Contains(renderer.name))
@@ -96,7 +104,7 @@ namespace ReadyPlayerMe.Core
                     headMeshes.Add(renderer.gameObject);
                 }
             }
-            
+
             return headMeshes.ToArray();
         }
     }
