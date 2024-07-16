@@ -47,6 +47,19 @@ namespace ReadyPlayerMe.Core
             new ShaderProperty(Core.TextureChannel.Occlusion, string.Empty),
         };
 
+        public List<ShaderPropertyMapping> ShaderPropertyMapping = new List<ShaderPropertyMapping>
+        {
+            new ShaderPropertyMapping("baseColorTexture", "_MainTex", ShaderPropertyType.Texture),
+            new ShaderPropertyMapping("normalTexture", "_BumpMap", ShaderPropertyType.Texture),
+            new ShaderPropertyMapping("metallicRoughnessTexture", string.Empty, ShaderPropertyType.Texture),
+            new ShaderPropertyMapping("metallicFactor", "metallicFactor", ShaderPropertyType.Float),
+            new ShaderPropertyMapping("roughnessFactor", "", ShaderPropertyType.Float),
+            new ShaderPropertyMapping("emissiveTexture", "emissiveTexture", ShaderPropertyType.Texture),
+            new ShaderPropertyMapping("emissiveFactor", "emissiveFactor", ShaderPropertyType.Color),
+            new ShaderPropertyMapping("occlusionTexture", "occlusionTexture", ShaderPropertyType.Texture),
+            new ShaderPropertyMapping("occlusionTexture_strength", "", ShaderPropertyType.Float),
+        };
+
         public List<string> MorphTargets = new List<string>();
     }
 }
