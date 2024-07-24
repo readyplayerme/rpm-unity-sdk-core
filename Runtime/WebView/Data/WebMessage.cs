@@ -7,6 +7,6 @@ namespace ReadyPlayerMe.Core.WebView
         public string type;
         public string source;
         public string eventName;
-        public Dictionary<string, string> data;
+        public Dictionary<string, object> data;
     }
 }
