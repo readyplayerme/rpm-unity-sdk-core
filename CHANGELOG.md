@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 This project adheres to [Semantic Versioning](http://semver.org/).
 
+
+## [7.1.1] - 2024.07.25
+
+## Fixed
+- Fixed an issue causing json parsing to fail on iFrame events [#311](https://github.com/readyplayerme/rpm-unity-sdk-core/pull/311/)
+
 ## [7.1.0] - 2024.07.16
 
 ## Updated
