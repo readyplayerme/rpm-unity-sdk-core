@@ -105,7 +105,7 @@ namespace ReadyPlayerMe.Core
 
             try
             {
-                var response = await dispatcher.DownloadIntoMemory(url, token, Timeout);
+                var response = await dispatcher.DownloadIntoMemory<ResponseData>(url, token, Timeout);
                 return response.Data;
             }
             catch (CustomException exception)

@@ -98,7 +98,7 @@ namespace ReadyPlayerMe.AvatarCreator
 
             var url = BuildAssetListUrl(type, limit, pageNumber, AuthManager.UserSession.Id, appId, gender == OutfitGender.Masculine ? "male" : "female");
 
-            var response = await authorizedRequest.SendRequest<Response>(new RequestData
+            var response = await authorizedRequest.SendRequest<ResponseText>(new RequestData
             {
                 Url = url,
                 Method = HttpMethod.GET
