@@ -81,7 +81,7 @@ namespace ReadyPlayerMe.Core.Analytics
             }
 
             var webRequestDispatcher = new WebRequestDispatcher();
-            var response = await webRequestDispatcher.SendRequest<Response>(url, HttpMethod.POST, CommonHeaders.GetHeadersWithAppId(), payload);
+            var response = await webRequestDispatcher.SendRequest<ResponseText>(url, HttpMethod.POST, CommonHeaders.GetHeadersWithAppId(), payload);
 
             if (!response.IsSuccess)
             {

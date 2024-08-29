@@ -14,7 +14,7 @@ namespace ReadyPlayerMe.AvatarCreator
             }
         }
 
-        public static void ThrowIfError(this Response response)
+        public static void ThrowIfError(this ResponseText response)
         {
             if (!response.IsSuccess)
             {

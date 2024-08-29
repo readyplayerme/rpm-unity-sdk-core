@@ -83,7 +83,7 @@ namespace ReadyPlayerMe.Core
                 // add random tail to the url to prevent JSON from being loaded from the browser cache
                 var response = await dispatcher.DownloadIntoMemory(url + "?tail=" + Guid.NewGuid(), token, Timeout);
 #else
-                Response response = await dispatcher.DownloadIntoMemory(url, token, Timeout);
+                ResponseText response = await dispatcher.DownloadIntoMemory<ResponseText>(url, token, Timeout);
 #endif
                 return ParseResponse(response.Text);
             }

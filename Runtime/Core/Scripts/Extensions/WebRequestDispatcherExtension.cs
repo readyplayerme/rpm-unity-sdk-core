@@ -21,15 +21,15 @@ namespace ReadyPlayerMe.Core
 
         /// <summary>
         /// This asynchronous method makes GET request to the <paramref name="url" /> and returns the data in the
-        /// <see cref="Response" />.
+        /// <see cref="IResponse" />.
         /// </summary>
         /// <param name="webRequestDispatcher">WebRequestDispatcher object</param>
         /// <param name="url">The URL to make the <see cref="UnityWebRequest" /> to.</param>
         /// <param name="token">Can be used to cancel the operation.</param>
         /// <param name="timeout">The number of seconds to wait for the WebRequest to finish before aborting.</param>
-        /// <returns>A <see cref="Response" /> if successful otherwise it will throw an exception.</returns>
-        public static async Task<Response> DownloadIntoMemory(this WebRequestDispatcher webRequestDispatcher, string url, CancellationToken token,
-            int timeout = TIMEOUT)
+        /// <returns>A <see cref="IResponse" /> if successful otherwise it will throw an exception.</returns>
+        public static async Task<T> DownloadIntoMemory<T>(this WebRequestDispatcher webRequestDispatcher, string url, CancellationToken token,
+            int timeout = TIMEOUT) where T : IResponse, new()
         {
             if (!HasInternetConnection)
             {
@@ -45,7 +45,7 @@ namespace ReadyPlayerMe.Core
             headers.Add(CommonHeaders.GetAppIdHeader());
 
             webRequestDispatcher.Timeout = timeout;
-            var response = await webRequestDispatcher.SendRequest<Response>(url, HttpMethod.GET, headers, ctx: token);
+            var response = await webRequestDispatcher.SendRequest<T>(url, HttpMethod.GET, headers, ctx: token);
             token.ThrowCustomExceptionIfCancellationRequested();
 
             if (!response.IsSuccess)
