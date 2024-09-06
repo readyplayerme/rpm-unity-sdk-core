@@ -4,7 +4,7 @@ All notable changes to this project will be documented in this file.
 This project adheres to [Semantic Versioning](http://semver.org/).
 
 
-## [7.2.0] - 2024.08.30
+## [7.2.0] - 2024.09.06
 
 ## Updated
 - Updated handling of response data to reduce garbage allocation [#314](https://github.com/readyplayerme/rpm-unity-sdk-core/pull/314)
