@@ -38,7 +38,7 @@ namespace ReadyPlayerMe.AvatarCreator
 
         public async Task<UserSession> LoginAsAnonymous(CancellationToken cancellationToken = default)
         {
-            var response = await webRequestDispatcher.SendRequest<Response>($"{rpmAuthBaseUrl}/users", HttpMethod.POST, headers, ctx:cancellationToken);
+            var response = await webRequestDispatcher.SendRequest<ResponseText>($"{rpmAuthBaseUrl}/users", HttpMethod.POST, headers, ctx:cancellationToken);
             response.ThrowIfError();
 
             var data = AuthDataConverter.ParseResponse(response.Text);
@@ -60,7 +60,7 @@ namespace ReadyPlayerMe.AvatarCreator
 
             var payload = AuthDataConverter.CreatePayload(data);
 
-            var response = await webRequestDispatcher.SendRequest<Response>($"{rpmAuthBaseUrl}/auth/start", HttpMethod.POST, headers, payload, ctx:cancellationToken);
+            var response = await webRequestDispatcher.SendRequest<ResponseText>($"{rpmAuthBaseUrl}/auth/start", HttpMethod.POST, headers, payload, ctx:cancellationToken);
             response.ThrowIfError();
         }
 
@@ -76,7 +76,7 @@ namespace ReadyPlayerMe.AvatarCreator
             }
             var payload = AuthDataConverter.CreatePayload(body);
 
-            var response = await webRequestDispatcher.SendRequest<Response>($"{rpmAuthBaseUrl}/auth/login", HttpMethod.POST, headers, payload, ctx:cancellationToken);
+            var response = await webRequestDispatcher.SendRequest<ResponseText>($"{rpmAuthBaseUrl}/auth/login", HttpMethod.POST, headers, payload, ctx:cancellationToken);
             response.ThrowIfError();
 
             var data = AuthDataConverter.ParseResponse(response.Text);
@@ -93,7 +93,7 @@ namespace ReadyPlayerMe.AvatarCreator
             };
 
             var payload = AuthDataConverter.CreatePayload(data);
-            var response = await webRequestDispatcher.SendRequest<Response>($"{rpmAuthBaseUrl}/auth/start", HttpMethod.POST, headers, payload, ctx:cancellationToken);
+            var response = await webRequestDispatcher.SendRequest<ResponseText>($"{rpmAuthBaseUrl}/auth/start", HttpMethod.POST, headers, payload, ctx:cancellationToken);
             response.ThrowIfError();
         }
 
@@ -122,7 +122,7 @@ namespace ReadyPlayerMe.AvatarCreator
                 { AuthConstants.REFRESH_TOKEN, refreshToken }
             });
 
-            var response = await webRequestDispatcher.SendRequest<Response>(url, HttpMethod.POST, headers, payload, ctx:cancellationToken);
+            var response = await webRequestDispatcher.SendRequest<ResponseText>(url, HttpMethod.POST, headers, payload, ctx:cancellationToken);
             response.ThrowIfError();
 
             return AuthDataConverter.ParseResponse(response.Text);

@@ -34,7 +34,7 @@ namespace ReadyPlayerMe.AvatarCreator
 
         public async Task<List<UserAvatarResponse>> GetUserAvatars(string userId)
         {
-            var response = await authorizedRequest.SendRequest<Response>(
+            var response = await authorizedRequest.SendRequest<ResponseText>(
                 new RequestData
                 {
                     Url = $"{RPM_AVATAR_V1_BASE_URL}/?userId={userId}&select={ID},{PARTNER},{DATA}.{BODY_TYPE}",
@@ -58,7 +58,7 @@ namespace ReadyPlayerMe.AvatarCreator
 
         public async Task<List<AvatarTemplateData>> GetAvatarTemplates()
         {
-            var response = await authorizedRequest.SendRequest<Response>(
+            var response = await authorizedRequest.SendRequest<ResponseText>(
                 new RequestData
                 {
                     Url = $"{RPM_AVATAR_V2_BASE_URL}/templates?{BODY_TYPE}={CoreSettingsHandler.CoreSettings.BodyType.GetDescription()}",
@@ -83,7 +83,7 @@ namespace ReadyPlayerMe.AvatarCreator
 
             var payload = AuthDataConverter.CreatePayload(payloadData);
 
-            var response = await authorizedRequest.SendRequest<Response>(
+            var response = await authorizedRequest.SendRequest<ResponseText>(
                 new RequestData
                 {
                     Url = $"{RPM_AVATAR_V2_BASE_URL}/templates/{templateId}",
@@ -109,7 +109,7 @@ namespace ReadyPlayerMe.AvatarCreator
                 colorParameters = "skin,beard,hair,eyebrow";
             }
 
-            var response = await authorizedRequest.SendRequest<Response>(
+            var response = await authorizedRequest.SendRequest<ResponseText>(
                 new RequestData
                 {
                     Url = $"{RPM_AVATAR_V2_BASE_URL}/{avatarId}/colors?type={colorParameters}",
@@ -130,7 +130,7 @@ namespace ReadyPlayerMe.AvatarCreator
             if (isDraft)
                 url += "preview=true";
 
-            var response = await authorizedRequest.SendRequest<Response>(
+            var response = await authorizedRequest.SendRequest<ResponseText>(
                 new RequestData
                 {
                     Url = url,
@@ -148,7 +148,7 @@ namespace ReadyPlayerMe.AvatarCreator
 
         public async Task<AvatarProperties> CreateNewAvatar(AvatarProperties avatarProperties)
         {
-            var response = await authorizedRequest.SendRequest<Response>(
+            var response = await authorizedRequest.SendRequest<ResponseText>(
                 new RequestData
                 {
                     Url = RPM_AVATAR_V2_BASE_URL,
@@ -175,7 +175,7 @@ namespace ReadyPlayerMe.AvatarCreator
             if (isPreview)
                 url += "preview=true";
 
-            var response = await authorizedRequest.SendRequest<Response>(
+            var response = await authorizedRequest.SendRequest<ResponseData>(
                 new RequestData
                 {
                     Url = url,
@@ -192,7 +192,7 @@ namespace ReadyPlayerMe.AvatarCreator
             ValidateAvatarId(avatarId);
             var url = $"{RPM_AVATAR_V2_BASE_URL}/{avatarId}.json?";
 
-            var response = await authorizedRequest.SendRequest<Response>(
+            var response = await authorizedRequest.SendRequest<ResponseText>(
                 new RequestData
                 {
                     Url = url,
@@ -211,7 +211,7 @@ namespace ReadyPlayerMe.AvatarCreator
             ValidateAvatarId(avatarId);
             var url = $"{RPM_AVATAR_V2_BASE_URL}/{avatarId}?responseType=glb&{parameters}";
 
-            var response = await authorizedRequest.SendRequest<Response>(
+            var response = await authorizedRequest.SendRequest<ResponseData>(
                 new RequestData
                 {
                     Url = url,
@@ -228,7 +228,7 @@ namespace ReadyPlayerMe.AvatarCreator
             ValidateAvatarId(avatarId);
             var json = JsonConvert.SerializeObject(precompileData);
 
-            var response = await authorizedRequest.SendRequest<Response>(
+            var response = await authorizedRequest.SendRequest<ResponseText>(
                 new RequestData
                 {
                     Url = $"{RPM_AVATAR_V2_BASE_URL}/{avatarId}/precompile?{parameters ?? string.Empty}",
@@ -243,7 +243,7 @@ namespace ReadyPlayerMe.AvatarCreator
         public async Task<string> SaveAvatar(string avatarId)
         {
             ValidateAvatarId(avatarId);
-            var response = await authorizedRequest.SendRequest<Response>(
+            var response = await authorizedRequest.SendRequest<ResponseText>(
                 new RequestData
                 {
                     Url = $"{RPM_AVATAR_V2_BASE_URL}/{avatarId}",
@@ -263,7 +263,7 @@ namespace ReadyPlayerMe.AvatarCreator
             if (isDraft)
                 url += "draft";
 
-            var response = await authorizedRequest.SendRequest<Response>(
+            var response = await authorizedRequest.SendRequest<ResponseText>(
                 new RequestData
                 {
                     Url = url,
