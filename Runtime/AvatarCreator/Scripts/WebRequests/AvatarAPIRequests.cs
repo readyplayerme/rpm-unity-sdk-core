@@ -81,7 +81,7 @@ namespace ReadyPlayerMe.AvatarCreator
                 { BODY_TYPE, CoreSettingsHandler.CoreSettings.BodyType.GetDescription() }
             };
 
-            var payload = AuthDataConverter.CreatePayload(payloadData);
+            var payload = AuthDataConverter.CreateDataPayload(payloadData);
 
             var response = await authorizedRequest.SendRequest<ResponseText>(
                 new RequestData

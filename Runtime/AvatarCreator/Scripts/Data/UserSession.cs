@@ -11,5 +11,16 @@ namespace ReadyPlayerMe.AvatarCreator
         public string Token;
         public string RefreshToken;
         public string LastModifiedAvatarId;
+
+        public UserSession(CreatedUser createdUser)
+        {
+            Id = createdUser.Id;
+            Name = createdUser.Name;
+            Email = createdUser.Email;
+            Token = createdUser.Token;
+            RefreshToken = createdUser.RefreshToken;
+            LastModifiedAvatarId = createdUser.LastModifiedAvatarId;
+        }
     }
 }
+
