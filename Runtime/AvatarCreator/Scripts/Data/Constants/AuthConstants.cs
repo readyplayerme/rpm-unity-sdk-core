@@ -7,5 +7,6 @@
         public const string TOKEN = "token";
         public const string REFRESH_TOKEN = "refreshToken";
         public const string USER_ID = "id";
+        public const string APP_NAME = "appName";
     }
 }

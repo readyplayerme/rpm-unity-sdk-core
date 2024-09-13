@@ -25,6 +25,7 @@ namespace ReadyPlayerMe.AvatarCreator
         private readonly string domain;
         private readonly IDictionary<string, string> headers = CommonHeaders.GetHeadersWithAppId();
         private readonly string rpmAuthBaseUrl;
+        private readonly string appName;
 
         private readonly WebRequestDispatcher webRequestDispatcher;
 
@@ -34,13 +35,14 @@ namespace ReadyPlayerMe.AvatarCreator
             webRequestDispatcher = new WebRequestDispatcher();
 
             rpmAuthBaseUrl = Env.RPM_API_V1_BASE_URL;
+            appName = CoreSettingsHandler.CoreSettings.Subdomain;
         }
 
         public async Task<UserSession> LoginAsAnonymous(CancellationToken cancellationToken = default)
         {
             var payload = JsonConvert.SerializeObject(new {
                 data = new {
-                    appName = CoreSettingsHandler.CoreSettings.Subdomain,
+                    appName = appName,
                     requestToken = true
                 }
             });
@@ -76,7 +78,8 @@ namespace ReadyPlayerMe.AvatarCreator
         {
             var body = new Dictionary<string, string>
             {
-                { AuthConstants.CODE, code }
+                { AuthConstants.CODE, code },
+                { AuthConstants.APP_NAME, appName  }
             };
             if (userIdToMerge != null)
             {
