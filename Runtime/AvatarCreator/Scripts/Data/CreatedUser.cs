@@ -1,12 +1,7 @@
-﻿using Newtonsoft.Json;
-using Newtonsoft.Json.Linq;
-using System;
-
-namespace ReadyPlayerMe.AvatarCreator
+﻿namespace ReadyPlayerMe.AvatarCreator
 {
     public struct CreatedUser
     {
-
         public string Id;
         public string Name;
         public string Email;
