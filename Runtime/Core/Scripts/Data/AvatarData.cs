@@ -1,5 +1,4 @@
-﻿using System;
-using UnityEngine;
+﻿using UnityEngine;
 
 namespace ReadyPlayerMe.Core
 {
@@ -23,19 +22,19 @@ namespace ReadyPlayerMe.Core
 
                 foreach (var material in materials)
                 {
-                    if(material == null) continue;
-                    
+                    if (material == null) continue;
+
                     foreach (var property in material.GetTexturePropertyNames())
                     {
                         Texture texture = material.GetTexture(property);
-                        
-                        if(texture == null) continue;
-                        
-                        Destroy(texture); 
+
+                        if (texture == null) continue;
+
+                        Destroy(texture);
                     }
                     Destroy(material);
                 }
-                
+
                 Destroy(mesh.sharedMesh);
             }
         }
