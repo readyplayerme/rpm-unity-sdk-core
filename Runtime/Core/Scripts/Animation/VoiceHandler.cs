@@ -168,7 +168,7 @@ namespace ReadyPlayerMe.Core
             if (CanGetAmplitude && AudioSource.clip.loadState == AudioDataLoadState.Loaded)
             {
                 var currentPosition = AudioSource.timeSamples;
-                int remaining = AudioSource.clip.samples - currentPosition;
+                var remaining = AudioSource.clip.samples - currentPosition;
                 if (remaining > 0 && remaining < AUDIO_SAMPLE_LENGTH)
                 {
                     return 0f;
