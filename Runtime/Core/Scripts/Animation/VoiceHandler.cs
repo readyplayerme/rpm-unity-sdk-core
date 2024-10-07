@@ -46,7 +46,7 @@ namespace ReadyPlayerMe.Core
         private bool CanGetAmplitude => AudioSource != null && AudioSource.clip != null && AudioSource.isPlaying;
 
         private CancellationTokenSource ctxSource;
-        
+
         private void Start()
         {
             CreateBlendshapeMeshMap();
@@ -165,10 +165,17 @@ namespace ReadyPlayerMe.Core
 
         private float GetAmplitude()
         {
-            if (CanGetAmplitude)
+            if (CanGetAmplitude && AudioSource.clip.loadState == AudioDataLoadState.Loaded)
             {
-                var amplitude = 0f;
+                var currentPosition = AudioSource.timeSamples;
+                var remaining = AudioSource.clip.samples - currentPosition;
+                if (remaining > 0 && remaining < AUDIO_SAMPLE_LENGTH)
+                {
+                    return 0f;
+                }
+
                 AudioSource.clip.GetData(audioSample, AudioSource.timeSamples);
+                var amplitude = 0f;
 
                 foreach (var sample in audioSample)
                 {
@@ -178,7 +185,7 @@ namespace ReadyPlayerMe.Core
                 return Mathf.Clamp01(amplitude / audioSample.Length * AMPLITUDE_MULTIPLIER);
             }
 
-            return 0;
+            return 0f;
         }
 
         #region Blend Shape Movement
