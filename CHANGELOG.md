@@ -3,10 +3,14 @@
 All notable changes to this project will be documented in this file.
 This project adheres to [Semantic Versioning](http://semver.org/).
 
-## [7.2.0] - 2024.09.19
+## [7.3.0] - 2024.10.22
 
 ## Updated
 - auth-related requests now use auth-service endpoints  [#317](https://github.com/readyplayerme/rpm-unity-sdk-core/pull/317)
+- updated shader variants to fix issues various material issues
+
+## Fixed
+- Fixed an issue causing Out of Bounds exception in WebGL voice handler [#322](https://github.com/readyplayerme/rpm-unity-sdk-core/pull/322)
 
 ## Added 
 - DestroyMesh class can be used to destroy manually destroy mesh, materials and textures to prevent memory leaks
