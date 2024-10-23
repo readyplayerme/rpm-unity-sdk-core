@@ -25,6 +25,7 @@ namespace ReadyPlayerMe.AvatarCreator
         private readonly string domain;
         private readonly IDictionary<string, string> headers = CommonHeaders.GetHeadersWithAppId();
         private readonly string rpmAuthBaseUrl;
+        private readonly string appName;
 
         private readonly WebRequestDispatcher webRequestDispatcher;
 
@@ -33,16 +34,26 @@ namespace ReadyPlayerMe.AvatarCreator
             this.domain = domain;
             webRequestDispatcher = new WebRequestDispatcher();
 
-            rpmAuthBaseUrl = string.Format(Env.RPM_SUBDOMAIN_BASE_URL, domain);
+            rpmAuthBaseUrl = Env.RPM_API_V1_BASE_URL;
+            appName = CoreSettingsHandler.CoreSettings.Subdomain;
         }
 
         public async Task<UserSession> LoginAsAnonymous(CancellationToken cancellationToken = default)
         {
-            var response = await webRequestDispatcher.SendRequest<ResponseText>($"{rpmAuthBaseUrl}/users", HttpMethod.POST, headers, ctx:cancellationToken);
+            var payload = JsonConvert.SerializeObject(new {
+                data = new {
+                    appName = appName,
+                    requestToken = true
+                }
+            });
+
+            var response = await webRequestDispatcher.SendRequest<ResponseText>($"{rpmAuthBaseUrl}users", HttpMethod.POST, headers, payload, ctx:cancellationToken);
             response.ThrowIfError();
 
-            var data = AuthDataConverter.ParseResponse(response.Text);
-            return JsonConvert.DeserializeObject<UserSession>(data!.ToString());
+            var data = AuthDataConverter.ParseDataResponse(response.Text);
+            var createdUser = JsonConvert.DeserializeObject<CreatedUser>(data!.ToString());
+
+            return new UserSession(createdUser);
         }
 
         public async Task SendCodeToEmail(string email, string userId = "",CancellationToken cancellationToken = default)
@@ -50,7 +61,6 @@ namespace ReadyPlayerMe.AvatarCreator
             var data = new Dictionary<string, string>
             {
                 { AuthConstants.EMAIL, email },
-                { AuthConstants.AUTH_TYPE, AuthConstants.AUTH_TYPE_CODE }
             };
 
             if (!string.IsNullOrEmpty(userId))
@@ -60,7 +70,7 @@ namespace ReadyPlayerMe.AvatarCreator
 
             var payload = AuthDataConverter.CreatePayload(data);
 
-            var response = await webRequestDispatcher.SendRequest<ResponseText>($"{rpmAuthBaseUrl}/auth/start", HttpMethod.POST, headers, payload, ctx:cancellationToken);
+            var response = await webRequestDispatcher.SendRequest<ResponseText>($"{rpmAuthBaseUrl}auth/request-login-code", HttpMethod.POST, headers, payload, ctx:cancellationToken);
             response.ThrowIfError();
         }
 
@@ -68,7 +78,8 @@ namespace ReadyPlayerMe.AvatarCreator
         {
             var body = new Dictionary<string, string>
             {
-                { AuthConstants.AUTH_TYPE_CODE, code }
+                { AuthConstants.CODE, code },
+                { AuthConstants.APP_NAME, appName  }
             };
             if (userIdToMerge != null)
             {
@@ -76,7 +87,7 @@ namespace ReadyPlayerMe.AvatarCreator
             }
             var payload = AuthDataConverter.CreatePayload(body);
 
-            var response = await webRequestDispatcher.SendRequest<ResponseText>($"{rpmAuthBaseUrl}/auth/login", HttpMethod.POST, headers, payload, ctx:cancellationToken);
+            var response = await webRequestDispatcher.SendRequest<ResponseText>($"{rpmAuthBaseUrl}auth/login", HttpMethod.POST, headers, payload, ctx:cancellationToken);
             response.ThrowIfError();
 
             var data = AuthDataConverter.ParseResponse(response.Text);
@@ -88,12 +99,11 @@ namespace ReadyPlayerMe.AvatarCreator
             var data = new Dictionary<string, string>
             {
                 { AuthConstants.EMAIL, email },
-                { AuthConstants.AUTH_TYPE, AuthConstants.AUTH_TYPE_PASSWORD },
                 { AuthConstants.USER_ID, userId }
             };
 
             var payload = AuthDataConverter.CreatePayload(data);
-            var response = await webRequestDispatcher.SendRequest<ResponseText>($"{rpmAuthBaseUrl}/auth/start", HttpMethod.POST, headers, payload, ctx:cancellationToken);
+            var response = await webRequestDispatcher.SendRequest<ResponseText>($"{rpmAuthBaseUrl}auth/signup/passwordless", HttpMethod.POST, headers, payload, ctx:cancellationToken);
             response.ThrowIfError();
         }
 
@@ -114,18 +124,16 @@ namespace ReadyPlayerMe.AvatarCreator
 
         private async Task<JToken> RefreshRequest(string token, string refreshToken, CancellationToken cancellationToken)
         {
-            var url = $"{rpmAuthBaseUrl}/auth/refresh";
-
             var payload = AuthDataConverter.CreatePayload(new Dictionary<string, string>
             {
                 { AuthConstants.TOKEN, token },
                 { AuthConstants.REFRESH_TOKEN, refreshToken }
             });
 
-            var response = await webRequestDispatcher.SendRequest<ResponseText>(url, HttpMethod.POST, headers, payload, ctx:cancellationToken);
+            var response = await webRequestDispatcher.SendRequest<ResponseText>($"{rpmAuthBaseUrl}auth/refresh", HttpMethod.POST, headers, payload, ctx:cancellationToken);
             response.ThrowIfError();
 
-            return AuthDataConverter.ParseResponse(response.Text);
+            return AuthDataConverter.ParseDataResponse(response.Text);
         }
     }
 }
