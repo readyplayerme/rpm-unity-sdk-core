@@ -169,7 +169,7 @@ namespace ReadyPlayerMe.Core
             {
                 var currentPosition = AudioSource.timeSamples;
                 var remaining = AudioSource.clip.samples - currentPosition;
-                if (remaining > 0 && remaining < AUDIO_SAMPLE_LENGTH)
+                if (remaining >= 0 && remaining < AUDIO_SAMPLE_LENGTH)
                 {
                     return 0f;
                 }
