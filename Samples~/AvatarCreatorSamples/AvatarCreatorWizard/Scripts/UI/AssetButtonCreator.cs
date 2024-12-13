@@ -71,7 +71,7 @@ namespace ReadyPlayerMe.Samples.AvatarCreatorWizard
             SelectButton(category, buttonsById[assetId]);
         }
 
-        public void CreateColorUI(Dictionary<AssetType, AssetColor[]> colorLibrary, Action<object, AssetType> onClick)
+        public void CreateColorUI(Dictionary<AssetType, AssetColor[]> colorLibrary, Action<object, AssetType> onClick, Dictionary<AssetType, int> colorAssets)
         {
             foreach (var colorPalette in colorLibrary)
             {
@@ -82,8 +82,13 @@ namespace ReadyPlayerMe.Samples.AvatarCreatorWizard
                     var button = AddColorButton(assetIndex, parent.transform, colorPalette.Key, onClick);
                     button.SetColor(assetColor.HexColor);
 
-                    // By default first color is applied on initial draft
-                    if (assetIndex == 0)
+                    int equippedValue = 0;
+                    if (colorAssets.TryGetValue(assetColor.AssetType, out var value)) 
+                    {
+                        equippedValue = value;
+                    }
+
+                    if (assetIndex == equippedValue)
                     {
                         SelectButton(colorPalette.Key, button);
                     }

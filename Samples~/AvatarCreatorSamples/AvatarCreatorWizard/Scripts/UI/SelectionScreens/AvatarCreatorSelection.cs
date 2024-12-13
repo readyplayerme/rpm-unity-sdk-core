@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Linq;
+using System.Reflection;
 using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
@@ -171,6 +173,7 @@ namespace ReadyPlayerMe.Samples.AvatarCreatorWizard
             else
             {
                 var id = AvatarCreatorData.AvatarProperties.Id;
+
                 if (!AvatarCreatorData.IsExistingAvatar)
                 {
                     var avatarTemplateResponse = await avatarManager.CreateAvatarFromTemplateAsync(id);
@@ -198,8 +201,25 @@ namespace ReadyPlayerMe.Samples.AvatarCreatorWizard
         {
             var startTime = Time.time;
             var colors = await avatarManager.LoadAvatarColors();
-            assetButtonCreator.CreateColorUI(colors, UpdateAvatar);
+            
+            var colorAssetTypes = GetAssetTypesByFilter(AssetFilter.Color).ToHashSet();
+            var equippedColors = AvatarCreatorData.AvatarProperties.Assets.Where(kvp => colorAssetTypes.Contains(kvp.Key))
+                     .ToDictionary(kvp => kvp.Key, kvp => Convert.ToInt32(kvp.Value));
+
+            assetButtonCreator.CreateColorUI(colors, UpdateAvatar, equippedColors);
             SDKLogger.Log(TAG, $"All colors loaded in {Time.time - startTime:F2}s");
+        }
+
+        public static IEnumerable<AssetType> GetAssetTypesByFilter(AssetFilter filter)
+        {
+            return Enum.GetValues(typeof(AssetType))
+                .Cast<AssetType>()
+                .Where(assetType =>
+                {
+                    var fieldInfo = typeof(AssetType).GetField(assetType.ToString());
+                    var attribute = fieldInfo?.GetCustomAttribute<AssetTypeFilterAttribute>();
+                    return attribute?.filter == filter;
+                });
         }
 
         private void CreateUI()
