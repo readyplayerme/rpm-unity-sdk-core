@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Linq;
+using System.Reflection;
 using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
@@ -171,6 +173,7 @@ namespace ReadyPlayerMe.Samples.AvatarCreatorWizard
             else
             {
                 var id = AvatarCreatorData.AvatarProperties.Id;
+
                 if (!AvatarCreatorData.IsExistingAvatar)
                 {
                     var avatarTemplateResponse = await avatarManager.CreateAvatarFromTemplateAsync(id);
@@ -198,8 +201,30 @@ namespace ReadyPlayerMe.Samples.AvatarCreatorWizard
         {
             var startTime = Time.time;
             var colors = await avatarManager.LoadAvatarColors();
-            assetButtonCreator.CreateColorUI(colors, UpdateAvatar);
+            var equippedColors = GetEquippedColors();
+
+            assetButtonCreator.CreateColorUI(colors, UpdateAvatar, equippedColors);
             SDKLogger.Log(TAG, $"All colors loaded in {Time.time - startTime:F2}s");
+        }
+
+        private Dictionary<AssetType, int> GetEquippedColors()
+        {
+            var colorAssetTypes = AssetTypeHelper.GetAssetTypesByFilter(AssetFilter.Color).ToHashSet();
+            return AvatarCreatorData.AvatarProperties.Assets
+            .Where(kvp => colorAssetTypes.Contains(kvp.Key))
+            .ToDictionary(
+                kvp => kvp.Key,
+                kvp =>
+                {
+                    try
+                    {
+                        return Convert.ToInt32(kvp.Value);
+                    }
+                    catch
+                    {
+                        return 0;
+                    }
+                });
         }
 
         private void CreateUI()

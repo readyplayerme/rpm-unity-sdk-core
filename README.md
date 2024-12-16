@@ -34,6 +34,6 @@ Steps for trying out avatar creator sample can be found [here.](Documentation~/A
 A guide for customizing avatar creator can be found [here.](Documentation~/CustomizationGuide.md)
 
 ### Note
-- [*]Camera support is only provided for Windows and WebGL, using Unity’s webcam native API.
+- Camera support is only provided for Windows and WebGL, using Unity’s webcam native API.
 - Unity does not have a native file picker, so we have discontinued support for this feature.
 - To add support for file picker (for selfies) you have to implement it yourself
