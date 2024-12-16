@@ -71,7 +71,7 @@ namespace ReadyPlayerMe.Samples.AvatarCreatorWizard
             SelectButton(category, buttonsById[assetId]);
         }
 
-        public void CreateColorUI(Dictionary<AssetType, AssetColor[]> colorLibrary, Action<object, AssetType> onClick)
+        public void CreateColorUI(Dictionary<AssetType, AssetColor[]> colorLibrary, Action<object, AssetType> onClick, Dictionary<AssetType, int> colorAssets)
         {
             foreach (var colorPalette in colorLibrary)
             {
@@ -82,8 +82,13 @@ namespace ReadyPlayerMe.Samples.AvatarCreatorWizard
                     var button = AddColorButton(assetIndex, parent.transform, colorPalette.Key, onClick);
                     button.SetColor(assetColor.HexColor);
 
-                    // By default first color is applied on initial draft
-                    if (assetIndex == 0)
+                    int equippedValue = 0;
+                    if (colorAssets.TryGetValue(assetColor.AssetType, out var value))
+                    {
+                        equippedValue = value;
+                    }
+
+                    if (assetIndex == equippedValue)
                     {
                         SelectButton(colorPalette.Key, button);
                     }
@@ -171,31 +176,31 @@ namespace ReadyPlayerMe.Samples.AvatarCreatorWizard
                 case AssetType.Top:
                 case AssetType.Bottom:
                 case AssetType.Footwear:
-                {
-                    if (selectedButtonsByCategory.TryGetValue(AssetType.Outfit, out AssetButton outfitButton))
                     {
-                        outfitButton.SetSelect(false);
+                        if (selectedButtonsByCategory.TryGetValue(AssetType.Outfit, out AssetButton outfitButton))
+                        {
+                            outfitButton.SetSelect(false);
+                        }
+                        break;
                     }
-                    break;
-                }
                 case AssetType.Outfit:
-                {
-                    if (selectedButtonsByCategory.TryGetValue(AssetType.Top, out AssetButton topButton))
                     {
-                        topButton.SetSelect(false);
-                    }
+                        if (selectedButtonsByCategory.TryGetValue(AssetType.Top, out AssetButton topButton))
+                        {
+                            topButton.SetSelect(false);
+                        }
 
-                    if (selectedButtonsByCategory.TryGetValue(AssetType.Bottom, out AssetButton bottomButton))
-                    {
-                        bottomButton.SetSelect(false);
-                    }
+                        if (selectedButtonsByCategory.TryGetValue(AssetType.Bottom, out AssetButton bottomButton))
+                        {
+                            bottomButton.SetSelect(false);
+                        }
 
-                    if (selectedButtonsByCategory.TryGetValue(AssetType.Footwear, out AssetButton footwearButton))
-                    {
-                        footwearButton.SetSelect(false);
+                        if (selectedButtonsByCategory.TryGetValue(AssetType.Footwear, out AssetButton footwearButton))
+                        {
+                            footwearButton.SetSelect(false);
+                        }
+                        break;
                     }
-                    break;
-                }
             }
         }
 
