@@ -209,7 +209,7 @@ namespace ReadyPlayerMe.Samples.AvatarCreatorWizard
 
         private Dictionary<AssetType, int> GetEquippedColors()
         {
-            var colorAssetTypes = AssetFilterHelper.GetAssetTypesByFilter(AssetFilter.Color).ToHashSet();
+            var colorAssetTypes = AssetTypeHelper.GetAssetTypesByFilter(AssetFilter.Color).ToHashSet();
             return AvatarCreatorData.AvatarProperties.Assets
             .Where(kvp => colorAssetTypes.Contains(kvp.Key))
             .ToDictionary(

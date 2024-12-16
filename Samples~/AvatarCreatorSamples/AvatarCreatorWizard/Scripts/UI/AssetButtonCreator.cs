@@ -83,7 +83,7 @@ namespace ReadyPlayerMe.Samples.AvatarCreatorWizard
                     button.SetColor(assetColor.HexColor);
 
                     int equippedValue = 0;
-                    if (colorAssets.TryGetValue(assetColor.AssetType, out var value)) 
+                    if (colorAssets.TryGetValue(assetColor.AssetType, out var value))
                     {
                         equippedValue = value;
                     }
@@ -176,31 +176,31 @@ namespace ReadyPlayerMe.Samples.AvatarCreatorWizard
                 case AssetType.Top:
                 case AssetType.Bottom:
                 case AssetType.Footwear:
-                {
-                    if (selectedButtonsByCategory.TryGetValue(AssetType.Outfit, out AssetButton outfitButton))
                     {
-                        outfitButton.SetSelect(false);
+                        if (selectedButtonsByCategory.TryGetValue(AssetType.Outfit, out AssetButton outfitButton))
+                        {
+                            outfitButton.SetSelect(false);
+                        }
+                        break;
                     }
-                    break;
-                }
                 case AssetType.Outfit:
-                {
-                    if (selectedButtonsByCategory.TryGetValue(AssetType.Top, out AssetButton topButton))
                     {
-                        topButton.SetSelect(false);
-                    }
+                        if (selectedButtonsByCategory.TryGetValue(AssetType.Top, out AssetButton topButton))
+                        {
+                            topButton.SetSelect(false);
+                        }
 
-                    if (selectedButtonsByCategory.TryGetValue(AssetType.Bottom, out AssetButton bottomButton))
-                    {
-                        bottomButton.SetSelect(false);
-                    }
+                        if (selectedButtonsByCategory.TryGetValue(AssetType.Bottom, out AssetButton bottomButton))
+                        {
+                            bottomButton.SetSelect(false);
+                        }
 
-                    if (selectedButtonsByCategory.TryGetValue(AssetType.Footwear, out AssetButton footwearButton))
-                    {
-                        footwearButton.SetSelect(false);
+                        if (selectedButtonsByCategory.TryGetValue(AssetType.Footwear, out AssetButton footwearButton))
+                        {
+                            footwearButton.SetSelect(false);
+                        }
+                        break;
                     }
-                    break;
-                }
             }
         }
 
