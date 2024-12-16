@@ -44,7 +44,6 @@ namespace ReadyPlayerMe.Core
                     request.SetRequestHeader(header.Key, header.Value);
                 }
             }
-
             downloadHandler ??= new DownloadHandlerBuffer();
 
             request.downloadHandler = downloadHandler;

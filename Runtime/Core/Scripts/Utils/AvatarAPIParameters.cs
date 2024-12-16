@@ -7,6 +7,7 @@ namespace ReadyPlayerMe.Core
         public const string TEXTURE_ATLAS = "textureAtlas";
         public const string TEXTURE_SIZE_LIMIT = "textureSizeLimit";
         public const string TEXTURE_CHANNELS = "textureChannels";
+        public const string TEXTURE_FORMAT = "textureFormat";
         public const string MORPH_TARGETS = "morphTargets";
         public const string USE_HANDS = "useHands";
         public const string USE_DRACO = "useDracoMeshCompression";
