@@ -5,9 +5,8 @@ using UnityEngine.UIElements;
 
 namespace ReadyPlayerMe.Core.Editor
 {
-    public class AvatarLoaderEditor : EditorWindow
+    public class AvatarLoaderWindow : EditorWindow
     {
-        private const string TAG = nameof(AvatarLoaderEditor);
         private const string AVATAR_LOADER = "Avatar Loader";
         private const string LOAD_AVATAR_BUTTON = "LoadAvatarButton";
         private const string HEADER_LABEL = "HeaderLabel";
@@ -25,11 +24,12 @@ namespace ReadyPlayerMe.Core.Editor
 
         private bool useEyeAnimations;
         private bool useVoiceToAnim;
+        private EditorAvatarLoader editorAvatarLoader;
 
         [MenuItem("Tools/Ready Player Me/Avatar Loader", priority = 1)]
         public static void ShowWindow()
         {
-            var window = GetWindow<AvatarLoaderEditor>();
+            var window = GetWindow<AvatarLoaderWindow>();
             window.titleContent = new GUIContent(AVATAR_LOADER);
             window.minSize = new Vector2(500, 300);
         }
@@ -82,53 +82,23 @@ namespace ReadyPlayerMe.Core.Editor
             {
                 avatarLoaderSettings = AvatarLoaderSettings.LoadSettings();
             }
-            var avatarLoader = new AvatarObjectLoader();
-            avatarLoader.OnFailed += Failed;
-            avatarLoader.OnCompleted += Completed;
-            avatarLoader.OperationCompleted += OnOperationCompleted;
-            if (avatarLoaderSettings != null)
-            {
-                avatarLoader.AvatarConfig = avatarLoaderSettings.AvatarConfig;
-                if (avatarLoaderSettings.GLTFDeferAgent != null)
-                {
-                    avatarLoader.GLTFDeferAgent = avatarLoaderSettings.GLTFDeferAgent;
-                }
-            }
-            avatarLoader.LoadAvatar(url);
+            editorAvatarLoader = new EditorAvatarLoader();
+            editorAvatarLoader.OnCompleted += Completed;
+            editorAvatarLoader.Load(url);
         }
 
-        private void OnOperationCompleted(object sender, IOperation<AvatarContext> e)
-        {
-            if (e.GetType() == typeof(MetadataDownloader))
-            {
-                AnalyticsEditorLogger.EventLogger.LogMetadataDownloaded(EditorApplication.timeSinceStartup - startTime);
-            }
-        }
-
-        private void Failed(object sender, FailureEventArgs args)
-        {
-            Debug.LogError($"{args.Type} - {args.Message}");
-        }
-
-        private void Completed(object sender, CompletionEventArgs args)
+        private void Completed(AvatarContext context)
         {
             AnalyticsEditorLogger.EventLogger.LogAvatarLoaded(EditorApplication.timeSinceStartup - startTime);
-
             if (avatarLoaderSettings == null)
             {
                 avatarLoaderSettings = AvatarLoaderSettings.LoadSettings();
             }
-            var paramHash = AvatarCache.GetAvatarConfigurationHash(avatarLoaderSettings.AvatarConfig);
-            var path = $"{DirectoryUtility.GetRelativeProjectPath(args.Avatar.name, paramHash)}/{args.Avatar.name}";
-            if (!avatarLoaderSettings.AvatarCachingEnabled)
-            {
-                SDKLogger.LogWarning(TAG, "Enable Avatar Caching to generate a prefab in the project folder.");
-                return;
-            }
-            var avatar = PrefabHelper.CreateAvatarPrefab(args.Metadata, path, avatarConfig: avatarLoaderSettings.AvatarConfig);
+            var path = $@"Assets\Ready Player Me\Avatars\{context.AvatarUri.Guid}";
+            var avatar = PrefabHelper.CreateAvatarPrefab(context.Metadata, path, avatarConfig: avatarLoaderSettings.AvatarConfig);
             if (useEyeAnimations) avatar.AddComponent<EyeAnimationHandler>();
             if (useVoiceToAnim) avatar.AddComponent<VoiceHandler>();
-            DestroyImmediate(args.Avatar, true);
+            DestroyImmediate((GameObject) context.Data, true);
             Selection.activeObject = avatar;
         }
     }

@@ -26,10 +26,10 @@ namespace ReadyPlayerMe.Core
 
         public static string GetAvatarSaveDirectory(string guid, string paramsHash = null)
         {
-            return paramsHash == null ? $"{GetAvatarsDirectoryPath()}/{guid}" : $"{GetAvatarsDirectoryPath()}/{guid}/{paramsHash}";
+            return paramsHash == null ? $"{GetAvatarsPersistantPath()}/{guid}" : $"{GetAvatarsPersistantPath()}/{guid}/{paramsHash}";
         }
 
-        public static string GetRelativeProjectPath(string guid, string paramsHash = null)
+        public static string GetEditorStorageFolder(string guid, string paramsHash = null)
         {
             return paramsHash == null ? $"Assets/{DefaultAvatarFolder}/{guid}" : $"Assets/{DefaultAvatarFolder}/{guid}/{paramsHash}";
         }
@@ -37,11 +37,11 @@ namespace ReadyPlayerMe.Core
         public static long GetDirectorySize(DirectoryInfo directoryInfo)
         {
             // Add file sizes.
-            FileInfo[] fileInfos = directoryInfo.GetFiles();
+            var fileInfos = directoryInfo.GetFiles();
             var size = fileInfos.Sum(fi => fi.Length);
 
             // Add subdirectory sizes.
-            DirectoryInfo[] directoryInfos = directoryInfo.GetDirectories();
+            var directoryInfos = directoryInfo.GetDirectories();
             size += directoryInfos.Sum(GetDirectorySize);
             return size;
         }
@@ -55,15 +55,6 @@ namespace ReadyPlayerMe.Core
         private static float BytesToMegabytes(long bytes)
         {
             return bytes / BYTES_IN_MEGABYTE;
-        }
-
-        public static string GetAvatarsDirectoryPath()
-        {
-#if UNITY_EDITOR
-            return $"{Application.dataPath}/{DefaultAvatarFolder}";
-#else
-            return GetAvatarsPersistantPath();
-#endif
         }
 
         public static string GetAvatarsPersistantPath()

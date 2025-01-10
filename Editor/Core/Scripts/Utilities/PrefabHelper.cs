@@ -6,6 +6,7 @@ namespace ReadyPlayerMe.Core.Editor
     public static class PrefabHelper
     {
         private const string TAG = nameof(PrefabHelper);
+
         public static void TransferPrefabByGuid(string guid, string newPath)
         {
             var path = AssetDatabase.GUIDToAssetPath(guid);
@@ -18,7 +19,7 @@ namespace ReadyPlayerMe.Core.Editor
             AssetDatabase.Refresh();
             Selection.activeObject = AssetDatabase.LoadAssetAtPath(newPath, typeof(GameObject));
         }
-        
+
         public static GameObject CreateAvatarPrefab(AvatarMetadata avatarMetadata, string path, string prefabPath = null, AvatarConfig avatarConfig = null)
         {
             var modelFilePath = $"{path}.glb";
@@ -34,7 +35,7 @@ namespace ReadyPlayerMe.Core.Editor
             CreatePrefab(newAvatar, prefabPath ?? $"{path}.prefab");
             return newAvatar;
         }
-        
+
         public static void CreatePrefab(GameObject source, string path)
         {
             PrefabUtility.SaveAsPrefabAssetAndConnect(source, path, InteractionMode.AutomatedAction, out var success);
