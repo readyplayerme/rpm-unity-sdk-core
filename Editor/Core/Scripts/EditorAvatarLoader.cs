@@ -85,7 +85,7 @@ public class EditorAvatarLoader
 
     private static async Task<string> DownloadAvatarModel(AvatarUri avatarUri)
     {
-        var folderPath = Path.Combine(Application.dataPath, "Ready Player Me/Avatars");
+        var folderPath = Path.Combine(Application.dataPath, $"Ready Player Me/Avatars/{avatarUri.Guid}");
         // Ensure the folder exists
         if (!Directory.Exists(folderPath))
         {
