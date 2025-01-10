@@ -1,14 +1,10 @@
-using System;
-using System.Collections;
 using System.Collections.Generic;
-using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using ReadyPlayerMe.AvatarCreator;
 using ReadyPlayerMe.Core;
 using UnityEngine;
 using UnityEngine.Events;
-using UnityEngine.Serialization;
 using TaskExtensions = ReadyPlayerMe.AvatarCreator.TaskExtensions;
 
 namespace ReadyPlayerMe.Samples.AvatarCreatorElements
@@ -39,7 +35,7 @@ namespace ReadyPlayerMe.Samples.AvatarCreatorElements
         {
             OnAvatarLoading?.Invoke();
             GameObject newAvatar;
-            if(assetData.AssetType == AssetType.Headwear && ActiveAvatarProperties.Assets.ContainsKey(AssetType.HairStyle))
+            if (assetData.AssetType == AssetType.Headwear && ActiveAvatarProperties.Assets.ContainsKey(AssetType.HairStyle))
             {
                 var assets = new Dictionary<AssetType, object>();
                 assets.Add(AssetType.HairStyle, ActiveAvatarProperties.Assets[AssetType.HairStyle]);
@@ -50,6 +46,7 @@ namespace ReadyPlayerMe.Samples.AvatarCreatorElements
             {
                 newAvatar = await avatarManager.UpdateAsset(assetData.AssetType, assetData.Id);
             }
+            ActiveAvatarProperties.Assets[assetData.AssetType] = assetData.Id;
             SetupLoadedAvatar(newAvatar, ActiveAvatarProperties);
         }
 
