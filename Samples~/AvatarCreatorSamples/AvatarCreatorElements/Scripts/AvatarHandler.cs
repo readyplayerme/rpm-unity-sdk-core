@@ -1,4 +1,7 @@
 using System;
+using System.Collections;
+using System.Collections.Generic;
+using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using ReadyPlayerMe.AvatarCreator;
@@ -35,7 +38,18 @@ namespace ReadyPlayerMe.Samples.AvatarCreatorElements
         public async Task SelectAsset(IAssetData assetData)
         {
             OnAvatarLoading?.Invoke();
-            var newAvatar = await avatarManager.UpdateAsset(assetData.AssetType, assetData.Id);
+            GameObject newAvatar;
+            if(assetData.AssetType == AssetType.Headwear && ActiveAvatarProperties.Assets.ContainsKey(AssetType.HairStyle))
+            {
+                var assets = new Dictionary<AssetType, object>();
+                assets.Add(AssetType.HairStyle, ActiveAvatarProperties.Assets[AssetType.HairStyle]);
+                assets.Add(AssetType.Headwear, assetData.Id);
+                newAvatar = await avatarManager.UpdateAssets(assets);
+            }
+            else
+            {
+                newAvatar = await avatarManager.UpdateAsset(assetData.AssetType, assetData.Id);
+            }
             SetupLoadedAvatar(newAvatar, ActiveAvatarProperties);
         }
 
