@@ -42,7 +42,8 @@ namespace ReadyPlayerMe.Core
             queryBuilder.AddKeyValue(AvatarAPIParameters.USE_HANDS, GetBoolStringValue(avatarConfig.UseHands));
             queryBuilder.AddKeyValue(AvatarAPIParameters.USE_DRACO, GetBoolStringValue(avatarConfig.UseDracoCompression));
             queryBuilder.AddKeyValue(AvatarAPIParameters.USE_MESHOPT, GetBoolStringValue(avatarConfig.UseMeshOptCompression));
-            queryBuilder.AddKeyValue(AvatarAPIParameters.TEXTURE_FORMAT, "jpeg");
+            // TODO: Add later when edge cases are handled.
+            //queryBuilder.AddKeyValue(AvatarAPIParameters.TEXTURE_FORMAT, "jpeg");
 
             return queryBuilder.Query;
         }

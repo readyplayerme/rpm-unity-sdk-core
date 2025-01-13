@@ -9,7 +9,6 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 - Avatar caching location is now changed when running in the Unity Editor it will now be stored in the `Application.persistentDataPath` directory as it already did for builds. However when loading avatars from the Avatar Loader Editor window it will still store them in the `Assets/Ready Player Me/Avatars folder`. 
 - AvatarManager and AvatarHandler classes updated so that in the Avatar Creator Elements sample it will re-equip hair when headwear is removed. [#330](https://github.com/readyplayerme/rpm-unity-sdk-core/pull/330) 
 - AvatarConfigProcessor updated so that by default if morph targets are not set, it will set it to None to improve file size. [#326](https://github.com/readyplayerme/rpm-unity-sdk-core/pull/326)
-- AvatarConfigProcessor now sets textureType with every request to prevent webp texture the cause downloads to fail. [#326](https://github.com/readyplayerme/rpm-unity-sdk-core/pull/326)
 
 ## [7.3.1] - 2024.10.30
 
