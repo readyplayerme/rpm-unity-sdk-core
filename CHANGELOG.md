@@ -3,7 +3,7 @@
 All notable changes to this project will be documented in this file.
 This project adheres to [Semantic Versioning](http://semver.org/).
 
-## [7.4.0] - 2025.01.10
+## [7.4.0] - 2025.01.15
 
 ## Updated
 - Avatar caching location is now changed when running in the Unity Editor it will now be stored in the `Application.persistentDataPath` directory as it already did for builds. However when loading avatars from the Avatar Loader Editor window it will still store them in the `Assets/Ready Player Me/Avatars folder`. 
