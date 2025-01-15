@@ -8,7 +8,6 @@ using System.Threading.Tasks;
 using UnityEngine.Android;
 #endif
 
-
 namespace ReadyPlayerMe.Core
 {
     /// <summary>
@@ -111,9 +110,10 @@ namespace ReadyPlayerMe.Core
         {
             try
             {
+
                 if (AudioSource == null)
                 {
-                    AudioSource = gameObject.AddComponent<AudioSource>();
+                    AudioSource = GetComponent<AudioSource>() ?? gameObject.AddComponent<AudioSource>();
                 }
 
                 switch (AudioProvider)

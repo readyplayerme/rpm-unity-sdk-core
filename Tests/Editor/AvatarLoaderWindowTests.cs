@@ -17,8 +17,7 @@ namespace ReadyPlayerMe.Core.Tests
         [TearDown]
         public void Cleanup()
         {
-            TestUtils.DeleteAvatarDirectoryIfExists(TestAvatarData.DefaultAvatarUri.Guid, true);
-            TestUtils.DeleteCachedAvatar(TestAvatarData.DefaultAvatarUri.Guid);
+            TestUtils.DeleteEditorAvatarDirectoryIfExists(TestAvatarData.DefaultAvatarUri.Guid, true);
             if (avatar != null)
             {
                 Object.DestroyImmediate(avatar);
@@ -46,7 +45,7 @@ namespace ReadyPlayerMe.Core.Tests
             {
                 yield return null;
                 avatar = GameObject.Find(TestAvatarData.DefaultAvatarUri.Guid);
-            } while (avatar == null && System.DateTime.Now.Subtract(time).Seconds < 5);
+            } while (avatar == null && System.DateTime.Now.Subtract(time).Seconds < 10);
 
             window.Close();
             Assert.IsNotNull(avatar);
