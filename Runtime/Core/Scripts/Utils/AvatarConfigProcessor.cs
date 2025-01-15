@@ -34,9 +34,16 @@ namespace ReadyPlayerMe.Core
             {
                 queryBuilder.AddKeyValue(AvatarAPIParameters.MORPH_TARGETS, CombineMorphTargetNames(avatarConfig.MorphTargets));
             }
+            else
+            {
+                // If no morph targets are set, we set the value to "none" to prevent unwanted blendshapes.
+                queryBuilder.AddKeyValue(AvatarAPIParameters.MORPH_TARGETS, "none");
+            }
             queryBuilder.AddKeyValue(AvatarAPIParameters.USE_HANDS, GetBoolStringValue(avatarConfig.UseHands));
             queryBuilder.AddKeyValue(AvatarAPIParameters.USE_DRACO, GetBoolStringValue(avatarConfig.UseDracoCompression));
             queryBuilder.AddKeyValue(AvatarAPIParameters.USE_MESHOPT, GetBoolStringValue(avatarConfig.UseMeshOptCompression));
+            // TODO: Add later when edge cases are handled.
+            //queryBuilder.AddKeyValue(AvatarAPIParameters.TEXTURE_FORMAT, "jpeg");
 
             return queryBuilder.Query;
         }

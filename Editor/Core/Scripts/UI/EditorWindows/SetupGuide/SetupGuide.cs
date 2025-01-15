@@ -1,5 +1,4 @@
 using ReadyPlayerMe.Core.Analytics;
-using ReadyPlayerMe.Core.Data;
 using UnityEditor;
 using UnityEditor.UIElements;
 using UnityEngine;

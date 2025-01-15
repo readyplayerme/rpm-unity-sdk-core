@@ -60,6 +60,9 @@ namespace ReadyPlayerMe.Core
             new ShaderPropertyMapping("occlusionTexture_strength", "", ShaderPropertyType.Float),
         };
 
-        public List<string> MorphTargets = new List<string>();
+        public List<string> MorphTargets = new List<string>
+        {
+            "none",
+        };
     }
 }

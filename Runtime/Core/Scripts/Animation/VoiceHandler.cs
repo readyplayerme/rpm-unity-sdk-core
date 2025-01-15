@@ -8,7 +8,6 @@ using System.Threading.Tasks;
 using UnityEngine.Android;
 #endif
 
-
 namespace ReadyPlayerMe.Core
 {
     /// <summary>
@@ -111,9 +110,10 @@ namespace ReadyPlayerMe.Core
         {
             try
             {
+
                 if (AudioSource == null)
                 {
-                    AudioSource = gameObject.AddComponent<AudioSource>();
+                    AudioSource = GetComponent<AudioSource>() ?? gameObject.AddComponent<AudioSource>();
                 }
 
                 switch (AudioProvider)
@@ -169,7 +169,7 @@ namespace ReadyPlayerMe.Core
             {
                 var currentPosition = AudioSource.timeSamples;
                 var remaining = AudioSource.clip.samples - currentPosition;
-                if (remaining > 0 && remaining < AUDIO_SAMPLE_LENGTH)
+                if (remaining >= 0 && remaining < AUDIO_SAMPLE_LENGTH)
                 {
                     return 0f;
                 }

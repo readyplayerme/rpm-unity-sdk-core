@@ -31,6 +31,15 @@ namespace ReadyPlayerMe.Core.Tests
             }
         }
 
+        public static void DeleteEditorAvatarDirectoryIfExists(string avatarGuid, bool recursive = false)
+        {
+            var path = $"{Application.dataPath}/Assets/Ready Player Me/Avatars/{avatarGuid}";
+            if (Directory.Exists(path))
+            {
+                Directory.Delete(path, recursive);
+            }
+        }
+
         public static void DeleteCachedAvatar(string avatarGuid)
         {
             var deleteAsset = AssetDatabase.DeleteAsset($"Assets/Ready Player Me/Avatars/{avatarGuid}");

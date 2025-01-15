@@ -229,6 +229,50 @@ namespace ReadyPlayerMe.AvatarCreator
 
             return await inCreatorAvatarLoader.Load(avatarId, gender, data);
         }
+        
+        public async Task<GameObject> UpdateAssets(Dictionary<AssetType, object> assetIdByType)
+        {
+            var payload = new AvatarProperties
+            {
+                Assets = new Dictionary<AssetType, object>()
+            };
+            // if it contains top, bottom or footwear, remove outfit
+            if (assetIdByType.ContainsKey(AssetType.Top) || assetIdByType.ContainsKey(AssetType.Bottom) || assetIdByType.ContainsKey(AssetType.Footwear))
+            {
+                payload.Assets.Add(AssetType.Outfit, string.Empty);
+            }
+
+            // Convert costume to outfit
+            foreach (var assetType in assetIdByType.Keys)
+            {
+                payload.Assets.Add(assetType == AssetType.Costume ? AssetType.Outfit : assetType, assetIdByType[assetType]);
+            }
+
+            byte[] data;
+            try
+            {
+                data = await avatarAPIRequests.UpdateAvatar(avatarId, payload, avatarConfigParameters);
+            }
+            catch (Exception e)
+            {
+                HandleException(e);
+                return null;
+            }
+
+            if (ctxSource.IsCancellationRequested)
+            {
+                return null;
+            }
+            foreach (var assetType in assetIdByType)
+            {
+                if (assetType.Key != AssetType.BodyShape)
+                {
+                    await ValidateBodyShapeUpdate(assetType.Key, assetType.Value);
+                }
+            }
+
+            return await inCreatorAvatarLoader.Load(avatarId, gender, data);
+        }
 
         /// <summary>
         /// Function that checks if body shapes are enabled in the studio. This validation is performed only in the editor.

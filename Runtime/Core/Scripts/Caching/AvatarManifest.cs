@@ -72,9 +72,8 @@ namespace ReadyPlayerMe.Core
 
         private string GetFilePath()
         {
-            return $"{DirectoryUtility.GetAvatarsDirectoryPath()}{RELATIVE_PATH}";
+            return $"{DirectoryUtility.GetAvatarsPersistantPath()}{RELATIVE_PATH}";
         }
-
 
         private string ReadFromFile()
         {

@@ -21,11 +21,7 @@ namespace ReadyPlayerMe.Core
         /// Clears the avatars from the persistent cache.
         public static void Clear()
         {
-            var path = DirectoryUtility.GetAvatarsDirectoryPath();
-            DeleteFolder(path);
-#if UNITY_EDITOR
             DeleteFolder(DirectoryUtility.GetAvatarsPersistantPath());
-#endif
         }
 
         private static void DeleteFolder(string path)
@@ -45,7 +41,7 @@ namespace ReadyPlayerMe.Core
 
         public static string[] GetExistingAvatarIds()
         {
-            var path = DirectoryUtility.GetAvatarsDirectoryPath();
+            var path = DirectoryUtility.GetAvatarsPersistantPath();
             if (!Directory.Exists(path)) return Array.Empty<string>();
             var directoryInfo = new DirectoryInfo(path);
             var avatarIds = directoryInfo.GetDirectories().Select(subdir => subdir.Name).ToArray();
@@ -55,43 +51,34 @@ namespace ReadyPlayerMe.Core
         /// Deletes all data for a specific avatar variant (based on parameter hash) from persistent cache.
         public static void DeleteAvatarVariantFolder(string guid, string paramHash)
         {
-            DeleteFolder($"{DirectoryUtility.GetAvatarsDirectoryPath()}/{guid}/{paramHash}");
+            DeleteFolder($"{DirectoryUtility.GetAvatarsPersistantPath()}/{guid}/{paramHash}");
         }
 
         /// Deletes stored data a specific avatar from persistent cache.
         public static void DeleteAvatarFolder(string guid)
         {
-            var path = $"{DirectoryUtility.GetAvatarsDirectoryPath()}/{guid}";
+            var path = $"{DirectoryUtility.GetAvatarsPersistantPath()}/{guid}";
             DeleteFolder(path);
         }
 
         /// deletes a specific avatar model (.glb file) from persistent cache, while leaving the metadata.json file
         public static void DeleteAvatarModel(string guid, string parametersHash)
         {
-            var path = $"{DirectoryUtility.GetAvatarsDirectoryPath()}/{guid}/{parametersHash}";
+            var path = $"{DirectoryUtility.GetAvatarsPersistantPath()}/{guid}/{parametersHash}";
             if (Directory.Exists(path))
             {
                 var info = new DirectoryInfo(path);
-
-#if UNITY_EDITOR
-                foreach (DirectoryInfo dir in info.GetDirectories())
-                {
-                    AssetDatabase.DeleteAsset($"Assets/{DirectoryUtility.DefaultAvatarFolder}/{guid}/{dir.Name}");
-                }
-
-#else
                 foreach (DirectoryInfo dir in info.GetDirectories())
                 {
                     Directory.Delete(dir.FullName, true);
                 }
-#endif
             }
         }
 
         /// Is there any avatars present in the persistent cache.
         public static bool IsCacheEmpty()
         {
-            var path = DirectoryUtility.GetAvatarsDirectoryPath();
+            var path = DirectoryUtility.GetAvatarsPersistantPath();
             return !Directory.Exists(path) ||
                    Directory.GetFiles(path).Length == 0 && Directory.GetDirectories(path).Length == 0;
         }
@@ -99,7 +86,7 @@ namespace ReadyPlayerMe.Core
         /// Total Avatars stored in persistent cache.
         public static int GetAvatarCount()
         {
-            var path = DirectoryUtility.GetAvatarsDirectoryPath();
+            var path = DirectoryUtility.GetAvatarsPersistantPath();
             return !Directory.Exists(path) ? 0 : new DirectoryInfo(path).GetDirectories().Length;
 
         }
@@ -107,7 +94,7 @@ namespace ReadyPlayerMe.Core
         /// Total Avatar variants stored for specific avatar GUID in persistent cache.
         public static int GetAvatarVariantCount(string avatarGuid)
         {
-            var path = $"{DirectoryUtility.GetAvatarsDirectoryPath()}/{avatarGuid}";
+            var path = $"{DirectoryUtility.GetAvatarsPersistantPath()}/{avatarGuid}";
             return !Directory.Exists(path) ? 0 : new DirectoryInfo(path).GetDirectories().Length;
 
         }
@@ -115,19 +102,19 @@ namespace ReadyPlayerMe.Core
         /// Total size of avatar stored in persistent cache. Returns total bytes.
         public static long GetCacheSize()
         {
-            var path = DirectoryUtility.GetAvatarsDirectoryPath();
+            var path = DirectoryUtility.GetAvatarsPersistantPath();
             return !Directory.Exists(path) ? 0 : DirectoryUtility.GetDirectorySize(new DirectoryInfo(path));
         }
 
         public static float GetCacheSizeInMb()
         {
-            var path = DirectoryUtility.GetAvatarsDirectoryPath();
+            var path = DirectoryUtility.GetAvatarsPersistantPath();
             return !Directory.Exists(path) ? 0 : DirectoryUtility.GetFolderSizeInMb(path);
         }
 
         public static float GetAvatarDataSizeInMb(string avatarGuid)
         {
-            var path = $"{DirectoryUtility.GetAvatarsDirectoryPath()}/{avatarGuid}";
+            var path = $"{DirectoryUtility.GetAvatarsPersistantPath()}/{avatarGuid}";
             return DirectoryUtility.GetFolderSizeInMb(path);
         }
     }

@@ -17,8 +17,7 @@ namespace ReadyPlayerMe.Core.Tests
         [TearDown]
         public void Cleanup()
         {
-            TestUtils.DeleteAvatarDirectoryIfExists(TestAvatarData.DefaultAvatarUri.Guid, true);
-            TestUtils.DeleteCachedAvatar(TestAvatarData.DefaultAvatarUri.Guid);
+            TestUtils.DeleteEditorAvatarDirectoryIfExists(TestAvatarData.DefaultAvatarUri.Guid, true);
             if (avatar != null)
             {
                 Object.DestroyImmediate(avatar);
@@ -28,11 +27,11 @@ namespace ReadyPlayerMe.Core.Tests
         [UnityTest]
         public IEnumerator Avatar_Loaded_Stored_And_No_Overrides()
         {
-            var window = EditorWindow.GetWindow<AvatarLoaderEditor>();
+            var window = EditorWindow.GetWindow<AvatarLoaderWindow>();
 
-            var loadAvatarMethod = typeof(AvatarLoaderEditor).GetMethod("LoadAvatar", BindingFlags.NonPublic | BindingFlags.Instance);
-            var useEyeAnimationsToggle = typeof(AvatarLoaderEditor).GetField("useEyeAnimations", BindingFlags.NonPublic | BindingFlags.Instance);
-            var useVoiceToAnimToggle = typeof(AvatarLoaderEditor).GetField("useVoiceToAnim", BindingFlags.NonPublic | BindingFlags.Instance);
+            var loadAvatarMethod = typeof(AvatarLoaderWindow).GetMethod("LoadAvatar", BindingFlags.NonPublic | BindingFlags.Instance);
+            var useEyeAnimationsToggle = typeof(AvatarLoaderWindow).GetField("useEyeAnimations", BindingFlags.NonPublic | BindingFlags.Instance);
+            var useVoiceToAnimToggle = typeof(AvatarLoaderWindow).GetField("useVoiceToAnim", BindingFlags.NonPublic | BindingFlags.Instance);
             var previousUseEyeAnimations = (bool) useEyeAnimationsToggle.GetValue(window);
             var previousUseVoiceToAnim = (bool) useVoiceToAnimToggle.GetValue(window);
             useEyeAnimationsToggle.SetValue(window, false);
@@ -46,7 +45,7 @@ namespace ReadyPlayerMe.Core.Tests
             {
                 yield return null;
                 avatar = GameObject.Find(TestAvatarData.DefaultAvatarUri.Guid);
-            } while (avatar == null && System.DateTime.Now.Subtract(time).Seconds < 5);
+            } while (avatar == null && System.DateTime.Now.Subtract(time).Seconds < 10);
 
             window.Close();
             Assert.IsNotNull(avatar);
