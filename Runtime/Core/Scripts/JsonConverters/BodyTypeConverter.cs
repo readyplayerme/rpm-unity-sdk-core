@@ -10,7 +10,7 @@ namespace ReadyPlayerMe.Core
     {
         public override void WriteJson(JsonWriter writer, BodyType value, JsonSerializer serializer)
         {
-            serializer.Serialize(writer, value.ToString().ToLower());
+            serializer.Serialize(writer, EnumExtensions.GetDescription(value));
         }
 
         public override BodyType ReadJson(JsonReader reader, Type objectType, BodyType existingValue, bool hasExistingValue,
