@@ -30,6 +30,7 @@ namespace ReadyPlayerMe.Core
             queryBuilder.AddKeyValue(AvatarAPIParameters.TEXTURE_ATLAS, AvatarConfigMap.TextureAtlas[avatarConfig.TextureAtlas]);
             queryBuilder.AddKeyValue(AvatarAPIParameters.TEXTURE_SIZE_LIMIT, ProcessTextureSizeLimit(avatarConfig.TextureSizeLimit).ToString());
             queryBuilder.AddKeyValue(AvatarAPIParameters.TEXTURE_CHANNELS, ProcessTextureChannels(avatarConfig.TextureChannel));
+            
             if (avatarConfig.MorphTargets.Count > 0)
             {
                 queryBuilder.AddKeyValue(AvatarAPIParameters.MORPH_TARGETS, CombineMorphTargetNames(avatarConfig.MorphTargets));
@@ -42,8 +43,7 @@ namespace ReadyPlayerMe.Core
             queryBuilder.AddKeyValue(AvatarAPIParameters.USE_HANDS, GetBoolStringValue(avatarConfig.UseHands));
             queryBuilder.AddKeyValue(AvatarAPIParameters.USE_DRACO, GetBoolStringValue(avatarConfig.UseDracoCompression));
             queryBuilder.AddKeyValue(AvatarAPIParameters.USE_MESHOPT, GetBoolStringValue(avatarConfig.UseMeshOptCompression));
-            // TODO: Add later when edge cases are handled.
-            //queryBuilder.AddKeyValue(AvatarAPIParameters.TEXTURE_FORMAT, "jpeg");
+            queryBuilder.AddKeyValue(AvatarAPIParameters.TEXTURE_FORMAT, "jpeg");
 
             return queryBuilder.Query;
         }
