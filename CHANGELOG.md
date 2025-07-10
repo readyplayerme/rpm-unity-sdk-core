@@ -3,6 +3,11 @@
 All notable changes to this project will be documented in this file.
 This project adheres to [Semantic Versioning](http://semver.org/).
 
+## [7.5.0] - 2025.XX.XX
+
+## Fixed
+- AvatarConfigProcessor now correctly handles if config is null
+
 ## [7.4.0] - 2025.01.15
 
 ## Updated

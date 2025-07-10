@@ -22,8 +22,13 @@ namespace ReadyPlayerMe.Core
         /// <returns>The <see cref="AvatarConfig" /> parameters combined as a <c>string</c>.</returns>
         public static string ProcessAvatarConfiguration(AvatarConfig avatarConfig)
         {
+            if (avatarConfig == null)
+            {
+                SDKLogger.Log(TAG, "AvatarConfig is null. Cannot process avatar configuration.");
+                return string.Empty;
+            }
             SDKLogger.Log(TAG, PROCESSING_AVATAR_CONFIGURATION);
-
+            
             var queryBuilder = new QueryBuilder();
             queryBuilder.AddKeyValue(AvatarAPIParameters.POSE, AvatarConfigMap.Pose[avatarConfig.Pose]);
             queryBuilder.AddKeyValue(AvatarAPIParameters.LOD, ((int) avatarConfig.Lod).ToString());
