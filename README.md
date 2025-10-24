@@ -12,6 +12,11 @@ Please visit the online documentation and join our public `forums` community.
 
 :octocat: **[GitHub Discussions]( https://github.com/readyplayerme/rpm-unity-sdk-core/discussions )**
 
+
+## Dependencies
+- [GltFast](https://docs.unity3d.com/Packages/com.unity.cloud.gltfast@6.4/manual/index.html) 
+- [Newtonsoft JSON](https://docs.unity3d.com/Packages/com.unity.nuget.newtonsoft-json@3.0/manual/index.html)
+
 ## Quick Start
 The installation steps can be found [here.](Documentation~/QuickStart.md)
 
